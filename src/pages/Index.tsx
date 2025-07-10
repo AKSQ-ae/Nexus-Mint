@@ -1,12 +1,19 @@
-const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Nexus Platform</h1>
-        <p className="text-xl text-muted-foreground">Real Estate Tokenization Platform</p>
-      </div>
-    </div>
-  );
-};
+import { Hero } from '@/components/home/Hero';
+import { Features } from '@/components/home/Features';
+import { HowItWorks } from '@/components/home/HowItWorks';
+import { FeaturedProperties } from '@/components/home/FeaturedProperties';
+import { Stats } from '@/components/home/Stats';
+import { CTA } from '@/components/home/CTA';
 
-export default Index;
+export default function Index() {
+  return (
+    <>
+      <Hero />
+      <Stats />
+      <Features />
+      <FeaturedProperties />
+      <HowItWorks />
+      <CTA />
+    </>
+  );
+}
