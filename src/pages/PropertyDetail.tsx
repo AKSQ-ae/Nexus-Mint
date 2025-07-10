@@ -23,7 +23,7 @@ interface Property {
   price_per_token: number;
   total_tokens: number;
   tokenization_status: string;
-  images: any[];
+  images: any;
   created_at: string;
 }
 
@@ -159,7 +159,7 @@ export default function PropertyDetail() {
         {/* Property Details */}
         <div className="lg:col-span-2 space-y-6">
           {/* Images */}
-          {property.images && property.images.length > 0 && (
+          {property.images && Array.isArray(property.images) && property.images.length > 0 && (
             <div className="rounded-lg overflow-hidden">
               <img
                 src={property.images[0]}

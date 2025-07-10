@@ -20,7 +20,7 @@ interface Property {
   price_per_token: number;
   total_tokens: number;
   tokenization_status: string;
-  images: any[];
+  images: any;
   created_at: string;
 }
 
@@ -108,7 +108,7 @@ export default function Properties() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProperties.map((property) => (
           <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-            {property.images && property.images.length > 0 && (
+            {property.images && Array.isArray(property.images) && property.images.length > 0 && (
               <div className="h-48 bg-muted">
                 <img
                   src={property.images[0]}
