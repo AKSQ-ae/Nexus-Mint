@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
+import { UserMenu } from './UserMenu';
 import { Menu, X, Building2 } from 'lucide-react';
 
 export function Navbar() {
@@ -33,7 +35,7 @@ export function Navbar() {
             >
               Properties
             </Link>
-            {user ? (
+            {user && (
               <>
                 <Link 
                   to="/dashboard" 
@@ -47,12 +49,17 @@ export function Navbar() {
                 >
                   Portfolio
                 </Link>
-                <Button variant="outline" onClick={handleSignOut}>
-                  Sign Out
-                </Button>
               </>
+            )}
+          </div>
+          
+          {/* Right side with wallet and auth */}
+          <div className="hidden md:flex items-center space-x-4">
+            <ConnectButton />
+            {user ? (
+              <UserMenu user={user} />
             ) : (
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
                 <Link to="/auth/signin">
                   <Button variant="ghost">Sign In</Button>
                 </Link>
