@@ -53,9 +53,9 @@ export function Navbar() {
             )}
           </div>
           
-          {/* Right side with auth */}
+          {/* Right side with wallet and auth */}
           <div className="hidden md:flex items-center space-x-4">
-            {/* <ConnectButton /> - Temporarily disabled until WalletConnect is configured */}
+            <ConnectButton />
             {user ? (
               <UserMenu user={user} />
             ) : (
