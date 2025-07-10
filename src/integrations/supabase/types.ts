@@ -16,13 +16,17 @@ export type Database = {
     Tables: {
       investments: {
         Row: {
+          actual_return: number | null
+          blockchain_tx_hash: string | null
           confirmation_block: number | null
           confirmed_at: string | null
           created_at: string | null
           current_value: number | null
+          estimated_annual_return: number | null
           id: string
           payment_currency: string | null
           payment_method: string | null
+          payment_method_id: string | null
           payment_tx_hash: string | null
           price_per_token: number
           property_id: string | null
@@ -34,13 +38,17 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          actual_return?: number | null
+          blockchain_tx_hash?: string | null
           confirmation_block?: number | null
           confirmed_at?: string | null
           created_at?: string | null
           current_value?: number | null
+          estimated_annual_return?: number | null
           id?: string
           payment_currency?: string | null
           payment_method?: string | null
+          payment_method_id?: string | null
           payment_tx_hash?: string | null
           price_per_token: number
           property_id?: string | null
@@ -52,13 +60,17 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          actual_return?: number | null
+          blockchain_tx_hash?: string | null
           confirmation_block?: number | null
           confirmed_at?: string | null
           created_at?: string | null
           current_value?: number | null
+          estimated_annual_return?: number | null
           id?: string
           payment_currency?: string | null
           payment_method?: string | null
+          payment_method_id?: string | null
           payment_tx_hash?: string | null
           price_per_token?: number
           property_id?: string | null
@@ -70,6 +82,13 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "investments_payment_method_id_fkey"
+            columns: ["payment_method_id"]
+            isOneToOne: false
+            referencedRelation: "payment_methods"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "investments_property_id_fkey"
             columns: ["property_id"]
@@ -92,6 +111,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      kyc_documents: {
+        Row: {
+          created_at: string | null
+          document_type: string
+          file_name: string
+          file_size: number | null
+          file_url: string
+          id: string
+          notes: string | null
+          status: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          document_type: string
+          file_name: string
+          file_size?: number | null
+          file_url: string
+          id?: string
+          notes?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          document_type?: string
+          file_name?: string
+          file_size?: number | null
+          file_url?: string
+          id?: string
+          notes?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       market_data: {
         Row: {
@@ -138,6 +196,72 @@ export type Database = {
           price_change_90d?: number | null
           property_type?: string
           report_date?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          action_url: string | null
+          created_at: string | null
+          id: string
+          message: string
+          read: boolean | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          action_url?: string | null
+          created_at?: string | null
+          id?: string
+          message: string
+          read?: boolean | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          action_url?: string | null
+          created_at?: string | null
+          id?: string
+          message?: string
+          read?: boolean | null
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      payment_methods: {
+        Row: {
+          created_at: string | null
+          details: Json
+          id: string
+          is_default: boolean | null
+          is_verified: boolean | null
+          method_type: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          details: Json
+          id?: string
+          is_default?: boolean | null
+          is_verified?: boolean | null
+          method_type: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          details?: Json
+          id?: string
+          is_default?: boolean | null
+          is_verified?: boolean | null
+          method_type?: string
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -358,6 +482,60 @@ export type Database = {
             columns: ["uploaded_by"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      property_returns: {
+        Row: {
+          amount: number
+          created_at: string | null
+          description: string | null
+          id: string
+          investment_id: string | null
+          property_id: string
+          return_date: string
+          return_type: string
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          investment_id?: string | null
+          property_id: string
+          return_date: string
+          return_type: string
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          investment_id?: string | null
+          property_id?: string
+          return_date?: string
+          return_type?: string
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_returns_investment_id_fkey"
+            columns: ["investment_id"]
+            isOneToOne: false
+            referencedRelation: "investments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_returns_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
             referencedColumns: ["id"]
           },
         ]
