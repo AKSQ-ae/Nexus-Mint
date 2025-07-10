@@ -7,6 +7,8 @@ import { Separator } from '@/components/ui/separator';
 import { Check, AlertCircle, CreditCard, Shield, TrendingUp } from 'lucide-react';
 import { InvestmentCalculator } from './InvestmentCalculator';
 import { StripePayment } from '@/components/payment/StripePayment';
+import { MetaMaskPayment } from '@/components/payment/MetaMaskPayment';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
@@ -93,6 +95,33 @@ export function InvestmentFlow({ propertyId, propertyTitle, onInvestmentComplete
       }
     } catch (error) {
       console.error('Investment failed:', error);
+      toast.error('Investment failed. Please try again.');
+    } finally {
+      setInvesting(false);
+    }
+  };
+
+  const handleCryptoPayment = async (txHash: string) => {
+    if (!investmentData || !tokenSupply) return;
+
+    setInvesting(true);
+    try {
+      // Create investment record with crypto payment
+      const result = await createInvestment(
+        propertyId,
+        investmentData.tokenAmount,
+        `crypto_${txHash}`
+      );
+
+      if (result.success) {
+        setCurrentStep('confirmation');
+        toast.success('Crypto payment confirmed! Tokens will be distributed to your wallet.');
+        onInvestmentComplete();
+      } else {
+        throw new Error(result.error || 'Investment failed');
+      }
+    } catch (error) {
+      console.error('Crypto investment failed:', error);
       toast.error('Investment failed. Please try again.');
     } finally {
       setInvesting(false);
@@ -249,11 +278,30 @@ export function InvestmentFlow({ propertyId, propertyTitle, onInvestmentComplete
               </div>
             </div>
 
-            <StripePayment
-              amount={investmentData.totalAmount}
-              onPaymentComplete={(methodId) => handlePaymentComplete(methodId)}
-              disabled={investing}
-            />
+            <Tabs defaultValue="fiat" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="fiat">Credit Card</TabsTrigger>
+                <TabsTrigger value="crypto">MetaMask</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="fiat" className="mt-4">
+                <StripePayment
+                  amount={investmentData.totalAmount}
+                  onPaymentComplete={(methodId) => handlePaymentComplete(methodId)}
+                  disabled={investing}
+                />
+              </TabsContent>
+              
+              <TabsContent value="crypto" className="mt-4">
+                <MetaMaskPayment
+                  amount={investmentData.totalAmount}
+                  tokenAmount={investmentData.tokenAmount}
+                  propertyId={propertyId}
+                  onPaymentComplete={(txHash) => handleCryptoPayment(txHash)}
+                  disabled={investing}
+                />
+              </TabsContent>
+            </Tabs>
           </CardContent>
         </Card>
       )}

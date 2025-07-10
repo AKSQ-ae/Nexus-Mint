@@ -1,5 +1,15 @@
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
 import { supabase } from '@/integrations/supabase/client';
+import { ethers } from 'ethers';
+
+// MetaMask SDK integration
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
+
+import { useState, useEffect } from 'react';
 
 export interface TokenizationData {
   property_id: string;
@@ -15,6 +25,150 @@ export interface WalletConnection {
   address: string;
   chain_id: number;
   is_connected: boolean;
+}
+
+// MetaMask connection hook
+export function useMetaMaskConnection() {
+  const [account, setAccount] = useState<string | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [chainId, setChainId] = useState<number | null>(null);
+  const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
+
+  useEffect(() => {
+    checkConnection();
+    setupEventListeners();
+  }, []);
+
+  const checkConnection = async () => {
+    if (typeof window !== 'undefined' && window.ethereum) {
+      try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const accounts = await provider.listAccounts();
+        const network = await provider.getNetwork();
+        
+        if (accounts.length > 0) {
+          setAccount(accounts[0].address);
+          setIsConnected(true);
+          setChainId(Number(network.chainId));
+          setProvider(provider);
+        }
+      } catch (error) {
+        console.error('Error checking MetaMask connection:', error);
+      }
+    }
+  };
+
+  const setupEventListeners = () => {
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', (accounts: string[]) => {
+        if (accounts.length > 0) {
+          setAccount(accounts[0]);
+          setIsConnected(true);
+        } else {
+          setAccount(null);
+          setIsConnected(false);
+          setProvider(null);
+        }
+      });
+
+      window.ethereum.on('chainChanged', (chainId: string) => {
+        setChainId(parseInt(chainId, 16));
+        window.location.reload(); // Recommended by MetaMask
+      });
+    }
+  };
+
+  const connectWallet = async () => {
+    if (!window.ethereum) {
+      throw new Error('MetaMask is not installed');
+    }
+
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      await provider.send('eth_requestAccounts', []);
+      const signer = await provider.getSigner();
+      const address = await signer.getAddress();
+      const network = await provider.getNetwork();
+
+      setAccount(address);
+      setIsConnected(true);
+      setChainId(Number(network.chainId));
+      setProvider(provider);
+
+      return { address, chainId: Number(network.chainId) };
+    } catch (error) {
+      console.error('Error connecting to MetaMask:', error);
+      throw error;
+    }
+  };
+
+  const disconnectWallet = () => {
+    setAccount(null);
+    setIsConnected(false);
+    setChainId(null);
+    setProvider(null);
+  };
+
+  const switchToEthereum = async () => {
+    if (!window.ethereum) return;
+
+    try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: '0x1' }], // Ethereum Mainnet
+      });
+    } catch (error: any) {
+      if (error.code === 4902) {
+        // Chain not added, add it
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [{
+            chainId: '0x1',
+            chainName: 'Ethereum Mainnet',
+            nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+            rpcUrls: ['https://mainnet.infura.io/v3/'],
+            blockExplorerUrls: ['https://etherscan.io/']
+          }]
+        });
+      }
+    }
+  };
+
+  const switchToPolygon = async () => {
+    if (!window.ethereum) return;
+
+    try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: '0x89' }], // Polygon Mainnet
+      });
+    } catch (error: any) {
+      if (error.code === 4902) {
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [{
+            chainId: '0x89',
+            chainName: 'Polygon Mainnet',
+            nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
+            rpcUrls: ['https://polygon-rpc.com/'],
+            blockExplorerUrls: ['https://polygonscan.com/']
+          }]
+        });
+      }
+    }
+  };
+
+  return {
+    account,
+    isConnected,
+    chainId,
+    provider,
+    connectWallet,
+    disconnectWallet,
+    switchToEthereum,
+    switchToPolygon,
+    isMetaMaskInstalled: !!window.ethereum
+  };
 }
 
 export function useWalletConnection() {
