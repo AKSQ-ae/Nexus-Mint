@@ -37,16 +37,16 @@ export function useWalletConnection() {
     const message = `Link wallet ${address} to Nexus Platform account`;
     
     try {
-      const signature = await signMessage({ 
-        message,
-        account: address as `0x${string}`
-      });
+    const signature = await signMessage({ 
+      message,
+      account: address as `0x${string}`
+    });
       
       // Update user profile with wallet address
       const { error } = await supabase
-        .from('user_profiles')
+        .from('users')
         .update({ wallet_address: address })
-        .eq('user_id', userId);
+        .eq('id', userId);
 
       if (error) throw error;
       

@@ -14,6 +14,119 @@ export type Database = {
   }
   public: {
     Tables: {
+      fee_schedules: {
+        Row: {
+          created_at: string
+          currency: string
+          effective_from: string
+          effective_until: string | null
+          fee_type: string
+          fixed_amount: number
+          id: string
+          is_active: boolean
+          max_fee: number | null
+          min_fee: number
+          percentage: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          currency?: string
+          effective_from?: string
+          effective_until?: string | null
+          fee_type: string
+          fixed_amount?: number
+          id?: string
+          is_active?: boolean
+          max_fee?: number | null
+          min_fee?: number
+          percentage: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          effective_from?: string
+          effective_until?: string | null
+          fee_type?: string
+          fixed_amount?: number
+          id?: string
+          is_active?: boolean
+          max_fee?: number | null
+          min_fee?: number
+          percentage?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      investment_transactions: {
+        Row: {
+          blockchain_tx_hash: string | null
+          created_at: string
+          fees_amount: number
+          id: string
+          net_amount: number
+          payment_currency: string
+          payment_method: string | null
+          processed_at: string | null
+          property_id: string
+          status: string
+          stripe_payment_intent_id: string | null
+          token_amount: number
+          token_price: number
+          total_amount: number
+          transaction_type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          blockchain_tx_hash?: string | null
+          created_at?: string
+          fees_amount?: number
+          id?: string
+          net_amount: number
+          payment_currency?: string
+          payment_method?: string | null
+          processed_at?: string | null
+          property_id: string
+          status?: string
+          stripe_payment_intent_id?: string | null
+          token_amount: number
+          token_price: number
+          total_amount: number
+          transaction_type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          blockchain_tx_hash?: string | null
+          created_at?: string
+          fees_amount?: number
+          id?: string
+          net_amount?: number
+          payment_currency?: string
+          payment_method?: string | null
+          processed_at?: string | null
+          property_id?: string
+          status?: string
+          stripe_payment_intent_id?: string | null
+          token_amount?: number
+          token_price?: number
+          total_amount?: number
+          transaction_type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "investment_transactions_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       investments: {
         Row: {
           actual_return: number | null
@@ -23,7 +136,10 @@ export type Database = {
           created_at: string | null
           current_value: number | null
           estimated_annual_return: number | null
+          fee_amount: number | null
           id: string
+          investment_transaction_id: string | null
+          net_amount: number | null
           payment_currency: string | null
           payment_method: string | null
           payment_method_id: string | null
@@ -45,7 +161,10 @@ export type Database = {
           created_at?: string | null
           current_value?: number | null
           estimated_annual_return?: number | null
+          fee_amount?: number | null
           id?: string
+          investment_transaction_id?: string | null
+          net_amount?: number | null
           payment_currency?: string | null
           payment_method?: string | null
           payment_method_id?: string | null
@@ -67,7 +186,10 @@ export type Database = {
           created_at?: string | null
           current_value?: number | null
           estimated_annual_return?: number | null
+          fee_amount?: number | null
           id?: string
+          investment_transaction_id?: string | null
+          net_amount?: number | null
           payment_currency?: string | null
           payment_method?: string | null
           payment_method_id?: string | null
@@ -82,6 +204,13 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "investments_investment_transaction_id_fkey"
+            columns: ["investment_transaction_id"]
+            isOneToOne: false
+            referencedRelation: "investment_transactions"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "investments_payment_method_id_fkey"
             columns: ["payment_method_id"]
@@ -278,6 +407,8 @@ export type Database = {
           created_by: string | null
           description: string | null
           external_id: string | null
+          funding_deadline: string | null
+          funding_target: number | null
           id: string
           images: Json | null
           is_active: boolean | null
@@ -285,6 +416,7 @@ export type Database = {
           last_synced: string | null
           location: string
           lot_size: number | null
+          min_investment: number | null
           postal_code: string | null
           price: number
           price_per_token: number | null
@@ -295,7 +427,9 @@ export type Database = {
           state_province: string | null
           title: string
           token_address: string | null
+          tokenization_active: boolean
           tokenization_status: string | null
+          tokens_issued: number | null
           total_tokens: number | null
           updated_at: string | null
           virtual_tour_url: string | null
@@ -313,6 +447,8 @@ export type Database = {
           created_by?: string | null
           description?: string | null
           external_id?: string | null
+          funding_deadline?: string | null
+          funding_target?: number | null
           id?: string
           images?: Json | null
           is_active?: boolean | null
@@ -320,6 +456,7 @@ export type Database = {
           last_synced?: string | null
           location: string
           lot_size?: number | null
+          min_investment?: number | null
           postal_code?: string | null
           price: number
           price_per_token?: number | null
@@ -330,7 +467,9 @@ export type Database = {
           state_province?: string | null
           title: string
           token_address?: string | null
+          tokenization_active?: boolean
           tokenization_status?: string | null
+          tokens_issued?: number | null
           total_tokens?: number | null
           updated_at?: string | null
           virtual_tour_url?: string | null
@@ -348,6 +487,8 @@ export type Database = {
           created_by?: string | null
           description?: string | null
           external_id?: string | null
+          funding_deadline?: string | null
+          funding_target?: number | null
           id?: string
           images?: Json | null
           is_active?: boolean | null
@@ -355,6 +496,7 @@ export type Database = {
           last_synced?: string | null
           location?: string
           lot_size?: number | null
+          min_investment?: number | null
           postal_code?: string | null
           price?: number
           price_per_token?: number | null
@@ -365,7 +507,9 @@ export type Database = {
           state_province?: string | null
           title?: string
           token_address?: string | null
+          tokenization_active?: boolean
           tokenization_status?: string | null
+          tokens_issued?: number | null
           total_tokens?: number | null
           updated_at?: string | null
           virtual_tour_url?: string | null
@@ -655,6 +799,56 @@ export type Database = {
           },
         ]
       }
+      token_supply: {
+        Row: {
+          available_supply: number
+          created_at: string
+          id: string
+          last_price_update: string
+          maximum_investment: number | null
+          minimum_investment: number
+          property_id: string
+          reserved_supply: number
+          token_price: number
+          total_supply: number
+          updated_at: string
+        }
+        Insert: {
+          available_supply: number
+          created_at?: string
+          id?: string
+          last_price_update?: string
+          maximum_investment?: number | null
+          minimum_investment?: number
+          property_id: string
+          reserved_supply?: number
+          token_price: number
+          total_supply: number
+          updated_at?: string
+        }
+        Update: {
+          available_supply?: number
+          created_at?: string
+          id?: string
+          last_price_update?: string
+          maximum_investment?: number | null
+          minimum_investment?: number
+          property_id?: string
+          reserved_supply?: number
+          token_price?: number
+          total_supply?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "token_supply_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: true
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       transactions: {
         Row: {
           created_at: string | null
@@ -741,6 +935,30 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           accredited_investor: boolean | null
@@ -809,7 +1027,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      calculate_investment_fees: {
+        Args: { investment_amount: number; fee_type?: string }
+        Returns: number
+      }
+      has_role: {
+        Args: { _user_id: string; _role: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
