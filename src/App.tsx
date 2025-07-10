@@ -14,31 +14,24 @@ import Dashboard from "./pages/Dashboard";
 import Portfolio from "./pages/Portfolio";
 import NotFound from "./pages/NotFound";
 
-const App = () => (
-  <Providers>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <div className="flex min-h-screen flex-col">
-          <Navbar />
-          <main className="flex-1">
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/auth/signin" element={<SignIn />} />
-              <Route path="/auth/signup" element={<SignUp />} />
-              <Route path="/properties" element={<Properties />} />
-              <Route path="/properties/:id" element={<PropertyDetail />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-          <Footer />
+const App = () => {
+  return (
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-4xl font-bold text-center text-foreground">
+          🏢 Nexus Platform
+        </h1>
+        <p className="text-center text-muted-foreground mt-4">
+          Real Estate Investment Made Simple
+        </p>
+        <div className="text-center mt-8">
+          <button className="bg-primary text-primary-foreground px-6 py-3 rounded-lg">
+            Get Started
+          </button>
         </div>
-      </BrowserRouter>
-    </TooltipProvider>
-  </Providers>
-);
+      </div>
+    </div>
+  );
+};
 
 export default App;
