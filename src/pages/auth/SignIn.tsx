@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,39 +8,41 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 
-const signInSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
-});
-
-type SignInData = z.infer<typeof signInSchema>;
-
 export default function SignIn() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<SignInData>({
-    resolver: zodResolver(signInSchema),
-  });
-
-  useEffect(() => {
-    if (user) {
-      navigate('/dashboard');
+  const validateForm = () => {
+    if (!email) {
+      setError('Email is required');
+      return false;
     }
-  }, [user, navigate]);
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+    if (!password) {
+      setError('Password is required');
+      return false;
+    }
+    return true;
+  };
 
-  const onSubmit = async (data: SignInData) => {
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
     setError('');
 
     try {
       const { error } = await supabase.auth.signInWithPassword({
-        email: data.email,
-        password: data.password,
+        email,
+        password,
       });
 
       if (error) {
@@ -53,6 +52,8 @@ export default function SignIn() {
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -85,29 +86,27 @@ export default function SignIn() {
             </Alert>
           )}
           
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={onSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="your@email.com"
-                {...register('email')}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
-              {errors.email && (
-                <p className="text-sm text-destructive">{errors.email.message}</p>
-              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
                 type="password"
-                {...register('password')}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
-              {errors.password && (
-                <p className="text-sm text-destructive">{errors.password.message}</p>
-              )}
             </div>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
               {isSubmitting ? 'Signing in...' : 'Sign in'}

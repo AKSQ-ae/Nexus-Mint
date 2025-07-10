@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,31 +8,16 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 
-const signUpSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
-
-type SignUpData = z.infer<typeof signUpSchema>;
-
 export default function SignUp() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<SignUpData>({
-    resolver: zodResolver(signUpSchema),
-  });
 
   useEffect(() => {
     if (user) {
@@ -43,18 +25,50 @@ export default function SignUp() {
     }
   }, [user, navigate]);
 
-  const onSubmit = async (data: SignUpData) => {
+  const validateForm = () => {
+    if (!name.trim()) {
+      setError('Name is required');
+      return false;
+    }
+    if (!email) {
+      setError('Email is required');
+      return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+    if (!password) {
+      setError('Password is required');
+      return false;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return false;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords don't match");
+      return false;
+    }
+    return true;
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
     setError('');
     setMessage('');
 
     try {
       const { error } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
+        email,
+        password,
         options: {
           emailRedirectTo: `${window.location.origin}/dashboard`,
           data: {
-            name: data.name,
+            name: name,
           },
         },
       });
@@ -66,6 +80,8 @@ export default function SignUp() {
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -103,18 +119,17 @@ export default function SignUp() {
             </Alert>
           )}
           
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={onSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
               <Input
                 id="name"
                 type="text"
                 placeholder="John Doe"
-                {...register('name')}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
               />
-              {errors.name && (
-                <p className="text-sm text-destructive">{errors.name.message}</p>
-              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -122,11 +137,10 @@ export default function SignUp() {
                 id="email"
                 type="email"
                 placeholder="your@email.com"
-                {...register('email')}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
-              {errors.email && (
-                <p className="text-sm text-destructive">{errors.email.message}</p>
-              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
@@ -134,11 +148,10 @@ export default function SignUp() {
                 id="password"
                 type="password"
                 placeholder="At least 6 characters"
-                {...register('password')}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
-              {errors.password && (
-                <p className="text-sm text-destructive">{errors.password.message}</p>
-              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
@@ -146,11 +159,10 @@ export default function SignUp() {
                 id="confirmPassword"
                 type="password"
                 placeholder="Confirm your password"
-                {...register('confirmPassword')}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
               />
-              {errors.confirmPassword && (
-                <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>
-              )}
             </div>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
               {isSubmitting ? 'Creating account...' : 'Create account'}
