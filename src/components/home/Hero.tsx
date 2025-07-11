@@ -123,55 +123,73 @@ export function Hero() {
             </Link>
           </div>
           
-          <div className="animate-fade-in-up mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto" style={{animationDelay: '0.9s'}}>
-            <div className="metric-card group">
-              <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
-                AED <span className="count-up" data-target="10">0</span>M+
-              </div>
-              <p className="text-muted-foreground font-inter font-medium">Assets Under Management</p>
-              <div className="metric-sparkline mt-3">
-                <svg width="80" height="20" className="mx-auto">
+          {/* Early Access Section */}
+          <div className="animate-fade-in-up mt-16 text-center" style={{animationDelay: '0.9s'}}>
+            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">Early Access</h2>
+            <p className="text-lg text-muted-foreground font-inter max-w-2xl mx-auto mb-8">
+              Join our invitation-only launch cohort and lock in your spot today.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
+              <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
+                <div className="text-4xl mb-4">🏗️</div>
+                <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
+                  <span className="count-up" data-target="5">0</span>+
+                </div>
+                <p className="text-muted-foreground font-inter font-medium mb-3">Properties in Pipeline</p>
+                <svg className="w-full h-6 mx-auto" viewBox="0 0 100 20">
                   <polyline 
+                    points="0,15 20,10 40,12 60,6 80,8 100,5"
                     fill="none" 
                     stroke="hsl(var(--blue-primary))" 
                     strokeWidth="2"
-                    points="0,15 20,12 40,8 60,5 80,3"
+                    className="animate-draw-line"
+                  />
+                </svg>
+              </div>
+
+              <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
+                <div className="text-4xl mb-4">🙋</div>
+                <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
+                  <span className="count-up" data-target="100">0</span>+
+                </div>
+                <p className="text-muted-foreground font-inter font-medium mb-3">Invited Investors</p>
+                <svg className="w-full h-6 mx-auto" viewBox="0 0 100 20">
+                  <polyline 
+                    points="0,12 20,14 40,10 60,13 80,9 100,11"
+                    fill="none" 
+                    stroke="hsl(var(--blue-primary))" 
+                    strokeWidth="2"
+                    className="animate-draw-line"
+                  />
+                </svg>
+              </div>
+
+              <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
+                <div className="text-4xl mb-4">📈</div>
+                <div className="text-3xl md:text-4xl font-playfair font-bold text-orange-accent mb-2">
+                  <span className="count-up" data-target="8">0</span>–<span className="count-up" data-target="12">0</span>%
+                </div>
+                <p className="text-muted-foreground font-inter font-medium mb-3">Projected Returns p.a.</p>
+                <svg className="w-full h-6 mx-auto" viewBox="0 0 100 20">
+                  <polyline 
+                    points="0,18 20,16 40,12 60,10 80,7 100,5"
+                    fill="none" 
+                    stroke="hsl(var(--orange-accent))" 
+                    strokeWidth="2"
                     className="animate-draw-line"
                   />
                 </svg>
               </div>
             </div>
-            <div className="metric-card group">
-              <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
-                <span className="count-up" data-target="1000">0</span>+
-              </div>
-              <p className="text-muted-foreground font-inter font-medium">Active Investors</p>
-              <div className="metric-progress mt-3">
-                <div className="w-20 h-2 bg-grey-light rounded-full mx-auto overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-blue-primary to-secondary rounded-full animate-progress-fill" style={{width: '75%'}}></div>
-                </div>
-              </div>
-            </div>
-            <div className="metric-card group">
-              <div className="text-3xl md:text-4xl font-playfair font-bold text-orange-accent mb-2">
-                <span className="count-up" data-target="10">0</span>%
-              </div>
-              <p className="text-muted-foreground font-inter font-medium">Average Annual Return</p>
-              <div className="metric-dial mt-3">
-                <svg width="40" height="40" className="mx-auto">
-                  <circle cx="20" cy="20" r="15" fill="none" stroke="hsl(var(--grey-light))" strokeWidth="3"/>
-                  <circle 
-                    cx="20" cy="20" r="15" 
-                    fill="none" 
-                    stroke="hsl(var(--orange-accent))" 
-                    strokeWidth="3"
-                    strokeDasharray="31.4"
-                    strokeDashoffset="22"
-                    className="animate-dial-fill"
-                    transform="rotate(-90 20 20)"
-                  />
-                </svg>
-              </div>
+
+            <div className="flex flex-col items-center gap-4">
+              <Button size="xl" className="bg-orange-accent hover:bg-orange-accent/90 text-white font-semibold px-8 py-4 text-lg shadow-elegant hover:shadow-glow transform hover:scale-105">
+                Request Early Access
+              </Button>
+              <p className="text-sm text-muted-foreground font-inter">
+                Secure your spot before we open to the public.
+              </p>
             </div>
           </div>
         </div>
