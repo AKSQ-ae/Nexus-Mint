@@ -9,6 +9,9 @@ export function PWAInstallPrompt() {
   const { isInstallable, installApp } = usePWA();
   const [dismissed, setDismissed] = useState(false);
 
+  // For testing - show a debug indicator
+  console.log('PWA Status:', { isInstallable });
+
   if (!isInstallable || dismissed) return null;
 
   const handleInstall = async () => {
