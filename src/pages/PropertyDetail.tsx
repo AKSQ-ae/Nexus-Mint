@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
-import { EnhancedInvestmentFlow } from '@/components/investment/EnhancedInvestmentFlow';
+import { TestInvestmentFlow } from '@/components/investment/TestInvestmentFlow';
 import { MapPin, TrendingUp, DollarSign, Building, Users } from 'lucide-react';
 
 interface Property {
@@ -139,9 +139,10 @@ export default function PropertyDetail() {
         {/* Investment Panel */}
         <div className="lg:col-span-1">
           <div className="sticky top-8">
-            <EnhancedInvestmentFlow
+            <TestInvestmentFlow
               propertyId={property.id}
               propertyTitle={property.title}
+              pricePerToken={property.price_per_token || 25}
               onInvestmentComplete={() => navigate('/portfolio')}
             />
           </div>
