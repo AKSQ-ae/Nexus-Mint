@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight, TrendingUp, Shield, Users, Play } from 'lucide-react';
+import { ArrowRight, TrendingUp, Shield, Users, Play, Construction, UserPlus, ChartLine } from 'lucide-react';
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
 
 export function Hero() {
@@ -132,9 +132,11 @@ export function Hero() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
               <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
-                <div className="text-4xl mb-4">🏗️</div>
+                <div className="flex justify-center mb-4">
+                  <Construction className="w-8 h-8 text-blue-primary" />
+                </div>
                 <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
-                  <span className="count-up" data-target="5">0</span>+
+                  <span className="count-up" data-target="5">5</span>+
                 </div>
                 <p className="text-muted-foreground font-inter font-medium mb-3">Properties in Pipeline</p>
                 <svg className="w-full h-6 mx-auto" viewBox="0 0 100 20">
@@ -149,9 +151,11 @@ export function Hero() {
               </div>
 
               <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
-                <div className="text-4xl mb-4">🙋</div>
+                <div className="flex justify-center mb-4">
+                  <UserPlus className="w-8 h-8 text-blue-primary" />
+                </div>
                 <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
-                  <span className="count-up" data-target="100">0</span>+
+                  <span className="count-up" data-target="100">100</span>+
                 </div>
                 <p className="text-muted-foreground font-inter font-medium mb-3">Invited Investors</p>
                 <svg className="w-full h-6 mx-auto" viewBox="0 0 100 20">
@@ -166,9 +170,11 @@ export function Hero() {
               </div>
 
               <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
-                <div className="text-4xl mb-4">📈</div>
+                <div className="flex justify-center mb-4">
+                  <ChartLine className="w-8 h-8 text-orange-accent" />
+                </div>
                 <div className="text-3xl md:text-4xl font-playfair font-bold text-orange-accent mb-2">
-                  <span className="count-up" data-target="8">0</span>–<span className="count-up" data-target="12">0</span>%
+                  <span className="count-up" data-target="8">8</span>–<span className="count-up" data-target="12">12</span>%
                 </div>
                 <p className="text-muted-foreground font-inter font-medium mb-3">Projected Returns p.a.</p>
                 <svg className="w-full h-6 mx-auto" viewBox="0 0 100 20">
