@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { PropertyCard } from '@/components/properties/PropertyCard';
 import { getFeaturedProperties } from '@/lib/services/property-service';
+import { currencyService } from '@/lib/services/currency-service';
 
 interface Property {
   id: string;
@@ -91,8 +92,17 @@ export function FeaturedProperties() {
                     </p>
                     
                     <div className="flex items-center justify-between">
-                      <div className="text-2xl font-bold text-foreground">
-                        ${property.price_per_token ? (property.price_per_token * (property.total_tokens || 1000)).toLocaleString() : '2.5M'}
+                      <div>
+                        <div className="text-2xl font-bold text-foreground">
+                          ${property.price_per_token ? (property.price_per_token * (property.total_tokens || 1000)).toLocaleString() : '2.5M'}
+                        </div>
+                        <div className="text-sm text-primary font-medium">
+                          AED {currencyService.convertToAED(
+                            property.price_per_token ? 
+                              (property.price_per_token * (property.total_tokens || 1000)) : 
+                              2500000
+                          ).toLocaleString()}
+                        </div>
                       </div>
                       <Link to={`/properties/${property.id}`}>
                         <Button variant="default" className="bg-foreground text-background hover:bg-foreground/90">
