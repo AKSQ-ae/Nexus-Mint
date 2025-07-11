@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { MapPin, Building, TrendingUp, Zap, BarChart3 } from 'lucide-react';
 import { QuickInvestFlow } from '@/components/investment/QuickInvestFlow';
+import { currencyService } from '@/lib/services/currency-service';
 
 interface Property {
   id: string;
@@ -66,16 +67,22 @@ export function PropertyCard({ property }: PropertyCardProps) {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <p className="text-xs text-muted-foreground">Token Price</p>
-            <p className="text-lg font-bold">
-              ${property.price_per_token?.toFixed(2) || '100.00'}
-            </p>
+            <div className="space-y-1">
+              <p className="text-lg font-bold">
+                AED {currencyService.convertToAED(property.price_per_token || 100).toFixed(0)}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                ${property.price_per_token?.toFixed(2) || '100.00'} USD
+              </p>
+            </div>
           </div>
           <div>
             <p className="text-xs text-muted-foreground">Expected Yield</p>
             <p className="text-lg font-bold text-green-600 flex items-center">
               <TrendingUp className="h-3 w-3 mr-1" />
-              8-12%
+              {currencyService.getRealisticYield()}%
             </p>
+            <p className="text-xs text-muted-foreground">Per annum</p>
           </div>
         </div>
 
