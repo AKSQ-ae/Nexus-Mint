@@ -36,23 +36,23 @@ export function Hero() {
           </div>
           
           <div className="animate-fade-in-up mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto" style={{animationDelay: '0.9s'}}>
-            <div className="glass p-6 rounded-2xl backdrop-blur-xl">
-              <div className="text-3xl md:text-4xl font-playfair font-bold text-secondary mb-2">
+            <div className="bg-white/20 backdrop-blur-xl p-6 rounded-2xl border border-white/30 shadow-xl">
+              <div className="text-3xl md:text-4xl font-playfair font-bold text-white mb-2">
                 AED 10M+
               </div>
-              <p className="text-white/80 font-inter">Assets Under Management</p>
+              <p className="text-white/90 font-inter font-medium">Assets Under Management</p>
             </div>
-            <div className="glass p-6 rounded-2xl backdrop-blur-xl">
-              <div className="text-3xl md:text-4xl font-playfair font-bold text-secondary mb-2">
+            <div className="bg-white/20 backdrop-blur-xl p-6 rounded-2xl border border-white/30 shadow-xl">
+              <div className="text-3xl md:text-4xl font-playfair font-bold text-white mb-2">
                 1000+
               </div>
-              <p className="text-white/80 font-inter">Active Investors</p>
+              <p className="text-white/90 font-inter font-medium">Active Investors</p>
             </div>
-            <div className="glass p-6 rounded-2xl backdrop-blur-xl">
-              <div className="text-3xl md:text-4xl font-playfair font-bold text-secondary mb-2">
+            <div className="bg-white/20 backdrop-blur-xl p-6 rounded-2xl border border-white/30 shadow-xl">
+              <div className="text-3xl md:text-4xl font-playfair font-bold text-white mb-2">
                 10%
               </div>
-              <p className="text-white/80 font-inter">Average Annual Return</p>
+              <p className="text-white/90 font-inter font-medium">Average Annual Return</p>
             </div>
           </div>
         </div>
