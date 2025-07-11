@@ -16,17 +16,13 @@ export function Hero() {
         <div className="max-w-5xl mx-auto text-center">
           <div className="animate-fade-in-up">
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-8 leading-none">
-              <span className="gradient-text block">Fractional Real Estate</span>
-              <span className="text-white block">Ownership</span>
-              <span className="text-white/90 block text-4xl md:text-5xl lg:text-6xl mt-4 font-space font-medium">
-                in Minutes
-              </span>
+              <span className="gradient-text block">Wealth On Tap</span>
             </h1>
           </div>
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
             <p className="text-xl md:text-2xl text-white/90 mb-6 font-inter leading-relaxed max-w-3xl mx-auto">
-              Invest in premium UAE real estate with blockchain technology. Fractional ownership, transparent returns, and global accessibility.
+              Tap into fractional real-estate ownership instantly—with as little as $100.
             </p>
             <div className="flex flex-wrap justify-center gap-8 mb-8 text-sm md:text-base">
               <div className="flex items-center gap-2 text-secondary font-semibold">
