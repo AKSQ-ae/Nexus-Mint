@@ -42,108 +42,98 @@ export function Navbar() {
   };
 
   return (
-    <nav className="bg-background/95 backdrop-blur-lg border-b border-border/50 sticky top-0 z-50 shadow-elegant transition-all duration-300">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-              <InteractiveLogo 
-                src="/lovable-uploads/51110a08-2e89-4afe-adaf-94f04b8b2ab8.png"
-                alt="Nexus Logo"
-                className="h-8 w-auto shadow-md"
-              />
-            </Link>
-          </div>
-
-          {/* Desktop navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+    <nav className="bg-gradient-to-r from-grey-dark to-blue-secondary/10 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50 shadow-premium transition-all duration-300">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          
+          {/* Left Navigation Links */}
+          <div className="hidden lg:flex items-center space-x-8">
             <Link 
               to="/properties" 
-              className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium flex items-center space-x-2 border border-transparent hover:border-primary/20"
+              className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105 relative group"
             >
-              <Building2 className="h-4 w-4" />
-              <span>Properties</span>
+              How it works
+              <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-accent transition-all duration-300 group-hover:w-full"></div>
             </Link>
             <Link 
-              to="/analytics" 
-              className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium"
+              to="/properties" 
+              className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105 relative group"
             >
-              Analytics
+              Properties
+              <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-accent transition-all duration-300 group-hover:w-full"></div>
             </Link>
             <Link 
               to="/global-trading" 
-              className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium"
+              className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105 relative group"
             >
               Trading
+              <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-accent transition-all duration-300 group-hover:w-full"></div>
             </Link>
             <Link 
-              to="/referrals" 
-              className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium"
+              to="/analytics" 
+              className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105 relative group"
             >
-              Referrals
+              Analytics
+              <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-accent transition-all duration-300 group-hover:w-full"></div>
             </Link>
-            <Link 
-              to="/tokenization-demo" 
-              className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium flex items-center space-x-2 border border-transparent hover:border-primary/20"
-            >
-              <Coins className="h-4 w-4" />
-              <span>Tokenization</span>
+          </div>
+
+          {/* Center Logo */}
+          <div className="flex items-center justify-center lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
+            <Link to="/" className="flex items-center space-x-2 hover:scale-105 transition-transform duration-300">
+              <div className="text-3xl font-space font-black tracking-wider">
+                <span className="text-white">NEXUS</span>
+                <span className="text-orange-accent ml-1">INVEST</span>
+              </div>
             </Link>
-            <Link 
-              to="/demo" 
-              className="px-4 py-2 rounded-lg bg-secondary/10 text-secondary hover:bg-secondary/20 hover:text-secondary-foreground transition-all duration-200 font-medium border border-secondary/20 hover:border-secondary/40"
-            >
-              <span>Investment Sandbox</span>
-            </Link>
-            {user && (
-              <>
+          </div>
+
+          {/* Right Side Auth Buttons */}
+          <div className="hidden lg:flex items-center space-x-4">
+            <HelpCenter />
+            {user ? (
+              <div className="flex items-center space-x-4">
                 <Link 
                   to="/dashboard" 
-                  className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium"
+                  className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105"
                 >
                   Dashboard
                 </Link>
                 <Link 
                   to="/portfolio" 
-                  className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium"
+                  className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105"
                 >
                   Portfolio
                 </Link>
-              </>
-            )}
-            {user && userRole === 'admin' && (
-              <Link 
-                to="/admin" 
-                className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium"
-              >
-                Admin
-              </Link>
-            )}
-          </div>
-          
-          {/* Right side with auth */}
-          <div className="hidden md:flex items-center space-x-4">
-            <HelpCenter />
-            {/* Wallet integration temporarily disabled for debugging */}
-            {user ? (
-              <UserMenu user={user} />
+                <UserMenu user={user} />
+              </div>
             ) : (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-3">
                 <Link to="/auth/signin">
-                  <Button variant="ghost">Sign In</Button>
+                  <Button 
+                    variant="outline" 
+                    className="bg-transparent border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300 px-6 py-2.5 rounded-full font-medium"
+                  >
+                    Login
+                  </Button>
                 </Link>
                 <Link to="/auth/signup">
-                  <Button>Get Started</Button>
+                  <Button 
+                    variant="cta"
+                    className="bg-orange-accent hover:bg-orange-accent/90 text-white px-6 py-2.5 rounded-full font-semibold shadow-glow transition-all duration-300 hover:scale-105"
+                  >
+                    Get Started
+                  </Button>
                 </Link>
               </div>
             )}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile Menu Button */}
+          <div className="lg:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-foreground hover:text-primary p-2 rounded-md hover:bg-muted transition-colors"
+              className="text-white hover:text-orange-accent p-2 rounded-lg hover:bg-white/10 transition-all duration-300"
               aria-label="Toggle mobile menu"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -151,82 +141,116 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Mobile navigation */}
+        {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden py-4 space-y-1 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <Link 
-              to="/properties" 
-              className="flex items-center space-x-3 px-4 py-3 text-foreground hover:text-primary hover:bg-primary/5 rounded-lg transition-all duration-200 font-medium border border-transparent hover:border-primary/20"
-              onClick={() => setIsOpen(false)}
-            >
-              <Building2 className="h-5 w-5" />
-              <span>Properties</span>
-            </Link>
-            <Link 
-              to="/analytics" 
-              className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Analytics
-            </Link>
-            <Link 
-              to="/global-trading" 
-              className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Trading
-            </Link>
-            <Link 
-              to="/referrals" 
-              className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Referrals
-            </Link>
-            <Link 
-              to="/tokenization-demo" 
-              className="flex items-center space-x-3 px-4 py-3 text-foreground hover:text-primary hover:bg-primary/5 rounded-lg transition-all duration-200 font-medium border border-transparent hover:border-primary/20"
-              onClick={() => setIsOpen(false)}
-            >
-              <Coins className="h-5 w-5" />
-              <span>Tokenization</span>
-            </Link>
-            <Link 
-              to="/demo" 
-              className="block px-4 py-3 bg-secondary/10 text-secondary hover:bg-secondary/20 hover:text-secondary-foreground rounded-lg transition-all duration-200 font-medium border border-secondary/20"
-              onClick={() => setIsOpen(false)}
-            >
-              Investment Sandbox
-            </Link>
+          <div className="lg:hidden py-6 space-y-2 border-t border-white/10 bg-grey-dark/95 backdrop-blur-xl">
+            <div className="space-y-1">
+              <Link 
+                to="/properties" 
+                className="flex items-center space-x-3 px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                <Building2 className="h-5 w-5" />
+                <span>How it works</span>
+              </Link>
+              <Link 
+                to="/properties" 
+                className="flex items-center space-x-3 px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                <Building2 className="h-5 w-5" />
+                <span>Properties</span>
+              </Link>
+              <Link 
+                to="/global-trading" 
+                className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Trading
+              </Link>
+              <Link 
+                to="/analytics" 
+                className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Analytics
+              </Link>
+              <Link 
+                to="/referrals" 
+                className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Referrals
+              </Link>
+              <Link 
+                to="/tokenization-demo" 
+                className="flex items-center space-x-3 px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                <Coins className="h-5 w-5" />
+                <span>Tokenization</span>
+              </Link>
+              <Link 
+                to="/demo" 
+                className="block px-4 py-3 bg-orange-accent/20 text-orange-accent hover:bg-orange-accent/30 rounded-lg transition-all duration-300 font-medium border border-orange-accent/30"
+                onClick={() => setIsOpen(false)}
+              >
+                Investment Sandbox
+              </Link>
+            </div>
+            
             {user ? (
-              <>
+              <div className="pt-4 border-t border-white/10 space-y-1">
                 <Link 
                   to="/dashboard" 
-                  className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                  className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
                   onClick={() => setIsOpen(false)}
                 >
                   Dashboard
                 </Link>
                 <Link 
                   to="/portfolio" 
-                  className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                  className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
                   onClick={() => setIsOpen(false)}
                 >
                   Portfolio
                 </Link>
+                {userRole === 'admin' && (
+                  <Link 
+                    to="/admin" 
+                    className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Admin
+                  </Link>
+                )}
                 <div className="px-4 pt-2">
-                  <Button variant="outline" onClick={handleSignOut} className="w-full">
+                  <Button 
+                    variant="outline" 
+                    onClick={handleSignOut} 
+                    className="w-full bg-transparent border-white/30 text-white hover:bg-white/10"
+                  >
                     Sign Out
                   </Button>
                 </div>
-              </>
+              </div>
             ) : (
-              <div className="px-4 pt-2 space-y-2">
-                <Link to="/auth/signin" onClick={() => setIsOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start h-12">Sign In</Button>
+              <div className="px-4 pt-4 border-t border-white/10 space-y-3">
+                <Link to="/auth/signin" onClick={() => setIsOpen(false)} className="block">
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-center h-12 bg-transparent border-white/30 text-white hover:bg-white/10 rounded-full"
+                  >
+                    Login
+                  </Button>
                 </Link>
-                <Link to="/auth/signup" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full justify-start h-12">Get Started</Button>
+                <Link to="/auth/signup" onClick={() => setIsOpen(false)} className="block">
+                  <Button 
+                    variant="cta"
+                    className="w-full justify-center h-12 bg-orange-accent hover:bg-orange-accent/90 text-white rounded-full font-semibold"
+                  >
+                    Get Started
+                  </Button>
                 </Link>
               </div>
             )}
