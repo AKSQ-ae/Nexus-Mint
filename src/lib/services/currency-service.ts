@@ -1,3 +1,6 @@
+// Enhanced currency conversion service for USD <-> AED with real-time rates
+import { supabase } from '@/integrations/supabase/client';
+
 export interface CurrencyConversion {
   usd: number;
   aed: number;
@@ -11,20 +14,60 @@ export interface CurrencyDisplayOptions {
   format?: 'short' | 'long';
 }
 
-class CurrencyService {
-  private exchangeRate: number = 3.6725; // USD to AED rate (relatively stable)
-  private lastUpdated: Date = new Date();
+interface ExchangeRates {
+  USD_TO_AED: number;
+  AED_TO_USD: number;
+}
 
-  // In production, this would fetch from a real API like xe.com or fixer.io
-  async updateExchangeRate(): Promise<void> {
-    try {
-      // Simulated API call - in production, use real exchange rate API
-      const mockRate = 3.6725 + (Math.random() - 0.5) * 0.01; // Small variation
-      this.exchangeRate = mockRate;
-      this.lastUpdated = new Date();
-    } catch (error) {
-      console.warn('Failed to update exchange rate, using cached rate');
+interface ExchangeRateResponse {
+  success: boolean;
+  rates: ExchangeRates;
+  lastUpdated: string;
+  source: string;
+  error?: string;
+}
+
+class CurrencyService {
+  private exchangeRate: number = 3.6725; // USD to AED fallback rate
+  private lastUpdated: Date = new Date();
+  private cachedRates: ExchangeRates = {
+    USD_TO_AED: 3.6725,
+    AED_TO_USD: 0.272
+  };
+  private lastFetch = 0;
+  private readonly CACHE_DURATION = 1000 * 60 * 15; // 15 minutes
+
+  // Fetch real-time exchange rates
+  private async fetchExchangeRates(): Promise<void> {
+    const now = Date.now();
+    
+    // Return if cache is still valid
+    if (now - this.lastFetch < this.CACHE_DURATION) {
+      return;
     }
+
+    try {
+      const { data, error } = await supabase.functions.invoke('get-exchange-rates');
+      
+      if (error) throw error;
+      
+      const response: ExchangeRateResponse = data;
+      
+      if (response.success && response.rates) {
+        this.cachedRates = response.rates;
+        this.exchangeRate = response.rates.USD_TO_AED;
+        this.lastFetch = now;
+        this.lastUpdated = new Date();
+        console.log(`Exchange rates updated from ${response.source}`);
+      }
+    } catch (error) {
+      console.warn('Failed to fetch exchange rates, using cached rates:', error);
+    }
+  }
+
+  // Auto-update rates on service initialization
+  async updateExchangeRate(): Promise<void> {
+    await this.fetchExchangeRates();
   }
 
   convertToAED(usdAmount: number): number {
@@ -33,6 +76,17 @@ class CurrencyService {
 
   convertToUSD(aedAmount: number): number {
     return Math.round((aedAmount / this.exchangeRate) * 100) / 100;
+  }
+
+  // Async versions that ensure fresh rates
+  async convertToAEDAsync(usdAmount: number): Promise<number> {
+    await this.fetchExchangeRates();
+    return this.convertToAED(usdAmount);
+  }
+
+  async convertToUSDAsync(aedAmount: number): Promise<number> {
+    await this.fetchExchangeRates();
+    return this.convertToUSD(aedAmount);
   }
 
   getConversion(usdAmount: number): CurrencyConversion {
@@ -96,6 +150,19 @@ class CurrencyService {
     // Dubai rental yields typically 6-12%
     return Math.round((6 + Math.random() * 6) * 100) / 100;
   }
+
+  // Get current exchange rates
+  getCurrentRates(): ExchangeRates {
+    return this.cachedRates;
+  }
+
+  // Initialize rates on app start
+  async initializeRates(): Promise<void> {
+    await this.fetchExchangeRates();
+  }
 }
 
 export const currencyService = new CurrencyService();
+
+// Auto-initialize rates when service is imported
+currencyService.initializeRates().catch(console.warn);

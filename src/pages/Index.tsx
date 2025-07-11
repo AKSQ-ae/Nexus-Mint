@@ -4,6 +4,7 @@ import { HowItWorks } from '@/components/home/HowItWorks';
 import { FeaturedProperties } from '@/components/home/FeaturedProperties';
 import { Stats } from '@/components/home/Stats';
 import { CTA } from '@/components/home/CTA';
+import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt';
 
 export default function Index() {
   return (
@@ -14,6 +15,7 @@ export default function Index() {
       <FeaturedProperties />
       <HowItWorks />
       <CTA />
+      <PWAInstallPrompt />
     </>
   );
 }
