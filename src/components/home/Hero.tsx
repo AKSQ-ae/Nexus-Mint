@@ -47,8 +47,7 @@ export function Hero() {
           
           <div className="animate-fade-in-up flex justify-center max-w-md mx-auto" style={{animationDelay: '0.7s'}}>
             <Link to="/properties">
-              <Button variant="cta" size="xl" className="font-semibold px-8 py-4 text-lg">
-                <TrendingUp className="h-5 w-5" />
+              <Button size="xl" className="bg-starbucks-green hover:bg-starbucks-green/90 text-white font-semibold px-8 py-4 text-lg shadow-elegant hover:shadow-glow transform hover:scale-105">
                 Start Investing
               </Button>
             </Link>

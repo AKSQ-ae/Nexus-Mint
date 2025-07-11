@@ -84,6 +84,7 @@ export default {
 				'blue-secondary': 'hsl(var(--blue-secondary))',
 				'blue-light': 'hsl(var(--blue-light))',
 				'orange-accent': 'hsl(var(--orange-accent))',
+				'starbucks-green': 'hsl(var(--starbucks-green))',
 				'grey-light': 'hsl(var(--grey-light))',
 				'grey-mid': 'hsl(var(--grey-mid))',
 				'grey-dark': 'hsl(var(--grey-dark))',
