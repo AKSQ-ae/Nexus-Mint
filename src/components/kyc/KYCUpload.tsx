@@ -11,7 +11,7 @@ const documentTypes = [
   { key: 'passport', label: 'Passport', required: true },
   { key: 'proof_of_address', label: 'Proof of Address', required: true },
   { key: 'bank_statement', label: 'Bank Statement', required: false },
-  { key: 'drivers_license', label: 'Driver\'s License', required: false },
+  { key: 'drivers_license', label: 'ID', required: false },
 ];
 
 export function KYCUpload() {
@@ -156,7 +156,7 @@ export function KYCUpload() {
                       {docType.key === 'passport' && 'Clear photo of your passport information page'}
                       {docType.key === 'proof_of_address' && 'Utility bill or bank statement (max 3 months old)'}
                       {docType.key === 'bank_statement' && 'Recent bank statement (optional)'}
-                      {docType.key === 'drivers_license' && 'Front and back of your driver\'s license'}
+                      {docType.key === 'drivers_license' && 'Front and back of your ID'}
                     </p>
                   </div>
                 </div>
