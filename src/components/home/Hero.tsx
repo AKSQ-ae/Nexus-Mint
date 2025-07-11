@@ -18,9 +18,9 @@ export function Hero() {
           {/* Interactive Nexus "N" Logo Only */}
           <div className="animate-fade-in-up flex justify-center mb-6">
             <InteractiveLogo 
-              src="/lovable-uploads/4c987739-d8fc-4bb8-bedb-e287c825a3f2.png"
-              alt="Nexus N Logo"
-              className="h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24"
+              src="/lovable-uploads/58939a70-82d5-4e10-9da9-ca9fddfe17f7.png"
+              alt="Nexus Logo"
+              className="h-20 w-auto md:h-24 md:w-auto lg:h-28 lg:w-auto"
             />
           </div>
           
