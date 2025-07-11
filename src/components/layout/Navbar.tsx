@@ -65,6 +65,18 @@ export function Navbar() {
               <span>Properties</span>
             </Link>
             <Link 
+              to="/analytics" 
+              className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium"
+            >
+              Analytics
+            </Link>
+            <Link 
+              to="/global-trading" 
+              className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium"
+            >
+              Trading
+            </Link>
+            <Link 
               to="/demo" 
               className="px-4 py-2 rounded-lg bg-secondary/10 text-secondary hover:bg-secondary/20 hover:text-secondary-foreground transition-all duration-200 font-medium border border-secondary/20 hover:border-secondary/40"
             >
@@ -136,6 +148,20 @@ export function Navbar() {
             >
               <Building2 className="h-5 w-5" />
               <span>Properties</span>
+            </Link>
+            <Link 
+              to="/analytics" 
+              className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Analytics
+            </Link>
+            <Link 
+              to="/global-trading" 
+              className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Trading
             </Link>
             <Link 
               to="/demo" 
