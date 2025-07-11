@@ -16,11 +16,11 @@ export function Hero() {
       <div className="container mx-auto px-4 py-32 lg:py-40 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
           {/* Interactive Nexus "N" Logo Only */}
-          <div className="animate-fade-in-up flex justify-center mb-8">
+          <div className="animate-fade-in-up flex justify-center mb-6">
             <InteractiveLogo 
               src="/lovable-uploads/0b4b311f-3c39-4346-926c-eaa1b483bd97.png"
               alt="Nexus N Logo"
-              className="h-20 w-20 md:h-24 md:w-24 lg:h-28 lg:w-28"
+              className="h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24"
             />
           </div>
           
