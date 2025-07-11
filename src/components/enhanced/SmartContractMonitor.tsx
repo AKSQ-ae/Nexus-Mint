@@ -19,6 +19,11 @@ import {
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
+interface SmartContractMonitorProps {
+  contractAddress?: string;
+  propertyId: string;
+}
+
 interface ContractEvent {
   id: string;
   contract_address: string;
@@ -39,7 +44,7 @@ interface ContractMetrics {
   contracts_monitored: number;
 }
 
-export function SmartContractMonitor() {
+export function SmartContractMonitor({ contractAddress, propertyId }: SmartContractMonitorProps) {
   const [events, setEvents] = useState<ContractEvent[]>([]);
   const [metrics, setMetrics] = useState<ContractMetrics>({
     total_events: 0,

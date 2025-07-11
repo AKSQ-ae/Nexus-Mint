@@ -401,7 +401,7 @@ export default function AdminDashboard() {
         </TabsContent>
 
         <TabsContent value="contracts" className="mt-6">
-          <SmartContractMonitor />
+          <SmartContractMonitor propertyId="admin-overview" />
         </TabsContent>
 
         <TabsContent value="chat" className="mt-6">
