@@ -3,8 +3,8 @@ import { Shield, Award, FileCheck, Users, Building2, TrendingUp } from 'lucide-r
 const trustSignals = [
   {
     icon: Shield,
-    title: "SEC Compliant",
-    description: "Fully regulated under UAE securities law"
+    title: "Secured by Blockchain",
+    description: "Enterprise-grade blockchain security"
   },
   {
     icon: Award,

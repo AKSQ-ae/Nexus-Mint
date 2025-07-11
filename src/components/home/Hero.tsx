@@ -26,13 +26,13 @@ export function Hero() {
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-8 leading-none text-white">
-              <span className="block bg-gradient-to-r from-white via-coral to-white bg-clip-text text-transparent font-extrabold">Wealth On Tap</span>
+              <span className="block bg-gradient-to-r from-white via-coral to-white bg-clip-text text-transparent font-extrabold">Own Premium Real Estate for $100</span>
             </h1>
           </div>
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
             <p className="text-xl md:text-2xl text-white/90 mb-12 font-inter leading-relaxed max-w-3xl mx-auto">
-              Own premium assets for just $100.
+              Tokenized UAE properties. Instant trading. Real returns.
             </p>
           </div>
           
