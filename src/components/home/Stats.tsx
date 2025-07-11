@@ -53,7 +53,7 @@ export function Stats() {
           {/* Live Exchange Rate Indicator */}
           <div className="mt-4 inline-flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full text-sm text-primary">
             <DollarSign className="h-4 w-4" />
-            <span>Live USD/AED: {exchangeRate.toFixed(3)}</span>
+            <span>Live AED/USD: {exchangeRate.toFixed(3)} • Default Currency: AED</span>
           </div>
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">

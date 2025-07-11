@@ -6,10 +6,10 @@ export function Features() {
   const features = [
     {
       name: 'Low Entry Investment',
-      description: 'Start with just $100 USD (≈ AED 367). Fractional ownership makes premium real estate accessible to everyone.',
+      description: 'Start with just AED 500. Fractional ownership makes premium real estate accessible to everyone.',
       icon: Wallet,
       details: 'No hefty down payments or million-dollar minimums. Own a piece of premium Dubai real estate with pocket change.',
-      benefits: ['$100 minimum investment', 'Instant portfolio diversification', 'No hidden fees or charges']
+      benefits: ['AED 500 minimum investment', 'Instant portfolio diversification', 'No hidden fees or charges']
     },
     {
       name: 'Expert Property Curation',

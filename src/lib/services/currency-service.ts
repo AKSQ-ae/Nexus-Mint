@@ -36,6 +36,10 @@ class CurrencyService {
   };
   private lastFetch = 0;
   private readonly CACHE_DURATION = 1000 * 60 * 15; // 15 minutes
+  
+  // Default to AED as primary currency
+  private readonly DEFAULT_CURRENCY = 'AED';
+  private readonly MINIMUM_INVESTMENT_AED = 500;
 
   // Fetch real-time exchange rates
   private async fetchExchangeRates(): Promise<void> {

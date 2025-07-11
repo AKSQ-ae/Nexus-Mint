@@ -94,14 +94,14 @@ export function FeaturedProperties() {
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="text-2xl font-bold text-foreground">
-                          ${property.price_per_token ? (property.price_per_token * (property.total_tokens || 1000)).toLocaleString() : '2.5M'}
-                        </div>
-                        <div className="text-sm text-primary font-medium">
                           AED {currencyService.convertToAED(
                             property.price_per_token ? 
                               (property.price_per_token * (property.total_tokens || 1000)) : 
                               2500000
                           ).toLocaleString()}
+                        </div>
+                        <div className="text-sm text-muted-foreground font-medium">
+                          ${property.price_per_token ? (property.price_per_token * (property.total_tokens || 1000)).toLocaleString() : '2.5M'} USD
                         </div>
                       </div>
                       <Link to={`/properties/${property.id}`}>
