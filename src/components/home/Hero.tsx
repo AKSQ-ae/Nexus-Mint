@@ -27,10 +27,6 @@ export function Hero() {
             <div className="flex flex-wrap justify-center gap-8 mb-8 text-sm md:text-base">
               <div className="flex items-center gap-2 text-secondary font-semibold">
                 <span className="w-2 h-2 bg-secondary rounded-full"></span>
-                Minimum Investment: AED 500 (≈ $136 USD)
-              </div>
-              <div className="flex items-center gap-2 text-secondary font-semibold">
-                <span className="w-2 h-2 bg-secondary rounded-full"></span>
                 Expected Returns: 8-15% Annual
               </div>
               <div className="flex items-center gap-2 text-secondary font-semibold">
