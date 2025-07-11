@@ -14,6 +14,172 @@ export type Database = {
   }
   public: {
     Tables: {
+      chat_messages: {
+        Row: {
+          attachments: Json | null
+          created_at: string | null
+          edited_at: string | null
+          id: string
+          message: string
+          message_type: string | null
+          reply_to: string | null
+          room_id: string
+          user_id: string
+        }
+        Insert: {
+          attachments?: Json | null
+          created_at?: string | null
+          edited_at?: string | null
+          id?: string
+          message: string
+          message_type?: string | null
+          reply_to?: string | null
+          room_id: string
+          user_id: string
+        }
+        Update: {
+          attachments?: Json | null
+          created_at?: string | null
+          edited_at?: string | null
+          id?: string
+          message?: string
+          message_type?: string | null
+          reply_to?: string | null
+          room_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_reply_to_fkey"
+            columns: ["reply_to"]
+            isOneToOne: false
+            referencedRelation: "chat_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_messages_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "chat_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_room_participants: {
+        Row: {
+          id: string
+          is_active: boolean | null
+          joined_at: string | null
+          last_read_at: string | null
+          room_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          is_active?: boolean | null
+          joined_at?: string | null
+          last_read_at?: string | null
+          room_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          is_active?: boolean | null
+          joined_at?: string | null
+          last_read_at?: string | null
+          room_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_room_participants_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "chat_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_rooms: {
+        Row: {
+          created_at: string | null
+          created_by: string
+          description: string | null
+          id: string
+          is_public: boolean | null
+          name: string
+          property_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by: string
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          name: string
+          property_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          name?: string
+          property_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_rooms_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enhanced_notifications: {
+        Row: {
+          action_url: string | null
+          created_at: string | null
+          data: Json | null
+          expires_at: string | null
+          id: string
+          message: string
+          priority: number | null
+          read: boolean | null
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Insert: {
+          action_url?: string | null
+          created_at?: string | null
+          data?: Json | null
+          expires_at?: string | null
+          id?: string
+          message: string
+          priority?: number | null
+          read?: boolean | null
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Update: {
+          action_url?: string | null
+          created_at?: string | null
+          data?: Json | null
+          expires_at?: string | null
+          id?: string
+          message?: string
+          priority?: number | null
+          read?: boolean | null
+          title?: string
+          type?: Database["public"]["Enums"]["notification_type"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       fee_schedules: {
         Row: {
           created_at: string
@@ -58,6 +224,50 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      investment_analytics: {
+        Row: {
+          calculated_at: string | null
+          id: string
+          metric_data: Json | null
+          metric_type: string
+          metric_value: number | null
+          period_end: string | null
+          period_start: string | null
+          property_id: string | null
+          user_id: string
+        }
+        Insert: {
+          calculated_at?: string | null
+          id?: string
+          metric_data?: Json | null
+          metric_type: string
+          metric_value?: number | null
+          period_end?: string | null
+          period_start?: string | null
+          property_id?: string | null
+          user_id: string
+        }
+        Update: {
+          calculated_at?: string | null
+          id?: string
+          metric_data?: Json | null
+          metric_type?: string
+          metric_value?: number | null
+          period_end?: string | null
+          period_start?: string | null
+          property_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "investment_analytics_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       investment_transactions: {
         Row: {
@@ -630,6 +840,53 @@ export type Database = {
           },
         ]
       }
+      property_performance: {
+        Row: {
+          created_at: string | null
+          id: string
+          maintenance_costs: number | null
+          market_performance: number | null
+          occupancy_rate: number | null
+          property_id: string
+          rental_income: number | null
+          report_date: string
+          roi_percentage: number | null
+          valuation: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          maintenance_costs?: number | null
+          market_performance?: number | null
+          occupancy_rate?: number | null
+          property_id: string
+          rental_income?: number | null
+          report_date: string
+          roi_percentage?: number | null
+          valuation?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          maintenance_costs?: number | null
+          market_performance?: number | null
+          occupancy_rate?: number | null
+          property_id?: string
+          rental_income?: number | null
+          report_date?: string
+          roi_percentage?: number | null
+          valuation?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_performance_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       property_returns: {
         Row: {
           amount: number
@@ -757,6 +1014,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      smart_contract_events: {
+        Row: {
+          block_number: number | null
+          contract_address: string
+          created_at: string | null
+          event_data: Json | null
+          event_name: string
+          id: string
+          processed: boolean | null
+          transaction_hash: string | null
+        }
+        Insert: {
+          block_number?: number | null
+          contract_address: string
+          created_at?: string | null
+          event_data?: Json | null
+          event_name: string
+          id?: string
+          processed?: boolean | null
+          transaction_hash?: string | null
+        }
+        Update: {
+          block_number?: number | null
+          contract_address?: string
+          created_at?: string | null
+          event_data?: Json | null
+          event_name?: string
+          id?: string
+          processed?: boolean | null
+          transaction_hash?: string | null
+        }
+        Relationships: []
       }
       token_holders: {
         Row: {
@@ -901,37 +1191,97 @@ export type Database = {
       }
       user_profiles: {
         Row: {
+          accredited_investor: boolean | null
+          avatar_url: string | null
           created_at: string | null
+          display_name: string | null
           email: string | null
           full_name: string | null
           id: string
+          investment_experience: string | null
+          is_active: boolean | null
+          kyc_level: number | null
           kyc_status: string | null
+          last_login: string | null
           phone: string | null
+          preferred_investment_size: number | null
           properties_owned: number | null
+          risk_tolerance: string | null
           total_invested: number | null
+          total_returns: number | null
+          updated_at: string | null
           wallet_address: string | null
         }
         Insert: {
+          accredited_investor?: boolean | null
+          avatar_url?: string | null
           created_at?: string | null
+          display_name?: string | null
           email?: string | null
           full_name?: string | null
           id: string
+          investment_experience?: string | null
+          is_active?: boolean | null
+          kyc_level?: number | null
           kyc_status?: string | null
+          last_login?: string | null
           phone?: string | null
+          preferred_investment_size?: number | null
           properties_owned?: number | null
+          risk_tolerance?: string | null
           total_invested?: number | null
+          total_returns?: number | null
+          updated_at?: string | null
           wallet_address?: string | null
         }
         Update: {
+          accredited_investor?: boolean | null
+          avatar_url?: string | null
           created_at?: string | null
+          display_name?: string | null
           email?: string | null
           full_name?: string | null
           id?: string
+          investment_experience?: string | null
+          is_active?: boolean | null
+          kyc_level?: number | null
           kyc_status?: string | null
+          last_login?: string | null
           phone?: string | null
+          preferred_investment_size?: number | null
           properties_owned?: number | null
+          risk_tolerance?: string | null
           total_invested?: number | null
+          total_returns?: number | null
+          updated_at?: string | null
           wallet_address?: string | null
+        }
+        Relationships: []
+      }
+      user_role_assignments: {
+        Row: {
+          assigned_at: string | null
+          assigned_by: string | null
+          id: string
+          is_active: boolean | null
+          role: Database["public"]["Enums"]["user_role"]
+          user_id: string
+        }
+        Insert: {
+          assigned_at?: string | null
+          assigned_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          role: Database["public"]["Enums"]["user_role"]
+          user_id: string
+        }
+        Update: {
+          assigned_at?: string | null
+          assigned_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          role?: Database["public"]["Enums"]["user_role"]
+          user_id?: string
         }
         Relationships: []
       }
@@ -955,6 +1305,42 @@ export type Database = {
           id?: string
           role?: string
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_sessions: {
+        Row: {
+          created_at: string | null
+          id: string
+          ip_address: unknown | null
+          is_active: boolean | null
+          last_seen: string | null
+          page_url: string | null
+          session_id: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          is_active?: boolean | null
+          last_seen?: string | null
+          page_url?: string | null
+          session_id: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          is_active?: boolean | null
+          last_seen?: string | null
+          page_url?: string | null
+          session_id?: string
+          user_agent?: string | null
           user_id?: string
         }
         Relationships: []
@@ -1031,13 +1417,48 @@ export type Database = {
         Args: { investment_amount: number; fee_type?: string }
         Returns: number
       }
+      can_access_property: {
+        Args: { user_id: string; property_id: string }
+        Returns: boolean
+      }
+      get_user_role: {
+        Args: { user_id: string }
+        Returns: Database["public"]["Enums"]["user_role"]
+      }
       has_role: {
-        Args: { _user_id: string; _role: string }
+        Args:
+          | { _user_id: string; _role: string }
+          | {
+              user_id: string
+              required_role: Database["public"]["Enums"]["user_role"]
+            }
+        Returns: boolean
+      }
+      is_admin: {
+        Args: { user_id: string }
         Returns: boolean
       }
     }
     Enums: {
-      [_ in never]: never
+      investment_status:
+        | "pending"
+        | "processing"
+        | "confirmed"
+        | "completed"
+        | "failed"
+        | "refunded"
+      notification_type:
+        | "investment"
+        | "return"
+        | "property_update"
+        | "kyc"
+        | "system"
+        | "chat"
+      user_role:
+        | "admin"
+        | "investor"
+        | "property_manager"
+        | "compliance_officer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1164,6 +1585,29 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      investment_status: [
+        "pending",
+        "processing",
+        "confirmed",
+        "completed",
+        "failed",
+        "refunded",
+      ],
+      notification_type: [
+        "investment",
+        "return",
+        "property_update",
+        "kyc",
+        "system",
+        "chat",
+      ],
+      user_role: [
+        "admin",
+        "investor",
+        "property_manager",
+        "compliance_officer",
+      ],
+    },
   },
 } as const
