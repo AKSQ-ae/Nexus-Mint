@@ -48,9 +48,9 @@ export function Navbar() {
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
               <InteractiveLogo 
-                src="/lovable-uploads/7c23cb21-6105-4f2e-9729-c12f778beaee.png"
-                alt="Nexus - Own Premium Real Estate for $100"
-                className="h-12 w-auto shadow-md"
+                src="/lovable-uploads/51110a08-2e89-4afe-adaf-94f04b8b2ab8.png"
+                alt="Nexus Logo"
+                className="h-8 w-auto shadow-md"
               />
             </Link>
           </div>
