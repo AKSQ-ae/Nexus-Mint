@@ -28,25 +28,25 @@ export default function Demo() {
       title: "Select Premium Property",
       description: "Browse curated Dubai real estate opportunities",
       icon: Building,
-      duration: 3000
+      duration: 1000
     },
     {
       title: "Investment Calculation",
       description: `Invest AED ${investmentAmount.toLocaleString()} (≈ $${Math.round(investmentAmount / 3.67).toLocaleString()})`,
       icon: DollarSign,
-      duration: 2500
+      duration: 1000
     },
     {
       title: "Tokenization Process",
       description: "Property ownership converted to digital tokens",
       icon: Zap,
-      duration: 3500
+      duration: 1000
     },
     {
       title: "Portfolio Growth",
       description: "Track your returns and property performance",
       icon: TrendingUp,
-      duration: 2000
+      duration: 1000
     }
   ];
 
@@ -113,7 +113,7 @@ export default function Demo() {
         <Button 
           onClick={handlePlayPause}
           size="lg"
-          className="bg-green-600 hover:bg-green-700"
+          className="bg-secondary hover:bg-secondary/90"
         >
           {isPlaying ? (
             <>

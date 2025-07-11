@@ -74,7 +74,7 @@ export function Hero() {
             </div>
             <div className="glass p-6 rounded-2xl backdrop-blur-xl">
               <div className="text-3xl md:text-4xl font-playfair font-bold text-secondary mb-2">
-                12.5%
+                10%
               </div>
               <p className="text-white/80 font-inter">Average Annual Return</p>
             </div>
@@ -89,7 +89,7 @@ export function Hero() {
             </div>
             <h3 className="text-xl font-playfair font-semibold mb-4 text-foreground">Premium Returns</h3>
             <p className="text-muted-foreground font-inter leading-relaxed">
-              Earn 8-15% annual returns through carefully selected premium real estate investments
+              Earn 6-12% annual returns through carefully selected premium real estate investments
             </p>
           </div>
           
@@ -99,7 +99,7 @@ export function Hero() {
             </div>
             <h3 className="text-xl font-playfair font-semibold mb-4 text-foreground">Bank-Grade Security</h3>
             <p className="text-muted-foreground font-inter leading-relaxed">
-              Military-grade encryption and blockchain technology ensure your investments are secure
+              Enterprise-grade encryption and blockchain technology ensure your investments are secure
             </p>
           </div>
           
