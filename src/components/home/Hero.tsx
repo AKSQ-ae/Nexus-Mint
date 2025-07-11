@@ -5,7 +5,7 @@ import { InteractiveLogo } from '@/components/ui/interactive-logo';
 
 export function Hero() {
   return (
-    <section className="bg-white text-foreground relative overflow-hidden">
+    <section className="bg-white text-foreground relative overflow-hidden" style={{background: 'radial-gradient(ellipse at center, rgba(30, 144, 255, 0.03) 0%, rgba(255, 255, 255, 1) 70%)'}}>
       {/* Premium animated background elements */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-20 left-20 w-72 h-72 bg-secondary/40 rounded-full blur-3xl animate-float"></div>
