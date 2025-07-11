@@ -5,7 +5,7 @@ import { InteractiveLogo } from '@/components/ui/interactive-logo';
 
 export function Hero() {
   return (
-    <section className="hero-bg text-white relative overflow-hidden">
+    <section className="bg-white text-foreground relative overflow-hidden">
       {/* Premium animated background elements */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-20 left-20 w-72 h-72 bg-secondary/40 rounded-full blur-3xl animate-float"></div>
@@ -23,13 +23,13 @@ export function Hero() {
           </div>
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-8 leading-none text-white">
-              <span className="block bg-gradient-to-r from-white via-coral to-white bg-clip-text text-transparent font-extrabold">Own Premium Real Estate for $100</span>
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-8 leading-none text-foreground">
+              <span className="block bg-gradient-to-r from-coral via-secondary to-coral bg-clip-text text-transparent font-extrabold">Own Premium Real Estate for $100</span>
             </h1>
           </div>
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
-            <p className="text-xl md:text-2xl text-white/90 mb-12 font-inter leading-relaxed max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-muted-foreground mb-12 font-inter leading-relaxed max-w-3xl mx-auto">
               Tokenized UAE properties. Instant trading. Real returns.
             </p>
           </div>
@@ -44,23 +44,23 @@ export function Hero() {
           </div>
           
           <div className="animate-fade-in-up mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto" style={{animationDelay: '0.9s'}}>
-            <div className="bg-white/20 backdrop-blur-xl p-6 rounded-2xl border border-white/30 shadow-xl">
-              <div className="text-3xl md:text-4xl font-playfair font-bold text-white mb-2">
+            <div className="bg-primary/10 backdrop-blur-xl p-6 rounded-2xl border border-primary/20 shadow-xl">
+              <div className="text-3xl md:text-4xl font-playfair font-bold text-primary mb-2">
                 AED 10M+
               </div>
-              <p className="text-white/90 font-inter font-medium">Assets Under Management</p>
+              <p className="text-muted-foreground font-inter font-medium">Assets Under Management</p>
             </div>
-            <div className="bg-white/20 backdrop-blur-xl p-6 rounded-2xl border border-white/30 shadow-xl">
-              <div className="text-3xl md:text-4xl font-playfair font-bold text-white mb-2">
+            <div className="bg-secondary/10 backdrop-blur-xl p-6 rounded-2xl border border-secondary/20 shadow-xl">
+              <div className="text-3xl md:text-4xl font-playfair font-bold text-secondary mb-2">
                 1000+
               </div>
-              <p className="text-white/90 font-inter font-medium">Active Investors</p>
+              <p className="text-muted-foreground font-inter font-medium">Active Investors</p>
             </div>
-            <div className="bg-white/20 backdrop-blur-xl p-6 rounded-2xl border border-white/30 shadow-xl">
-              <div className="text-3xl md:text-4xl font-playfair font-bold text-white mb-2">
+            <div className="bg-coral/10 backdrop-blur-xl p-6 rounded-2xl border border-coral/20 shadow-xl">
+              <div className="text-3xl md:text-4xl font-playfair font-bold text-coral mb-2">
                 10%
               </div>
-              <p className="text-white/90 font-inter font-medium">Average Annual Return</p>
+              <p className="text-muted-foreground font-inter font-medium">Average Annual Return</p>
             </div>
           </div>
         </div>
