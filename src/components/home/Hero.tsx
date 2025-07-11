@@ -16,10 +16,10 @@ export function Hero() {
         <div className="max-w-5xl mx-auto text-center">
           <div className="animate-fade-in-up">
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-8 leading-none">
-              <span className="gradient-text block">Revolutionize</span>
-              <span className="text-white block">Real Estate</span>
+              <span className="gradient-text block">Fractional Real Estate</span>
+              <span className="text-white block">Ownership</span>
               <span className="text-white/90 block text-4xl md:text-5xl lg:text-6xl mt-4 font-space font-medium">
-                Investment
+                in Minutes
               </span>
             </h1>
           </div>

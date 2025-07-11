@@ -41,7 +41,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="bg-background/95 backdrop-blur-sm border-b border-border/50 sticky top-0 z-50">
+    <nav className="bg-background/95 backdrop-blur-lg border-b border-border/50 sticky top-0 z-50 shadow-elegant transition-all duration-300">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
