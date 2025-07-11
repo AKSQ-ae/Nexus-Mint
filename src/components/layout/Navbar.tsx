@@ -66,7 +66,7 @@ export function Navbar() {
               to="/demo" 
               className="px-4 py-2 rounded-lg bg-secondary/10 text-secondary hover:bg-secondary/20 hover:text-secondary-foreground transition-all duration-200 font-medium border border-secondary/20 hover:border-secondary/40"
             >
-              <span>Demo</span>
+              <span>Investment Sandbox</span>
             </Link>
             {user && (
               <>
@@ -140,7 +140,7 @@ export function Navbar() {
               className="block px-4 py-3 bg-secondary/10 text-secondary hover:bg-secondary/20 hover:text-secondary-foreground rounded-lg transition-all duration-200 font-medium border border-secondary/20"
               onClick={() => setIsOpen(false)}
             >
-              Demo
+              Investment Sandbox
             </Link>
             {user ? (
               <>
