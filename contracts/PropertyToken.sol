@@ -3,16 +3,21 @@ pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 /**
  * @title PropertyToken
- * @dev ERC1155 multi-token contract for property tokenization
+ * @dev ERC1155 multi-token contract for property tokenization with role-based access control
  * Each property gets a unique token ID within this single contract
  */
-contract PropertyToken is ERC1155, Ownable, Pausable, ReentrancyGuard, ERC1155Supply {
+contract PropertyToken is ERC1155, AccessControl, Pausable, ReentrancyGuard, ERC1155Supply {
+    // Role definitions
+    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+    bytes32 public constant PROPERTY_MANAGER_ROLE = keccak256("PROPERTY_MANAGER_ROLE");
+    bytes32 public constant FINANCE_ROLE = keccak256("FINANCE_ROLE");
+    
     struct PropertyInfo {
         string propertyId;
         string title;
@@ -22,6 +27,8 @@ contract PropertyToken is ERC1155, Ownable, Pausable, ReentrancyGuard, ERC1155Su
         uint256 pricePerToken;
         bool isActive;
         string metadataURI;
+        uint256 metadataFreezeTime; // Timestamp after which metadata cannot be changed
+        bool metadataFrozen;
     }
     
     // Property ID counter for creating new properties
@@ -45,12 +52,16 @@ contract PropertyToken is ERC1155, Ownable, Pausable, ReentrancyGuard, ERC1155Su
     event PropertyUpdated(uint256 indexed tokenId, string propertyId, uint256 newValue);
     event IncomeDistributed(uint256 indexed tokenId, uint256 amount);
     event IncomeClaimed(address indexed investor, uint256 indexed tokenId, uint256 amount);
+    event MetadataFrozen(uint256 indexed tokenId, uint256 freezeTime);
     
     constructor(
         string memory _baseURI,
-        address _owner
+        address _admin
     ) ERC1155(_baseURI) {
-        _transferOwnership(_owner);
+        _grantRole(DEFAULT_ADMIN_ROLE, _admin);
+        _grantRole(ADMIN_ROLE, _admin);
+        _grantRole(PROPERTY_MANAGER_ROLE, _admin);
+        _grantRole(FINANCE_ROLE, _admin);
     }
     
     function createProperty(
@@ -60,7 +71,7 @@ contract PropertyToken is ERC1155, Ownable, Pausable, ReentrancyGuard, ERC1155Su
         uint256 _totalValue,
         uint256 _totalSupply,
         string memory _metadataURI
-    ) external onlyOwner returns (uint256) {
+    ) external onlyRole(PROPERTY_MANAGER_ROLE) returns (uint256) {
         uint256 tokenId = nextPropertyId++;
         uint256 pricePerToken = _totalValue / _totalSupply;
         
@@ -72,7 +83,9 @@ contract PropertyToken is ERC1155, Ownable, Pausable, ReentrancyGuard, ERC1155Su
             totalSupply: _totalSupply,
             pricePerToken: pricePerToken,
             isActive: true,
-            metadataURI: _metadataURI
+            metadataURI: _metadataURI,
+            metadataFreezeTime: block.timestamp + 7 days, // 7 days to update metadata
+            metadataFrozen: false
         });
         
         _mint(address(this), tokenId, _totalSupply, "");
@@ -109,7 +122,7 @@ contract PropertyToken is ERC1155, Ownable, Pausable, ReentrancyGuard, ERC1155Su
         emit TokensPurchased(msg.sender, _tokenId, cost, _tokenAmount);
     }
     
-    function distributeIncome(uint256 _tokenId) external payable onlyOwner nonReentrant {
+    function distributeIncome(uint256 _tokenId) external payable onlyRole(FINANCE_ROLE) nonReentrant {
         require(msg.value > 0, "No income to distribute");
         require(totalSupply(_tokenId) > balanceOf(address(this), _tokenId), "No tokens sold yet");
         
@@ -145,30 +158,38 @@ contract PropertyToken is ERC1155, Ownable, Pausable, ReentrancyGuard, ERC1155Su
         return userShare - claimedIncome[_tokenId][_investor];
     }
     
-    function updatePropertyValue(uint256 _tokenId, uint256 _newValue) external onlyOwner {
+    function updatePropertyValue(uint256 _tokenId, uint256 _newValue) external onlyRole(PROPERTY_MANAGER_ROLE) {
         properties[_tokenId].totalValue = _newValue;
         properties[_tokenId].pricePerToken = _newValue / properties[_tokenId].totalSupply;
         emit PropertyUpdated(_tokenId, properties[_tokenId].propertyId, _newValue);
     }
     
-    function updateMetadataURI(uint256 _tokenId, string memory _newURI) external onlyOwner {
+    function updateMetadataURI(uint256 _tokenId, string memory _newURI) external onlyRole(PROPERTY_MANAGER_ROLE) {
+        require(!properties[_tokenId].metadataFrozen, "Metadata is permanently frozen");
+        require(block.timestamp < properties[_tokenId].metadataFreezeTime, "Metadata freeze period expired");
+        
         properties[_tokenId].metadataURI = _newURI;
     }
     
-    function togglePropertyActive(uint256 _tokenId) external onlyOwner {
+    function freezeMetadata(uint256 _tokenId) external onlyRole(ADMIN_ROLE) {
+        properties[_tokenId].metadataFrozen = true;
+        emit MetadataFrozen(_tokenId, block.timestamp);
+    }
+    
+    function togglePropertyActive(uint256 _tokenId) external onlyRole(PROPERTY_MANAGER_ROLE) {
         properties[_tokenId].isActive = !properties[_tokenId].isActive;
     }
     
-    function pause() external onlyOwner {
+    function pause() external onlyRole(ADMIN_ROLE) {
         _pause();
     }
     
-    function unpause() external onlyOwner {
+    function unpause() external onlyRole(ADMIN_ROLE) {
         _unpause();
     }
     
-    function withdrawContractBalance() external onlyOwner {
-        payable(owner()).transfer(address(this).balance);
+    function withdrawContractBalance() external onlyRole(FINANCE_ROLE) {
+        payable(msg.sender).transfer(address(this).balance);
     }
     
     function getInvestorCount(uint256 _tokenId) external view returns (uint256) {
@@ -209,5 +230,15 @@ contract PropertyToken is ERC1155, Ownable, Pausable, ReentrancyGuard, ERC1155Su
                 isPropertyInvestor[tokenId][to] = true;
             }
         }
+    }
+    
+    // Required override for AccessControl
+    function supportsInterface(bytes4 interfaceId) 
+        public 
+        view 
+        override(ERC1155, AccessControl) 
+        returns (bool) 
+    {
+        return super.supportsInterface(interfaceId);
     }
 }

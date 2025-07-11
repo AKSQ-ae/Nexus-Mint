@@ -8,6 +8,7 @@ import { Check, AlertCircle, CreditCard, Shield, TrendingUp } from 'lucide-react
 import { InvestmentCalculator } from './InvestmentCalculator';
 import { StripePayment } from '@/components/payment/StripePayment';
 import { MetaMaskPayment } from '@/components/payment/MetaMaskPayment';
+import { GasMonitor } from './GasMonitor';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
@@ -292,7 +293,8 @@ export function InvestmentFlow({ propertyId, propertyTitle, onInvestmentComplete
                 />
               </TabsContent>
               
-              <TabsContent value="crypto" className="mt-4">
+              <TabsContent value="crypto" className="mt-4 space-y-4">
+                <GasMonitor provider={null} />
                 <MetaMaskPayment
                   amount={investmentData.totalAmount}
                   tokenAmount={investmentData.tokenAmount}

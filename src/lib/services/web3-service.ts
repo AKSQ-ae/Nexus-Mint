@@ -1,6 +1,7 @@
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
 import { supabase } from '@/integrations/supabase/client';
 import { ethers } from 'ethers';
+import { useToast } from '@/hooks/use-toast';
 
 // MetaMask SDK integration
 declare global {
@@ -303,6 +304,103 @@ export async function getWalletTransactions(walletAddress: string) {
 export function formatWalletAddress(address: string) {
   if (!address) return '';
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}
+
+// Gas monitoring and network optimization
+export function useGasMonitoring() {
+  const [gasPrice, setGasPrice] = useState<bigint | null>(null);
+  const [isHighGas, setIsHighGas] = useState(false);
+  const [recommendedNetwork, setRecommendedNetwork] = useState<'ethereum' | 'polygon'>('polygon');
+  const { toast } = useToast();
+
+  const GAS_THRESHOLD_GWEI = 50n; // 50 gwei threshold
+
+  const checkGasPrice = async (provider: ethers.BrowserProvider) => {
+    try {
+      const feeData = await provider.getFeeData();
+      const currentGasPrice = feeData.gasPrice || 0n;
+      
+      setGasPrice(currentGasPrice);
+      
+      const gasPriceGwei = currentGasPrice / 1000000000n; // Convert to gwei
+      const isHigh = gasPriceGwei > GAS_THRESHOLD_GWEI;
+      
+      setIsHighGas(isHigh);
+      setRecommendedNetwork(isHigh ? 'polygon' : 'ethereum');
+
+      if (isHigh) {
+        toast({
+          title: "High Gas Fees Detected",
+          description: `Current gas: ${gasPriceGwei} gwei. Consider using Polygon for lower fees.`,
+          variant: "destructive",
+        });
+      }
+
+      return { gasPrice: currentGasPrice, isHighGas: isHigh, recommendedNetwork: isHigh ? 'polygon' : 'ethereum' };
+    } catch (error) {
+      console.error('Error checking gas price:', error);
+      return null;
+    }
+  };
+
+  return {
+    gasPrice,
+    isHighGas,
+    recommendedNetwork,
+    checkGasPrice
+  };
+}
+
+// Network configuration with fallback logic
+export const NETWORK_CONFIG = {
+  ethereum: {
+    chainId: '0x1',
+    name: 'Ethereum Mainnet',
+    nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+    rpcUrls: ['https://mainnet.infura.io/v3/'],
+    blockExplorerUrls: ['https://etherscan.io/'],
+    gasMultiplier: 1.0
+  },
+  polygon: {
+    chainId: '0x89',
+    name: 'Polygon Mainnet',
+    nativeCurrency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
+    rpcUrls: ['https://polygon-rpc.com/'],
+    blockExplorerUrls: ['https://polygonscan.com/'],
+    gasMultiplier: 0.1 // Much cheaper gas
+  }
+};
+
+export async function switchToOptimalNetwork(provider: ethers.BrowserProvider) {
+  const { checkGasPrice } = useGasMonitoring();
+  const gasInfo = await checkGasPrice(provider);
+  
+  if (!gasInfo) return 'ethereum';
+  
+  const optimalNetwork = gasInfo.recommendedNetwork;
+  
+  if (window.ethereum) {
+    try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: NETWORK_CONFIG[optimalNetwork].chainId }],
+      });
+      return optimalNetwork;
+    } catch (error: any) {
+      if (error.code === 4902) {
+        // Network not added, add it
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [NETWORK_CONFIG[optimalNetwork]]
+        });
+        return optimalNetwork;
+      }
+      console.error('Failed to switch network:', error);
+      return 'ethereum';
+    }
+  }
+  
+  return 'ethereum';
 }
 
 export function getBlockchainExplorerUrl(txHash: string, network: string = 'ethereum') {
