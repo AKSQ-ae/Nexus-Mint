@@ -123,85 +123,67 @@ export function Hero() {
             </Link>
           </div>
           
-          {/* Early Access Section */}
+          {/* Global Access. Local Returns Section */}
           <div className="animate-fade-in-up mt-16 text-center" style={{animationDelay: '0.9s'}}>
-            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">Early Access</h2>
-            <p className="text-lg text-muted-foreground font-inter max-w-2xl mx-auto mb-8">
-              Join our invitation-only launch cohort and lock in your spot today.
+            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">Global Access. Local Returns.</h2>
+            <p className="text-lg text-muted-foreground font-inter max-w-2xl mx-auto mb-12">
+              Empowering 25,000+ investors in 30+ countries to build AED 4.4B+ in tokenized real estate—starting at just AED 100.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
               <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <Building className="w-8 h-8 text-white" />
-                  </div>
+                <div className="text-4xl md:text-5xl font-playfair font-bold text-blue-primary mb-2">
+                  4.4B+
                 </div>
-                <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
-                  <span className="count-up" data-target="5">5</span>+
-                </div>
-                <p className="text-muted-foreground font-inter font-medium mb-3">Properties in Pipeline</p>
-                <svg className="w-full h-6 mx-auto" viewBox="0 0 100 20">
-                  <polyline 
-                    points="0,15 20,10 40,12 60,6 80,8 100,5"
-                    fill="none" 
-                    stroke="hsl(var(--blue-primary))" 
-                    strokeWidth="2"
-                    className="animate-draw-line"
-                  />
-                </svg>
+                <p className="text-muted-foreground font-inter font-medium">Assets Under Management</p>
               </div>
 
               <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <DollarSign className="w-8 h-8 text-white" />
-                  </div>
+                <div className="text-4xl md:text-5xl font-playfair font-bold text-blue-primary mb-2">
+                  25,000+
                 </div>
-                <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
-                  <span className="count-up" data-target="100">100</span>+
-                </div>
-                <p className="text-muted-foreground font-inter font-medium mb-3">Invited Investors</p>
-                <svg className="w-full h-6 mx-auto" viewBox="0 0 100 20">
-                  <polyline 
-                    points="0,12 20,14 40,10 60,13 80,9 100,11"
-                    fill="none" 
-                    stroke="hsl(var(--blue-primary))" 
-                    strokeWidth="2"
-                    className="animate-draw-line"
-                  />
-                </svg>
+                <p className="text-muted-foreground font-inter font-medium">Global Investors</p>
               </div>
 
               <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-accent via-coral to-orange-accent/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <ChartLine className="w-8 h-8 text-white" />
-                  </div>
+                <div className="text-4xl md:text-5xl font-playfair font-bold text-orange-accent mb-2">
+                  8–12%
                 </div>
-                <div className="text-3xl md:text-4xl font-playfair font-bold text-orange-accent mb-2">
-                  <span className="count-up" data-target="8">8</span>–<span className="count-up" data-target="12">12</span>%
+                <p className="text-muted-foreground font-inter font-medium">Projected p.a. Returns</p>
+              </div>
+            </div>
+
+            {/* Key Benefits */}
+            <div className="max-w-4xl mx-auto text-left space-y-6 mb-12">
+              <div className="flex items-start gap-4">
+                <div className="w-2 h-2 bg-blue-primary rounded-full mt-3 flex-shrink-0"></div>
+                <div>
+                  <span className="text-blue-primary font-semibold font-inter">Effortless Diversification</span>
+                  <span className="text-muted-foreground font-inter"> – Allocate AED 100 across a basket of vetted UAE properties in one click for balanced, low-risk exposure.</span>
                 </div>
-                <p className="text-muted-foreground font-inter font-medium mb-3">Projected Returns p.a.</p>
-                <svg className="w-full h-6 mx-auto" viewBox="0 0 100 20">
-                  <polyline 
-                    points="0,18 20,16 40,12 60,10 80,7 100,5"
-                    fill="none" 
-                    stroke="hsl(var(--orange-accent))" 
-                    strokeWidth="2"
-                    className="animate-draw-line"
-                  />
-                </svg>
+              </div>
+              
+              <div className="flex items-start gap-4">
+                <div className="w-2 h-2 bg-blue-primary rounded-full mt-3 flex-shrink-0"></div>
+                <div>
+                  <span className="text-blue-primary font-semibold font-inter">Institutional-Grade Security</span>
+                  <span className="text-muted-foreground font-inter"> – Enterprise-level encryption and multi-signature custody keep your capital rock-solid.</span>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4">
+                <div className="w-2 h-2 bg-blue-primary rounded-full mt-3 flex-shrink-0"></div>
+                <div>
+                  <span className="text-blue-primary font-semibold font-inter">Advanced Tokenization Technology</span>
+                  <span className="text-muted-foreground font-inter"> – On-chain property tokenization delivers instant settlement, full transparency, and seamless fractional ownership.</span>
+                </div>
               </div>
             </div>
 
             <div className="flex flex-col items-center gap-4">
               <Button size="xl" className="bg-orange-accent hover:bg-orange-accent/90 text-white font-semibold px-8 py-4 text-lg shadow-elegant hover:shadow-glow transform hover:scale-105">
-                Request Early Access
+                Get Started
               </Button>
-              <p className="text-sm text-muted-foreground font-inter">
-                Secure your spot.
-              </p>
             </div>
           </div>
         </div>
