@@ -23,7 +23,7 @@ export function Navbar() {
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
               <Building2 className="h-8 w-8 text-primary" />
-              <span className="font-bold text-xl">Nexus Platform</span>
+              <span className="font-bold text-xl">Nexus Mint</span>
             </Link>
           </div>
 

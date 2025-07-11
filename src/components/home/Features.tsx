@@ -29,9 +29,9 @@ export function Features() {
     <div className="py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-foreground">Why Choose Nexus Platform</h2>
+          <h2 className="text-3xl font-bold text-foreground">Why Choose Nexus Mint</h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            We make real estate investment accessible, transparent, and profitable for everyone
+            The premier blockchain-powered real estate investment platform making property ownership accessible to everyone
           </p>
         </div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
