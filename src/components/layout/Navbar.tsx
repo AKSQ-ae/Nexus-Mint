@@ -52,6 +52,7 @@ export function Navbar() {
                 alt="Nexus Logo"
                 className="h-8 w-auto shadow-md"
               />
+              <span className="text-xl font-bold text-foreground">Nexus</span>
             </Link>
           </div>
 
