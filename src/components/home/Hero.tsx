@@ -22,7 +22,7 @@ export function Hero() {
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
             <p className="text-xl md:text-2xl text-white/90 mb-6 font-inter leading-relaxed max-w-3xl mx-auto">
-              Own real estate worldwide for just $100.
+              Own premium assets for just $100.
             </p>
             <div className="flex flex-wrap justify-center gap-8 mb-8 text-sm md:text-base">
               <div className="flex items-center gap-2 text-secondary font-semibold">
