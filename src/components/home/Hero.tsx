@@ -44,17 +44,11 @@ export function Hero() {
             </div>
           </div>
           
-          <div className="animate-fade-in-up flex flex-col sm:flex-row gap-6 justify-center max-w-md mx-auto" style={{animationDelay: '0.6s'}}>
+          <div className="animate-fade-in-up flex justify-center max-w-md mx-auto" style={{animationDelay: '0.6s'}}>
             <Link to="/properties">
-              <Button size="xl" variant="secondary" className="flex-1">
+              <Button size="xl" variant="secondary">
                 <TrendingUp className="h-5 w-5" />
                 Start Investing
-              </Button>
-            </Link>
-            <Link to="/demo" className="flex-1">
-              <Button size="xl" variant="outline" className="w-full border-white/30 text-white hover:bg-white/10 glass">
-                <Play className="h-5 w-5" />
-                Watch Demo
               </Button>
             </Link>
           </div>
