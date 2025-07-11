@@ -26,11 +26,22 @@ export function Hero() {
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
             <p className="text-xl md:text-2xl text-white/90 mb-6 font-inter leading-relaxed max-w-3xl mx-auto">
-              Join the future of property investment with blockchain technology
+              Invest in premium UAE real estate with blockchain technology. Fractional ownership, transparent returns, and global accessibility.
             </p>
-            <p className="text-lg md:text-xl text-secondary font-space font-semibold mb-12">
-              ✨ Start with just $100 • 📈 Earn 8-15% Annual Returns • 🏢 Premium Properties Worldwide
-            </p>
+            <div className="flex flex-wrap justify-center gap-8 mb-8 text-sm md:text-base">
+              <div className="flex items-center gap-2 text-secondary font-semibold">
+                <span className="w-2 h-2 bg-secondary rounded-full"></span>
+                Minimum Investment: $100 USD / AED {Math.round(100 * 3.67)}
+              </div>
+              <div className="flex items-center gap-2 text-secondary font-semibold">
+                <span className="w-2 h-2 bg-secondary rounded-full"></span>
+                Expected Returns: 8-15% Annual
+              </div>
+              <div className="flex items-center gap-2 text-secondary font-semibold">
+                <span className="w-2 h-2 bg-secondary rounded-full"></span>
+                Securities Compliant
+              </div>
+            </div>
           </div>
           
           <div className="animate-fade-in-up flex flex-col sm:flex-row gap-6 justify-center max-w-md mx-auto" style={{animationDelay: '0.6s'}}>

@@ -4,6 +4,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserMenu } from './UserMenu';
+import { HelpCenter } from '@/components/ui/help-center';
 import { Menu, X, Building2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -91,6 +92,7 @@ export function Navbar() {
           
           {/* Right side with auth */}
           <div className="hidden md:flex items-center space-x-4">
+            <HelpCenter />
             {/* Wallet integration temporarily disabled for debugging */}
             {user ? (
               <UserMenu user={user} />
