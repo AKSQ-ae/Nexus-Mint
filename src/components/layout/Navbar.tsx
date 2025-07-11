@@ -41,41 +41,44 @@ export function Navbar() {
   };
 
   return (
-    <nav className="bg-background border-b">
+    <nav className="bg-background/95 backdrop-blur-sm border-b border-border/50 sticky top-0 z-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              <img src={nexusLogo} alt="Nexus" className="h-8 w-8" />
-              <span className="font-bold text-xl">Nexus</span>
+            <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+              <div className="relative">
+                <img src={nexusLogo} alt="Nexus Logo" className="h-10 w-10 rounded-lg shadow-md" />
+              </div>
+              <span className="font-bold text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Nexus</span>
             </Link>
           </div>
 
           {/* Desktop navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-1">
             <Link 
               to="/properties" 
-              className="text-foreground hover:text-primary transition-colors"
+              className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium flex items-center space-x-2 border border-transparent hover:border-primary/20"
             >
-              Properties
+              <Building2 className="h-4 w-4" />
+              <span>Properties</span>
             </Link>
             <Link 
               to="/demo" 
-              className="text-foreground hover:text-primary transition-colors"
+              className="px-4 py-2 rounded-lg bg-secondary/10 text-secondary hover:bg-secondary/20 hover:text-secondary-foreground transition-all duration-200 font-medium border border-secondary/20 hover:border-secondary/40"
             >
-              Demo
+              <span>Demo</span>
             </Link>
             {user && (
               <>
                 <Link 
                   to="/dashboard" 
-                  className="text-foreground hover:text-primary transition-colors"
+                  className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium"
                 >
                   Dashboard
                 </Link>
                 <Link 
                   to="/portfolio" 
-                  className="text-foreground hover:text-primary transition-colors"
+                  className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium"
                 >
                   Portfolio
                 </Link>
@@ -84,7 +87,7 @@ export function Navbar() {
             {user && userRole === 'admin' && (
               <Link 
                 to="/admin" 
-                className="text-foreground hover:text-primary transition-colors"
+                className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium"
               >
                 Admin
               </Link>
@@ -126,14 +129,15 @@ export function Navbar() {
           <div className="md:hidden py-4 space-y-1 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <Link 
               to="/properties" 
-              className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
+              className="flex items-center space-x-3 px-4 py-3 text-foreground hover:text-primary hover:bg-primary/5 rounded-lg transition-all duration-200 font-medium border border-transparent hover:border-primary/20"
               onClick={() => setIsOpen(false)}
             >
-              Properties
+              <Building2 className="h-5 w-5" />
+              <span>Properties</span>
             </Link>
             <Link 
               to="/demo" 
-              className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
+              className="block px-4 py-3 bg-secondary/10 text-secondary hover:bg-secondary/20 hover:text-secondary-foreground rounded-lg transition-all duration-200 font-medium border border-secondary/20"
               onClick={() => setIsOpen(false)}
             >
               Demo
