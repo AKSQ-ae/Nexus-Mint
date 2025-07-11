@@ -780,6 +780,56 @@ export type Database = {
           },
         ]
       }
+      property_audits: {
+        Row: {
+          audit_date: string
+          audit_results: Json | null
+          audit_score: number
+          auditor_id: string
+          compliance_status: string
+          created_at: string
+          id: string
+          next_review_date: string | null
+          property_id: string
+          risk_level: string
+          updated_at: string
+        }
+        Insert: {
+          audit_date?: string
+          audit_results?: Json | null
+          audit_score?: number
+          auditor_id: string
+          compliance_status?: string
+          created_at?: string
+          id?: string
+          next_review_date?: string | null
+          property_id: string
+          risk_level?: string
+          updated_at?: string
+        }
+        Update: {
+          audit_date?: string
+          audit_results?: Json | null
+          audit_score?: number
+          auditor_id?: string
+          compliance_status?: string
+          created_at?: string
+          id?: string
+          next_review_date?: string | null
+          property_id?: string
+          risk_level?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_audits_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       property_documents: {
         Row: {
           created_at: string | null
@@ -943,67 +993,100 @@ export type Database = {
       }
       property_tokens: {
         Row: {
+          audit_hash: string | null
           available_supply: number
           blockchain_network: string | null
+          compiler_version: string | null
+          constructor_params: string | null
           contract_address: string
           created_at: string | null
           current_price: number
+          deployer_address: string | null
           deployment_block: number | null
+          deployment_cost: string | null
           deployment_tx_hash: string | null
           end_date: string | null
+          explorer_url: string | null
           id: string
           initial_price: number
           launch_date: string | null
           minimum_investment: number | null
+          optimization_enabled: boolean | null
           property_id: string | null
+          source_code: string | null
           status: string | null
           token_address: string
           token_name: string | null
           token_symbol: string | null
           total_supply: number
           updated_at: string | null
+          verification_id: string | null
+          verification_status: string | null
+          verified_at: string | null
         }
         Insert: {
+          audit_hash?: string | null
           available_supply: number
           blockchain_network?: string | null
+          compiler_version?: string | null
+          constructor_params?: string | null
           contract_address: string
           created_at?: string | null
           current_price: number
+          deployer_address?: string | null
           deployment_block?: number | null
+          deployment_cost?: string | null
           deployment_tx_hash?: string | null
           end_date?: string | null
+          explorer_url?: string | null
           id?: string
           initial_price: number
           launch_date?: string | null
           minimum_investment?: number | null
+          optimization_enabled?: boolean | null
           property_id?: string | null
+          source_code?: string | null
           status?: string | null
           token_address: string
           token_name?: string | null
           token_symbol?: string | null
           total_supply: number
           updated_at?: string | null
+          verification_id?: string | null
+          verification_status?: string | null
+          verified_at?: string | null
         }
         Update: {
+          audit_hash?: string | null
           available_supply?: number
           blockchain_network?: string | null
+          compiler_version?: string | null
+          constructor_params?: string | null
           contract_address?: string
           created_at?: string | null
           current_price?: number
+          deployer_address?: string | null
           deployment_block?: number | null
+          deployment_cost?: string | null
           deployment_tx_hash?: string | null
           end_date?: string | null
+          explorer_url?: string | null
           id?: string
           initial_price?: number
           launch_date?: string | null
           minimum_investment?: number | null
+          optimization_enabled?: boolean | null
           property_id?: string | null
+          source_code?: string | null
           status?: string | null
           token_address?: string
           token_name?: string | null
           token_symbol?: string | null
           total_supply?: number
           updated_at?: string | null
+          verification_id?: string | null
+          verification_status?: string | null
+          verified_at?: string | null
         }
         Relationships: [
           {

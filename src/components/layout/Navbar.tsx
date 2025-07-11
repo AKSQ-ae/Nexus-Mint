@@ -1,14 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserMenu } from './UserMenu';
 import { Menu, X, Building2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (user) {
+      loadUserRole();
+    } else {
+      setUserRole(null);
+    }
+  }, [user]);
+
+  const loadUserRole = async () => {
+    if (!user) return;
+    
+    try {
+      const { data } = await supabase
+        .rpc('get_user_role', { user_id: user.id });
+      setUserRole(data);
+    } catch (error) {
+      console.error('Error loading user role:', error);
+    }
+  };
 
   const handleSignOut = async () => {
     await signOut();
@@ -49,7 +71,21 @@ export function Navbar() {
                 >
                   Portfolio
                 </Link>
+                <Link 
+                  to="/tokenization-demo" 
+                  className="text-foreground hover:text-primary transition-colors"
+                >
+                  Tokenization Demo
+                </Link>
               </>
+            )}
+            {user && userRole === 'admin' && (
+              <Link 
+                to="/admin" 
+                className="text-foreground hover:text-primary transition-colors"
+              >
+                Admin
+              </Link>
             )}
           </div>
           
