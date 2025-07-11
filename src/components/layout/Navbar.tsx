@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { UserMenu } from './UserMenu';
 import { HelpCenter } from '@/components/ui/help-center';
 import { Menu, X, Building2 } from 'lucide-react';
+import nexusLogo from '@/assets/nexus-logo.png';
 import { supabase } from '@/integrations/supabase/client';
 
 export function Navbar() {
@@ -45,7 +46,7 @@ export function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <img src="/src/assets/nexus-logo.png" alt="Nexus" className="h-8 w-8" />
+              <img src={nexusLogo} alt="Nexus" className="h-8 w-8" />
               <span className="font-bold text-xl">Nexus</span>
             </Link>
           </div>
@@ -57,6 +58,12 @@ export function Navbar() {
               className="text-foreground hover:text-primary transition-colors"
             >
               Properties
+            </Link>
+            <Link 
+              to="/demo" 
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              Demo
             </Link>
             {user && (
               <>
@@ -71,12 +78,6 @@ export function Navbar() {
                   className="text-foreground hover:text-primary transition-colors"
                 >
                   Portfolio
-                </Link>
-                <Link 
-                  to="/demo" 
-                  className="text-foreground hover:text-primary transition-colors"
-                >
-                  Demo
                 </Link>
               </>
             )}
@@ -129,6 +130,13 @@ export function Navbar() {
               onClick={() => setIsOpen(false)}
             >
               Properties
+            </Link>
+            <Link 
+              to="/demo" 
+              className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Demo
             </Link>
             {user ? (
               <>
