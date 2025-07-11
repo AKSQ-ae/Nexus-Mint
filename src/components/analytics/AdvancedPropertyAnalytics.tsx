@@ -84,7 +84,7 @@ export function AdvancedPropertyAnalytics() {
         </div>
         <div>
           <h2 className="text-2xl font-bold text-foreground">AI-Powered Analytics</h2>
-          <p className="text-muted-foreground">Advanced market insights beyond PRYPCO's basic metrics</p>
+          <p className="text-muted-foreground">Advanced market insights with superior predictive capabilities</p>
         </div>
       </div>
 
@@ -172,7 +172,7 @@ export function AdvancedPropertyAnalytics() {
                 <Globe className="h-5 w-5" />
                 Global Property Markets
               </CardTitle>
-              <CardDescription>Multi-region portfolio performance vs PRYPCO's UAE-only focus</CardDescription>
+              <CardDescription>Multi-region portfolio performance across global markets</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -239,11 +239,11 @@ export function AdvancedPropertyAnalytics() {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span>Global Diversification</span>
-                    <Badge variant="default">5x PRYPCO</Badge>
+                    <Badge variant="default">5 Countries</Badge>
                   </div>
                   <div className="flex items-center justify-between">
                     <span>Lower Min Investment</span>
-                    <Badge variant="default">20x less</Badge>
+                    <Badge variant="default">$100 USD</Badge>
                   </div>
                   <div className="flex items-center justify-between">
                     <span>AI-Powered Insights</span>
@@ -260,7 +260,7 @@ export function AdvancedPropertyAnalytics() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <LineChart className="h-5 w-5" />
-                Platform Performance vs PRYPCO
+                Platform Performance Metrics
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -268,17 +268,17 @@ export function AdvancedPropertyAnalytics() {
                 <div className="text-center p-4 bg-green-50 dark:bg-green-950/20 rounded-lg">
                   <div className="text-2xl font-bold text-green-600">94.3%</div>
                   <div className="text-sm text-muted-foreground">Prediction Accuracy</div>
-                  <div className="text-xs text-green-600">vs 78% industry avg</div>
+                  <div className="text-xs text-green-600">Industry leading</div>
                 </div>
                 <div className="text-center p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
                   <div className="text-2xl font-bold text-blue-600">24/7</div>
                   <div className="text-sm text-muted-foreground">Global Trading</div>
-                  <div className="text-xs text-blue-600">vs business hours only</div>
+                  <div className="text-xs text-blue-600">Never closes</div>
                 </div>
                 <div className="text-center p-4 bg-purple-50 dark:bg-purple-950/20 rounded-lg">
                   <div className="text-2xl font-bold text-purple-600">$100</div>
                   <div className="text-sm text-muted-foreground">Minimum Investment</div>
-                  <div className="text-xs text-purple-600">vs AED 2,000</div>
+                  <div className="text-xs text-purple-600">Low barrier to entry</div>
                 </div>
               </div>
             </CardContent>

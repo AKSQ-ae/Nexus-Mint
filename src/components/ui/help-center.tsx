@@ -19,37 +19,37 @@ const faqs: FAQItem[] = [
     category: "Getting Started",
     icon: HelpCircle,
     question: "What is the minimum investment amount?",
-    answer: "You can start investing with just $100 USD (approximately AED 367). This allows you to purchase fractional ownership in premium real estate properties."
+    answer: "Start investing with just $100 USD (≈ AED 367). Access premium properties through fractional ownership with instant confirmation."
   },
   {
     category: "Getting Started", 
     icon: HelpCircle,
-    question: "How do I verify my account?",
-    answer: "Complete KYC verification by uploading a government-issued ID and proof of address. The process takes 1-2 business days and ensures compliance with UAE regulations."
-  },
-  {
-    category: "Investments",
-    icon: TrendingUp,
-    question: "How are returns calculated and distributed?",
-    answer: "Returns come from rental income (distributed quarterly) and property appreciation. All distributions are automatic and transparent through your dashboard."
-  },
-  {
-    category: "Investments",
-    icon: TrendingUp,
-    question: "Can I sell my tokens before the property is sold?",
-    answer: "Yes, tokens can be traded on our secondary marketplace (coming soon) or held until property exit events for maximum returns."
-  },
-  {
-    category: "Security",
-    icon: Shield,
-    question: "How is my investment protected?",
-    answer: "Investments are secured through blockchain technology, regulated by UAE authorities, and backed by real property ownership with legal documentation."
+    question: "How quickly can I start investing?",
+    answer: "Complete KYC verification in under 2 hours. Upload ID and proof of address, get instant approval, and start investing immediately with our streamlined process."
   },
   {
     category: "Payments",
     icon: Wallet,
-    question: "What payment methods are accepted?",
-    answer: "We accept credit/debit cards, bank transfers, and cryptocurrency payments. All transactions are processed through licensed payment partners."
+    question: "What payment methods do you support?",
+    answer: "Multiple options: Stripe, Apple Pay, Google Pay, and cryptocurrency. All payments process instantly with immediate investment confirmation."
+  },
+  {
+    category: "Referrals",
+    icon: TrendingUp,
+    question: "How do referral rewards work?",
+    answer: "Earn token rewards for every successful referral. Both you and your friend receive bonus tokens when they complete their first investment. Track rewards in your dashboard."
+  },
+  {
+    category: "Investments",
+    icon: TrendingUp,
+    question: "How fast are investment confirmations?",
+    answer: "Instant confirmation! Unlike traditional 24-hour settlement cycles, your investments are confirmed immediately with real-time portfolio updates."
+  },
+  {
+    category: "Security",
+    icon: Shield,
+    question: "How secure are my investments?",
+    answer: "Bank-grade security with blockchain transparency. All investments are legally documented, regulated, and protected by smart contracts with multi-signature wallets."
   }
 ];
 

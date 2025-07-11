@@ -59,7 +59,7 @@ export default function Demo() {
           const newProgress = prev + 1;
           
           // Check if current step is complete
-          const stepDuration = demoSteps[currentStep]?.duration || 3000;
+      const stepDuration = demoSteps[currentStep]?.duration || 1000;
           const stepProgress = (newProgress * 100) / stepDuration;
           
           if (stepProgress >= 100) {
@@ -91,7 +91,7 @@ export default function Demo() {
   };
 
   const getCurrentStepProgress = () => {
-    const stepDuration = demoSteps[currentStep]?.duration || 3000;
+    const stepDuration = demoSteps[currentStep]?.duration || 1000;
     return Math.min(100, (progress * 100) / stepDuration);
   };
 

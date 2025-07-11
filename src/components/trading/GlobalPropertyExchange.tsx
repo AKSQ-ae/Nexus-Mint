@@ -95,7 +95,7 @@ export function GlobalPropertyExchange() {
           </div>
           <div>
             <h2 className="text-2xl font-bold text-foreground">Global Property Exchange</h2>
-            <p className="text-muted-foreground">24/7 trading beyond PRYPCO's limitations</p>
+            <p className="text-muted-foreground">24/7 trading with instant settlement</p>
           </div>
         </div>
         <Badge variant="default" className="bg-green-500 text-white">
@@ -284,25 +284,25 @@ export function GlobalPropertyExchange() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-orange-600">PRYPCO Limitations</CardTitle>
+                <CardTitle className="text-blue-600">Enhanced Features</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-orange-500" />
-                    <span>Business hours only</span>
+                    <Zap className="h-4 w-4 text-blue-500" />
+                    <span>Instant settlement</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Globe className="h-4 w-4 text-orange-500" />
-                    <span>UAE market only</span>
+                    <Users className="h-4 w-4 text-blue-500" />
+                    <span>Multiple payment methods</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-orange-500" />
-                    <span>Limited liquidity</span>
+                    <BarChart3 className="h-4 w-4 text-blue-500" />
+                    <span>Referral rewards</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <DollarSign className="h-4 w-4 text-orange-500" />
-                    <span>No yield optimization</span>
+                    <TrendingUp className="h-4 w-4 text-blue-500" />
+                    <span>Token rewards program</span>
                   </div>
                 </div>
               </CardContent>

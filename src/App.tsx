@@ -24,6 +24,8 @@ import Trading from "./pages/Trading";
 import AdvancedAnalytics from "./pages/AdvancedAnalytics";
 import GlobalTrading from "./pages/GlobalTrading";
 import Demo from "./pages/Demo";
+import Referrals from "./pages/Referrals";
+import Payments from "./pages/Payments";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +53,8 @@ function App() {
                 <Route path="/analytics" element={<AdvancedAnalytics />} />
                 <Route path="/global-trading" element={<GlobalTrading />} />
                 <Route path="/demo" element={<Demo />} />
+                <Route path="/referrals" element={<Referrals />} />
+                <Route path="/payments" element={<Payments />} />
                 <Route path="/trading/:id" element={<Trading />} />
                 <Route path="/404" element={<NotFound />} />
                 <Route path="*" element={<NotFound />} />

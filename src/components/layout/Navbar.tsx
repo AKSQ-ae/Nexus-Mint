@@ -77,6 +77,12 @@ export function Navbar() {
               Trading
             </Link>
             <Link 
+              to="/referrals" 
+              className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium"
+            >
+              Referrals
+            </Link>
+            <Link 
               to="/demo" 
               className="px-4 py-2 rounded-lg bg-secondary/10 text-secondary hover:bg-secondary/20 hover:text-secondary-foreground transition-all duration-200 font-medium border border-secondary/20 hover:border-secondary/40"
             >
@@ -162,6 +168,13 @@ export function Navbar() {
               onClick={() => setIsOpen(false)}
             >
               Trading
+            </Link>
+            <Link 
+              to="/referrals" 
+              className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Referrals
             </Link>
             <Link 
               to="/demo" 

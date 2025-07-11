@@ -351,6 +351,7 @@ export function PropertyDiscovery() {
                       min={0}
                       step={10}
                       className="w-full"
+                      defaultValue={[0, 1000]}
                     />
                     <div className="flex justify-between text-sm text-muted-foreground mt-1">
                       <span>${filters.priceRange[0]}</span>
