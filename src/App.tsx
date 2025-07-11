@@ -16,6 +16,8 @@ import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/AdminDashboard";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 import NotFound from "./pages/NotFound";
 import { InvestmentSuccess } from "./pages/investment/InvestmentSuccess";
 import { InvestmentCancel } from "./pages/investment/InvestmentCancel";
@@ -47,6 +49,8 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/auth/signin" element={<SignIn />} />
                 <Route path="/auth/signup" element={<SignUp />} />
+                <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+                <Route path="/auth/reset-password" element={<ResetPassword />} />
                 <Route path="/investment/success" element={<InvestmentSuccess />} />
                 <Route path="/investment/cancel" element={<InvestmentCancel />} />
                 <Route path="/tokenization-demo" element={<TokenizationDemo />} />
