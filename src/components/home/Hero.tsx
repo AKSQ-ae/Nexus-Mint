@@ -16,25 +16,36 @@ export function Hero() {
       <div className="container mx-auto px-4 py-32 lg:py-40 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
           {/* Interactive Nexus "N" Logo Only */}
-          <div className="animate-fade-in-up flex justify-center mb-6">
+          <div className="animate-fade-in-up flex justify-center mb-3">
             <h2 className="text-6xl md:text-7xl lg:text-8xl font-space font-black bg-gradient-nexus bg-clip-text text-transparent tracking-[0.2em] uppercase transform hover:scale-105 transition-all duration-300 drop-shadow-lg">
               NEXUS
             </h2>
           </div>
           
-          <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+          {/* Own. Earn. Multiply Motto */}
+          <div className="animate-fade-in-up flex justify-center mb-8" style={{animationDelay: '0.2s'}}>
+            <div className="flex items-center gap-4 text-lg md:text-xl lg:text-2xl font-space font-semibold">
+              <span className="text-blue-primary hover:text-blue-secondary transition-colors duration-300 cursor-default">Own.</span>
+              <div className="w-2 h-2 bg-orange-accent rounded-full animate-pulse"></div>
+              <span className="text-grey-dark hover:text-blue-primary transition-colors duration-300 cursor-default">Earn.</span>
+              <div className="w-2 h-2 bg-orange-accent rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+              <span className="text-orange-accent hover:text-blue-primary transition-colors duration-300 cursor-default">Multiply.</span>
+            </div>
+          </div>
+          
+          <div className="animate-fade-in-up" style={{animationDelay: '0.5s'}}>
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-8 leading-none text-foreground">
               <span className="block bg-gradient-to-r from-coral via-secondary to-coral bg-clip-text text-transparent font-extrabold">Own Premium Real Estate for $100</span>
             </h1>
           </div>
           
-          <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+          <div className="animate-fade-in-up" style={{animationDelay: '0.4s'}}>
             <p className="text-xl md:text-2xl text-muted-foreground mb-12 font-inter leading-relaxed max-w-3xl mx-auto">
               Tokenized UAE properties. Instant trading. Real returns.
             </p>
           </div>
           
-          <div className="animate-fade-in-up flex justify-center max-w-md mx-auto" style={{animationDelay: '0.6s'}}>
+          <div className="animate-fade-in-up flex justify-center max-w-md mx-auto" style={{animationDelay: '0.7s'}}>
             <Link to="/properties">
               <Button variant="cta" size="xl" className="font-semibold px-8 py-4 text-lg">
                 <TrendingUp className="h-5 w-5" />
