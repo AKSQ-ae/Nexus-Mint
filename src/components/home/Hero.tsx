@@ -23,7 +23,7 @@ export function Hero() {
           </div>
           
           {/* Own. Earn. Multiply Motto */}
-          <div className="animate-fade-in-up flex justify-center mb-8" style={{animationDelay: '0.2s'}}>
+          <div className="animate-fade-in-up flex justify-center mb-16" style={{animationDelay: '0.2s'}}>
             <div className="flex items-center gap-4 text-lg md:text-xl lg:text-2xl font-space font-semibold">
               <span className="text-orange-accent hover:text-blue-primary transition-colors duration-300 cursor-default">Own</span>
               <div className="w-2 h-2 bg-orange-accent rounded-full animate-pulse"></div>
@@ -33,7 +33,72 @@ export function Hero() {
             </div>
           </div>
           
-          <div className="animate-fade-in-up" style={{animationDelay: '0.5s'}}>
+          {/* Step-based transaction flow */}
+          <div className="mb-16 max-w-6xl mx-auto">
+            <div className="text-center mb-16 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+              <h3 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">
+                Your Journey to Real Estate Wealth
+              </h3>
+              <p className="text-lg text-muted-foreground font-inter max-w-2xl mx-auto">
+                Three simple steps to transform your investment approach
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+              <div className="step-card group animate-fade-in-up" style={{animationDelay: '0.5s'}}>
+                <div className="step-number">01</div>
+                <div className="step-icon mx-auto mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-accent to-orange-accent/70 rounded-2xl flex items-center justify-center">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                  </div>
+                </div>
+                <h4 className="text-xl font-playfair font-semibold mb-4 text-foreground group-hover:text-orange-accent transition-colors">
+                  Acquire Your Slice
+                </h4>
+                <p className="text-muted-foreground font-inter leading-relaxed">
+                  Own real-estate shares from AED 100. Pick premium properties across UAE's hottest markets.
+                </p>
+              </div>
+              
+              <div className="step-card group animate-fade-in-up" style={{animationDelay: '0.6s'}}>
+                <div className="step-number">02</div>
+                <div className="step-icon mx-auto mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary to-blue-secondary rounded-2xl flex items-center justify-center">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                    </svg>
+                  </div>
+                </div>
+                <h4 className="text-xl font-playfair font-semibold mb-4 text-foreground group-hover:text-blue-primary transition-colors">
+                  Collect Rental Income
+                </h4>
+                <p className="text-muted-foreground font-inter leading-relaxed">
+                  Get 8–12% annual payouts directly to your wallet. Quarterly distributions, zero hassle.
+                </p>
+              </div>
+              
+              <div className="step-card group animate-fade-in-up" style={{animationDelay: '0.7s'}}>
+                <div className="step-number">03</div>
+                <div className="step-icon mx-auto mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-secondary to-coral rounded-2xl flex items-center justify-center">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                  </div>
+                </div>
+                <h4 className="text-xl font-playfair font-semibold mb-4 text-foreground group-hover:text-secondary transition-colors">
+                  Trade & Multiply
+                </h4>
+                <p className="text-muted-foreground font-inter leading-relaxed">
+                  Liquidate 24/7 on our exchange. Watch your wealth compound as property values rise.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="animate-fade-in-up" style={{animationDelay: '0.8s'}}>
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-8 leading-none text-foreground">
               <span className="block bg-gradient-to-r from-coral via-secondary to-coral bg-clip-text text-transparent font-extrabold">Own Premium Real Estate for $100</span>
             </h1>
@@ -106,70 +171,6 @@ export function Hero() {
           </div>
         </div>
         
-        {/* Step-based transaction flow */}
-        <div className="mt-32 max-w-6xl mx-auto">
-          <div className="text-center mb-16 animate-fade-in-up" style={{animationDelay: '1.1s'}}>
-            <h3 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">
-              Your Journey to Real Estate Wealth
-            </h3>
-            <p className="text-lg text-muted-foreground font-inter max-w-2xl mx-auto">
-              Three simple steps to transform your investment approach
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-            <div className="step-card group animate-fade-in-up" style={{animationDelay: '1.2s'}}>
-              <div className="step-number">01</div>
-              <div className="step-icon mx-auto mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-accent to-orange-accent/70 rounded-2xl flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                  </svg>
-                </div>
-              </div>
-              <h4 className="text-xl font-playfair font-semibold mb-4 text-foreground group-hover:text-orange-accent transition-colors">
-                Acquire Your Slice
-              </h4>
-              <p className="text-muted-foreground font-inter leading-relaxed">
-                Own real-estate shares from AED 100. Pick premium properties across UAE's hottest markets.
-              </p>
-            </div>
-            
-            <div className="step-card group animate-fade-in-up" style={{animationDelay: '1.3s'}}>
-              <div className="step-number">02</div>
-              <div className="step-icon mx-auto mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-primary to-blue-secondary rounded-2xl flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                  </svg>
-                </div>
-              </div>
-              <h4 className="text-xl font-playfair font-semibold mb-4 text-foreground group-hover:text-blue-primary transition-colors">
-                Collect Rental Income
-              </h4>
-              <p className="text-muted-foreground font-inter leading-relaxed">
-                Get 8–12% annual payouts directly to your wallet. Quarterly distributions, zero hassle.
-              </p>
-            </div>
-            
-            <div className="step-card group animate-fade-in-up" style={{animationDelay: '1.4s'}}>
-              <div className="step-number">03</div>
-              <div className="step-icon mx-auto mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-secondary to-coral rounded-2xl flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                  </svg>
-                </div>
-              </div>
-              <h4 className="text-xl font-playfair font-semibold mb-4 text-foreground group-hover:text-secondary transition-colors">
-                Trade & Multiply
-              </h4>
-              <p className="text-muted-foreground font-inter leading-relaxed">
-                Liquidate 24/7 on our exchange. Watch your wealth compound as property values rise.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
       
       {/* Gradient overlay */}
