@@ -76,14 +76,14 @@ export function Footer() {
               </li>
               <li className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4" />
-                <span>New York, NY</span>
+                <span>Abu Dhabi, UAE</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="border-t mt-8 pt-8 text-center text-muted-foreground">
-          <p>&copy; 2024 Nexus Platform. All rights reserved.</p>
+          <p>&copy; 2025 Nexus Platform. All rights reserved.</p>
         </div>
       </div>
     </footer>
