@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Providers } from "@/components/providers/Providers";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { CustomCursor } from "@/components/ui/custom-cursor";
 
 // Pages
 import Index from "./pages/Index";
@@ -53,6 +54,7 @@ function App() {
             </main>
             <Footer />
           </div>
+          <CustomCursor />
           <Toaster />
         </Providers>
       </BrowserRouter>
