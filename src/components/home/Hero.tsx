@@ -17,11 +17,9 @@ export function Hero() {
         <div className="max-w-5xl mx-auto text-center">
           {/* Interactive Nexus "N" Logo Only */}
           <div className="animate-fade-in-up flex justify-center mb-6">
-            <InteractiveLogo 
-              src="/lovable-uploads/58939a70-82d5-4e10-9da9-ca9fddfe17f7.png"
-              alt="Nexus Logo"
-              className="h-20 w-auto md:h-24 md:w-auto lg:h-28 lg:w-auto"
-            />
+            <h2 className="text-6xl md:text-7xl lg:text-8xl font-bold bg-gradient-nexus bg-clip-text text-transparent tracking-wider">
+              NEXUS
+            </h2>
           </div>
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
