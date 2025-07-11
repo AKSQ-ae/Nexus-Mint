@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
+import { CursorToggle } from '@/components/ui/cursor-toggle';
 import { Search, HelpCircle, MessageSquare, FileText, Shield, TrendingUp, Wallet, Settings } from 'lucide-react';
 
 interface FAQItem {
@@ -157,6 +158,18 @@ export function HelpCenter() {
                 </CardHeader>
               </Card>
             ))}
+          </div>
+
+          {/* Cursor Settings */}
+          <div className="border-t pt-4">
+            <h3 className="font-semibold mb-3">Preferences</h3>
+            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+              <div>
+                <p className="text-sm font-medium">Custom Cursor</p>
+                <p className="text-xs text-muted-foreground">Enable the Nexus branded cursor</p>
+              </div>
+              <CursorToggle />
+            </div>
           </div>
 
           {filteredFAQs.length === 0 && (

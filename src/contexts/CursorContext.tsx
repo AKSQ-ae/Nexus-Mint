@@ -9,17 +9,29 @@ const CursorContext = createContext<CursorContextType | undefined>(undefined);
 
 export function CursorProvider({ children }: { children: React.ReactNode }) {
   const [isEnabled, setIsEnabled] = useState(() => {
-    // Force enable cursor by default - ignore any previous localStorage
-    localStorage.setItem('nexus-cursor-enabled', JSON.stringify(true));
-    return true;
+    // Check if we're in browser environment
+    if (typeof window === 'undefined') return false;
+    
+    // Check if device supports hover (desktop/laptop)
+    const supportsHover = window.matchMedia('(hover: hover)').matches;
+    if (!supportsHover) return false;
+    
+    // Check localStorage preference
+    const saved = localStorage.getItem('nexus-cursor-enabled');
+    return saved !== null ? JSON.parse(saved) : true; // Default to enabled on desktop
   });
 
   const toggleCursor = () => {
-    setIsEnabled(!isEnabled);
+    const newState = !isEnabled;
+    setIsEnabled(newState);
+    localStorage.setItem('nexus-cursor-enabled', JSON.stringify(newState));
   };
 
   useEffect(() => {
-    localStorage.setItem('nexus-cursor-enabled', JSON.stringify(isEnabled));
+    // Save preference to localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('nexus-cursor-enabled', JSON.stringify(isEnabled));
+    }
   }, [isEnabled]);
 
   return (
