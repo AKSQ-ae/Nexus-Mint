@@ -102,6 +102,7 @@ export function CustomCursor() {
           z-index: 999999;
           transform: translate(-50%, -50%) rotate(-25deg) skewX(-15deg);
           transition: all 0.15s ease;
+          will-change: transform;
         }
 
         .nexus-cursor svg {
@@ -113,12 +114,10 @@ export function CustomCursor() {
 
         .nexus-cursor.hover {
           transform: translate(-50%, -50%) rotate(-25deg) skewX(-15deg) scale(1.3);
-          filter: brightness(1.2);
         }
 
         .nexus-cursor.click {
           transform: translate(-50%, -50%) rotate(-25deg) skewX(-15deg) scale(0.8);
-          filter: brightness(1.5);
         }
 
         .nexus-cursor.text {
