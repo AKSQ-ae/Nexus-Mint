@@ -24,8 +24,8 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Providers>
-        <BrowserRouter>
+      <BrowserRouter>
+        <Providers>
           <div className="min-h-screen flex flex-col bg-background">
             <Navbar />
             <main className="flex-1">
@@ -47,8 +47,8 @@ function App() {
             <Footer />
           </div>
           <Toaster />
-        </BrowserRouter>
-      </Providers>
+        </Providers>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }
