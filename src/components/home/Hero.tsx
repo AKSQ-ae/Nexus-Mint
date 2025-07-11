@@ -47,55 +47,58 @@ export function Hero() {
             </div>
             
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-              <div className="step-card group animate-fade-in-up" style={{animationDelay: '0.5s'}}>
-                <div className="step-number">01</div>
-                <div className="step-icon mx-auto mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-accent to-orange-accent/70 rounded-2xl flex items-center justify-center">
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              <div className="step-card group animate-fade-in-up relative overflow-hidden bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-3xl p-8 shadow-elegant hover:shadow-glow transition-all duration-500 hover:scale-105" style={{animationDelay: '0.5s'}}>
+                <div className="absolute top-4 right-4 text-6xl font-playfair font-black text-orange-accent/10">01</div>
+                <div className="step-icon mx-auto mb-6 relative z-10">
+                  <div className="w-20 h-20 bg-gradient-to-br from-orange-accent via-orange-accent to-orange-accent/80 rounded-3xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16l3-3m-3 3l-3-3" />
                     </svg>
                   </div>
                 </div>
-                <h4 className="text-xl font-playfair font-semibold mb-4 text-foreground group-hover:text-orange-accent transition-colors">
-                  Acquire Your Slice
+                <h4 className="text-2xl font-playfair font-bold mb-4 text-foreground group-hover:text-orange-accent transition-colors relative z-10">
+                  Start with AED 500
                 </h4>
-                <p className="text-muted-foreground font-inter leading-relaxed">
-                  Own real-estate shares from AED 100. Pick premium properties across UAE's hottest markets.
+                <p className="text-muted-foreground font-inter leading-relaxed text-lg relative z-10">
+                  Start with AED 500 to own on-chain, fractional shares in prime UAE real estate
                 </p>
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-accent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
               
-              <div className="step-card group animate-fade-in-up" style={{animationDelay: '0.6s'}}>
-                <div className="step-number">02</div>
-                <div className="step-icon mx-auto mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary to-blue-secondary rounded-2xl flex items-center justify-center">
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="step-card group animate-fade-in-up relative overflow-hidden bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-3xl p-8 shadow-elegant hover:shadow-glow transition-all duration-500 hover:scale-105" style={{animationDelay: '0.6s'}}>
+                <div className="absolute top-4 right-4 text-6xl font-playfair font-black text-blue-primary/10">02</div>
+                <div className="step-icon mx-auto mb-6 relative z-10">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 rounded-3xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                     </svg>
                   </div>
                 </div>
-                <h4 className="text-xl font-playfair font-semibold mb-4 text-foreground group-hover:text-blue-primary transition-colors">
-                  Collect Rental Income
+                <h4 className="text-2xl font-playfair font-bold mb-4 text-foreground group-hover:text-blue-primary transition-colors relative z-10">
+                  Earn 8–12% p.a.
                 </h4>
-                <p className="text-muted-foreground font-inter leading-relaxed">
-                  Get 8–12% annual payouts directly to your wallet. Quarterly distributions, zero hassle.
+                <p className="text-muted-foreground font-inter leading-relaxed text-lg relative z-10">
+                  Earn 8–12% p.a. rental income, paid quarterly into your Nexus Wallet—fully transparent, zero paperwork.
                 </p>
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
               
-              <div className="step-card group animate-fade-in-up" style={{animationDelay: '0.7s'}}>
-                <div className="step-number">03</div>
-                <div className="step-icon mx-auto mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-secondary to-coral rounded-2xl flex items-center justify-center">
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="step-card group animate-fade-in-up relative overflow-hidden bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-3xl p-8 shadow-elegant hover:shadow-glow transition-all duration-500 hover:scale-105" style={{animationDelay: '0.7s'}}>
+                <div className="absolute top-4 right-4 text-6xl font-playfair font-black text-secondary/10">03</div>
+                <div className="step-icon mx-auto mb-6 relative z-10">
+                  <div className="w-20 h-20 bg-gradient-to-br from-secondary via-coral to-secondary/80 rounded-3xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                     </svg>
                   </div>
                 </div>
-                <h4 className="text-xl font-playfair font-semibold mb-4 text-foreground group-hover:text-secondary transition-colors">
-                  Trade & Multiply
+                <h4 className="text-2xl font-playfair font-bold mb-4 text-foreground group-hover:text-secondary transition-colors relative z-10">
+                  Trade 24/7 & Multiply
                 </h4>
-                <p className="text-muted-foreground font-inter leading-relaxed">
-                  Liquidate 24/7 on our exchange. Watch your wealth compound as property values rise.
+                <p className="text-muted-foreground font-inter leading-relaxed text-lg relative z-10">
+                  Trade 24/7 & Multiply on our marketplace, reinvesting instantly to watch your wealth compound as property values rise.
                 </p>
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
             </div>
           </div>
