@@ -133,7 +133,9 @@ export function Hero() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
               <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
                 <div className="flex justify-center mb-4">
-                  <Building className="w-8 h-8 text-blue-primary" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300" style={{clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)'}}>
+                    <Building className="w-8 h-8 text-white" />
+                  </div>
                 </div>
                 <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
                   <span className="count-up" data-target="5">5</span>+
@@ -152,7 +154,9 @@ export function Hero() {
 
               <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
                 <div className="flex justify-center mb-4">
-                  <DollarSign className="w-8 h-8 text-blue-primary" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300" style={{clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)'}}>
+                    <DollarSign className="w-8 h-8 text-white" />
+                  </div>
                 </div>
                 <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
                   <span className="count-up" data-target="100">100</span>+
@@ -171,7 +175,9 @@ export function Hero() {
 
               <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
                 <div className="flex justify-center mb-4">
-                  <ChartLine className="w-8 h-8 text-orange-accent" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-accent via-coral to-orange-accent/80 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300" style={{clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)'}}>
+                    <ChartLine className="w-8 h-8 text-white" />
+                  </div>
                 </div>
                 <div className="text-3xl md:text-4xl font-playfair font-bold text-orange-accent mb-2">
                   <span className="count-up" data-target="8">8</span>–<span className="count-up" data-target="12">12</span>%
