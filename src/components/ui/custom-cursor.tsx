@@ -11,7 +11,7 @@ export function CustomCursor() {
     const cursor = cursorRef.current;
     if (!cursor) return;
 
-    // Mouse tracking
+    // Mouse tracking - account for centered transform
     const handleMouseMove = (e: MouseEvent) => {
       cursor.style.left = e.clientX + 'px';
       cursor.style.top = e.clientY + 'px';
