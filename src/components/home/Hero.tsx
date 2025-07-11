@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { ArrowRight, TrendingUp, Shield, Users, Play } from 'lucide-react';
+import { InteractiveLogo } from '@/components/ui/interactive-logo';
 
 export function Hero() {
   return (
@@ -14,7 +15,16 @@ export function Hero() {
       
       <div className="container mx-auto px-4 py-32 lg:py-40 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
-          <div className="animate-fade-in-up">
+          {/* Interactive Nexus "N" Logo */}
+          <div className="animate-fade-in-up flex justify-center mb-6">
+            <InteractiveLogo 
+              src="/lovable-uploads/592390c7-1f38-4705-94e7-3ebf85c091c2.png"
+              alt="Nexus N Logo"
+              className="h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 shadow-glow"
+            />
+          </div>
+          
+          <div className="animate-fade-in-up" style={{animationDelay: '0.2s'}}>
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-8 leading-none text-white">
               <span className="block bg-gradient-to-r from-white via-coral to-white bg-clip-text text-transparent font-extrabold">Wealth On Tap</span>
             </h1>

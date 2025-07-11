@@ -59,10 +59,10 @@ export function InteractiveLogo({ src, alt, className = "" }: InteractiveLogoPro
       <img
         src={src}
         alt={alt}
-        className="h-10 w-10 transition-all duration-300 ease-out"
+        className="w-full h-full object-contain transition-all duration-300 ease-out"
         style={{
           transform: `translate(${mousePosition.x}px, ${mousePosition.y}px) scale(${isHovered ? 1.1 : 1})`,
-          filter: isHovered ? 'brightness(1.1) saturate(1.2)' : 'none',
+          filter: isHovered ? 'brightness(1.1) saturate(1.2) drop-shadow(0 0 20px rgba(59, 130, 246, 0.5))' : 'none',
         }}
       />
       
