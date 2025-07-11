@@ -21,7 +21,7 @@ export function CTA() {
             </Button>
           </Link>
           <Link to="/properties">
-            <Button size="lg" variant="outline" className="text-lg px-8 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+            <Button size="lg" variant="ghost" className="text-lg px-8 text-primary-foreground hover:bg-white/20 border-2 border-white/30 backdrop-blur-sm">
               Browse Properties
             </Button>
           </Link>
