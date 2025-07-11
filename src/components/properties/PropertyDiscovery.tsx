@@ -50,17 +50,21 @@ interface FilterState {
 }
 
 const PROPERTY_TYPES = [
-  { value: 'RESIDENTIAL', label: 'Residential', icon: Home },
-  { value: 'COMMERCIAL', label: 'Commercial', icon: Building },
-  { value: 'INDUSTRIAL', label: 'Industrial', icon: Factory },
-  { value: 'MIXED_USE', label: 'Mixed Use', icon: Users },
+  { value: 'apartment', label: 'Apartment', icon: Home },
+  { value: 'villa', label: 'Villa', icon: Home },
+  { value: 'penthouse', label: 'Penthouse', icon: Home },
+  { value: 'townhouse', label: 'Townhouse', icon: Home },
+  { value: 'office', label: 'Office', icon: Building },
 ];
 
 const MOCK_YIELDS = {
-  RESIDENTIAL: { min: 6, max: 10 },
-  COMMERCIAL: { min: 8, max: 14 },
-  INDUSTRIAL: { min: 7, max: 12 },
-  MIXED_USE: { min: 9, max: 15 },
+  apartment: { min: 6, max: 10 },
+  villa: { min: 7, max: 11 },
+  penthouse: { min: 8, max: 12 },
+  townhouse: { min: 6, max: 9 },
+  office: { min: 8, max: 14 },
+  retail: { min: 9, max: 15 },
+  warehouse: { min: 7, max: 12 },
 };
 
 export function PropertyDiscovery() {
@@ -445,7 +449,7 @@ export function PropertyDiscovery() {
                         Featured
                       </Badge>
                     )}
-                    <Badge variant="secondary">{property.property_type}</Badge>
+                    <Badge variant="secondary" className="capitalize">{property.property_type}</Badge>
                   </div>
 
                   {/* Quick Preview Button */}
