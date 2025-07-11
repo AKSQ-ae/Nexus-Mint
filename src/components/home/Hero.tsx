@@ -111,7 +111,7 @@ export function Hero() {
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.4s'}}>
             <p className="text-xl md:text-2xl text-muted-foreground mb-12 font-inter leading-relaxed max-w-3xl mx-auto">
-              Tokenized UAE properties. Instant trading. Real returns.
+              Fractional UAE Real Estate. Instant Liquidity. Proven Yields.
             </p>
           </div>
           
