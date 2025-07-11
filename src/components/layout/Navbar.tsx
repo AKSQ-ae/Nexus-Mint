@@ -47,11 +47,10 @@ export function Navbar() {
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
               <InteractiveLogo 
-                src="/lovable-uploads/01ccd8d1-8a5d-4e14-9805-4ddb95639b14.png"
+                src="/lovable-uploads/3d8c3e2f-d52c-46f4-9a7b-aadf54ab83fb.png"
                 alt="Nexus Logo"
-                className="shadow-md"
+                className="h-8 w-auto shadow-md"
               />
-              <span className="font-bold text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Nexus</span>
             </Link>
           </div>
 
