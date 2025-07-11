@@ -80,9 +80,13 @@ export default {
 					DEFAULT: 'hsl(var(--warning))',
 					foreground: 'hsl(var(--warning-foreground))'
 				},
-				'navy-blue': 'hsl(var(--navy-blue))',
-				'bright-blue': 'hsl(var(--bright-blue))',
-				'coral': 'hsl(var(--coral))',
+				'blue-primary': 'hsl(var(--blue-primary))',
+				'blue-secondary': 'hsl(var(--blue-secondary))',
+				'blue-light': 'hsl(var(--blue-light))',
+				'orange-accent': 'hsl(var(--orange-accent))',
+				'grey-light': 'hsl(var(--grey-light))',
+				'grey-mid': 'hsl(var(--grey-mid))',
+				'grey-dark': 'hsl(var(--grey-dark))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -99,7 +103,7 @@ export default {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-secondary': 'var(--gradient-secondary)',
 				'gradient-card': 'var(--gradient-card)',
-				'gradient-coral': 'var(--gradient-coral)',
+				'gradient-orange': 'var(--gradient-orange)',
 				'gradient-nexus': 'var(--gradient-nexus)',
 			},
 			boxShadow: {

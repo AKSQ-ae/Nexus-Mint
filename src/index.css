@@ -8,42 +8,41 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Optimized Artistic Theme - Perfect Visibility & Readability */
+    /* NEXUS Refined Color Palette - White, Blue, Orange, Grey */
     --background: 0 0% 100%;
-    --foreground: 220 50% 10%;
+    --foreground: 210 25% 18%; /* Grey-dark for main text */
 
     --card: 0 0% 100%;
-    --card-foreground: 220 50% 10%;
+    --card-foreground: 210 25% 18%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 50% 10%;
+    --popover-foreground: 210 25% 18%;
 
-    /* Primary - Deep Navy (Enhanced Contrast) */
-    --primary: 220 85% 15%;
+    /* Primary Brand Blue - Deep Sky Blue */
+    --primary: 207 100% 56%; /* #1E90FF */
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 220 85% 25%;
+    --primary-glow: 225 73% 57%; /* Royal Blue */
 
-    /* Secondary - Professional Blue (Optimized) */
-    --secondary: 210 85% 55%;
+    /* Secondary Blue - Royal Blue */
+    --secondary: 225 73% 57%; /* #4169E1 */
     --secondary-foreground: 0 0% 100%;
 
-    /* Accent - Warm Coral (Balanced) */
-    --accent: 14 85% 58%;
+    /* Accent Orange - Warm CTA color */
+    --accent: 14 100% 64%; /* #FF7A45 */
     --accent-foreground: 0 0% 100%;
 
-    /* Enhanced Muted for Better Readability */
-    --muted: 220 15% 96%;
-    --muted-foreground: 220 25% 35%;
+    /* Enhanced Muted - Light grey backgrounds */
+    --muted: 210 20% 96%; /* Very light grey */
+    --muted-foreground: 210 15% 55%; /* Mid grey for secondary text */
 
-    /* Dovetail Color Palette - Perfect Harmony */
-    --navy-blue: 220 85% 15%;
-    --bright-blue: 210 85% 55%;
-    --coral: 14 85% 58%;
-
-    /* High Contrast Text Colors */
-    --text-primary: 220 50% 10%;
-    --text-secondary: 220 30% 25%;
-    --text-muted: 220 15% 45%;
+    /* NEXUS Color Palette */
+    --blue-primary: 207 100% 56%; /* #1E90FF - Deep Sky Blue */
+    --blue-secondary: 225 73% 57%; /* #4169E1 - Royal Blue */
+    --blue-light: 210 87% 92%; /* #DCEEFB - Very pale sky-blue */
+    --orange-accent: 14 100% 64%; /* #FF7A45 - Warm orange */
+    --grey-light: 210 14% 97%; /* #F5F5F7 - Ultra-light grey */
+    --grey-mid: 210 14% 83%; /* #CED4DA - Border, divider */
+    --grey-dark: 210 25% 18%; /* #2C2E35 - Main text */
 
     /* Success - Emerald */
     --success: 142 71% 45%;
@@ -51,29 +50,29 @@ All colors MUST be HSL.
 
     /* Warning - Amber */
     --warning: 38 92% 50%;
-    --warning-foreground: 220 85% 20%;
+    --warning-foreground: 210 25% 18%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 20% 92%;
-    --input: 220 20% 92%;
-    --ring: 220 85% 20%;
+    --border: 210 14% 83%; /* Grey-mid for borders */
+    --input: 210 14% 83%;
+    --ring: 207 100% 56%; /* Blue-primary for focus rings */
 
     --radius: 0.75rem;
 
-    /* Optimized Gradients for Perfect Visibility */
-    --gradient-primary: linear-gradient(135deg, hsl(220 85% 15%), hsl(220 85% 25%));
-    --gradient-secondary: linear-gradient(135deg, hsl(210 85% 55%), hsl(14 85% 58%));
-    --gradient-hero: linear-gradient(135deg, hsl(220 85% 15%) 0%, hsl(210 85% 55%) 50%, hsl(14 85% 58%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(220 5% 98%) 100%);
-    --gradient-coral: linear-gradient(135deg, hsl(14 85% 58%), hsl(14 85% 65%));
-    --gradient-nexus: linear-gradient(135deg, #1E90FF, #4169E1);
+    /* NEXUS Refined Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(207 100% 56%), hsl(225 73% 57%)); /* Blue primary to secondary */
+    --gradient-secondary: linear-gradient(135deg, hsl(225 73% 57%), hsl(14 100% 64%)); /* Blue to orange */
+    --gradient-hero: linear-gradient(135deg, hsl(207 100% 56%) 0%, hsl(225 73% 57%) 50%, hsl(14 100% 64%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(210 14% 97%) 100%); /* White to grey-light */
+    --gradient-orange: linear-gradient(135deg, hsl(14 100% 64%), hsl(14 100% 70%)); /* Orange gradient */
+    --gradient-nexus: linear-gradient(135deg, hsl(207 100% 56%), hsl(225 73% 57%)); /* Brand gradient */
     
-    /* Enhanced Shadows with Better Visibility */
-    --shadow-elegant: 0 4px 6px -1px hsl(220 85% 15% / 0.15), 0 2px 4px -1px hsl(220 85% 15% / 0.08);
-    --shadow-premium: 0 10px 25px -3px hsl(220 85% 15% / 0.15), 0 4px 6px -2px hsl(220 85% 15% / 0.08);
-    --shadow-glow: 0 0 40px hsl(210 85% 55% / 0.25);
+    /* NEXUS Refined Shadows */
+    --shadow-elegant: 0 4px 6px -1px hsl(207 100% 56% / 0.15), 0 2px 4px -1px hsl(207 100% 56% / 0.08);
+    --shadow-premium: 0 10px 25px -3px hsl(207 100% 56% / 0.15), 0 4px 6px -2px hsl(207 100% 56% / 0.08);
+    --shadow-glow: 0 0 40px hsl(14 100% 64% / 0.3); /* Orange glow for CTAs */
 
     /* Optimized Sidebar for Better Readability */
     --sidebar-background: 0 0% 100%;

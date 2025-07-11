@@ -36,7 +36,7 @@ export function Hero() {
           
           <div className="animate-fade-in-up flex justify-center max-w-md mx-auto" style={{animationDelay: '0.6s'}}>
             <Link to="/properties">
-              <Button size="xl" className="bg-coral hover:bg-coral/90 text-white font-semibold px-8 py-4 text-lg">
+              <Button variant="cta" size="xl" className="font-semibold px-8 py-4 text-lg">
                 <TrendingUp className="h-5 w-5" />
                 Start Investing
               </Button>
