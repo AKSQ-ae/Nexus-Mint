@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserMenu } from './UserMenu';
 import { HelpCenter } from '@/components/ui/help-center';
+import { InteractiveLogo } from '@/components/ui/interactive-logo';
 import { Menu, X, Building2 } from 'lucide-react';
-import nexusLogo from '@/assets/nexus-logo.png';
 import { supabase } from '@/integrations/supabase/client';
 
 export function Navbar() {
@@ -46,9 +46,11 @@ export function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-              <div className="relative">
-                <img src={nexusLogo} alt="Nexus Logo" className="h-10 w-10 rounded-lg shadow-md" />
-              </div>
+              <InteractiveLogo 
+                src="/lovable-uploads/01ccd8d1-8a5d-4e14-9805-4ddb95639b14.png"
+                alt="Nexus Logo"
+                className="shadow-md"
+              />
               <span className="font-bold text-xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Nexus</span>
             </Link>
           </div>
