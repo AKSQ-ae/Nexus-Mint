@@ -100,6 +100,7 @@ export default {
 				'gradient-secondary': 'var(--gradient-secondary)',
 				'gradient-card': 'var(--gradient-card)',
 				'gradient-coral': 'var(--gradient-coral)',
+				'gradient-nexus': 'var(--gradient-nexus)',
 			},
 			boxShadow: {
 				'elegant': 'var(--shadow-elegant)',

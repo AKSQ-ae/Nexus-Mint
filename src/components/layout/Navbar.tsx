@@ -52,7 +52,7 @@ export function Navbar() {
                 alt="Nexus Logo"
                 className="h-8 w-auto shadow-md"
               />
-              <span className="text-xl font-bold text-bright-blue">Nexus</span>
+              <span className="text-xl font-bold bg-gradient-nexus bg-clip-text text-transparent">Nexus</span>
             </Link>
           </div>
 
