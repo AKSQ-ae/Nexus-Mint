@@ -21,23 +21,9 @@ export function Hero() {
           </div>
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
-            <p className="text-xl md:text-2xl text-white/90 mb-6 font-inter leading-relaxed max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-white/90 mb-12 font-inter leading-relaxed max-w-3xl mx-auto">
               Own premium assets for just $100.
             </p>
-            <div className="flex flex-wrap justify-center gap-6 mb-8 text-sm md:text-base">
-              <div className="flex items-center gap-2 text-navy-blue font-semibold">
-                <span className="w-2 h-2 bg-navy-blue rounded-full animate-pulse"></span>
-                Aiming for 6–12% Annual Growth
-              </div>
-              <div className="flex items-center gap-2 text-bright-blue font-semibold">
-                <span className="w-2 h-2 bg-bright-blue rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></span>
-                Securities Compliant
-              </div>
-              <div className="flex items-center gap-2 text-coral font-semibold">
-                <span className="w-2 h-2 bg-coral rounded-full animate-pulse" style={{animationDelay: '1s'}}></span>
-                Global Markets
-              </div>
-            </div>
           </div>
           
           <div className="animate-fade-in-up flex justify-center max-w-md mx-auto" style={{animationDelay: '0.6s'}}>
@@ -52,13 +38,13 @@ export function Hero() {
           <div className="animate-fade-in-up mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto" style={{animationDelay: '0.9s'}}>
             <div className="glass p-6 rounded-2xl backdrop-blur-xl">
               <div className="text-3xl md:text-4xl font-playfair font-bold text-secondary mb-2">
-                AED 1.8B+
+                AED 10M+
               </div>
               <p className="text-white/80 font-inter">Assets Under Management</p>
             </div>
             <div className="glass p-6 rounded-2xl backdrop-blur-xl">
               <div className="text-3xl md:text-4xl font-playfair font-bold text-secondary mb-2">
-                15,000+
+                1000+
               </div>
               <p className="text-white/80 font-inter">Active Investors</p>
             </div>
