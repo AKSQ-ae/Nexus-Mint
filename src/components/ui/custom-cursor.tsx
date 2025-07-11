@@ -96,33 +96,34 @@ export function CustomCursor() {
         
         .nexus-cursor {
           position: fixed;
-          width: 20px;
-          height: 20px;
+          width: 18px;
+          height: 18px;
           pointer-events: none;
           z-index: 999999;
-          transform: translate(-2px, -2px);
-          transition: all 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          transform: translate(-50%, -50%) rotate(-25deg) skewX(-15deg);
+          transition: all 0.15s ease;
         }
 
         .nexus-cursor svg {
           width: 100%;
           height: 100%;
-          filter: drop-shadow(0 2px 8px rgba(30, 144, 255, 0.4)) drop-shadow(0 0 4px rgba(255, 255, 255, 0.2));
+          filter: drop-shadow(0 0 6px rgba(30, 144, 255, 0.5));
+          transform: scaleX(0.85);
         }
 
         .nexus-cursor.hover {
-          transform: translate(-2px, -2px) scale(1.2);
-          filter: brightness(1.1);
+          transform: translate(-50%, -50%) rotate(-25deg) skewX(-15deg) scale(1.3);
+          filter: brightness(1.2);
         }
 
         .nexus-cursor.click {
-          transform: translate(-2px, -2px) scale(0.9);
-          filter: brightness(1.3);
+          transform: translate(-50%, -50%) rotate(-25deg) skewX(-15deg) scale(0.8);
+          filter: brightness(1.5);
         }
 
         .nexus-cursor.text {
-          transform: translate(-2px, -2px) scale(0.8);
-          opacity: 0.9;
+          transform: translate(-50%, -50%) rotate(-25deg) skewX(-15deg) scale(0.6);
+          opacity: 0.8;
         }
       `}</style>
       
