@@ -15,16 +15,16 @@ export function Hero() {
       
       <div className="container mx-auto px-4 py-32 lg:py-40 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
-          {/* Interactive Nexus "N" Logo */}
-          <div className="animate-fade-in-up flex justify-center mb-6">
+          {/* Interactive Nexus "N" Logo Only */}
+          <div className="animate-fade-in-up flex justify-center mb-8">
             <InteractiveLogo 
-              src="/lovable-uploads/592390c7-1f38-4705-94e7-3ebf85c091c2.png"
+              src="/lovable-uploads/0b4b311f-3c39-4346-926c-eaa1b483bd97.png"
               alt="Nexus N Logo"
-              className="h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 shadow-glow"
+              className="h-20 w-20 md:h-24 md:w-24 lg:h-28 lg:w-28"
             />
           </div>
           
-          <div className="animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+          <div className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-8 leading-none text-white">
               <span className="block bg-gradient-to-r from-white via-coral to-white bg-clip-text text-transparent font-extrabold">Wealth On Tap</span>
             </h1>
