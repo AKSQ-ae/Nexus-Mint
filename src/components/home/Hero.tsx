@@ -155,29 +155,23 @@ export function Hero() {
 
             {/* Competitive Advantages */}
             <div className="max-w-3xl mx-auto mb-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-                <div className="flex items-center gap-3 bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-grey-light/30">
-                  <div className="w-2 h-2 bg-blue-primary rounded-full flex-shrink-0"></div>
+              <div className="grid grid-cols-1 gap-4 text-left">
+                <div className="flex items-start gap-3 bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-grey-light/30">
+                  <div className="w-2 h-2 bg-blue-primary rounded-full flex-shrink-0 mt-2"></div>
                   <span className="font-inter font-medium text-foreground">
-                    <strong className="text-blue-primary">AED 100 minimum</strong> vs. AED 2,000 elsewhere
+                    <strong className="text-blue-primary">Effortless Diversification</strong> – Allocate AED 100 across a basket of vetted UAE properties in one click for balanced, low-risk exposure.
                   </span>
                 </div>
-                <div className="flex items-center gap-3 bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-grey-light/30">
-                  <div className="w-2 h-2 bg-blue-primary rounded-full flex-shrink-0"></div>
+                <div className="flex items-start gap-3 bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-grey-light/30">
+                  <div className="w-2 h-2 bg-blue-primary rounded-full flex-shrink-0 mt-2"></div>
                   <span className="font-inter font-medium text-foreground">
-                    <strong className="text-blue-primary">No Emirates ID required</strong>—open globally
+                    <strong className="text-blue-primary">Institutional-Grade Security</strong> – Enterprise-level encryption and multi-signature custody keep your capital rock-solid.
                   </span>
                 </div>
-                <div className="flex items-center gap-3 bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-grey-light/30">
-                  <div className="w-2 h-2 bg-blue-primary rounded-full flex-shrink-0"></div>
+                <div className="flex items-start gap-3 bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-grey-light/30">
+                  <div className="w-2 h-2 bg-blue-primary rounded-full flex-shrink-0 mt-2"></div>
                   <span className="font-inter font-medium text-foreground">
-                    <strong className="text-blue-primary">24/7 liquidity</strong> on our built-in marketplace
-                  </span>
-                </div>
-                <div className="flex items-center gap-3 bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-grey-light/30">
-                  <div className="w-2 h-2 bg-blue-primary rounded-full flex-shrink-0"></div>
-                  <span className="font-inter font-medium text-foreground">
-                    <strong className="text-blue-primary">Multi-currency support</strong> (AED, USD, EUR…)
+                    <strong className="text-blue-primary">Advanced Tokenization Technology</strong> – On-chain property tokenization delivers instant settlement, full transparency, and seamless fractional ownership.
                   </span>
                 </div>
               </div>
