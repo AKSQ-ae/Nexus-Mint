@@ -8,37 +8,42 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Modern Artistic Theme - Navy, Bright Blue & Coral */
+    /* Optimized Artistic Theme - Perfect Visibility & Readability */
     --background: 0 0% 100%;
-    --foreground: 220 15% 20%;
+    --foreground: 220 50% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 15% 20%;
+    --card-foreground: 220 50% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 20%;
+    --popover-foreground: 220 50% 10%;
 
-    /* Primary - Navy Blue */
-    --primary: 220 85% 20%;
+    /* Primary - Deep Navy (Enhanced Contrast) */
+    --primary: 220 85% 15%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 220 85% 30%;
+    --primary-glow: 220 85% 25%;
 
-    /* Secondary - Bright Blue */
-    --secondary: 210 100% 60%;
+    /* Secondary - Professional Blue (Optimized) */
+    --secondary: 210 85% 55%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Artistic Accent - Vibrant Coral */
-    --accent: 14 100% 65%;
+    /* Accent - Warm Coral (Balanced) */
+    --accent: 14 85% 58%;
     --accent-foreground: 0 0% 100%;
 
-    /* Sophisticated Muted */
-    --muted: 220 10% 96%;
-    --muted-foreground: 220 15% 45%;
+    /* Enhanced Muted for Better Readability */
+    --muted: 220 15% 96%;
+    --muted-foreground: 220 25% 35%;
 
-    /* Custom Color Palette */
-    --navy-blue: 220 85% 20%;
-    --bright-blue: 210 100% 60%;
-    --coral: 14 100% 65%;
+    /* Dovetail Color Palette - Perfect Harmony */
+    --navy-blue: 220 85% 15%;
+    --bright-blue: 210 85% 55%;
+    --coral: 14 85% 58%;
+
+    /* High Contrast Text Colors */
+    --text-primary: 220 50% 10%;
+    --text-secondary: 220 30% 25%;
+    --text-muted: 220 15% 45%;
 
     /* Success - Emerald */
     --success: 142 71% 45%;
@@ -57,27 +62,27 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    /* Artistic Three-Color Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(220 85% 20%), hsl(220 85% 30%));
-    --gradient-secondary: linear-gradient(135deg, hsl(210 100% 60%), hsl(14 100% 65%));
-    --gradient-hero: linear-gradient(135deg, hsl(220 85% 20%) 0%, hsl(210 100% 60%) 50%, hsl(14 100% 65%) 100%);
+    /* Optimized Gradients for Perfect Visibility */
+    --gradient-primary: linear-gradient(135deg, hsl(220 85% 15%), hsl(220 85% 25%));
+    --gradient-secondary: linear-gradient(135deg, hsl(210 85% 55%), hsl(14 85% 58%));
+    --gradient-hero: linear-gradient(135deg, hsl(220 85% 15%) 0%, hsl(210 85% 55%) 50%, hsl(14 85% 58%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(220 5% 98%) 100%);
-    --gradient-coral: linear-gradient(135deg, hsl(14 100% 65%), hsl(14 100% 70%));
+    --gradient-coral: linear-gradient(135deg, hsl(14 85% 58%), hsl(14 85% 65%));
     
-    /* Blue Theme Shadows */
-    --shadow-elegant: 0 4px 6px -1px hsl(220 85% 20% / 0.1), 0 2px 4px -1px hsl(220 85% 20% / 0.06);
-    --shadow-premium: 0 10px 25px -3px hsl(220 85% 20% / 0.1), 0 4px 6px -2px hsl(220 85% 20% / 0.05);
-    --shadow-glow: 0 0 40px hsl(210 100% 60% / 0.3);
+    /* Enhanced Shadows with Better Visibility */
+    --shadow-elegant: 0 4px 6px -1px hsl(220 85% 15% / 0.15), 0 2px 4px -1px hsl(220 85% 15% / 0.08);
+    --shadow-premium: 0 10px 25px -3px hsl(220 85% 15% / 0.15), 0 4px 6px -2px hsl(220 85% 15% / 0.08);
+    --shadow-glow: 0 0 40px hsl(210 85% 55% / 0.25);
 
-    /* Blue Theme Sidebar */
-    --sidebar-background: 220 20% 98%;
-    --sidebar-foreground: 220 15% 45%;
-    --sidebar-primary: 220 85% 20%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 220 20% 95%;
-    --sidebar-accent-foreground: 220 85% 20%;
-    --sidebar-border: 220 20% 90%;
-    --sidebar-ring: 220 85% 20%;
+    /* Optimized Sidebar for Better Readability */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 50% 10%;
+    --sidebar-primary: 220 85% 15%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 96%;
+    --sidebar-accent-foreground: 220 85% 15%;
+    --sidebar-border: 220 20% 88%;
+    --sidebar-ring: 220 85% 15%;
   }
 
   .dark {
@@ -149,8 +154,8 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground font-inter;
     background-image: 
-      radial-gradient(circle at 25% 25%, hsl(220 85% 20% / 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, hsl(210 100% 60% / 0.03) 0%, transparent 50%);
+      radial-gradient(circle at 25% 25%, hsl(220 85% 15% / 0.02) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(210 85% 55% / 0.02) 0%, transparent 50%);
   }
 
   /* Smooth scrolling */
@@ -249,5 +254,40 @@ All colors MUST be HSL.
 
   .animated-underline:hover::after {
     width: 100%;
+  }
+
+  /* High Contrast & Accessibility Classes */
+  .text-high-contrast {
+    color: hsl(var(--text-primary));
+  }
+
+  .text-readable {
+    color: hsl(var(--text-secondary));
+  }
+
+  .bg-high-contrast {
+    background-color: hsl(var(--background));
+    color: hsl(var(--text-primary));
+  }
+
+  /* Enhanced Dropdown Visibility */
+  .dropdown-menu {
+    background-color: hsl(var(--background));
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-premium);
+    z-index: 50;
+  }
+
+  /* Button Accessibility Enhancement */
+  .btn-accessible {
+    min-height: 44px;
+    font-weight: 600;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .btn-accessible:focus {
+    border-color: hsl(var(--ring));
+    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
   }
 }
