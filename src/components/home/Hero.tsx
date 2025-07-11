@@ -4,6 +4,8 @@ import { ArrowRight, TrendingUp, Shield, Users, Play } from 'lucide-react';
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
 
 export function Hero() {
+  console.log('Hero component rendering with journey section');
+  
   return (
     <section className="bg-white text-foreground relative overflow-hidden" style={{background: 'radial-gradient(ellipse at center, rgba(30, 144, 255, 0.03) 0%, rgba(255, 255, 255, 1) 70%)'}}>
       {/* Premium animated background elements */}
