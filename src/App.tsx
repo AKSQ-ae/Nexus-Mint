@@ -19,6 +19,7 @@ import NotFound from "./pages/NotFound";
 import { InvestmentSuccess } from "./pages/investment/InvestmentSuccess";
 import { InvestmentCancel } from "./pages/investment/InvestmentCancel";
 import TokenizationDemo from "./pages/TokenizationDemo";
+import Trading from "./pages/Trading";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ function App() {
                 <Route path="/investment/success" element={<InvestmentSuccess />} />
                 <Route path="/investment/cancel" element={<InvestmentCancel />} />
                 <Route path="/tokenization-demo" element={<TokenizationDemo />} />
+                <Route path="/trading/:id" element={<Trading />} />
                 <Route path="/404" element={<NotFound />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>

@@ -7,6 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
+import { AdvancedAnalytics } from '@/components/analytics/AdvancedAnalytics';
+import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt';
 import { 
   TrendingUp, 
   TrendingDown,
@@ -276,8 +278,10 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Header */}
+    <>
+      <PWAInstallPrompt />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Header */}
       <div className="flex justify-between items-start">
         <div>
           <h1 className="text-3xl font-bold text-foreground mb-2">Portfolio Dashboard</h1>
@@ -361,7 +365,7 @@ export default function Dashboard() {
 
       {/* Charts and Analytics */}
       <Tabs defaultValue="performance" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="performance" className="flex items-center gap-2">
             <BarChart3 className="h-4 w-4" />
             Performance
@@ -373,6 +377,10 @@ export default function Dashboard() {
           <TabsTrigger value="transactions" className="flex items-center gap-2">
             <Calendar className="h-4 w-4" />
             Transactions
+          </TabsTrigger>
+          <TabsTrigger value="advanced" className="flex items-center gap-2">
+            <Sparkles className="h-4 w-4" />
+            Analytics
           </TabsTrigger>
         </TabsList>
 
