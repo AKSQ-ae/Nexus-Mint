@@ -59,7 +59,7 @@ export function Hero() {
                 <h4 className="text-2xl font-playfair font-bold mb-4 text-foreground group-hover:text-blue-primary transition-colors relative z-10">
                   Acquire Your Slice
                 </h4>
-                <p className="text-muted-foreground font-inter leading-relaxed text-lg relative z-10">
+                <p className="text-muted-foreground font-inter font-medium leading-relaxed text-xl relative z-10">
                   Start with AED 500 to own on-chain, fractional shares in prime UAE real estate
                 </p>
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -77,7 +77,7 @@ export function Hero() {
                 <h4 className="text-2xl font-playfair font-bold mb-4 text-foreground group-hover:text-blue-primary transition-colors relative z-10">
                   Earn 8–12% p.a.
                 </h4>
-                <p className="text-muted-foreground font-inter leading-relaxed text-lg relative z-10">
+                <p className="text-muted-foreground font-inter font-medium leading-relaxed text-xl relative z-10">
                   Earn 8–12% p.a. rental income, paid quarterly into your Nexus Wallet fully transparent, zero paperwork.
                 </p>
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -95,7 +95,7 @@ export function Hero() {
                 <h4 className="text-2xl font-playfair font-bold mb-4 text-foreground group-hover:text-secondary transition-colors relative z-10">
                   Trade & Multiply
                 </h4>
-                <p className="text-muted-foreground font-inter leading-relaxed text-lg relative z-10">
+                <p className="text-muted-foreground font-inter font-medium leading-relaxed text-xl relative z-10">
                   Trade & Multiply on our marketplace, reinvesting instantly to watch your wealth compound as property values rise.
                 </p>
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
