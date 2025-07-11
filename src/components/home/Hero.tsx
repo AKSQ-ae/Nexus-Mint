@@ -25,11 +25,11 @@ export function Hero() {
           {/* Own. Earn. Multiply Motto */}
           <div className="animate-fade-in-up flex justify-center mb-8" style={{animationDelay: '0.2s'}}>
             <div className="flex items-center gap-4 text-lg md:text-xl lg:text-2xl font-space font-semibold">
-              <span className="text-orange-accent hover:text-blue-primary transition-colors duration-300 cursor-default">Own.</span>
+              <span className="text-orange-accent hover:text-blue-primary transition-colors duration-300 cursor-default">Own</span>
               <div className="w-2 h-2 bg-orange-accent rounded-full animate-pulse"></div>
-              <span className="text-orange-accent hover:text-blue-primary transition-colors duration-300 cursor-default">Earn.</span>
+              <span className="text-orange-accent hover:text-blue-primary transition-colors duration-300 cursor-default">Earn</span>
               <div className="w-2 h-2 bg-orange-accent rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-              <span className="text-orange-accent hover:text-blue-primary transition-colors duration-300 cursor-default">Multiply.</span>
+              <span className="text-orange-accent hover:text-blue-primary transition-colors duration-300 cursor-default">Multiply</span>
             </div>
           </div>
           
