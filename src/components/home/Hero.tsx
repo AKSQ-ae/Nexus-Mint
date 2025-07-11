@@ -133,7 +133,7 @@ export function Hero() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
               <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
                 <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300" style={{clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)'}}>
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
                     <Building className="w-8 h-8 text-white" />
                   </div>
                 </div>
@@ -154,7 +154,7 @@ export function Hero() {
 
               <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
                 <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300" style={{clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)'}}>
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
                     <DollarSign className="w-8 h-8 text-white" />
                   </div>
                 </div>
@@ -175,7 +175,7 @@ export function Hero() {
 
               <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
                 <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-accent via-coral to-orange-accent/80 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300" style={{clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)'}}>
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-accent via-coral to-orange-accent/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
                     <ChartLine className="w-8 h-8 text-white" />
                   </div>
                 </div>
