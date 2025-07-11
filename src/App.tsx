@@ -41,6 +41,7 @@ function App() {
                 <Route path="/auth/signup" element={<SignUp />} />
                 <Route path="/investment/success" element={<InvestmentSuccess />} />
                 <Route path="/investment/cancel" element={<InvestmentCancel />} />
+                <Route path="/404" element={<NotFound />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

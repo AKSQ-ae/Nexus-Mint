@@ -44,11 +44,22 @@ export default function PropertyDetail() {
         .eq('id', id)
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching property:', error);
+        navigate('/404');
+        return;
+      }
+      
+      if (!data) {
+        console.error('Property not found:', id);
+        navigate('/404');
+        return;
+      }
+      
       setProperty(data);
     } catch (error) {
       console.error('Error fetching property:', error);
-      navigate('/properties');
+      navigate('/404');
     } finally {
       setLoading(false);
     }
