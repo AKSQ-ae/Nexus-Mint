@@ -54,57 +54,120 @@ export function Hero() {
           </div>
           
           <div className="animate-fade-in-up mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto" style={{animationDelay: '0.9s'}}>
-            <div className="bg-primary/10 backdrop-blur-xl p-6 rounded-2xl border border-primary/20 shadow-xl">
-              <div className="text-3xl md:text-4xl font-playfair font-bold text-primary mb-2">
-                AED 10M+
+            <div className="metric-card group">
+              <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
+                AED <span className="count-up" data-target="10">0</span>M+
               </div>
               <p className="text-muted-foreground font-inter font-medium">Assets Under Management</p>
+              <div className="metric-sparkline mt-3">
+                <svg width="80" height="20" className="mx-auto">
+                  <polyline 
+                    fill="none" 
+                    stroke="hsl(var(--blue-primary))" 
+                    strokeWidth="2"
+                    points="0,15 20,12 40,8 60,5 80,3"
+                    className="animate-draw-line"
+                  />
+                </svg>
+              </div>
             </div>
-            <div className="bg-secondary/10 backdrop-blur-xl p-6 rounded-2xl border border-secondary/20 shadow-xl">
-              <div className="text-3xl md:text-4xl font-playfair font-bold text-secondary mb-2">
-                1000+
+            <div className="metric-card group">
+              <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
+                <span className="count-up" data-target="1000">0</span>+
               </div>
               <p className="text-muted-foreground font-inter font-medium">Active Investors</p>
+              <div className="metric-progress mt-3">
+                <div className="w-20 h-2 bg-grey-light rounded-full mx-auto overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-blue-primary to-secondary rounded-full animate-progress-fill" style={{width: '75%'}}></div>
+                </div>
+              </div>
             </div>
-            <div className="bg-coral/10 backdrop-blur-xl p-6 rounded-2xl border border-coral/20 shadow-xl">
-              <div className="text-3xl md:text-4xl font-playfair font-bold text-coral mb-2">
-                10%
+            <div className="metric-card group">
+              <div className="text-3xl md:text-4xl font-playfair font-bold text-orange-accent mb-2">
+                <span className="count-up" data-target="10">0</span>%
               </div>
               <p className="text-muted-foreground font-inter font-medium">Average Annual Return</p>
+              <div className="metric-dial mt-3">
+                <svg width="40" height="40" className="mx-auto">
+                  <circle cx="20" cy="20" r="15" fill="none" stroke="hsl(var(--grey-light))" strokeWidth="3"/>
+                  <circle 
+                    cx="20" cy="20" r="15" 
+                    fill="none" 
+                    stroke="hsl(var(--orange-accent))" 
+                    strokeWidth="3"
+                    strokeDasharray="31.4"
+                    strokeDashoffset="22"
+                    className="animate-dial-fill"
+                    transform="rotate(-90 20 20)"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
         
-        {/* Enhanced features section below */}
-        <div className="mt-32 grid grid-cols-1 gap-8 sm:grid-cols-3 max-w-6xl mx-auto">
-          <div className="card-premium p-8 text-center group animate-fade-in-up" style={{animationDelay: '1.2s'}}>
-            <div className="mx-auto h-16 w-16 bg-gradient-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:animate-glow-pulse">
-              <TrendingUp className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="text-xl font-playfair font-semibold mb-4 text-foreground">Premium Returns</h3>
-            <p className="text-muted-foreground font-inter leading-relaxed">
-              Earn 6-12% annual returns through carefully selected premium real estate investments
+        {/* Step-based transaction flow */}
+        <div className="mt-32 max-w-6xl mx-auto">
+          <div className="text-center mb-16 animate-fade-in-up" style={{animationDelay: '1.1s'}}>
+            <h3 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">
+              Your Journey to Real Estate Wealth
+            </h3>
+            <p className="text-lg text-muted-foreground font-inter max-w-2xl mx-auto">
+              Three simple steps to transform your investment approach
             </p>
           </div>
           
-          <div className="card-premium p-8 text-center group animate-fade-in-up" style={{animationDelay: '1.3s'}}>
-            <div className="mx-auto h-16 w-16 bg-gradient-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:animate-glow-pulse">
-              <Shield className="h-8 w-8 text-primary" />
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+            <div className="step-card group animate-fade-in-up" style={{animationDelay: '1.2s'}}>
+              <div className="step-number">01</div>
+              <div className="step-icon mx-auto mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-accent to-orange-accent/70 rounded-2xl flex items-center justify-center">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                </div>
+              </div>
+              <h4 className="text-xl font-playfair font-semibold mb-4 text-foreground group-hover:text-orange-accent transition-colors">
+                Acquire Your Slice
+              </h4>
+              <p className="text-muted-foreground font-inter leading-relaxed">
+                Own real-estate shares from AED 100. Pick premium properties across UAE's hottest markets.
+              </p>
             </div>
-            <h3 className="text-xl font-playfair font-semibold mb-4 text-foreground">Bank-Grade Security</h3>
-            <p className="text-muted-foreground font-inter leading-relaxed">
-              Enterprise-grade encryption and blockchain technology ensure your investments are secure
-            </p>
-          </div>
-          
-          <div className="card-premium p-8 text-center group animate-fade-in-up" style={{animationDelay: '1.4s'}}>
-            <div className="mx-auto h-16 w-16 bg-gradient-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:animate-glow-pulse">
-              <Users className="h-8 w-8 text-primary" />
+            
+            <div className="step-card group animate-fade-in-up" style={{animationDelay: '1.3s'}}>
+              <div className="step-number">02</div>
+              <div className="step-icon mx-auto mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-primary to-blue-secondary rounded-2xl flex items-center justify-center">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                  </svg>
+                </div>
+              </div>
+              <h4 className="text-xl font-playfair font-semibold mb-4 text-foreground group-hover:text-blue-primary transition-colors">
+                Collect Rental Income
+              </h4>
+              <p className="text-muted-foreground font-inter leading-relaxed">
+                Get 8–12% annual payouts directly to your wallet. Quarterly distributions, zero hassle.
+              </p>
             </div>
-            <h3 className="text-xl font-playfair font-semibold mb-4 text-foreground">Accessible Investment</h3>
-            <p className="text-muted-foreground font-inter leading-relaxed">
-              Own fractional shares in premium properties worldwide starting with just AED 500
-            </p>
+            
+            <div className="step-card group animate-fade-in-up" style={{animationDelay: '1.4s'}}>
+              <div className="step-number">03</div>
+              <div className="step-icon mx-auto mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-secondary to-coral rounded-2xl flex items-center justify-center">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  </svg>
+                </div>
+              </div>
+              <h4 className="text-xl font-playfair font-semibold mb-4 text-foreground group-hover:text-secondary transition-colors">
+                Trade & Multiply
+              </h4>
+              <p className="text-muted-foreground font-inter leading-relaxed">
+                Liquidate 24/7 on our exchange. Watch your wealth compound as property values rise.
+              </p>
+            </div>
           </div>
         </div>
       </div>

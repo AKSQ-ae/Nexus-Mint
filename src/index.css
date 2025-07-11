@@ -303,4 +303,83 @@ All colors MUST be HSL.
       opacity: 0;
     }
   }
+
+  /* Metric animations */
+  @keyframes draw-line {
+    from { 
+      stroke-dasharray: 100; 
+      stroke-dashoffset: 100; 
+    }
+    to { 
+      stroke-dasharray: 100; 
+      stroke-dashoffset: 0; 
+    }
+  }
+
+  @keyframes progress-fill {
+    from { width: 0%; }
+    to { width: 75%; }
+  }
+
+  @keyframes dial-fill {
+    from { stroke-dashoffset: 31.4; }
+    to { stroke-dashoffset: 22; }
+  }
+
+  /* Metric cards */
+  .metric-card {
+    @apply bg-gradient-to-br from-white to-grey-light backdrop-blur-xl p-6 rounded-2xl border border-grey-mid/30 shadow-xl transition-all duration-300;
+  }
+
+  .metric-card:hover {
+    @apply transform -translate-y-2 shadow-2xl;
+    box-shadow: 0 20px 40px -12px hsl(var(--blue-primary) / 0.15);
+  }
+
+  .animate-draw-line {
+    animation: draw-line 2s ease-out forwards;
+    animation-delay: 1s;
+  }
+
+  .animate-progress-fill {
+    animation: progress-fill 1.5s ease-out forwards;
+    animation-delay: 1.2s;
+    width: 0%;
+  }
+
+  .animate-dial-fill {
+    animation: dial-fill 1.5s ease-out forwards;
+    animation-delay: 1.4s;
+  }
+
+  /* Step cards */
+  .step-card {
+    @apply bg-white border border-grey-mid rounded-2xl p-8 text-center relative overflow-hidden transition-all duration-300;
+    background: linear-gradient(145deg, white 0%, hsl(var(--grey-light)) 100%);
+  }
+
+  .step-card:hover {
+    @apply transform -translate-y-1;
+    box-shadow: 0 12px 30px -8px hsl(var(--orange-accent) / 0.15);
+  }
+
+  .step-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, hsl(var(--orange-accent)), hsl(var(--blue-primary)), hsl(var(--secondary)));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .step-card:hover::before {
+    opacity: 1;
+  }
+
+  .step-number {
+    @apply absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-orange-accent to-orange-accent/70 text-white text-sm font-bold rounded-full flex items-center justify-center;
+  }
 }
