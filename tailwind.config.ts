@@ -82,6 +82,7 @@ export default {
 				},
 				'navy-blue': 'hsl(var(--navy-blue))',
 				'bright-blue': 'hsl(var(--bright-blue))',
+				'coral': 'hsl(var(--coral))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -98,6 +99,7 @@ export default {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-secondary': 'var(--gradient-secondary)',
 				'gradient-card': 'var(--gradient-card)',
+				'gradient-coral': 'var(--gradient-coral)',
 			},
 			boxShadow: {
 				'elegant': 'var(--shadow-elegant)',

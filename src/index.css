@@ -8,36 +8,37 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Elegant Blue Theme - Professional & User-Friendly */
+    /* Modern Artistic Theme - Navy, Bright Blue & Coral */
     --background: 0 0% 100%;
-    --foreground: 220 85% 15%;
+    --foreground: 220 15% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 85% 15%;
+    --card-foreground: 220 15% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 85% 15%;
+    --popover-foreground: 220 15% 20%;
 
     /* Primary - Navy Blue */
     --primary: 220 85% 20%;
-    --primary-foreground: 0 0% 98%;
+    --primary-foreground: 0 0% 100%;
     --primary-glow: 220 85% 30%;
 
     /* Secondary - Bright Blue */
     --secondary: 210 100% 60%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Artistic Accent - Vibrant Coral */
+    --accent: 14 100% 65%;
+    --accent-foreground: 0 0% 100%;
 
     /* Sophisticated Muted */
-    --muted: 220 20% 97%;
+    --muted: 220 10% 96%;
     --muted-foreground: 220 15% 45%;
 
-    /* Refined Accent - Light Blue */
-    --accent: 210 40% 92%;
-    --accent-foreground: 220 85% 20%;
-
-    /* Custom Blues */
+    /* Custom Color Palette */
     --navy-blue: 220 85% 20%;
     --bright-blue: 210 100% 60%;
+    --coral: 14 100% 65%;
 
     /* Success - Emerald */
     --success: 142 71% 45%;
@@ -56,11 +57,12 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    /* Blue Theme Gradients */
+    /* Artistic Three-Color Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(220 85% 20%), hsl(220 85% 30%));
-    --gradient-secondary: linear-gradient(135deg, hsl(210 100% 60%), hsl(210 100% 70%));
-    --gradient-hero: linear-gradient(135deg, hsl(220 85% 20%) 0%, hsl(220 85% 25%) 50%, hsl(210 100% 60%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(220 20% 98%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(210 100% 60%), hsl(14 100% 65%));
+    --gradient-hero: linear-gradient(135deg, hsl(220 85% 20%) 0%, hsl(210 100% 60%) 50%, hsl(14 100% 65%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(220 5% 98%) 100%);
+    --gradient-coral: linear-gradient(135deg, hsl(14 100% 65%), hsl(14 100% 70%));
     
     /* Blue Theme Shadows */
     --shadow-elegant: 0 4px 6px -1px hsl(220 85% 20% / 0.1), 0 2px 4px -1px hsl(220 85% 20% / 0.06);

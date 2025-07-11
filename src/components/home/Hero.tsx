@@ -24,21 +24,25 @@ export function Hero() {
             <p className="text-xl md:text-2xl text-white/90 mb-6 font-inter leading-relaxed max-w-3xl mx-auto">
               Own premium assets for just $100.
             </p>
-            <div className="flex flex-wrap justify-center gap-8 mb-8 text-sm md:text-base">
+            <div className="flex flex-wrap justify-center gap-6 mb-8 text-sm md:text-base">
               <div className="flex items-center gap-2 text-navy-blue font-semibold">
-                <span className="w-2 h-2 bg-navy-blue rounded-full"></span>
+                <span className="w-2 h-2 bg-navy-blue rounded-full animate-pulse"></span>
                 Aiming for 6–12% Annual Growth
               </div>
               <div className="flex items-center gap-2 text-bright-blue font-semibold">
-                <span className="w-2 h-2 bg-bright-blue rounded-full"></span>
+                <span className="w-2 h-2 bg-bright-blue rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></span>
                 Securities Compliant
+              </div>
+              <div className="flex items-center gap-2 text-coral font-semibold">
+                <span className="w-2 h-2 bg-coral rounded-full animate-pulse" style={{animationDelay: '1s'}}></span>
+                Global Markets
               </div>
             </div>
           </div>
           
           <div className="animate-fade-in-up flex justify-center max-w-md mx-auto" style={{animationDelay: '0.6s'}}>
             <Link to="/properties">
-              <Button size="xl" variant="secondary">
+              <Button size="xl" className="bg-coral hover:bg-coral/90 text-white font-semibold px-8 py-4 text-lg">
                 <TrendingUp className="h-5 w-5" />
                 Start Investing
               </Button>
