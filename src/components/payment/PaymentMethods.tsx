@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { getPaymentMethods, addPaymentMethod, deletePaymentMethod } from '@/lib/services/payment-service';
-import { CreditCard, Plus, Trash2, DollarSign, Bitcoin } from 'lucide-react';
+import { CreditCard, Plus, Trash2, DollarSign, Bitcoin, Smartphone, Apple, Wallet } from 'lucide-react';
 
 export function PaymentMethods() {
   const { user } = useAuth();
@@ -25,6 +25,14 @@ export function PaymentMethods() {
     bank_name: '',
     wallet_address: '',
     wallet_type: '',
+    card_number: '',
+    expiry_month: '',
+    expiry_year: '',
+    cvv: '',
+    cardholder_name: '',
+    billing_address: '',
+    email: '',
+    phone: '',
     is_default: false
   });
 
@@ -59,6 +67,15 @@ export function PaymentMethods() {
       } else if (newMethod.method_type === 'crypto') {
         details.wallet_address = newMethod.wallet_address;
         details.wallet_type = newMethod.wallet_type;
+      } else if (newMethod.method_type === 'credit_card') {
+        details.card_number = newMethod.card_number;
+        details.expiry_month = newMethod.expiry_month;
+        details.expiry_year = newMethod.expiry_year;
+        details.cardholder_name = newMethod.cardholder_name;
+        details.billing_address = newMethod.billing_address;
+      } else if (['apple_pay', 'google_pay', 'paypal'].includes(newMethod.method_type)) {
+        details.email = newMethod.email;
+        details.phone = newMethod.phone;
       }
 
       await addPaymentMethod({
@@ -82,6 +99,14 @@ export function PaymentMethods() {
         bank_name: '',
         wallet_address: '',
         wallet_type: '',
+        card_number: '',
+        expiry_month: '',
+        expiry_year: '',
+        cvv: '',
+        cardholder_name: '',
+        billing_address: '',
+        email: '',
+        phone: '',
         is_default: false
       });
       
@@ -122,6 +147,14 @@ export function PaymentMethods() {
         return <DollarSign className="h-4 w-4" />;
       case 'crypto':
         return <Bitcoin className="h-4 w-4" />;
+      case 'credit_card':
+        return <CreditCard className="h-4 w-4" />;
+      case 'apple_pay':
+        return <Apple className="h-4 w-4" />;
+      case 'google_pay':
+        return <Smartphone className="h-4 w-4" />;
+      case 'paypal':
+        return <Wallet className="h-4 w-4" />;
       default:
         return <CreditCard className="h-4 w-4" />;
     }
@@ -133,6 +166,14 @@ export function PaymentMethods() {
         return `${method.details.bank_name} •••• ${method.details.account_number?.slice(-4)}`;
       case 'crypto':
         return `${method.details.wallet_type} ${method.details.wallet_address?.slice(0, 6)}...${method.details.wallet_address?.slice(-4)}`;
+      case 'credit_card':
+        return `${method.details.cardholder_name} •••• ${method.details.card_number?.slice(-4)}`;
+      case 'apple_pay':
+        return `Apple Pay (${method.details.email})`;
+      case 'google_pay':
+        return `Google Pay (${method.details.email})`;
+      case 'paypal':
+        return `PayPal (${method.details.email})`;
       default:
         return method.method_type;
     }
@@ -187,6 +228,10 @@ export function PaymentMethods() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
+                      <SelectItem value="credit_card">Credit/Debit Card</SelectItem>
+                      <SelectItem value="apple_pay">Apple Pay</SelectItem>
+                      <SelectItem value="google_pay">Google Pay</SelectItem>
+                      <SelectItem value="paypal">PayPal</SelectItem>
                       <SelectItem value="crypto">Cryptocurrency</SelectItem>
                     </SelectContent>
                   </Select>
@@ -224,21 +269,122 @@ export function PaymentMethods() {
                   </>
                 )}
 
+                {newMethod.method_type === 'credit_card' && (
+                  <>
+                    <div>
+                      <Label htmlFor="cardholderName">Cardholder Name</Label>
+                      <Input
+                        id="cardholderName"
+                        value={newMethod.cardholder_name}
+                        onChange={(e) => setNewMethod(prev => ({ ...prev, cardholder_name: e.target.value }))}
+                        placeholder="John Doe"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="cardNumber">Card Number</Label>
+                      <Input
+                        id="cardNumber"
+                        value={newMethod.card_number}
+                        onChange={(e) => setNewMethod(prev => ({ ...prev, card_number: e.target.value }))}
+                        placeholder="1234 5678 9012 3456"
+                        required
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="expiryMonth">Expiry Month</Label>
+                        <Select
+                          value={newMethod.expiry_month}
+                          onValueChange={(value) => setNewMethod(prev => ({ ...prev, expiry_month: value }))}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="MM" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Array.from({ length: 12 }, (_, i) => i + 1).map(month => (
+                              <SelectItem key={month} value={month.toString().padStart(2, '0')}>
+                                {month.toString().padStart(2, '0')}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label htmlFor="expiryYear">Expiry Year</Label>
+                        <Select
+                          value={newMethod.expiry_year}
+                          onValueChange={(value) => setNewMethod(prev => ({ ...prev, expiry_year: value }))}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="YYYY" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Array.from({ length: 10 }, (_, i) => new Date().getFullYear() + i).map(year => (
+                              <SelectItem key={year} value={year.toString()}>
+                                {year}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <div>
+                      <Label htmlFor="billingAddress">Billing Address</Label>
+                      <Input
+                        id="billingAddress"
+                        value={newMethod.billing_address}
+                        onChange={(e) => setNewMethod(prev => ({ ...prev, billing_address: e.target.value }))}
+                        placeholder="123 Main St, City, State 12345"
+                        required
+                      />
+                    </div>
+                  </>
+                )}
+
+                {['apple_pay', 'google_pay', 'paypal'].includes(newMethod.method_type) && (
+                  <>
+                    <div>
+                      <Label htmlFor="email">Email Address</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={newMethod.email}
+                        onChange={(e) => setNewMethod(prev => ({ ...prev, email: e.target.value }))}
+                        placeholder="your@email.com"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="phone">Phone Number (Optional)</Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        value={newMethod.phone}
+                        onChange={(e) => setNewMethod(prev => ({ ...prev, phone: e.target.value }))}
+                        placeholder="+1 (555) 123-4567"
+                      />
+                    </div>
+                  </>
+                )}
+
                 {newMethod.method_type === 'crypto' && (
                   <>
                     <div>
-                      <Label htmlFor="walletType">Wallet Type</Label>
+                      <Label htmlFor="walletType">Cryptocurrency Type</Label>
                       <Select
                         value={newMethod.wallet_type}
                         onValueChange={(value) => setNewMethod(prev => ({ ...prev, wallet_type: value }))}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select wallet type" />
+                          <SelectValue placeholder="Select cryptocurrency" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="USDC">USDC</SelectItem>
-                          <SelectItem value="USDT">USDT</SelectItem>
-                          <SelectItem value="ETH">Ethereum</SelectItem>
+                          <SelectItem value="USDC">USDC (USD Coin)</SelectItem>
+                          <SelectItem value="USDT">USDT (Tether)</SelectItem>
+                          <SelectItem value="ETH">Ethereum (ETH)</SelectItem>
+                          <SelectItem value="BTC">Bitcoin (BTC)</SelectItem>
+                          <SelectItem value="BNB">Binance Coin (BNB)</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -248,12 +394,13 @@ export function PaymentMethods() {
                         id="walletAddress"
                         value={newMethod.wallet_address}
                         onChange={(e) => setNewMethod(prev => ({ ...prev, wallet_address: e.target.value }))}
-                        placeholder="0x..."
+                        placeholder="0x... or bc1..."
                         required
                       />
                     </div>
                   </>
                 )}
+
 
                 <Button
                   onClick={handleAddMethod}
