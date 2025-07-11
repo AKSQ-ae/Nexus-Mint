@@ -125,7 +125,7 @@ export function Hero() {
           
           {/* Why Nexus Leads the World Section */}
           <div className="animate-fade-in-up mt-16 text-center" style={{animationDelay: '0.9s'}}>
-            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">Why Nexus Leads the World</h2>
+            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">Global Access. Local Returns.</h2>
             <p className="text-lg text-muted-foreground font-inter max-w-3xl mx-auto mb-12">
               Empowering 25,000+ investors in 30+ countries to build AED 4.4B+ in tokenized real estate—starting at just AED 100.
             </p>
