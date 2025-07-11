@@ -28,25 +28,25 @@ export default function Demo() {
       title: "Select Premium Property",
       description: "Browse curated Dubai real estate opportunities",
       icon: Building,
-      duration: 1000
+      duration: 500
     },
     {
       title: "Investment Calculation",
       description: `Invest AED ${investmentAmount.toLocaleString()} (≈ $${Math.round(investmentAmount / 3.67).toLocaleString()})`,
       icon: DollarSign,
-      duration: 1000
+      duration: 500
     },
     {
       title: "Tokenization Process",
       description: "Property ownership converted to digital tokens",
       icon: Zap,
-      duration: 1000
+      duration: 500
     },
     {
       title: "Portfolio Growth",
       description: "Track your returns and property performance",
       icon: TrendingUp,
-      duration: 1000
+      duration: 500
     }
   ];
 
