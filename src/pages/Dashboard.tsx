@@ -9,6 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { AdvancedAnalytics } from '@/components/analytics/AdvancedAnalytics';
 import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt';
+import { SystemStatus } from '@/components/ui/system-status';
 import { 
   TrendingUp, 
   TrendingDown,
@@ -571,6 +572,19 @@ export default function Dashboard() {
               )}
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="advanced" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <SystemStatus />
+            <AdvancedAnalytics 
+              portfolioValue={stats.currentValue}
+              totalInvested={stats.totalInvested}
+              totalGains={stats.totalGains}
+              totalGainsPercentage={stats.totalGainsPercentage}
+              activeInvestments={stats.activeInvestments}
+            />
+          </div>
         </TabsContent>
       </Tabs>
 
