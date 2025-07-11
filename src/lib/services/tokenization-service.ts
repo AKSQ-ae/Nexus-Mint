@@ -75,6 +75,28 @@ export async function calculateInvestmentFees(amount: number, feeType: string = 
   return data || 0;
 }
 
+export const deployPropertyContract = async (
+  propertyId: string
+): Promise<{ success: boolean; error?: string; contractAddress?: string }> => {
+  try {
+    const { data, error } = await supabase.functions.invoke('deploy-property-contract', {
+      body: { propertyId }
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Contract deployment failed:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Contract deployment failed'
+    };
+  }
+};
+
 export async function createInvestment(propertyId: string, tokenAmount: number, paymentMethodId?: string) {
   const { data, error } = await supabase.functions.invoke('create-investment', {
     body: {

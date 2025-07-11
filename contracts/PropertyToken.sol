@@ -1,94 +1,148 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
-import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 /**
  * @title PropertyToken
- * @dev ERC1155 token contract for fractional real estate ownership
+ * @dev ERC20 token contract for individual property tokenization
+ * Each property gets its own ERC20 token contract
  */
-contract PropertyToken is ERC1155, Ownable, Pausable, ERC1155Supply {
-    mapping(uint256 => PropertyMetadata) public properties;
-    mapping(uint256 => mapping(address => uint256)) public investments;
-    mapping(uint256 => uint256) public propertyIncome;
-    
-    uint256 public nextPropertyId = 1;
-    
-    struct PropertyMetadata {
-        string name;
-        uint256 totalTokens;
-        uint256 tokenPrice;
+contract PropertyToken is ERC20, Ownable, Pausable, ReentrancyGuard {
+    struct PropertyInfo {
+        string propertyId;
+        string title;
+        string location;
         uint256 totalValue;
-        bool active;
+        uint256 totalSupply;
+        uint256 pricePerToken;
+        bool isActive;
         string metadataURI;
     }
     
-    event PropertyCreated(uint256 indexed propertyId, string name, uint256 totalTokens);
-    event TokensPurchased(uint256 indexed propertyId, address indexed buyer, uint256 amount);
-    event IncomeDistributed(uint256 indexed propertyId, uint256 amount);
+    PropertyInfo public propertyInfo;
     
-    constructor() ERC1155("") {}
+    // Investor tracking
+    mapping(address => uint256) public investorTokens;
+    address[] public investors;
+    mapping(address => bool) public isInvestor;
     
-    function createProperty(
+    // Income distribution
+    uint256 public totalIncomeDistributed;
+    mapping(address => uint256) public claimedIncome;
+    
+    // Events
+    event TokensPurchased(address indexed investor, uint256 amount, uint256 tokens);
+    event DividendsDistributed(uint256 totalAmount, uint256 perToken);
+    event PropertyUpdated(string propertyId, uint256 newValue);
+    event IncomeDistributed(uint256 amount);
+    event IncomeClaimed(address indexed investor, uint256 amount);
+    
+    constructor(
         string memory _name,
-        uint256 _totalTokens,
-        uint256 _tokenPrice,
+        string memory _symbol,
+        string memory _propertyId,
+        string memory _title,
+        string memory _location,
         uint256 _totalValue,
-        string memory _metadataURI
-    ) external onlyOwner {
-        uint256 propertyId = nextPropertyId++;
-        
-        properties[propertyId] = PropertyMetadata({
-            name: _name,
-            totalTokens: _totalTokens,
-            tokenPrice: _tokenPrice,
+        uint256 _totalSupply,
+        string memory _metadataURI,
+        address _owner
+    ) ERC20(_name, _symbol) {
+        propertyInfo = PropertyInfo({
+            propertyId: _propertyId,
+            title: _title,
+            location: _location,
             totalValue: _totalValue,
-            active: true,
+            totalSupply: _totalSupply,
+            pricePerToken: _totalValue / _totalSupply,
+            isActive: true,
             metadataURI: _metadataURI
         });
         
-        _mint(address(this), propertyId, _totalTokens, "");
-        
-        emit PropertyCreated(propertyId, _name, _totalTokens);
+        _mint(address(this), _totalSupply);
+        _transferOwnership(_owner);
     }
     
-    function purchaseTokens(uint256 _propertyId, uint256 _amount) external payable whenNotPaused {
-        PropertyMetadata storage property = properties[_propertyId];
-        require(property.active, "Property not active");
-        require(_amount > 0, "Amount must be greater than 0");
-        require(msg.value == _amount * property.tokenPrice, "Incorrect payment amount");
-        require(balanceOf(address(this), _propertyId) >= _amount, "Insufficient tokens available");
+    function purchaseTokens(uint256 _tokenAmount) external payable nonReentrant whenNotPaused {
+        require(propertyInfo.isActive, "Property token sales not active");
+        require(_tokenAmount > 0, "Token amount must be greater than 0");
+        require(balanceOf(address(this)) >= _tokenAmount, "Not enough tokens available");
         
-        _safeTransferFrom(address(this), msg.sender, _propertyId, _amount, "");
-        investments[_propertyId][msg.sender] += _amount;
+        uint256 cost = _tokenAmount * propertyInfo.pricePerToken;
+        require(msg.value >= cost, "Insufficient payment");
         
-        emit TokensPurchased(_propertyId, msg.sender, _amount);
+        // Add to investors list if first purchase
+        if (!isInvestor[msg.sender]) {
+            investors.push(msg.sender);
+            isInvestor[msg.sender] = true;
+        }
+        
+        // Update investor balance tracking
+        investorTokens[msg.sender] += _tokenAmount;
+        
+        // Transfer tokens from contract to investor
+        _transfer(address(this), msg.sender, _tokenAmount);
+        
+        // Refund excess payment
+        if (msg.value > cost) {
+            payable(msg.sender).transfer(msg.value - cost);
+        }
+        
+        emit TokensPurchased(msg.sender, cost, _tokenAmount);
     }
     
-    function distributeIncome(uint256 _propertyId) external payable onlyOwner {
+    function distributeIncome() external payable onlyOwner nonReentrant {
         require(msg.value > 0, "No income to distribute");
-        propertyIncome[_propertyId] += msg.value;
-        emit IncomeDistributed(_propertyId, msg.value);
+        require(totalSupply() > balanceOf(address(this)), "No tokens sold yet");
+        
+        totalIncomeDistributed += msg.value;
+        emit IncomeDistributed(msg.value);
     }
     
-    function claimIncome(uint256 _propertyId) external {
-        uint256 userTokens = balanceOf(msg.sender, _propertyId);
-        require(userTokens > 0, "No tokens owned");
+    function claimIncome() external nonReentrant {
+        uint256 userBalance = balanceOf(msg.sender);
+        require(userBalance > 0, "No tokens owned");
         
-        uint256 totalIncome = propertyIncome[_propertyId];
-        uint256 userShare = (totalIncome * userTokens) / properties[_propertyId].totalTokens;
+        uint256 circulatingSupply = totalSupply() - balanceOf(address(this));
+        uint256 userShare = (totalIncomeDistributed * userBalance) / circulatingSupply;
+        uint256 claimableAmount = userShare - claimedIncome[msg.sender];
         
-        require(userShare > 0, "No income to claim");
+        require(claimableAmount > 0, "No income to claim");
+        require(address(this).balance >= claimableAmount, "Insufficient contract balance");
         
-        propertyIncome[_propertyId] -= userShare;
-        payable(msg.sender).transfer(userShare);
+        claimedIncome[msg.sender] = userShare;
+        payable(msg.sender).transfer(claimableAmount);
+        
+        emit IncomeClaimed(msg.sender, claimableAmount);
     }
     
-    function uri(uint256 _propertyId) public view override returns (string memory) {
-        return properties[_propertyId].metadataURI;
+    function getClaimableIncome(address _investor) external view returns (uint256) {
+        uint256 userBalance = balanceOf(_investor);
+        if (userBalance == 0) return 0;
+        
+        uint256 circulatingSupply = totalSupply() - balanceOf(address(this));
+        if (circulatingSupply == 0) return 0;
+        
+        uint256 userShare = (totalIncomeDistributed * userBalance) / circulatingSupply;
+        return userShare - claimedIncome[_investor];
+    }
+    
+    function updatePropertyValue(uint256 _newValue) external onlyOwner {
+        propertyInfo.totalValue = _newValue;
+        propertyInfo.pricePerToken = _newValue / propertyInfo.totalSupply;
+        emit PropertyUpdated(propertyInfo.propertyId, _newValue);
+    }
+    
+    function updateMetadataURI(string memory _newURI) external onlyOwner {
+        propertyInfo.metadataURI = _newURI;
+    }
+    
+    function togglePropertyActive() external onlyOwner {
+        propertyInfo.isActive = !propertyInfo.isActive;
     }
     
     function pause() external onlyOwner {
@@ -99,14 +153,33 @@ contract PropertyToken is ERC1155, Ownable, Pausable, ERC1155Supply {
         _unpause();
     }
     
-    function _beforeTokenTransfer(
-        address operator,
-        address from,
-        address to,
-        uint256[] memory ids,
-        uint256[] memory amounts,
-        bytes memory data
-    ) internal override(ERC1155, ERC1155Supply) whenNotPaused {
-        super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
+    function withdrawContractBalance() external onlyOwner {
+        payable(owner()).transfer(address(this).balance);
+    }
+    
+    function getInvestorCount() external view returns (uint256) {
+        return investors.length;
+    }
+    
+    function getAvailableTokens() external view returns (uint256) {
+        return balanceOf(address(this));
+    }
+    
+    function getPropertyInfo() external view returns (PropertyInfo memory) {
+        return propertyInfo;
+    }
+    
+    function getInvestors() external view returns (address[] memory) {
+        return investors;
+    }
+    
+    // Override transfer to update investor tracking
+    function _beforeTokenTransfer(address from, address to, uint256 amount) internal override whenNotPaused {
+        super._beforeTokenTransfer(from, to, amount);
+        
+        if (to != address(0) && to != address(this) && !isInvestor[to] && amount > 0) {
+            investors.push(to);
+            isInvestor[to] = true;
+        }
     }
 }
