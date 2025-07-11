@@ -194,7 +194,7 @@ export function Hero() {
                 Request Early Access
               </Button>
               <p className="text-sm text-muted-foreground font-inter">
-                Secure your spot before we open to the public.
+                Secure your spot.
               </p>
             </div>
           </div>
