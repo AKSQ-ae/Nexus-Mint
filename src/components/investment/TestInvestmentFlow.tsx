@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -27,6 +28,7 @@ export function TestInvestmentFlow({
   const [investmentComplete, setInvestmentComplete] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const totalAmount = tokenAmount * pricePerToken;
   const feeAmount = totalAmount * 0.03; // 3% fee
@@ -176,7 +178,7 @@ export function TestInvestmentFlow({
             </div>
           </div>
           <Button 
-            onClick={() => window.location.href = '/dashboard'} 
+            onClick={() => navigate('/dashboard')} 
             className="w-full"
           >
             View Dashboard
