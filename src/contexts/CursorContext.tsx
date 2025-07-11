@@ -10,7 +10,7 @@ const CursorContext = createContext<CursorContextType | undefined>(undefined);
 export function CursorProvider({ children }: { children: React.ReactNode }) {
   const [isEnabled, setIsEnabled] = useState(() => {
     const saved = localStorage.getItem('nexus-cursor-enabled');
-    return saved ? JSON.parse(saved) : false;
+    return saved ? JSON.parse(saved) : true; // Default to enabled
   });
 
   const toggleCursor = () => {

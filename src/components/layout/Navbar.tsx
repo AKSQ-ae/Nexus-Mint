@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { UserMenu } from './UserMenu';
 import { HelpCenter } from '@/components/ui/help-center';
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
-import { CursorToggle } from '@/components/ui/cursor-toggle';
+
 import { Menu, X, Building2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -98,7 +98,6 @@ export function Navbar() {
           
           {/* Right side with auth */}
           <div className="hidden md:flex items-center space-x-4">
-            <CursorToggle />
             <HelpCenter />
             {/* Wallet integration temporarily disabled for debugging */}
             {user ? (
