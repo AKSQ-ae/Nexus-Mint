@@ -15,8 +15,8 @@ export function Hero() {
       <div className="container mx-auto px-4 py-32 lg:py-40 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
           <div className="animate-fade-in-up">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-8 leading-none">
-              <span className="gradient-text block">Wealth On Tap</span>
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-8 leading-none text-white">
+              <span className="block bg-gradient-to-r from-white via-coral to-white bg-clip-text text-transparent font-extrabold">Wealth On Tap</span>
             </h1>
           </div>
           
