@@ -80,6 +80,8 @@ export default {
 					DEFAULT: 'hsl(var(--warning))',
 					foreground: 'hsl(var(--warning-foreground))'
 				},
+				'navy-blue': 'hsl(var(--navy-blue))',
+				'bright-blue': 'hsl(var(--bright-blue))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

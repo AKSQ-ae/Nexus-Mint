@@ -25,12 +25,12 @@ export function Hero() {
               Own premium assets for just $100.
             </p>
             <div className="flex flex-wrap justify-center gap-8 mb-8 text-sm md:text-base">
-              <div className="flex items-center gap-2 text-secondary font-semibold">
-                <span className="w-2 h-2 bg-secondary rounded-full"></span>
+              <div className="flex items-center gap-2 text-navy-blue font-semibold">
+                <span className="w-2 h-2 bg-navy-blue rounded-full"></span>
                 Aiming for 6–12% Annual Growth
               </div>
-              <div className="flex items-center gap-2 text-secondary font-semibold">
-                <span className="w-2 h-2 bg-secondary rounded-full"></span>
+              <div className="flex items-center gap-2 text-bright-blue font-semibold">
+                <span className="w-2 h-2 bg-bright-blue rounded-full"></span>
                 Securities Compliant
               </div>
             </div>

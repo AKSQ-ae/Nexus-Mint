@@ -35,6 +35,10 @@ All colors MUST be HSL.
     --accent: 210 40% 92%;
     --accent-foreground: 210 50% 8%;
 
+    /* Custom Blues */
+    --navy-blue: 220 85% 20%;
+    --bright-blue: 210 100% 60%;
+
     /* Success - Emerald */
     --success: 142 71% 45%;
     --success-foreground: 0 0% 98%;
