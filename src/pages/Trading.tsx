@@ -64,7 +64,12 @@ export default function Trading() {
         .single();
 
       if (propertyError) throw propertyError;
-      setProperty(propertyData);
+      setProperty({
+        ...propertyData,
+        images: Array.isArray(propertyData.images) 
+          ? (propertyData.images as string[])
+          : []
+      });
 
       // Fetch token supply
       const { data: supplyData, error: supplyError } = await supabase
