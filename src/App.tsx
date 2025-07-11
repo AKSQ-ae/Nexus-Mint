@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { InvestmentSuccess } from "./pages/investment/InvestmentSuccess";
+import { InvestmentCancel } from "./pages/investment/InvestmentCancel";
 
 // Simple components for now
 const Index = () => (
@@ -91,6 +93,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/properties" element={<Properties />} />
           <Route path="/auth/signin" element={<SignIn />} />
+          <Route path="/investment/success" element={<InvestmentSuccess />} />
+          <Route path="/investment/cancel" element={<InvestmentCancel />} />
         </Routes>
       </main>
     </div>

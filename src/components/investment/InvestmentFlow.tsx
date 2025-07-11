@@ -287,8 +287,9 @@ export function InvestmentFlow({ propertyId, propertyTitle, onInvestmentComplete
               
               <TabsContent value="fiat" className="mt-4">
                 <StripePayment
-                  amount={investmentData.totalAmount}
-                  onPaymentComplete={(methodId) => handlePaymentComplete(methodId)}
+                  propertyId={propertyId}
+                  tokenAmount={investmentData.tokenAmount}
+                  investmentAmount={investmentData.totalAmount}
                   disabled={investing}
                 />
               </TabsContent>

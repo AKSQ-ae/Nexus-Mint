@@ -24,6 +24,12 @@ enable_confirmations = false
 [functions.create-investment]
 verify_jwt = true
 
+[functions.create-investment-payment]
+verify_jwt = true
+
+[functions.verify-investment-payment]
+verify_jwt = true
+
 [functions.process-payment-webhook]
 verify_jwt = false
 
