@@ -51,16 +51,18 @@ export function Hero() {
                 Start Investing
               </Button>
             </Link>
-            <Button size="xl" variant="outline" className="flex-1 border-white/30 text-white hover:bg-white/10 glass">
-              <Play className="h-5 w-5" />
-              Watch Demo
-            </Button>
+            <Link to="/demo" className="flex-1">
+              <Button size="xl" variant="outline" className="w-full border-white/30 text-white hover:bg-white/10 glass">
+                <Play className="h-5 w-5" />
+                Watch Demo
+              </Button>
+            </Link>
           </div>
           
           <div className="animate-fade-in-up mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto" style={{animationDelay: '0.9s'}}>
             <div className="glass p-6 rounded-2xl backdrop-blur-xl">
               <div className="text-3xl md:text-4xl font-playfair font-bold text-secondary mb-2">
-                $500M+
+                AED 1.8B+
               </div>
               <p className="text-white/80 font-inter">Assets Under Management</p>
             </div>
@@ -107,7 +109,7 @@ export function Hero() {
             </div>
             <h3 className="text-xl font-playfair font-semibold mb-4 text-foreground">Accessible Investment</h3>
             <p className="text-muted-foreground font-inter leading-relaxed">
-              Own fractional shares in premium properties worldwide starting with just $100
+              Own fractional shares in premium properties worldwide starting with just AED 500
             </p>
           </div>
         </div>

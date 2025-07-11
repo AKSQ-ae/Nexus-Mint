@@ -45,8 +45,8 @@ export function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <Building2 className="h-8 w-8 text-primary" />
-              <span className="font-bold text-xl">Nexus Mint</span>
+              <img src="/src/assets/nexus-logo.png" alt="Nexus" className="h-8 w-8" />
+              <span className="font-bold text-xl">Nexus</span>
             </Link>
           </div>
 
@@ -73,10 +73,10 @@ export function Navbar() {
                   Portfolio
                 </Link>
                 <Link 
-                  to="/tokenization-demo" 
+                  to="/demo" 
                   className="text-foreground hover:text-primary transition-colors"
                 >
-                  Tokenization Demo
+                  Demo
                 </Link>
               </>
             )}

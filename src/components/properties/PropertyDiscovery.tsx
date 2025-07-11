@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
+import { currencyService } from '@/lib/services/currency-service';
 
 interface Property {
   id: string;
@@ -187,7 +188,7 @@ export function PropertyDiscovery() {
           <div className="space-y-1">
             <p className="text-sm text-muted-foreground">Token Price</p>
             <p className="text-xl font-bold">
-              ${property.price_per_token?.toLocaleString() || '100'}
+              AED {currencyService.convertToAED(property.price_per_token || 100).toFixed(0)}
             </p>
           </div>
           <div className="space-y-1">
@@ -221,22 +222,22 @@ export function PropertyDiscovery() {
           <h4 className="font-semibold">Quick Investment Preview</h4>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span>Min. Investment (10 tokens):</span>
+              <span>Min. Investment (3 tokens):</span>
               <span className="font-medium">
-                ${(property.price_per_token * 10).toLocaleString()}
+                AED {currencyService.convertToAED((property.price_per_token || 100) * 3).toLocaleString()}
               </span>
             </div>
             <div className="flex justify-between">
               <span>Est. Annual Returns:</span>
               <span className="font-medium text-green-600">
-                ${Math.round(property.price_per_token * 10 * yieldRange.min / 100).toLocaleString()} - 
-                ${Math.round(property.price_per_token * 10 * yieldRange.max / 100).toLocaleString()}
+                AED {Math.round(currencyService.convertToAED((property.price_per_token || 100) * 3) * yieldRange.min / 100).toLocaleString()} - 
+                AED {Math.round(currencyService.convertToAED((property.price_per_token || 100) * 3) * yieldRange.max / 100).toLocaleString()}
               </span>
             </div>
             <div className="flex justify-between">
               <span>Property Valuation:</span>
               <span className="font-medium">
-                ${property.price?.toLocaleString() || 'TBD'}
+                AED {currencyService.convertToAED(property.price || 2500000).toLocaleString()}
               </span>
             </div>
           </div>
