@@ -71,14 +71,14 @@ export function HelpCenter() {
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="gap-2">
           <HelpCircle className="h-4 w-4" />
-          Help Center
+          Investor Resources
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <HelpCircle className="h-5 w-5" />
-            Help Center
+            Investor Resources
           </DialogTitle>
         </DialogHeader>
         
