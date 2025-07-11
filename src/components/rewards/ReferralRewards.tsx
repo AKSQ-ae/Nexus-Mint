@@ -5,6 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 import { 
   Gift,
   Users,
@@ -14,12 +17,18 @@ import {
   Coins,
   TrendingUp,
   Check,
-  Star
+  Star,
+  Mail,
+  Send
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export function ReferralRewards() {
   const [copied, setCopied] = useState(false);
+  const [isInviteOpen, setIsInviteOpen] = useState(false);
+  const [inviteEmails, setInviteEmails] = useState('');
+  const [inviteMessage, setInviteMessage] = useState('Hi! I\'ve been investing in tokenized real estate on Nexus and thought you might be interested. Join me and we both get bonus tokens when you make your first investment!');
+  const [isSending, setIsSending] = useState(false);
   const { toast } = useToast();
   
   const referralCode = "NX-REF-2024-USER";
@@ -52,6 +61,50 @@ export function ReferralRewards() {
       }
     } else {
       copyToClipboard(referralLink);
+    }
+  };
+
+  const sendInvitations = async () => {
+    if (!inviteEmails.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter at least one email address",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSending(true);
+    
+    try {
+      // Parse emails (split by comma, semicolon, or newline)
+      const emails = inviteEmails
+        .split(/[,;\n]/)
+        .map(email => email.trim())
+        .filter(email => email && email.includes('@'));
+
+      if (emails.length === 0) {
+        throw new Error('No valid email addresses found');
+      }
+
+      // Simulate API call - in real app, this would call your backend
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      toast({
+        title: "Invitations Sent!",
+        description: `Successfully sent ${emails.length} invitation${emails.length > 1 ? 's' : ''}`,
+      });
+
+      setInviteEmails('');
+      setIsInviteOpen(false);
+    } catch (error) {
+      toast({
+        title: "Failed to send invitations",
+        description: error instanceof Error ? error.message : "Please try again later",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -256,10 +309,82 @@ export function ReferralRewards() {
                   <Share className="h-4 w-4 mr-2" />
                   Share Link
                 </Button>
-                <Button variant="outline" className="flex-1">
-                  <Gift className="h-4 w-4 mr-2" />
-                  Send Invitation
-                </Button>
+                <Dialog open={isInviteOpen} onOpenChange={setIsInviteOpen}>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="flex-1">
+                      <Mail className="h-4 w-4 mr-2" />
+                      Send Invitation
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle className="flex items-center gap-2">
+                        <Mail className="h-5 w-5" />
+                        Send Referral Invitations
+                      </DialogTitle>
+                      <DialogDescription>
+                        Invite friends via email to start earning rewards together
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="emails">Email Addresses</Label>
+                        <Textarea
+                          id="emails"
+                          placeholder="Enter email addresses separated by commas&#10;example@email.com, friend@email.com"
+                          value={inviteEmails}
+                          onChange={(e) => setInviteEmails(e.target.value)}
+                          className="min-h-[80px] resize-none"
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Separate multiple emails with commas
+                        </p>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="message">Personal Message</Label>
+                        <Textarea
+                          id="message"
+                          value={inviteMessage}
+                          onChange={(e) => setInviteMessage(e.target.value)}
+                          className="min-h-[100px] resize-none"
+                        />
+                      </div>
+
+                      <div className="bg-muted/50 p-3 rounded-lg">
+                        <p className="text-sm text-muted-foreground">
+                          <strong>Your referral link will be included:</strong><br/>
+                          {referralLink}
+                        </p>
+                      </div>
+
+                      <div className="flex gap-2">
+                        <Button 
+                          variant="outline" 
+                          onClick={() => setIsInviteOpen(false)}
+                          className="flex-1"
+                          disabled={isSending}
+                        >
+                          Cancel
+                        </Button>
+                        <Button 
+                          onClick={sendInvitations} 
+                          className="flex-1"
+                          disabled={isSending}
+                        >
+                          {isSending ? (
+                            <>Sending...</>
+                          ) : (
+                            <>
+                              <Send className="h-4 w-4 mr-2" />
+                              Send Invites
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
 
               <div className="bg-muted/50 p-4 rounded-lg">
