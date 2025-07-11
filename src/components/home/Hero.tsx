@@ -17,8 +17,10 @@ export function Hero() {
         <div className="max-w-5xl mx-auto text-center">
           {/* Interactive Nexus "N" Logo Only */}
           <div className="animate-fade-in-up flex justify-center mb-6">
-            <h2 className="text-6xl md:text-7xl lg:text-8xl font-space font-bold bg-gradient-nexus bg-clip-text text-transparent tracking-[0.2em] uppercase transform hover:scale-105 transition-transform duration-300">
-              NEXUS
+            <h2 className="relative text-6xl md:text-7xl lg:text-8xl font-space font-black bg-gradient-nexus bg-clip-text text-transparent tracking-[0.2em] uppercase transform hover:scale-105 transition-all duration-500 cursor-default select-none">
+              <span className="relative z-10 drop-shadow-2xl">NEXUS</span>
+              <span className="absolute inset-0 bg-gradient-nexus bg-clip-text text-transparent blur-sm opacity-70 animate-glow-pulse">NEXUS</span>
+              <span className="absolute inset-0 bg-white/20 bg-clip-text text-transparent blur-lg opacity-30">NEXUS</span>
             </h2>
           </div>
           
