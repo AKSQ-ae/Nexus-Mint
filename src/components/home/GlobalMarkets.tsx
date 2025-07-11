@@ -88,7 +88,7 @@ export function GlobalMarkets() {
   ];
 
   const competitiveAdvantages = [
-    "Global access vs PRYPCO's UAE-only limitation",
+    "Global access vs PRYPCO UAE-only limitation",
     "Lower $100 minimum vs AED 2,000 requirement", 
     "24/7 trading across time zones",
     "Diversified international portfolio",
@@ -106,7 +106,7 @@ export function GlobalMarkets() {
             <h2 className="text-3xl font-bold text-foreground">Global Property Markets</h2>
           </div>
           <p className="text-lg text-muted-foreground mb-6">
-            Invest in premium properties worldwide - Beyond PRYPCO's UAE limitations
+            Invest in premium properties worldwide - Beyond PRYPCO UAE limitations
           </p>
           
           {/* Competitive Banner */}
