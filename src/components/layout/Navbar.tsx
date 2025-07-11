@@ -7,7 +7,7 @@ import { UserMenu } from './UserMenu';
 import { HelpCenter } from '@/components/ui/help-center';
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
 
-import { Menu, X, Building2 } from 'lucide-react';
+import { Menu, X, Building2, Coins } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 export function Navbar() {
@@ -81,6 +81,13 @@ export function Navbar() {
               className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium"
             >
               Referrals
+            </Link>
+            <Link 
+              to="/tokenization-demo" 
+              className="px-4 py-2 rounded-lg text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 font-medium flex items-center space-x-2 border border-transparent hover:border-primary/20"
+            >
+              <Coins className="h-4 w-4" />
+              <span>Tokenization</span>
             </Link>
             <Link 
               to="/demo" 
@@ -175,6 +182,14 @@ export function Navbar() {
               onClick={() => setIsOpen(false)}
             >
               Referrals
+            </Link>
+            <Link 
+              to="/tokenization-demo" 
+              className="flex items-center space-x-3 px-4 py-3 text-foreground hover:text-primary hover:bg-primary/5 rounded-lg transition-all duration-200 font-medium border border-transparent hover:border-primary/20"
+              onClick={() => setIsOpen(false)}
+            >
+              <Coins className="h-5 w-5" />
+              <span>Tokenization</span>
             </Link>
             <Link 
               to="/demo" 
