@@ -74,7 +74,8 @@ export function Navbar() {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-foreground hover:text-primary"
+              className="text-foreground hover:text-primary p-2 rounded-md hover:bg-muted transition-colors"
+              aria-label="Toggle mobile menu"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -83,10 +84,10 @@ export function Navbar() {
 
         {/* Mobile navigation */}
         {isOpen && (
-          <div className="md:hidden py-4 space-y-4 border-t">
+          <div className="md:hidden py-4 space-y-1 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <Link 
               to="/properties" 
-              className="block text-foreground hover:text-primary transition-colors"
+              className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
               onClick={() => setIsOpen(false)}
             >
               Properties
@@ -95,29 +96,31 @@ export function Navbar() {
               <>
                 <Link 
                   to="/dashboard" 
-                  className="block text-foreground hover:text-primary transition-colors"
+                  className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   Dashboard
                 </Link>
                 <Link 
                   to="/portfolio" 
-                  className="block text-foreground hover:text-primary transition-colors"
+                  className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   Portfolio
                 </Link>
-                <Button variant="outline" onClick={handleSignOut} className="w-full">
-                  Sign Out
-                </Button>
+                <div className="px-4 pt-2">
+                  <Button variant="outline" onClick={handleSignOut} className="w-full">
+                    Sign Out
+                  </Button>
+                </div>
               </>
             ) : (
-              <div className="space-y-2">
+              <div className="px-4 pt-2 space-y-2">
                 <Link to="/auth/signin" onClick={() => setIsOpen(false)}>
-                  <Button variant="ghost" className="w-full">Sign In</Button>
+                  <Button variant="ghost" className="w-full justify-start h-12">Sign In</Button>
                 </Link>
                 <Link to="/auth/signup" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full">Get Started</Button>
+                  <Button className="w-full justify-start h-12">Get Started</Button>
                 </Link>
               </div>
             )}
