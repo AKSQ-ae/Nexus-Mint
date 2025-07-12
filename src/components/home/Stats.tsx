@@ -54,58 +54,52 @@ export function Stats() {
     <div className="py-16 bg-muted/30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-foreground">Global Platform Leadership</h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Outperforming PRYPCO with global accessibility and superior returns
+          <h2 className="text-3xl font-bold text-foreground">Global Access. Local Returns.</h2>
+          <p className="mt-4 text-lg text-muted-foreground max-w-4xl mx-auto">
+            Empowering 25,000+ investors in 30+ countries to build AED 4.4B+ in tokenized real estate—starting at just AED 100.
           </p>
-          {/* Enhanced Live Exchange Rate with Comparison */}
-          <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-sm text-primary">
-              <DollarSign className="h-4 w-4" />
-              <span>Live AED/USD: {exchangeRate.toFixed(3)}</span>
-            </div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 rounded-full text-sm text-green-600">
-              <TrendingUp className="h-4 w-4" />
-              <span>✅ No Emirates ID Required vs PRYPCO</span>
-            </div>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat) => (
-            <Card key={stat.name} className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader className="pb-2">
-                <div className="mx-auto h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <stat.icon className="h-6 w-6 text-primary" />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-foreground">{stat.value}</div>
-                <CardTitle className="text-lg mt-2">{stat.name}</CardTitle>
-                <CardDescription className="mt-1">{stat.description}</CardDescription>
-                {/* Enhanced Change Indicator */}
-                <div className={`mt-2 text-sm font-medium ${
-                  stat.changeType === 'positive' 
-                    ? 'text-green-600' 
-                    : stat.changeType === 'negative' 
-                    ? 'text-red-600' 
-                    : 'text-muted-foreground'
-                }`}>
-                  {stat.change}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
         </div>
         
-        {/* Competitive Advantage Banner */}
-        <div className="mt-12 text-center">
-          <div className="inline-flex items-center gap-4 px-6 py-3 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full">
-            <span className="text-sm font-medium text-foreground">🚀 Competitive Advantages:</span>
-            <span className="text-sm text-muted-foreground">$100 minimum vs AED 2,000</span>
-            <span className="text-sm text-muted-foreground">•</span>
-            <span className="text-sm text-muted-foreground">Global access</span>
-            <span className="text-sm text-muted-foreground">•</span>
-            <span className="text-sm text-muted-foreground">Multi-currency</span>
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 max-w-4xl mx-auto mb-12">
+          <div className="text-center">
+            <div className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">4.4B+</div>
+            <p className="text-muted-foreground font-medium">Assets Under Management</p>
+          </div>
+          <div className="text-center">
+            <div className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">25,000+</div>
+            <p className="text-muted-foreground font-medium">Global Investors</p>
+          </div>
+          <div className="text-center">
+            <div className="text-4xl md:text-5xl font-bold text-orange-500 mb-2">8–12%</div>
+            <p className="text-muted-foreground font-medium">Projected p.a. Returns</p>
+          </div>
+        </div>
+
+        {/* Key Benefits */}
+        <div className="max-w-4xl mx-auto space-y-6 text-left">
+          <div className="flex items-start gap-4">
+            <div className="w-2 h-2 bg-blue-600 rounded-full mt-3 flex-shrink-0"></div>
+            <div>
+              <span className="text-blue-600 font-semibold">Effortless Diversification</span>
+              <span className="text-muted-foreground"> – Allocate AED 100 across a basket of vetted UAE properties in one click for balanced, low-risk exposure.</span>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-4">
+            <div className="w-2 h-2 bg-blue-600 rounded-full mt-3 flex-shrink-0"></div>
+            <div>
+              <span className="text-blue-600 font-semibold">Institutional-Grade Security</span>
+              <span className="text-muted-foreground"> – Enterprise-level encryption and multi-signature custody keep your capital rock-solid.</span>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-4">
+            <div className="w-2 h-2 bg-blue-600 rounded-full mt-3 flex-shrink-0"></div>
+            <div>
+              <span className="text-blue-600 font-semibold">Advanced Tokenization Technology</span>
+              <span className="text-muted-foreground"> – On-chain property tokenization delivers instant settlement, full transparency, and seamless fractional ownership.</span>
+            </div>
           </div>
         </div>
       </div>
