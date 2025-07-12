@@ -108,29 +108,6 @@ export function Features() {
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-12 font-medium">
             Own from AED 500 • Earn 8–12% p.a. • Trade 24/7
           </p>
-          
-          {/* Enhanced Stats with Animation */}
-          <div className="flex flex-wrap justify-center gap-8 mb-8">
-            {stats.map((stat, index) => (
-              <div 
-                key={stat.label}
-                className={`flex items-center gap-3 bg-white/80 backdrop-blur-sm px-6 py-4 rounded-2xl border border-white/20 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
-                style={{ transitionDelay: `${index * 200}ms` }}
-              >
-                <div className="relative">
-                  <stat.icon className={`h-6 w-6 ${stat.color}`} />
-                  <div className="absolute inset-0 animate-ping opacity-20">
-                    <stat.icon className={`h-6 w-6 ${stat.color}`} />
-                  </div>
-                </div>
-                <div className="text-left">
-                  <div className="text-lg font-bold text-foreground">{stat.label}</div>
-                  <div className="text-sm text-muted-foreground">{stat.sublabel}</div>
-                </div>
-                <CheckCircle className="h-5 w-5 text-green-500" />
-              </div>
-            ))}
-          </div>
         </div>
         
         {/* Enhanced Core Features Grid */}
