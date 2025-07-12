@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { SmartBreadcrumbs } from "@/components/ui/smart-breadcrumbs";
+import { TapAnimationProvider } from "@/components/ui/tap-animation";
 
 // Pages
 import Index from "./pages/Index";
@@ -43,7 +44,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Providers>
-          <div className="min-h-screen flex flex-col bg-background">
+          <TapAnimationProvider>
+            <div className="min-h-screen flex flex-col bg-background">
             <Navbar />
             <SmartBreadcrumbs />
             <main className="flex-1">
@@ -82,9 +84,10 @@ function App() {
               </Routes>
             </main>
             <Footer />
-          </div>
-          <CustomCursor />
-          <Toaster />
+            </div>
+            <CustomCursor />
+            <Toaster />
+          </TapAnimationProvider>
         </Providers>
       </BrowserRouter>
     </QueryClientProvider>

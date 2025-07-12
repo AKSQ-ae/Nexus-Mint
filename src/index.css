@@ -425,4 +425,19 @@ All colors MUST be HSL.
   .step-number {
     @apply absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-orange-accent to-orange-accent/70 text-white text-sm font-bold rounded-full flex items-center justify-center;
   }
+
+  /* Tap animation */
+  @keyframes tap-ripple {
+    0% {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 0.4;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(4);
+      opacity: 0;
+    }
+  }
 }
