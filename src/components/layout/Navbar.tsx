@@ -49,7 +49,7 @@ export function Navbar() {
           {/* Left Navigation Links */}
           <div className="hidden lg:flex items-center space-x-8">
             <Link 
-              to="/properties" 
+              to="/how-it-works" 
               className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105 relative group"
             >
               How it works
@@ -146,7 +146,7 @@ export function Navbar() {
           <div className="lg:hidden py-6 space-y-2 border-t border-white/10 bg-grey-dark/95 backdrop-blur-xl">
             <div className="space-y-1">
               <Link 
-                to="/properties" 
+                to="/how-it-works" 
                 className="flex items-center space-x-3 px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
                 onClick={() => setIsOpen(false)}
               >
