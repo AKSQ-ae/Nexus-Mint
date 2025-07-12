@@ -1,7 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Wallet, Search, TrendingUp, DollarSign, Shield, Users, Globe, BarChart3, Star, CheckCircle, Award, Zap, ArrowRight, Sparkles, Crown, Bolt } from 'lucide-react';
-import { InfoTooltip } from '@/components/ui/info-tooltip';
-import { ProgressiveSection } from '@/components/ui/progressive-section';
+import { CreditCard, Building2, TrendingUp, Link2, Star, CheckCircle, Award, Zap, ArrowRight, Sparkles, Crown, Bolt, Shield, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
@@ -16,60 +14,56 @@ export function Features() {
 
   const features = [
     {
-      name: 'Low Entry Investment',
-      description: 'Start with just $100. Fractional ownership makes premium real estate accessible to everyone.',
-      icon: Wallet,
-      details: 'No hefty down payments or million-dollar minimums. Own a piece of premium Dubai real estate with pocket change.',
-      benefits: ['$100 minimum investment', 'Instant portfolio diversification', 'No hidden fees or charges'],
-      highlight: 'Start from $100',
-      color: 'green',
-      gradient: 'from-green-500 to-emerald-600',
-      bgGradient: 'from-green-50 to-emerald-50',
-      iconBg: 'bg-green-100',
-      iconColor: 'text-green-600',
-      borderColor: 'border-green-200',
-      badge: 'bg-green-100 text-green-800'
-    },
-    {
-      name: 'Expert Property Curation',
-      description: 'Our team of certified appraisers and market analysts select only the highest-performing properties.',
-      icon: Search,
-      details: 'Every property undergoes rigorous due diligence including market analysis, legal verification, and yield projections.',
-      benefits: ['Professional property audits', 'Market performance analysis', 'Legal title verification'],
-      highlight: '99% Success Rate',
+      name: 'Accessible Investing',
+      description: 'Start with AED 500 from anywhere—instant KYC, no Emirates ID needed.',
+      icon: CreditCard,
+      benefits: ['Low AED 500 minimum', 'Global accessibility', 'Instant KYC process'],
+      highlight: 'AED 500 Min',
       color: 'blue',
-      gradient: 'from-blue-500 to-cyan-600',
-      bgGradient: 'from-blue-50 to-cyan-50',
+      gradient: 'from-blue-500 to-blue-600',
+      bgGradient: 'from-blue-50 to-blue-100',
       iconBg: 'bg-blue-100',
       iconColor: 'text-blue-600',
       borderColor: 'border-blue-200',
       badge: 'bg-blue-100 text-blue-800'
     },
     {
-      name: 'Automated Returns',
-      description: 'Receive quarterly rental distributions and benefit from property appreciation automatically.',
+      name: 'Curated Grade-A Assets',
+      description: 'Hand-picked Dubai properties vetted by certified appraisers.',
+      icon: Building2,
+      benefits: ['Expert property selection', 'Certified appraisals', 'Premium Dubai locations'],
+      highlight: 'Grade-A Only',
+      color: 'emerald',
+      gradient: 'from-emerald-500 to-emerald-600',
+      bgGradient: 'from-emerald-50 to-emerald-100',
+      iconBg: 'bg-emerald-100',
+      iconColor: 'text-emerald-600',
+      borderColor: 'border-emerald-200',
+      badge: 'bg-emerald-100 text-emerald-800'
+    },
+    {
+      name: 'Earn & Compound',
+      description: 'Quarterly rental payouts auto-reinvest for seamless compounding.',
       icon: TrendingUp,
-      details: 'Returns are calculated and distributed automatically. No landlord duties or property management required.',
-      benefits: ['12-18% expected annual returns', 'Monthly dividend payments', 'Zero management hassle'],
-      highlight: 'Up to 18% Returns',
-      color: 'primary',
-      gradient: 'from-orange-500 to-red-600',
-      bgGradient: 'from-orange-50 to-red-50',
+      benefits: ['Quarterly rental income', 'Auto-reinvestment', 'Compound growth'],
+      highlight: '8-12% p.a.',
+      color: 'orange',
+      gradient: 'from-orange-500 to-orange-600',
+      bgGradient: 'from-orange-50 to-orange-100',
       iconBg: 'bg-orange-100',
       iconColor: 'text-orange-600',
       borderColor: 'border-orange-200',
       badge: 'bg-orange-100 text-orange-800'
     },
     {
-      name: 'Blockchain Security',
-      description: 'Your ownership is secured on blockchain with full transparency and regulatory compliance.',
-      icon: Shield,
-      details: 'Smart contracts ensure transparent transactions while UAE regulations protect your investments.',
-      benefits: ['Immutable ownership records', 'Full transaction transparency', 'Regulatory compliance'],
-      highlight: 'Bank-Grade Security',
+      name: 'Advanced Tokenization',
+      description: 'On-chain fractional shares with instant settlement and full transparency.',
+      icon: Link2,
+      benefits: ['Blockchain-powered', 'Instant settlement', 'Full transparency'],
+      highlight: '24/7 Trading',
       color: 'purple',
-      gradient: 'from-purple-500 to-violet-600',
-      bgGradient: 'from-purple-50 to-violet-50',
+      gradient: 'from-purple-500 to-purple-600',
+      bgGradient: 'from-purple-50 to-purple-100',
       iconBg: 'bg-purple-100',
       iconColor: 'text-purple-600',
       borderColor: 'border-purple-200',
@@ -78,9 +72,9 @@ export function Features() {
   ];
 
   const stats = [
-    { label: '15,000+', sublabel: 'Active Investors', icon: Users, color: 'text-green-500' },
-    { label: '$500M+', sublabel: 'Assets Under Management', icon: DollarSign, color: 'text-blue-500' },
-    { label: '100+', sublabel: 'Countries Supported', icon: Globe, color: 'text-purple-500' }
+    { label: '5+', sublabel: 'Properties in Pipeline', icon: Building2, color: 'text-blue-600' },
+    { label: '100+', sublabel: 'Waitlist Investors', icon: TrendingUp, color: 'text-emerald-600' },
+    { label: '8–12%', sublabel: 'Projected Returns p.a.', icon: TrendingUp, color: 'text-orange-600' }
   ];
 
   return (
@@ -100,8 +94,8 @@ export function Features() {
               <Sparkles className="h-6 w-6 text-primary absolute -top-2 -right-2 animate-pulse" />
             </div>
             <div className="text-center">
-              <h2 className="text-6xl font-bold bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent mb-2">
-                Why Choose <span className="bg-gradient-to-r from-primary to-orange-accent bg-clip-text text-transparent">Nexus Mint</span>
+              <h2 className="text-5xl font-bold bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent mb-2">
+                Why Nexus Mint?
               </h2>
               <div className="h-1 w-32 bg-gradient-to-r from-primary to-orange-accent mx-auto rounded-full animate-pulse" />
             </div>
@@ -111,12 +105,8 @@ export function Features() {
             </div>
           </div>
           
-          <p className="text-2xl text-muted-foreground max-w-5xl mx-auto leading-relaxed mb-12 font-light">
-            The world's most advanced blockchain-powered real estate investment platform,
-            <br />
-            <span className="bg-gradient-to-r from-primary to-orange-accent bg-clip-text text-transparent font-semibold">
-              democratizing property ownership for the next generation of investors
-            </span>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-12 font-medium">
+            Own from AED 500 • Earn 8–12% p.a. • Trade 24/7
           </p>
           
           {/* Enhanced Stats with Animation */}
