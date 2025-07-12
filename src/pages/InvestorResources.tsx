@@ -1,19 +1,19 @@
-import { HelpCenter } from '@/components/ui/help-center';
+import { InvestorResourcesContent } from '@/components/ui/investor-resources-content';
 
 export default function InvestorResources() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-slate-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
             Investor Resources
           </h1>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
             Find answers to your questions and get the support you need for your real estate investment journey
           </p>
         </div>
         
-        <HelpCenter />
+        <InvestorResourcesContent />
       </div>
     </div>
   );
