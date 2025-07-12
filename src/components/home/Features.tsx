@@ -78,22 +78,55 @@ export function Features() {
       </div>
       
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-        {/* Enhanced Header with Animation */}
-        <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <div className="relative">
-              <Star className="h-12 w-12 text-primary" />
-              <Sparkles className="h-6 w-6 text-primary absolute -top-2 -right-2" />
-            </div>
-            <div className="text-center">
-              <h2 className="text-5xl font-bold bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent mb-2">
-                Why Nexus Mint?
-              </h2>
-              <div className="h-1 w-32 bg-gradient-to-r from-primary to-orange-accent mx-auto rounded-full" />
-            </div>
-            <div className="relative">
-              <Bolt className="h-12 w-12 text-orange-accent" />
-              <Crown className="h-6 w-6 text-orange-accent absolute -top-2 -right-2" />
+        {/* Enhanced Header with Modern Styling */}
+        <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="relative max-w-4xl mx-auto">
+            {/* Background Glow Effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-transparent to-orange-500/5 rounded-3xl blur-xl" />
+            
+            <div className="relative bg-white/60 backdrop-blur-sm border border-white/30 rounded-2xl p-8 shadow-2xl">
+              <div className="flex items-center justify-center gap-6 mb-6">
+                {/* Left Decorative Element */}
+                <div className="flex items-center gap-2">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                    <Star className="h-6 w-6 text-white" />
+                  </div>
+                  <div className="hidden sm:flex flex-col h-8 justify-between">
+                    <div className="w-1 h-1 bg-blue-500 rounded-full"></div>
+                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                    <div className="w-1 h-1 bg-blue-300 rounded-full"></div>
+                  </div>
+                </div>
+                
+                {/* Main Title */}
+                <div className="text-center">
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-slate-800 via-blue-600 to-slate-800 bg-clip-text text-transparent mb-3">
+                    Why Nexus Mint?
+                  </h2>
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="h-1 w-16 bg-gradient-to-r from-transparent to-blue-500 rounded-full"></div>
+                    <div className="h-1.5 w-8 bg-gradient-to-r from-blue-500 to-orange-500 rounded-full"></div>
+                    <div className="h-1 w-16 bg-gradient-to-r from-orange-500 to-transparent rounded-full"></div>
+                  </div>
+                </div>
+                
+                {/* Right Decorative Element */}
+                <div className="flex items-center gap-2">
+                  <div className="hidden sm:flex flex-col h-8 justify-between">
+                    <div className="w-1 h-1 bg-orange-300 rounded-full"></div>
+                    <div className="w-1 h-1 bg-orange-400 rounded-full"></div>
+                    <div className="w-1 h-1 bg-orange-500 rounded-full"></div>
+                  </div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center shadow-lg">
+                    <Crown className="h-6 w-6 text-white" />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Subtitle */}
+              <p className="text-lg text-slate-600 font-medium max-w-2xl mx-auto">
+                Discover the future of real estate investment through blockchain innovation
+              </p>
             </div>
           </div>
         </div>
