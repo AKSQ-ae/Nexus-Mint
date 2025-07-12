@@ -81,7 +81,7 @@ export function Navbar() {
           {/* Center Logo */}
           <div className="flex items-center justify-center lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
             <Link to="/" className="flex items-center space-x-3 hover:scale-105 transition-transform duration-300">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-orange-500 shadow-lg border-2 border-white"></div>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-orange-500 shadow-lg border-2 border-white"></div>
               <div className="text-2xl font-black tracking-wide">
                 <span className="text-blue-600">NEXUS</span>
                 <span className="text-orange-500 ml-1">MINT</span>

@@ -19,7 +19,13 @@ export function Hero() {
         <div className="max-w-5xl mx-auto text-center">
           {/* Stylish NEXUS MINT Logo */}
           <div className="animate-fade-in-up flex justify-center mb-8">
-            <h1 className="text-7xl md:text-8xl lg:text-9xl font-black bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 bg-clip-text text-transparent tracking-[0.15em] uppercase transform hover:scale-105 transition-all duration-500 relative">
+            <h1 className="text-7xl md:text-8xl lg:text-9xl font-black text-blue-600 tracking-[0.15em] uppercase transform hover:scale-105 transition-all duration-500 relative"
+                style={{
+                  background: 'linear-gradient(to right, #2563eb, #3b82f6, #60a5fa)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}>
               <span className="relative z-10">NEXUS MINT</span>
             </h1>
           </div>
