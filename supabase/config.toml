@@ -36,6 +36,9 @@ verify_jwt = false
 [functions.verify-kyc]
 verify_jwt = true
 
+[functions.deployment-health-check]
+verify_jwt = false
+
 [db]
 port = 54322
 shadow_port = 54320

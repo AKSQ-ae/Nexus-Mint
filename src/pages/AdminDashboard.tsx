@@ -9,6 +9,8 @@ import { EnhancedNotificationCenter } from '@/components/enhanced/EnhancedNotifi
 import { SmartContractMonitor } from '@/components/enhanced/SmartContractMonitor';
 import { RealTimeChat } from '@/components/enhanced/RealTimeChat';
 import { useRealTimePresence } from '@/hooks/useRealTimePresence';
+import { DeploymentValidator } from '@/components/admin/DeploymentValidator';
+import { SystemHealthMonitor } from '@/components/admin/SystemHealthMonitor';
 import {
   Users,
   Building2,
@@ -340,12 +342,22 @@ export default function AdminDashboard() {
 
       {/* Main Dashboard Tabs */}
       <Tabs value={selectedTab} onValueChange={setSelectedTab}>
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="deployment">Deployment</TabsTrigger>
+          <TabsTrigger value="health">Health</TabsTrigger>
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
-          <TabsTrigger value="contracts">Smart Contracts</TabsTrigger>
-          <TabsTrigger value="chat">Live Chat</TabsTrigger>
+          <TabsTrigger value="contracts">Contracts</TabsTrigger>
+          <TabsTrigger value="chat">Chat</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="deployment" className="mt-6">
+          <DeploymentValidator />
+        </TabsContent>
+
+        <TabsContent value="health" className="mt-6">
+          <SystemHealthMonitor />
+        </TabsContent>
 
         <TabsContent value="overview" className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
