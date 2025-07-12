@@ -42,7 +42,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-grey-dark to-blue-secondary/10 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50 shadow-premium transition-all duration-300">
+    <nav className="bg-white backdrop-blur-xl border-b border-gray-200 sticky top-0 z-50 shadow-sm transition-all duration-300">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           
@@ -50,28 +50,28 @@ export function Navbar() {
           <div className="hidden lg:flex items-center space-x-8">
             <Link 
               to="/how-it-works" 
-              className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105 relative group"
+              className="text-gray-700 hover:text-gray-900 font-medium transition-all duration-300 hover:scale-105 relative group"
             >
               How it works
               <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-accent transition-all duration-300 group-hover:w-full"></div>
             </Link>
             <Link 
               to="/properties" 
-              className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105 relative group"
+              className="text-gray-700 hover:text-gray-900 font-medium transition-all duration-300 hover:scale-105 relative group"
             >
               Properties
               <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-accent transition-all duration-300 group-hover:w-full"></div>
             </Link>
             <Link 
               to="/global-trading" 
-              className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105 relative group"
+              className="text-gray-700 hover:text-gray-900 font-medium transition-all duration-300 hover:scale-105 relative group"
             >
               Trading
               <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-accent transition-all duration-300 group-hover:w-full"></div>
             </Link>
             <Link 
               to="/analytics" 
-              className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105 relative group"
+              className="text-gray-700 hover:text-gray-900 font-medium transition-all duration-300 hover:scale-105 relative group"
             >
               Analytics
               <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-accent transition-all duration-300 group-hover:w-full"></div>
@@ -83,7 +83,7 @@ export function Navbar() {
             <Link to="/" className="flex items-center space-x-3 hover:scale-105 transition-transform duration-300">
               <NexusLogo className="h-10 w-10" />
               <div className="text-3xl font-space font-black tracking-wider">
-                <span className="text-white">NEXUS</span>
+                <span className="text-gray-900">NEXUS</span>
                 <span className="text-orange-accent ml-1">MINT</span>
               </div>
             </Link>
@@ -93,7 +93,7 @@ export function Navbar() {
           <div className="hidden lg:flex items-center space-x-4">
             <Link 
               to="/investor-resources" 
-              className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105 flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-white/10"
+              className="text-gray-700 hover:text-gray-900 font-medium transition-all duration-300 hover:scale-105 flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100"
             >
               <span>Investor Resources</span>
             </Link>
@@ -101,13 +101,13 @@ export function Navbar() {
               <div className="flex items-center space-x-4">
                 <Link 
                   to="/dashboard" 
-                  className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105"
+                  className="text-gray-700 hover:text-gray-900 font-medium transition-all duration-300 hover:scale-105"
                 >
                   Dashboard
                 </Link>
                 <Link 
                   to="/portfolio" 
-                  className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105"
+                  className="text-gray-700 hover:text-gray-900 font-medium transition-all duration-300 hover:scale-105"
                 >
                   Portfolio
                 </Link>
@@ -118,7 +118,7 @@ export function Navbar() {
                 <Link to="/auth/signin">
                   <Button 
                     variant="outline" 
-                    className="bg-transparent border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300 px-6 py-2.5 rounded-full font-medium"
+                    className="bg-transparent border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 px-6 py-2.5 rounded-full font-medium"
                   >
                     Login
                   </Button>
@@ -139,7 +139,7 @@ export function Navbar() {
           <div className="lg:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-white hover:text-orange-accent p-2 rounded-lg hover:bg-white/10 transition-all duration-300"
+              className="text-gray-700 hover:text-orange-accent p-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
               aria-label="Toggle mobile menu"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
