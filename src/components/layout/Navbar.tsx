@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { UserMenu } from './UserMenu';
 // Removed HelpCenter import - now using direct Link to investor-resources page
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
-import nexusLogoNew from '@/assets/nexus-logo-new.png';
+const nexusLogoNew = "/lovable-uploads/7328e35a-73d3-4218-9cef-60b0ba4a974c.png";
 
 import { Menu, X, Building2, Coins } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
