@@ -2,10 +2,14 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { getKYCDocuments, uploadKYCDocument, uploadFileToStorage } from '@/lib/services/user-service';
-import { FileText, Upload, CheckCircle, Clock, XCircle } from 'lucide-react';
+import { FileText, Upload, CheckCircle, Clock, XCircle, AlertTriangle, Shield } from 'lucide-react';
+import { LoadingSpinner, ProcessStep } from '@/components/ui/enhanced-loading';
+import { ErrorDisplay } from '@/components/ui/enhanced-error-handling';
+import { enhancedToast } from '@/components/ui/enhanced-toast';
 
 const documentTypes = [
   { key: 'passport', label: 'Passport', required: true },
@@ -20,6 +24,8 @@ export function KYCUpload() {
   const [documents, setDocuments] = useState<any[]>([]);
   const [uploading, setUploading] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [uploadProgress, setUploadProgress] = useState<{[key: string]: number}>({});
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
 
   useEffect(() => {
     if (user) {
@@ -38,14 +44,58 @@ export function KYCUpload() {
     }
   };
 
+  const validateFile = (file: File): string | null => {
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+    
+    if (file.size > maxSize) {
+      return 'File size must be less than 10MB';
+    }
+    
+    if (!allowedTypes.includes(file.type)) {
+      return 'File must be JPG, PNG, or PDF format';
+    }
+    
+    return null;
+  };
+
   const handleFileUpload = async (file: File, documentType: string) => {
     if (!user) return;
 
+    // Validate file
+    const validationError = validateFile(file);
+    if (validationError) {
+      setErrors(prev => ({ ...prev, [documentType]: validationError }));
+      enhancedToast.error({
+        title: 'Upload Error',
+        description: validationError
+      });
+      return;
+    }
+
     setUploading(documentType);
+    setErrors(prev => ({ ...prev, [documentType]: '' }));
+    setUploadProgress(prev => ({ ...prev, [documentType]: 0 }));
+    
     try {
+      // Simulate upload progress
+      const progressInterval = setInterval(() => {
+        setUploadProgress(prev => {
+          const current = prev[documentType] || 0;
+          if (current < 90) {
+            return { ...prev, [documentType]: current + 10 };
+          }
+          return prev;
+        });
+      }, 200);
+
       // Upload file to storage
       const fileName = `${user.id}/${documentType}/${Date.now()}_${file.name}`;
       const fileData = await uploadFileToStorage(file, 'kyc-documents', fileName);
+
+      // Complete progress
+      clearInterval(progressInterval);
+      setUploadProgress(prev => ({ ...prev, [documentType]: 100 }));
 
       // Save document record
       await uploadKYCDocument({
@@ -57,22 +107,28 @@ export function KYCUpload() {
         status: 'pending'
       });
 
-      toast({
-        title: "Document uploaded",
-        description: "Your document has been uploaded and is under review.",
-      });
+      enhancedToast.kyc.documentUploaded(
+        documentTypes.find(dt => dt.key === documentType)?.label || documentType
+      );
 
       // Refresh documents list
       await fetchDocuments();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error uploading document:', error);
-      toast({
-        title: "Upload failed",
-        description: "Failed to upload document. Please try again.",
-        variant: "destructive",
+      const errorMessage = error.message || 'Failed to upload document';
+      setErrors(prev => ({ ...prev, [documentType]: errorMessage }));
+      
+      enhancedToast.error({
+        title: 'Upload Failed',
+        description: errorMessage,
+        action: {
+          label: 'Try Again',
+          onClick: () => handleFileUpload(file, documentType)
+        }
       });
     } finally {
       setUploading(null);
+      setUploadProgress(prev => ({ ...prev, [documentType]: 0 }));
     }
   };
 
@@ -116,11 +172,20 @@ export function KYCUpload() {
     );
   };
 
+  const getOverallProgress = () => {
+    const required = documentTypes.filter(dt => dt.required);
+    const approved = required.filter(dt => getDocumentStatus(dt.key) === 'approved');
+    return (approved.length / required.length) * 100;
+  };
+
   if (loading) {
     return (
       <Card className="max-w-4xl mx-auto">
         <CardContent className="p-6">
-          <div className="text-center">Loading documents...</div>
+          <div className="flex items-center justify-center space-y-4">
+            <LoadingSpinner size="lg" />
+            <p className="text-muted-foreground">Loading your documents...</p>
+          </div>
         </CardContent>
       </Card>
     );
@@ -130,21 +195,38 @@ export function KYCUpload() {
     <Card className="max-w-4xl mx-auto">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <FileText className="h-5 w-5" />
+          <Shield className="h-5 w-5" />
           KYC Document Verification
         </CardTitle>
         <CardDescription>
           Upload the required documents to verify your identity and start investing
         </CardDescription>
+        
+        {/* Overall Progress */}
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span>Verification Progress</span>
+            <span>{Math.round(getOverallProgress())}% Complete</span>
+          </div>
+          <Progress value={getOverallProgress()} className="h-2" />
+          {getOverallProgress() === 100 && (
+            <p className="text-sm text-green-600 flex items-center gap-1">
+              <CheckCircle className="h-4 w-4" />
+              All required documents uploaded!
+            </p>
+          )}
+        </div>
       </CardHeader>
       <CardContent className="space-y-6">
         {documentTypes.map((docType) => {
           const status = getDocumentStatus(docType.key);
           const isUploading = uploading === docType.key;
+          const currentProgress = uploadProgress[docType.key] || 0;
+          const error = errors[docType.key];
 
           return (
-            <div key={docType.key} className="border rounded-lg p-4">
-              <div className="flex items-center justify-between mb-4">
+            <div key={docType.key} className="border rounded-lg p-4 space-y-4">
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   {getStatusIcon(status)}
                   <div>
@@ -163,6 +245,31 @@ export function KYCUpload() {
                 {getStatusBadge(status)}
               </div>
 
+              {/* Error Display */}
+              {error && (
+                <ErrorDisplay
+                  title="Upload Error"
+                  message={error}
+                  variant="inline"
+                  onRetry={() => {
+                    setErrors(prev => ({ ...prev, [docType.key]: '' }));
+                    document.getElementById(`file-${docType.key}`)?.click();
+                  }}
+                  retryLabel="Try Again"
+                />
+              )}
+
+              {/* Upload Progress */}
+              {isUploading && (
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>Uploading...</span>
+                    <span>{currentProgress}%</span>
+                  </div>
+                  <Progress value={currentProgress} className="h-2" />
+                </div>
+              )}
+
               <div className="flex items-center gap-4">
                 <input
                   type="file"
@@ -177,17 +284,33 @@ export function KYCUpload() {
                   }}
                 />
                 <Button
-                  variant="outline"
+                  variant={status === 'approved' ? 'default' : 'outline'}
                   onClick={() => document.getElementById(`file-${docType.key}`)?.click()}
                   disabled={isUploading || status === 'approved'}
                 >
-                  {isUploading ? 'Uploading...' : status === 'approved' ? 'Approved' : 'Upload Document'}
+                  {isUploading ? (
+                    <>
+                      <LoadingSpinner size="sm" className="mr-2" />
+                      Uploading...
+                    </>
+                  ) : status === 'approved' ? (
+                    <>
+                      <CheckCircle className="h-4 w-4 mr-2" />
+                      Approved
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="h-4 w-4 mr-2" />
+                      Upload Document
+                    </>
+                  )}
                 </Button>
 
                 {status === 'rejected' && (
-                  <p className="text-sm text-red-600">
-                    Document rejected. Please upload a new document.
-                  </p>
+                  <div className="flex items-center gap-2 text-sm text-red-600">
+                    <AlertTriangle className="h-4 w-4" />
+                    <span>Document rejected. Please upload a new document.</span>
+                  </div>
                 )}
               </div>
             </div>

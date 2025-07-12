@@ -5,7 +5,10 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calculator, TrendingUp, DollarSign, PieChart, Target } from 'lucide-react';
+import { Calculator, TrendingUp, DollarSign, PieChart, Target, AlertTriangle } from 'lucide-react';
+import { ValidatedInput, validators, FormValidationSummary } from '@/components/ui/form-validation';
+import { LoadingSpinner } from '@/components/ui/enhanced-loading';
+import { enhancedToast } from '@/components/ui/enhanced-toast';
 import { currencyService } from '@/lib/services/currency-service';
 
 interface CalculatorProps {
@@ -17,18 +20,23 @@ interface CalculatorProps {
   tokenSupply?: any;
   onInvest?: (amount: number, total: number) => void;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 export function InvestmentCalculator({ 
   propertyValue = 2500000, // AED
   expectedReturn = 12.5, // %
   minimumInvestment = 100, // USD
-  className = ""
+  className = "",
+  loading = false,
+  onInvest
 }: CalculatorProps) {
   const [investment, setInvestment] = useState(minimumInvestment);
   const [currency, setCurrency] = useState<'USD' | 'AED'>('USD');
   const [timeframe, setTimeframe] = useState(5); // years
   const [exchangeRate, setExchangeRate] = useState(3.67);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [isCalculating, setIsCalculating] = useState(false);
   
   useEffect(() => {
     const updateRate = async () => {
@@ -64,6 +72,50 @@ export function InvestmentCalculator({
     return getTotalReturn() - getInvestmentInUSD();
   };
 
+  const validateInvestment = () => {
+    const errors: string[] = [];
+    
+    if (investment < minimumInvestment) {
+      errors.push(`Minimum investment is $${minimumInvestment.toLocaleString()}`);
+    }
+    
+    if (investment > 1000000) {
+      errors.push('Maximum investment is $1,000,000');
+    }
+    
+    if (timeframe < 1 || timeframe > 20) {
+      errors.push('Investment period must be between 1 and 20 years');
+    }
+    
+    setValidationErrors(errors);
+    return errors.length === 0;
+  };
+
+  const handleInvestmentCalculation = async () => {
+    if (!validateInvestment()) return;
+    
+    setIsCalculating(true);
+    try {
+      // Simulate calculation time
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      if (onInvest) {
+        onInvest(investment, getTotalReturn());
+        enhancedToast.success({
+          title: 'Investment Calculated',
+          description: `Ready to invest $${investment.toLocaleString()}`,
+        });
+      }
+    } catch (error) {
+      enhancedToast.error({
+        title: 'Calculation Error',
+        description: 'Unable to calculate investment. Please try again.',
+      });
+    } finally {
+      setIsCalculating(false);
+    }
+  };
+
   const formatCurrency = (amount: number, currencyType: 'USD' | 'AED') => {
     if (currencyType === 'USD') {
       return `$${amount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
@@ -95,50 +147,79 @@ export function InvestmentCalculator({
           </TabsList>
           
           <TabsContent value="calculate" className="space-y-6">
+            {/* Validation Errors */}
+            {validationErrors.length > 0 && (
+              <FormValidationSummary errors={validationErrors} />
+            )}
+
             {/* Input Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="investment">Investment Amount</Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="investment"
-                    type="number"
-                    value={investment}
-                    onChange={(e) => setInvestment(Number(e.target.value) || minimumInvestment)}
-                    min={minimumInvestment}
-                    className="flex-1"
-                  />
-                  <div className="flex">
-                    <Button
-                      variant={currency === 'USD' ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => setCurrency('USD')}
-                      className="rounded-r-none"
-                    >
-                      USD
-                    </Button>
-                    <Button
-                      variant={currency === 'AED' ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => setCurrency('AED')}
-                      className="rounded-l-none"
-                    >
-                      AED
-                    </Button>
-                  </div>
-                </div>
-              </div>
+              <ValidatedInput
+                label="Investment Amount"
+                value={investment.toString()}
+                onChange={(value) => {
+                  setInvestment(Number(value) || minimumInvestment);
+                  validateInvestment();
+                }}
+                validators={[
+                  (val) => validators.required(val, 'Investment amount'),
+                  (val) => validators.minAmount(Number(val), minimumInvestment),
+                  (val) => validators.maxAmount(Number(val), 1000000),
+                ]}
+                type="number"
+                placeholder={`Minimum $${minimumInvestment}`}
+                disabled={loading || isCalculating}
+                required
+                hint={`Minimum: $${minimumInvestment.toLocaleString()}, Maximum: $1,000,000`}
+              />
               
-              <div className="space-y-2">
-                <Label htmlFor="timeframe">Investment Period (Years)</Label>
-                <Input
-                  id="timeframe"
-                  type="number"
-                  value={timeframe}
-                  onChange={(e) => setTimeframe(Number(e.target.value) || 1)}
-                  min={1}
-                  max={20}
-                />
+              <ValidatedInput
+                label="Investment Period (Years)"
+                value={timeframe.toString()}
+                onChange={(value) => {
+                  setTimeframe(Number(value) || 1);
+                  validateInvestment();
+                }}
+                validators={[
+                  (val) => validators.required(val, 'Investment period'),
+                  (val) => {
+                    const num = Number(val);
+                    return {
+                      isValid: num >= 1 && num <= 20,
+                      errors: num < 1 || num > 20 ? ['Period must be between 1 and 20 years'] : []
+                    };
+                  }
+                ]}
+                type="number"
+                placeholder="Years"
+                disabled={loading || isCalculating}
+                required
+                hint="Choose between 1 and 20 years"
+              />
+            </div>
+
+            {/* Currency Toggle */}
+            <div className="flex gap-2 items-center">
+              <span className="text-sm text-muted-foreground">Currency:</span>
+              <div className="flex">
+                <Button
+                  variant={currency === 'USD' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setCurrency('USD')}
+                  className="rounded-r-none"
+                  disabled={loading || isCalculating}
+                >
+                  USD
+                </Button>
+                <Button
+                  variant={currency === 'AED' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setCurrency('AED')}
+                  className="rounded-l-none"
+                  disabled={loading || isCalculating}
+                >
+                  AED
+                </Button>
               </div>
             </div>
 
@@ -153,7 +234,9 @@ export function InvestmentCalculator({
                   onClick={() => {
                     setInvestment(amount);
                     setCurrency('USD');
+                    validateInvestment();
                   }}
+                  disabled={loading || isCalculating}
                 >
                   ${amount}
                 </Button>
