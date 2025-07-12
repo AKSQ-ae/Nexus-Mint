@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Providers } from "@/components/providers/Providers";
-import { SimplifiedNavbar } from "@/components/layout/SimplifiedNavbar";
+import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 
@@ -37,7 +37,7 @@ function App() {
       <BrowserRouter>
         <Providers>
           <div className="min-h-screen flex flex-col bg-background">
-            <SimplifiedNavbar />
+            <Navbar />
             <main className="flex-1">
               <Routes>
                 <Route path="/" element={<Index />} />

@@ -1,51 +1,27 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight, TrendingUp, Shield, Users, Play, Building, DollarSign, ChartLine, Lock, Globe } from 'lucide-react';
+import { ArrowRight, TrendingUp, Shield, Users, Play, Building, DollarSign, ChartLine } from 'lucide-react';
+import { InteractiveLogo } from '@/components/ui/interactive-logo';
 
 export function Hero() {
+  console.log('Hero component rendering with journey section');
+  
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-background/50 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-mesh opacity-20"></div>
+    <section className="bg-white text-foreground relative overflow-hidden" style={{background: 'radial-gradient(ellipse at center, rgba(30, 144, 255, 0.03) 0%, rgba(255, 255, 255, 1) 70%)'}}>
+      {/* Premium animated background elements */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-secondary/40 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-primary-glow/30 rounded-full blur-3xl animate-float" style={{animationDelay: '1.5s'}}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-128 h-128 bg-secondary/20 rounded-full blur-3xl animate-float" style={{animationDelay: '3s'}}></div>
+      </div>
       
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
-              Own Real Estate{" "}
-              <span className="bg-gradient-primary bg-clip-text text-transparent">
-                Globally
-              </span>
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-              Start with $100. Own premium properties worldwide. Earn returns monthly.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-fade-in">
-              <Button size="lg" className="text-lg px-12 py-6 shadow-elegant hover:shadow-premium transition-all duration-300 bg-primary hover:bg-primary/90">
-                Get Started
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 py-6 border-2 hover:bg-primary/5">
-                Explore Properties
-              </Button>
-            </div>
-
-            {/* Simple trust indicators */}
-            <div className="flex items-center justify-center gap-8 text-sm text-muted-foreground mb-12">
-              <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-primary" />
-                <span>SEC Compliant</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Lock className="h-4 w-4 text-primary" />
-                <span>Bank-Grade Security</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Globe className="h-4 w-4 text-primary" />
-                <span>Global Access</span>
-              </div>
-            </div>
+      <div className="container mx-auto px-4 py-32 lg:py-40 relative z-10">
+        <div className="max-w-5xl mx-auto text-center">
+          {/* Interactive Nexus "N" Logo Only */}
+          <div className="animate-fade-in-up flex justify-center mb-3">
+            <h2 className="text-6xl md:text-7xl lg:text-8xl font-space font-black bg-gradient-nexus bg-clip-text text-transparent tracking-[0.2em] uppercase transform hover:scale-105 transition-all duration-300 drop-shadow-lg">
+              NEXUS
+            </h2>
           </div>
           
           {/* Own. Earn. Multiply Motto */}
