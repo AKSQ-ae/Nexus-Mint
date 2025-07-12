@@ -56,7 +56,7 @@ export function Stats() {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-foreground">Global Access. Local Returns.</h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-4xl mx-auto">
-            Empowering 25,000+ investors in 30+ countries to build AED 4.4B+ in tokenized real estate—starting at just AED 500.
+            Empowering 25,000+ investors in 30+ countries to build AED 5B+ in tokenized real estate—starting at just AED 500.
           </p>
         </div>
 
