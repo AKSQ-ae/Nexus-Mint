@@ -10,7 +10,6 @@ import { EnhancedFAQ } from '@/components/home/EnhancedFAQ';
 import { FeeTransparency } from '@/components/home/FeeTransparency';
 import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt';
 import { SmartNavigation } from '@/components/ui/smart-navigation';
-import { SectionNavigator } from '@/components/ui/section-navigator';
 
 export default function Index() {
   return (
@@ -49,7 +48,6 @@ export default function Index() {
       
       {/* Smart Navigation Components */}
       <SmartNavigation />
-      <SectionNavigator />
     </>
   );
 }
