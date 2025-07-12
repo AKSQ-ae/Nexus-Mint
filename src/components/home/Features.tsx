@@ -205,34 +205,34 @@ export function Features() {
           ))}
         </div>
 
-        {/* Enhanced Call to Action */}
+        {/* Strategic Call to Action - Educational Focus */}
         <div className="text-center">
-          <Card className="bg-gradient-to-r from-primary/20 via-orange-accent/10 to-primary/20 border-2 border-primary/30 max-w-4xl mx-auto relative overflow-hidden">
-            {/* Background Effects */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-orange-accent/5" />
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-orange-accent" />
+          <Card className="bg-gradient-to-r from-blue-50/50 via-white to-purple-50/50 border border-blue-200/30 max-w-4xl mx-auto relative overflow-hidden backdrop-blur-sm">
+            {/* Subtle Background Pattern */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5" />
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500" />
             
             <CardContent className="p-12 relative">
               <div className="flex items-center justify-center gap-3 mb-6">
-                <Zap className="h-8 w-8 text-primary animate-pulse" />
-                <h3 className="text-3xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
-                  Ready to Start Your Real Estate Investment Journey?
+                <Building2 className="h-8 w-8 text-blue-600 animate-pulse" />
+                <h3 className="text-3xl font-bold bg-gradient-to-r from-foreground to-blue-600 bg-clip-text text-transparent">
+                  Discover Smart Real Estate Investing
                 </h3>
-                <Star className="h-8 w-8 text-orange-accent animate-spin-slow" />
+                <Star className="h-8 w-8 text-purple-600 animate-pulse" />
               </div>
               
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-                Join thousands of investors who are already building wealth through smart, secure, and accessible real estate investments
+                Explore how blockchain technology is revolutionizing property investment. Learn about tokenization, fractional ownership, and building a diversified real estate portfolio.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <Button size="lg" className="px-10 py-4 text-lg font-semibold bg-gradient-to-r from-primary to-orange-accent hover:from-primary/90 hover:to-orange-accent/90 shadow-2xl hover:shadow-primary/25 transition-all duration-300 hover:scale-105 rounded-full">
-                  Start Investing Today
-                  <ArrowRight className="h-5 w-5 ml-2" />
+                <Button size="lg" variant="outline" className="px-10 py-4 text-lg font-semibold border-2 border-blue-600/30 hover:border-blue-600 hover:bg-blue-50 rounded-full transition-all duration-300 hover:scale-105">
+                  Explore Properties
+                  <Building2 className="h-5 w-5 ml-2" />
                 </Button>
-                <Button size="lg" variant="outline" className="px-10 py-4 text-lg font-semibold border-2 border-primary/30 hover:border-primary hover:bg-primary/5 rounded-full transition-all duration-300 hover:scale-105">
-                  Learn More
-                  <Sparkles className="h-5 w-5 ml-2" />
+                <Button size="lg" variant="ghost" className="px-10 py-4 text-lg font-semibold text-purple-600 hover:bg-purple-50 rounded-full transition-all duration-300 hover:scale-105">
+                  How It Works
+                  <ArrowRight className="h-5 w-5 ml-2" />
                 </Button>
               </div>
             </CardContent>
