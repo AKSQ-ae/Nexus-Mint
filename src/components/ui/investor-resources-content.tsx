@@ -4,6 +4,9 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { CursorToggle } from '@/components/ui/cursor-toggle';
+import { LiveChatWidget } from '@/components/support/LiveChatWidget';
+import { DocumentationModal } from '@/components/support/DocumentationModal';
+import { AccountSupportModal } from '@/components/support/AccountSupportModal';
 import { useToast } from '@/hooks/use-toast';
 
 const faqs = [
@@ -48,27 +51,20 @@ const faqs = [
 export function InvestorResourcesContent() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const { toast } = useToast();
+  const [isLiveChatOpen, setIsLiveChatOpen] = useState(false);
+  const [isDocumentationOpen, setIsDocumentationOpen] = useState(false);
+  const [isAccountSupportOpen, setIsAccountSupportOpen] = useState(false);
 
   const handleLiveChat = () => {
-    toast({
-      title: "Live Chat",
-      description: "Starting live chat session... Our support team will be with you shortly.",
-    });
+    setIsLiveChatOpen(true);
   };
 
   const handleDocumentation = () => {
-    toast({
-      title: "Documentation",
-      description: "Opening comprehensive investment guides and tutorials...",
-    });
+    setIsDocumentationOpen(true);
   };
 
   const handleAccountSupport = () => {
-    toast({
-      title: "Account Support",
-      description: "Connecting you with account verification and setup assistance...",
-    });
+    setIsAccountSupportOpen(true);
   };
 
   const categories = ['All', ...Array.from(new Set(faqs.map(faq => faq.category)))];
@@ -194,6 +190,22 @@ export function InvestorResourcesContent() {
           <p className="text-lg">No results found. Try adjusting your search or contact support.</p>
         </div>
       )}
+
+      {/* Modals */}
+      <LiveChatWidget 
+        isOpen={isLiveChatOpen} 
+        onClose={() => setIsLiveChatOpen(false)} 
+      />
+      
+      <DocumentationModal 
+        isOpen={isDocumentationOpen} 
+        onClose={() => setIsDocumentationOpen(false)} 
+      />
+      
+      <AccountSupportModal 
+        isOpen={isAccountSupportOpen} 
+        onClose={() => setIsAccountSupportOpen(false)} 
+      />
     </div>
   );
 }
