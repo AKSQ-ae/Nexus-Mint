@@ -66,7 +66,7 @@ export function Stats() {
             <div className="w-2 h-2 bg-blue-600 rounded-full mt-3 flex-shrink-0"></div>
             <div>
               <span className="text-blue-600 font-semibold">Effortless Diversification</span>
-              <span className="text-muted-foreground"> – Allocate AED 100 across a basket of vetted UAE properties in one click for balanced, low-risk exposure.</span>
+              <span className="text-muted-foreground"> – Allocate AED 500 across a basket of vetted UAE properties in one click for balanced, low-risk exposure.</span>
             </div>
           </div>
           
