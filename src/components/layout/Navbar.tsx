@@ -82,14 +82,16 @@ export function Navbar() {
           <div className="flex items-center justify-center lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
             <Link to="/" className="flex items-center space-x-3 hover:scale-105 transition-transform duration-300">
               <div className="relative w-10 h-10">
-                {/* Outer donut ring */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 to-orange-500 shadow-lg"></div>
-                {/* Inner hole */}
-                <div className="absolute inset-[6px] rounded-full bg-white"></div>
-                {/* Inner donut ring */}
-                <div className="absolute inset-[8px] rounded-full bg-gradient-to-r from-orange-500 to-purple-600"></div>
+                {/* Two-tone donut - blue half */}
+                <div className="absolute inset-0 rounded-full bg-blue-600 shadow-lg" style={{
+                  clipPath: 'polygon(0% 0%, 50% 0%, 50% 100%, 0% 100%)'
+                }}></div>
+                {/* Two-tone donut - orange half */}
+                <div className="absolute inset-0 rounded-full bg-orange-500 shadow-lg" style={{
+                  clipPath: 'polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%)'
+                }}></div>
                 {/* Center hole */}
-                <div className="absolute inset-[14px] rounded-full bg-white"></div>
+                <div className="absolute inset-[12px] rounded-full bg-white"></div>
               </div>
               <div className="text-2xl font-black tracking-wide">
                 <span className="text-blue-600">NEXUS</span>
