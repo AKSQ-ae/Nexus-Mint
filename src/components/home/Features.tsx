@@ -19,13 +19,11 @@ export function Features() {
       icon: CreditCard,
       benefits: ['Low AED 500 minimum', 'Global accessibility', 'Instant KYC process'],
       highlight: 'AED 500 Min',
-      color: 'blue',
-      gradient: 'from-blue-500 to-blue-600',
-      bgGradient: 'from-blue-50 to-blue-100',
-      iconBg: 'bg-blue-100',
-      iconColor: 'text-blue-600',
-      borderColor: 'border-blue-200',
-      badge: 'bg-blue-100 text-blue-800'
+      gradient: 'from-blue-500/20 via-blue-400/10 to-transparent',
+      iconBg: 'bg-gradient-to-br from-blue-500 to-blue-600',
+      iconColor: 'text-white',
+      borderGlow: 'hover:shadow-blue-500/25',
+      badgeColor: 'bg-blue-500/10 text-blue-600 border-blue-500/20'
     },
     {
       name: 'Curated Grade-A Assets',
@@ -33,13 +31,11 @@ export function Features() {
       icon: Building2,
       benefits: ['Expert property selection', 'Certified appraisals', 'Premium Dubai locations'],
       highlight: 'Grade-A Only',
-      color: 'emerald',
-      gradient: 'from-emerald-500 to-emerald-600',
-      bgGradient: 'from-emerald-50 to-emerald-100',
-      iconBg: 'bg-emerald-100',
-      iconColor: 'text-emerald-600',
-      borderColor: 'border-emerald-200',
-      badge: 'bg-emerald-100 text-emerald-800'
+      gradient: 'from-emerald-500/20 via-emerald-400/10 to-transparent',
+      iconBg: 'bg-gradient-to-br from-emerald-500 to-emerald-600',
+      iconColor: 'text-white',
+      borderGlow: 'hover:shadow-emerald-500/25',
+      badgeColor: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20'
     },
     {
       name: 'Earn & Compound',
@@ -47,13 +43,11 @@ export function Features() {
       icon: TrendingUp,
       benefits: ['Quarterly rental income', 'Auto-reinvestment', 'Compound growth'],
       highlight: '8-12% p.a.',
-      color: 'orange',
-      gradient: 'from-orange-500 to-orange-600',
-      bgGradient: 'from-orange-50 to-orange-100',
-      iconBg: 'bg-orange-100',
-      iconColor: 'text-orange-600',
-      borderColor: 'border-orange-200',
-      badge: 'bg-orange-100 text-orange-800'
+      gradient: 'from-orange-500/20 via-orange-400/10 to-transparent',
+      iconBg: 'bg-gradient-to-br from-orange-500 to-orange-600',
+      iconColor: 'text-white',
+      borderGlow: 'hover:shadow-orange-500/25',
+      badgeColor: 'bg-orange-500/10 text-orange-600 border-orange-500/20'
     },
     {
       name: 'Advanced Tokenization',
@@ -61,13 +55,11 @@ export function Features() {
       icon: Link2,
       benefits: ['Blockchain-powered', 'Instant settlement', 'Full transparency'],
       highlight: '24/7 Trading',
-      color: 'purple',
-      gradient: 'from-purple-500 to-purple-600',
-      bgGradient: 'from-purple-50 to-purple-100',
-      iconBg: 'bg-purple-100',
-      iconColor: 'text-purple-600',
-      borderColor: 'border-purple-200',
-      badge: 'bg-purple-100 text-purple-800'
+      gradient: 'from-purple-500/20 via-purple-400/10 to-transparent',
+      iconBg: 'bg-gradient-to-br from-purple-500 to-purple-600',
+      iconColor: 'text-white',
+      borderGlow: 'hover:shadow-purple-500/25',
+      badgeColor: 'bg-purple-500/10 text-purple-600 border-purple-500/20'
     }
   ];
 
@@ -110,74 +102,67 @@ export function Features() {
           </p>
         </div>
         
-        {/* Enhanced Core Features Grid */}
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 mb-20">
+        {/* Harmonized Core Features Grid */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-20">
           {features.map((feature, index) => (
             <Card 
               key={feature.name} 
-              className={`group relative overflow-hidden bg-gradient-to-br ${feature.bgGradient} border-2 ${feature.borderColor} hover:shadow-2xl transition-all duration-700 hover:-translate-y-4 hover:rotate-1 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-              style={{ transitionDelay: `${index * 150}ms` }}
+              className={`group relative overflow-hidden bg-white/80 backdrop-blur-sm border border-white/20 hover:border-white/40 ${feature.borderGlow} transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              style={{ transitionDelay: `${index * 100}ms` }}
               onMouseEnter={() => setHoveredFeature(feature.name)}
               onMouseLeave={() => setHoveredFeature(null)}
             >
-              {/* Animated Background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              {/* Unified Background Gradient */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-all duration-500`} />
               
-              {/* Highlight Badge */}
+              {/* Floating Badge */}
               <div className="absolute -top-2 -right-2 z-10">
-                <Badge className={`${feature.badge} font-bold text-xs px-3 py-1 rounded-full shadow-lg animate-bounce`}>
+                <Badge className={`${feature.badgeColor} font-semibold text-xs px-3 py-1 rounded-full shadow-lg border transition-all duration-300 group-hover:scale-110`}>
                   {feature.highlight}
                 </Badge>
               </div>
 
               <CardHeader className="text-center relative pt-8 pb-4">
-                {/* Enhanced Icon Container */}
-                <div className={`mx-auto h-24 w-24 ${feature.iconBg} rounded-3xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 relative shadow-lg`}>
-                  <feature.icon className={`h-12 w-12 ${feature.iconColor} group-hover:scale-110 transition-transform duration-300`} />
+                {/* Synchronized Icon Design */}
+                <div className={`mx-auto h-20 w-20 ${feature.iconBg} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 relative shadow-xl`}>
+                  <feature.icon className={`h-10 w-10 ${feature.iconColor} group-hover:scale-110 transition-transform duration-300`} />
                   
-                  {/* Pulse Animation on Hover */}
+                  {/* Synchronized Pulse Effect */}
                   {hoveredFeature === feature.name && (
-                    <>
-                      <div className={`absolute inset-0 ${feature.iconBg} rounded-3xl animate-ping opacity-50`} />
-                      <div className="absolute -inset-2 bg-gradient-to-r from-primary/20 to-orange-accent/20 rounded-3xl animate-pulse" />
-                    </>
+                    <div className={`absolute -inset-2 ${feature.iconBg} rounded-2xl animate-ping opacity-30`} />
                   )}
                   
-                  {/* Floating Sparkles */}
-                  <Sparkles className={`absolute -top-1 -right-1 h-4 w-4 ${feature.iconColor} animate-pulse`} />
+                  {/* Consistent Sparkle Position */}
+                  <Sparkles className="absolute -top-1 -right-1 h-3 w-3 text-white/80 animate-pulse" />
                 </div>
                 
-                <CardTitle className={`text-xl mb-4 group-hover:${feature.iconColor} transition-colors duration-300 font-bold`}>
+                <CardTitle className="text-lg mb-3 group-hover:text-foreground transition-colors duration-300 font-bold">
                   {feature.name}
                 </CardTitle>
               </CardHeader>
 
-              <CardContent className="text-center px-6 pb-6">
-                <CardDescription className="text-muted-foreground leading-relaxed mb-6 text-sm">
+              <CardContent className="text-center px-6 pb-6 relative z-10">
+                <CardDescription className="text-muted-foreground leading-relaxed mb-4 text-sm group-hover:text-foreground/80 transition-colors duration-300">
                   {feature.description}
                 </CardDescription>
                 
-                {/* Benefits List */}
-                <div className="space-y-3">
+                {/* Synchronized Benefits Layout */}
+                <div className="space-y-2 mb-4">
                   {feature.benefits.slice(0, 2).map((benefit, i) => (
-                    <div key={i} className="flex items-center gap-2 text-xs text-muted-foreground group-hover:text-foreground transition-colors">
-                      <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0 animate-pulse" />
+                    <div key={i} className="flex items-center justify-center gap-2 text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">
+                      <CheckCircle className="h-3 w-3 text-green-500 flex-shrink-0" />
                       <span className="font-medium">{benefit}</span>
                     </div>
                   ))}
                 </div>
 
-                {/* Hover Effect - Learn More */}
-                <div className={`mt-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0`}>
-                  <Button variant="ghost" size="sm" className={`${feature.iconColor} hover:bg-white/20 rounded-full`}>
+                {/* Consistent Hover Button */}
+                <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                  <Button variant="ghost" size="sm" className="text-foreground hover:bg-white/20 rounded-full text-xs px-4">
                     Learn More <ArrowRight className="h-3 w-3 ml-1" />
                   </Button>
                 </div>
               </CardContent>
-
-              {/* Animated Border */}
-              <div className={`absolute inset-0 rounded-lg border-2 border-transparent bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10`} 
-                   style={{ mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', maskComposite: 'exclude' }} />
             </Card>
           ))}
         </div>
