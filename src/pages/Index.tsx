@@ -6,7 +6,8 @@ import { Stats } from '@/components/home/Stats';
 import { GlobalMarkets } from '@/components/home/GlobalMarkets';
 import { CTA } from '@/components/home/CTA';
 import { TrustSignals } from '@/components/home/TrustSignals';
-import { FAQ } from '@/components/home/FAQ';
+import { EnhancedFAQ } from '@/components/home/EnhancedFAQ';
+import { FeeTransparency } from '@/components/home/FeeTransparency';
 import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt';
 
 export default function Index() {
@@ -19,7 +20,8 @@ export default function Index() {
       <FeaturedProperties />
       <GlobalMarkets />
       <HowItWorks />
-      <FAQ />
+      <FeeTransparency />
+      <EnhancedFAQ />
       <CTA />
       <PWAInstallPrompt />
     </>
