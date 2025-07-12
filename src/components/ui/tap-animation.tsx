@@ -50,11 +50,12 @@ export const TapAnimationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         {tapEffects.map((tap) => (
           <div
             key={tap.id}
-            className="absolute w-6 h-6 -translate-x-1/2 -translate-y-1/2 rounded-full"
+            className="absolute w-12 h-12 -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{
               left: tap.x,
               top: tap.y,
               background: 'radial-gradient(circle, hsl(var(--primary)), hsl(var(--accent)))',
+              borderRadius: '50%',
               animation: 'tap-ripple 1s ease-out forwards',
             }}
           />
@@ -70,13 +71,16 @@ const tapRippleAnimation = `
     0% {
       transform: translate(-50%, -50%) scale(0);
       opacity: 0.8;
+      border-radius: 50%;
     }
     50% {
       opacity: 0.4;
+      border-radius: 50%;
     }
     100% {
       transform: translate(-50%, -50%) scale(4);
       opacity: 0;
+      border-radius: 50%;
     }
   }
 `;
