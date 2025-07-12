@@ -83,7 +83,7 @@ export function Navbar() {
             <Link to="/" className="flex items-center space-x-2 hover:scale-105 transition-transform duration-300">
               <div className="text-3xl font-space font-black tracking-wider">
                 <span className="text-white">NEXUS</span>
-                <span className="text-orange-accent ml-1">INVEST</span>
+                <span className="text-orange-accent ml-1">MINT</span>
               </div>
             </Link>
           </div>

@@ -9,7 +9,7 @@ export function Footer() {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <Building2 className="h-6 w-6 text-primary" />
-              <span className="font-bold text-lg">Nexus Platform</span>
+              <span className="font-bold text-lg">Nexus Mint</span>
             </div>
             <p className="text-muted-foreground">
               Revolutionizing real estate investment through blockchain technology.
@@ -68,7 +68,7 @@ export function Footer() {
             <ul className="space-y-2 text-muted-foreground">
               <li className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span>support@nexusplatform.com</span>
+                <span>support@nexusmint.com</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Phone className="h-4 w-4" />
@@ -83,7 +83,7 @@ export function Footer() {
         </div>
 
         <div className="border-t mt-8 pt-8 text-center text-muted-foreground">
-          <p>&copy; 2025 Nexus Platform. All rights reserved.</p>
+          <p>&copy; 2025 Nexus Mint. All rights reserved.</p>
         </div>
       </div>
     </footer>
