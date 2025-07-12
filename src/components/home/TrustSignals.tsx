@@ -29,10 +29,31 @@ const investmentPillars = [
 ];
 
 const partnerLogos = [
-  { name: "Dubai Real Estate Authority", width: "120px" },
-  { name: "UAE Central Bank", width: "100px" },
-  { name: "Blockchain Auditors", width: "140px" },
-  { name: "Legal Partners", width: "110px" }
+  { 
+    name: "Dubai Land Department", 
+    image: "https://images.unsplash.com/photo-1560472355-536de3962603?w=200&h=100&fit=crop&auto=format",
+    caption: "Licensed by Dubai Land Department"
+  },
+  { 
+    name: "UAE Central Bank", 
+    image: "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?w=200&h=100&fit=crop&auto=format",
+    caption: "Regulated by UAE Central Bank"
+  },
+  { 
+    name: "Abu Dhabi Global Market", 
+    image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=200&h=100&fit=crop&auto=format",
+    caption: "Regulated by ADGM"
+  },
+  { 
+    name: "Blockchain Auditors", 
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=200&h=100&fit=crop&auto=format",
+    caption: "Audited by XYZ Blockchain Auditors"
+  },
+  { 
+    name: "Legal Partners", 
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=200&h=100&fit=crop&auto=format",
+    caption: "Legal counsel by ABC Law Firm"
+  }
 ];
 
 export function TrustSignals() {
@@ -78,18 +99,30 @@ export function TrustSignals() {
           <h3 className="text-center text-lg font-semibold mb-8 text-muted-foreground">
             Regulatory Partners & Compliance
           </h3>
-          <div className="flex flex-wrap justify-center items-center gap-12 opacity-60">
+          <div className="flex flex-wrap justify-center items-center gap-8 mb-6">
             {partnerLogos.map((partner, index) => (
-              <div 
+              <figure 
                 key={index}
-                className="h-12 bg-muted/30 rounded-lg flex items-center justify-center px-6 hover:opacity-100 transition-opacity"
-                style={{ width: partner.width }}
+                className="relative group max-w-[140px]"
               >
-                <span className="text-sm font-medium text-muted-foreground">
-                  {partner.name}
-                </span>
-              </div>
+                <img 
+                  src={partner.image}
+                  alt={partner.name}
+                  className="max-h-[60px] object-contain opacity-80 transition-opacity duration-200 group-hover:opacity-100"
+                />
+                <figcaption className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full bg-white/95 px-3 py-2 rounded text-sm text-foreground opacity-0 pointer-events-none transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-3 whitespace-nowrap shadow-lg">
+                  {partner.caption}
+                </figcaption>
+              </figure>
             ))}
+          </div>
+          <div className="text-center">
+            <a 
+              href="/compliance#licenses" 
+              className="text-primary hover:text-primary/80 font-medium transition-colors duration-200 hover:underline"
+            >
+              View our licenses & audit reports →
+            </a>
           </div>
         </div>
       </div>
