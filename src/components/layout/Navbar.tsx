@@ -81,10 +81,10 @@ export function Navbar() {
           {/* Center Logo */}
           <div className="flex items-center justify-center lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
             <Link to="/" className="flex items-center space-x-3 hover:scale-105 transition-transform duration-300">
-              <NexusLogo className="h-10 w-10" />
+              <NexusLogo className="h-12 w-12 shadow-lg" />
               <div className="text-3xl font-space font-black tracking-wider">
                 <span className="text-gray-900">NEXUS</span>
-                <span className="text-orange-accent ml-1">MINT</span>
+                <span className="text-orange-accent ml-2">MINT</span>
               </div>
             </Link>
           </div>
