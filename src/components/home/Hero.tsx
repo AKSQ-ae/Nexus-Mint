@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight, TrendingUp, Shield, Users, Play, Building, DollarSign, ChartLine } from 'lucide-react';
+import { ArrowRight, TrendingUp, Shield, Users, Play, Building, DollarSign, ChartLine, RefreshCw } from 'lucide-react';
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
 
 export function Hero() {
@@ -130,7 +130,7 @@ export function Hero() {
               Join our invitation-only launch cohort and lock in your spot today.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-8">
               <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
                 <div className="flex justify-center mb-4">
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
@@ -192,6 +192,19 @@ export function Hero() {
                     className="animate-draw-line"
                   />
                 </svg>
+              </div>
+
+              <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
+                <div className="flex justify-center mb-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-secondary via-coral to-secondary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+                    <RefreshCw className="w-8 h-8 text-white animate-pulse" />
+                  </div>
+                </div>
+                <div className="text-3xl md:text-4xl font-playfair font-bold text-secondary mb-2">
+                  24/7
+                </div>
+                <p className="text-muted-foreground font-inter font-medium mb-3">Liquidity</p>
+                <p className="text-sm text-muted-foreground font-inter">Trade anytime, instant settlement</p>
               </div>
             </div>
 
