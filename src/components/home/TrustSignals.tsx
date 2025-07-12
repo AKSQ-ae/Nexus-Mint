@@ -111,14 +111,6 @@ export function TrustSignals() {
               </div>
             ))}
           </div>
-          <div className="text-center">
-            <a 
-              href="/compliance#licenses" 
-              className="text-primary hover:text-primary/80 font-medium transition-colors duration-200 hover:underline"
-            >
-              View our licenses & audit reports →
-            </a>
-          </div>
         </div>
       </div>
     </section>
