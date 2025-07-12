@@ -2,9 +2,17 @@ import { useEffect } from 'react';
 import { InvestorResourcesContent } from '@/components/ui/investor-resources-content';
 
 export default function InvestorResources() {
-  // Scroll to top when component mounts
+  // Scroll to top when component mounts - multiple methods for reliability
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Method 1: Immediate scroll
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    
+    // Method 2: Force scroll with timeout
+    setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 50);
   }, []);
 
   return (
