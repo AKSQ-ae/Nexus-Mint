@@ -26,6 +26,7 @@ import TokenizationDemo from "./pages/TokenizationDemo";
 import Trading from "./pages/Trading";
 import AdvancedAnalytics from "./pages/AdvancedAnalytics";
 import GlobalTrading from "./pages/GlobalTrading";
+import HowItWorks from "./pages/HowItWorks";
 import Demo from "./pages/Demo";
 import Referrals from "./pages/Referrals";
 import Payments from "./pages/Payments";
@@ -58,6 +59,7 @@ function App() {
                 <Route path="/tokenization-demo" element={<TokenizationDemo />} />
                 <Route path="/analytics" element={<AdvancedAnalytics />} />
                 <Route path="/global-trading" element={<GlobalTrading />} />
+                <Route path="/how-it-works" element={<HowItWorks />} />
                 <Route path="/demo" element={<Demo />} />
                 <Route path="/referrals" element={<Referrals />} />
                 <Route path="/payments" element={<Payments />} />
