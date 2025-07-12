@@ -59,22 +59,6 @@ export function Stats() {
             Empowering 25,000+ investors in 30+ countries to build AED 4.4B+ in tokenized real estate—starting at just AED 100.
           </p>
         </div>
-        
-        {/* Metrics Grid */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 max-w-4xl mx-auto mb-12">
-          <div className="text-center">
-            <div className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">4.4B+</div>
-            <p className="text-muted-foreground font-medium">Assets Under Management</p>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">25,000+</div>
-            <p className="text-muted-foreground font-medium">Global Investors</p>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl md:text-5xl font-bold text-orange-500 mb-2">8–12%</div>
-            <p className="text-muted-foreground font-medium">Projected p.a. Returns</p>
-          </div>
-        </div>
 
         {/* Key Benefits */}
         <div className="max-w-4xl mx-auto space-y-6 text-left">
