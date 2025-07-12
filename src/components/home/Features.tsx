@@ -110,13 +110,6 @@ export function Features() {
             >
               {/* Unified Background Gradient */}
               <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-all duration-500`} />
-              
-              {/* Floating Badge */}
-              <div className="absolute -top-2 -right-2 z-10">
-                <Badge className={`${feature.badgeColor} font-semibold text-xs px-3 py-1 rounded-full shadow-lg border transition-all duration-300 group-hover:scale-110`}>
-                  {feature.highlight}
-                </Badge>
-              </div>
 
               <CardHeader className="text-center relative pt-8 pb-4">
                 {/* Synchronized Icon Design */}
