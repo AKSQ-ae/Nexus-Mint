@@ -9,7 +9,7 @@ import { TrustSignals } from '@/components/home/TrustSignals';
 import { EnhancedFAQ } from '@/components/home/EnhancedFAQ';
 import { FeeTransparency } from '@/components/home/FeeTransparency';
 import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt';
-import { SmartNavigation } from '@/components/ui/smart-navigation';
+
 
 export default function Index() {
   return (
@@ -45,9 +45,6 @@ export default function Index() {
         <CTA />
       </div>
       <PWAInstallPrompt />
-      
-      {/* Smart Navigation Components */}
-      <SmartNavigation />
     </>
   );
 }

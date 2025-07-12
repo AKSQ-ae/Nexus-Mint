@@ -6,7 +6,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { SmartBreadcrumbs } from "@/components/ui/smart-breadcrumbs";
-import { QuickActionsFAB } from "@/components/ui/quick-actions";
 
 // Pages
 import Index from "./pages/Index";
@@ -70,7 +69,6 @@ function App() {
             <Footer />
           </div>
           <CustomCursor />
-          <QuickActionsFAB />
           <Toaster />
         </Providers>
       </BrowserRouter>
