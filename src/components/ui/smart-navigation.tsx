@@ -95,7 +95,7 @@ export function SmartNavigation() {
     <>
       {/* Floating Quick Access Button */}
       <div className={cn(
-        "fixed bottom-6 right-6 z-50 transition-all duration-500",
+        "fixed bottom-6 right-6 z-[9996] transition-all duration-500",
         isFloating ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"
       )}>
         <Button
@@ -109,17 +109,17 @@ export function SmartNavigation() {
 
       {/* Navigation Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
           {/* Backdrop */}
           <div 
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm z-[9998]"
             onClick={() => setIsOpen(false)}
           />
           
           {/* Navigation Panel */}
-          <div className="relative bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
+          <div className="relative bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-scale-in z-[9999] border border-grey-mid/20">
             {/* Header */}
-            <div className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-grey-mid/30 p-6 rounded-t-3xl">
+            <div className="sticky top-0 bg-white border-b border-grey-mid/30 p-6 rounded-t-3xl z-10">
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-2xl font-playfair font-bold text-grey-dark">
@@ -141,7 +141,7 @@ export function SmartNavigation() {
             </div>
 
             {/* Quick Actions */}
-            <div className="p-6 border-b border-grey-mid/20">
+            <div className="p-6 border-b border-grey-mid/20 bg-white">
               <h3 className="text-lg font-playfair font-semibold text-grey-dark mb-4">
                 Quick Actions
               </h3>
@@ -151,7 +151,7 @@ export function SmartNavigation() {
                     key={action.id}
                     to={action.href}
                     onClick={() => setIsOpen(false)}
-                    className="flex flex-col items-center p-4 rounded-xl border border-grey-mid/30 hover:bg-blue-light/30 transition-all duration-200 hover:scale-105 group"
+                    className="flex flex-col items-center p-4 rounded-xl bg-white border border-grey-mid/30 hover:bg-blue-light/30 transition-all duration-200 hover:scale-105 group shadow-sm"
                   >
                     <action.icon className="w-6 h-6 text-blue-primary mb-2 group-hover:text-blue-secondary transition-colors" />
                     <span className="text-sm font-inter font-medium text-grey-dark text-center">
@@ -163,7 +163,7 @@ export function SmartNavigation() {
             </div>
 
             {/* Main Navigation */}
-            <div className="p-6">
+            <div className="p-6 bg-white">
               <h3 className="text-lg font-playfair font-semibold text-grey-dark mb-4">
                 Main Sections
               </h3>
@@ -174,7 +174,7 @@ export function SmartNavigation() {
                     to={item.href}
                     onClick={() => setIsOpen(false)}
                     className={cn(
-                      "group relative overflow-hidden rounded-2xl border-2 border-grey-mid/30 p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-elegant",
+                      "group relative overflow-hidden rounded-2xl bg-white border-2 border-grey-mid/30 p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-elegant",
                       item.featured && "ring-2 ring-blue-primary/20"
                     )}
                   >
@@ -220,7 +220,7 @@ export function SmartNavigation() {
             </div>
 
             {/* Footer */}
-            <div className="bg-grey-light/50 p-6 rounded-b-3xl">
+            <div className="bg-grey-light/50 p-6 rounded-b-3xl border-t border-grey-mid/20">
               <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
                 <Link to="/help" className="hover:text-blue-primary transition-colors font-inter">
                   Need Help?

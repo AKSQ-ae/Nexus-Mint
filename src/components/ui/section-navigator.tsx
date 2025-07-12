@@ -83,10 +83,10 @@ export function SectionNavigator() {
 
   return (
     <div className={cn(
-      "fixed left-6 top-1/2 transform -translate-y-1/2 z-40 transition-all duration-500",
+      "fixed left-6 top-1/2 transform -translate-y-1/2 z-[9997] transition-all duration-500",
       isVisible ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
     )}>
-      <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-elegant border border-grey-mid/30 py-4 px-2 min-w-[160px]">
+      <div className="bg-white border border-grey-mid/30 rounded-2xl shadow-elegant py-4 px-2 min-w-[160px]">
         {/* Quick Navigation */}
         <div className="flex justify-center mb-3">
           <Button
