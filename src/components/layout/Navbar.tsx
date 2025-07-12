@@ -5,8 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserMenu } from './UserMenu';
 // Removed HelpCenter import - now using direct Link to investor-resources page
-import { InteractiveLogo } from '@/components/ui/interactive-logo';
-const nexusLogoNew = "/lovable-uploads/7328e35a-73d3-4218-9cef-60b0ba4a974c.png";
+import { NexusLogo } from '@/components/ui/nexus-logo';
 
 import { Menu, X, Building2, Coins } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -82,11 +81,7 @@ export function Navbar() {
           {/* Center Logo */}
           <div className="flex items-center justify-center lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
             <Link to="/" className="flex items-center space-x-3 hover:scale-105 transition-transform duration-300">
-              <img 
-                src={nexusLogoNew} 
-                alt="NEXUS MINT" 
-                className="h-10 w-10 object-contain" 
-              />
+              <NexusLogo className="h-10 w-10" />
               <div className="text-3xl font-space font-black tracking-wider">
                 <span className="text-white">NEXUS</span>
                 <span className="text-orange-accent ml-1">MINT</span>
