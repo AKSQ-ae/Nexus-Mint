@@ -85,6 +85,8 @@ export const SystemHealthMonitor: React.FC = () => {
         return <Shield className="h-4 w-4" />;
       case 'storage':
         return <Cloud className="h-4 w-4" />;
+      case 'tokenization system':
+        return <Activity className="h-4 w-4" />;
       default:
         return <Activity className="h-4 w-4" />;
     }

@@ -40,6 +40,7 @@ const getCheckIconType = (checkName: string) => {
   if (checkName.includes('Payment')) return <Wallet className="h-4 w-4" />;
   if (checkName.includes('Edge Functions')) return <Zap className="h-4 w-4" />;
   if (checkName.includes('Blockchain')) return <Activity className="h-4 w-4" />;
+  if (checkName.includes('Tokenization')) return <Cloud className="h-4 w-4" />;
   return <Cloud className="h-4 w-4" />;
 };
 

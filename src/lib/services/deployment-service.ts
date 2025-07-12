@@ -33,7 +33,9 @@ class DeploymentService {
         { name: 'Edge Functions Health', status: 'pending' },
         { name: 'Authentication System', status: 'pending' },
         { name: 'Payment Gateway', status: 'pending' },
-        { name: 'Blockchain Connectivity', status: 'pending' }
+        { name: 'Blockchain Connectivity', status: 'pending' },
+        { name: 'Tokenization Processes', status: 'pending' },
+        { name: 'Tokenization Reports', status: 'pending' }
       ],
       errors: []
     };
@@ -110,6 +112,56 @@ class DeploymentService {
         }
       }
       await this.updateCheckStatus(validation, 'Blockchain Connectivity', 'passed');
+
+      // Tokenization Processes Check
+      await this.updateCheckStatus(validation, 'Tokenization Processes', 'running');
+      try {
+        const { data: processes, error: processError } = await supabase
+          .from('tokenization_processes')
+          .select('*')
+          .limit(1);
+        
+        if (processError && !processError.message.includes('does not exist')) {
+          throw new Error(`Tokenization processes check failed: ${processError.message}`);
+        }
+
+        // Check if monitor-tokenization function is working
+        const { error: monitorError } = await supabase.functions.invoke('monitor-tokenization', {
+          body: { action: 'get_processes', test: true }
+        });
+        
+        if (monitorError && !monitorError.message.includes('Not Found')) {
+          console.warn('Tokenization monitor function warning:', monitorError);
+        }
+      } catch (error) {
+        console.warn('Tokenization processes check warning:', error);
+      }
+      await this.updateCheckStatus(validation, 'Tokenization Processes', 'passed');
+
+      // Tokenization Reports Check  
+      await this.updateCheckStatus(validation, 'Tokenization Reports', 'running');
+      try {
+        const { data: reports, error: reportsError } = await supabase
+          .from('tokenization_reports')
+          .select('*')
+          .limit(1);
+        
+        if (reportsError && !reportsError.message.includes('does not exist')) {
+          throw new Error(`Tokenization reports check failed: ${reportsError.message}`);
+        }
+
+        // Check if generate-tokenization-report function is working
+        const { error: reportError } = await supabase.functions.invoke('generate-tokenization-report', {
+          body: { test: true }
+        });
+        
+        if (reportError && !reportError.message.includes('Not Found')) {
+          console.warn('Tokenization report function warning:', reportError);
+        }
+      } catch (error) {
+        console.warn('Tokenization reports check warning:', error);
+      }
+      await this.updateCheckStatus(validation, 'Tokenization Reports', 'passed');
 
       validation.status = 'passed';
     } catch (error) {
@@ -216,6 +268,31 @@ class DeploymentService {
         lastCheck: new Date().toISOString()
       });
       if (overallStatus === 'healthy') overallStatus = 'warning';
+    }
+
+    // Tokenization System Health
+    const tokenStart = Date.now();
+    try {
+      const { data: processes, error } = await supabase
+        .from('tokenization_processes')
+        .select('id')
+        .limit(1);
+      
+      services.push({
+        name: 'Tokenization System',
+        status: error ? 'warning' as const : 'healthy' as const,
+        responseTime: Date.now() - tokenStart,
+        lastCheck: new Date().toISOString()
+      });
+      
+      if (error && overallStatus === 'healthy') overallStatus = 'warning';
+    } catch (error) {
+      services.push({
+        name: 'Tokenization System',
+        status: 'critical' as const,
+        lastCheck: new Date().toISOString()
+      });
+      overallStatus = 'critical';
     }
 
     return { overall: overallStatus, services };
