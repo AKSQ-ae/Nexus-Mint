@@ -4,7 +4,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserMenu } from './UserMenu';
-import { HelpCenter } from '@/components/ui/help-center';
+// Removed HelpCenter import - now using direct Link to investor-resources page
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
 
 import { Menu, X, Building2, Coins } from 'lucide-react';
@@ -90,7 +90,12 @@ export function Navbar() {
 
           {/* Right Side Auth Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            <HelpCenter />
+            <Link 
+              to="/investor-resources" 
+              className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105 flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-white/10"
+            >
+              <span>Investor Resources</span>
+            </Link>
             {user ? (
               <div className="flex items-center space-x-4">
                 <Link 
