@@ -133,8 +133,36 @@ export type Database = {
             foreignKeyName: "chat_rooms_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "chat_rooms_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_rooms_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "chat_rooms_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "chat_rooms_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
         ]
       }
@@ -264,8 +292,36 @@ export type Database = {
             foreignKeyName: "investment_analytics_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "investment_analytics_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investment_analytics_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "investment_analytics_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "investment_analytics_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
         ]
       }
@@ -332,8 +388,36 @@ export type Database = {
             foreignKeyName: "investment_transactions_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "investment_transactions_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investment_transactions_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "investment_transactions_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "investment_transactions_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
         ]
       }
@@ -432,8 +516,36 @@ export type Database = {
             foreignKeyName: "investments_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "investments_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "investments_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "investments_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "investments_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
           {
             foreignKeyName: "investments_property_token_id_fkey"
@@ -775,8 +887,36 @@ export type Database = {
             foreignKeyName: "property_analytics_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_analytics_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_analytics_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_analytics_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_analytics_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
         ]
       }
@@ -825,8 +965,36 @@ export type Database = {
             foreignKeyName: "property_audits_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_audits_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_audits_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_audits_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_audits_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
         ]
       }
@@ -878,8 +1046,36 @@ export type Database = {
             foreignKeyName: "property_documents_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_documents_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_documents_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_documents_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_documents_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
           {
             foreignKeyName: "property_documents_uploaded_by_fkey"
@@ -932,8 +1128,36 @@ export type Database = {
             foreignKeyName: "property_performance_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_performance_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_performance_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_performance_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_performance_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
         ]
       }
@@ -986,8 +1210,36 @@ export type Database = {
             foreignKeyName: "property_returns_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_returns_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_returns_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_returns_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_returns_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
         ]
       }
@@ -1093,8 +1345,36 @@ export type Database = {
             foreignKeyName: "property_tokens_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_tokens_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_tokens_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_tokens_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "property_tokens_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
         ]
       }
@@ -1167,8 +1447,36 @@ export type Database = {
             foreignKeyName: "token_holders_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "token_holders_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "token_holders_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "token_holders_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "token_holders_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
         ]
       }
@@ -1217,8 +1525,36 @@ export type Database = {
             foreignKeyName: "token_supply_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: true
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "token_supply_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: true
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "token_supply_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: true
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "token_supply_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: true
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "token_supply_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: true
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
         ]
       }
@@ -1279,8 +1615,36 @@ export type Database = {
             foreignKeyName: "tokenization_processes_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "tokenization_processes_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tokenization_processes_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "tokenization_processes_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "tokenization_processes_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
         ]
       }
@@ -1339,8 +1703,36 @@ export type Database = {
             foreignKeyName: "tokenization_reports_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "tokenization_reports_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tokenization_reports_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "tokenization_reports_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "tokenization_reports_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
         ]
       }
@@ -1439,8 +1831,36 @@ export type Database = {
             foreignKeyName: "transactions_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
+            referencedRelation: "investment_opportunities_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "transactions_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "property_market_insights_mv"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "transactions_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_investment_opportunities"
+            referencedColumns: ["property_id"]
+          },
+          {
+            foreignKeyName: "transactions_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "public_property_insights"
+            referencedColumns: ["property_id"]
           },
         ]
       }
@@ -1665,7 +2085,134 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      investment_opportunities_mv: {
+        Row: {
+          avg_investor_roi: number | null
+          city: string | null
+          funding_percentage: number | null
+          opportunity_score: number | null
+          popularity_rank: number | null
+          price_per_token: number | null
+          property_id: string | null
+          property_type: string | null
+          recommendation_reasons: string[] | null
+          risk_level: string | null
+          title: string | null
+          total_investors: number | null
+        }
+        Relationships: []
+      }
+      portfolio_performance_mv: {
+        Row: {
+          avg_roi: number | null
+          current_value: number | null
+          geographic_diversity: number | null
+          last_investment_date: string | null
+          portfolio_growth_percentage: number | null
+          property_type_diversity: number | null
+          roi_volatility: number | null
+          total_gains: number | null
+          total_invested: number | null
+          total_investments: number | null
+          total_tokens: number | null
+          user_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "investments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      property_market_insights_mv: {
+        Row: {
+          available_tokens: number | null
+          avg_investor_roi: number | null
+          city: string | null
+          country: string | null
+          days_on_platform: number | null
+          estimated_current_price: number | null
+          funding_percentage: number | null
+          investment_volume_rank: number | null
+          popularity_rank: number | null
+          price: number | null
+          price_per_token: number | null
+          property_id: string | null
+          property_type: string | null
+          title: string | null
+          tokens_issued: number | null
+          total_invested: number | null
+          total_investors: number | null
+        }
+        Relationships: []
+      }
+      public_investment_opportunities: {
+        Row: {
+          avg_investor_roi: number | null
+          city: string | null
+          funding_percentage: number | null
+          opportunity_score: number | null
+          popularity_rank: number | null
+          price_per_token: number | null
+          property_id: string | null
+          property_type: string | null
+          recommendation_reasons: string[] | null
+          risk_level: string | null
+          title: string | null
+          total_investors: number | null
+        }
+        Relationships: []
+      }
+      public_property_insights: {
+        Row: {
+          available_tokens: number | null
+          avg_investor_roi: number | null
+          city: string | null
+          country: string | null
+          days_on_platform: number | null
+          estimated_current_price: number | null
+          funding_percentage: number | null
+          investment_volume_rank: number | null
+          popularity_rank: number | null
+          price: number | null
+          price_per_token: number | null
+          property_id: string | null
+          property_type: string | null
+          title: string | null
+          tokens_issued: number | null
+          total_invested: number | null
+          total_investors: number | null
+        }
+        Relationships: []
+      }
+      user_portfolio_performance: {
+        Row: {
+          avg_roi: number | null
+          current_value: number | null
+          geographic_diversity: number | null
+          last_investment_date: string | null
+          portfolio_growth_percentage: number | null
+          property_type_diversity: number | null
+          roi_volatility: number | null
+          total_gains: number | null
+          total_invested: number | null
+          total_investments: number | null
+          total_tokens: number | null
+          user_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "investments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       calculate_investment_fees: {
@@ -1692,6 +2239,10 @@ export type Database = {
       is_admin: {
         Args: { user_id: string }
         Returns: boolean
+      }
+      refresh_analytics_views: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
       }
     }
     Enums: {
