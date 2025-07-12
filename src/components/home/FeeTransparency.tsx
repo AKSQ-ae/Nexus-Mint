@@ -204,39 +204,39 @@ export function FeeTransparency() {
 
                     <div className="space-y-4">
                       <div className="relative">
-                        <div className="flex justify-between items-center p-4 bg-gradient-to-r from-accent/30 to-accent/50 rounded-lg border border-accent animate-fade-in">
-                          <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 bg-orange-500 rounded-full animate-pulse"></div>
-                            <span className="text-sm font-medium">Investment Fee (1.5%)</span>
+                        <div className="flex justify-between items-center p-5 bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-950/50 dark:to-orange-900/50 rounded-xl border-2 border-orange-200 dark:border-orange-800 shadow-lg animate-fade-in">
+                          <div className="flex items-center gap-3">
+                            <div className="w-4 h-4 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full animate-pulse shadow-md"></div>
+                            <span className="text-sm font-semibold text-orange-900 dark:text-orange-100">Investment Fee (1.5%)</span>
                           </div>
-                          <span className="font-semibold text-lg">${animatedValues.investmentFee.toFixed(2)}</span>
+                          <span className="font-bold text-xl text-orange-700 dark:text-orange-300">${animatedValues.investmentFee.toFixed(2)}</span>
                         </div>
                       </div>
                       
                       <div className="relative">
-                        <div className="flex justify-between items-center p-4 bg-gradient-to-r from-accent/30 to-accent/50 rounded-lg border border-accent animate-fade-in">
-                          <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                            <span className="text-sm font-medium">Annual Management (0.5%)</span>
+                        <div className="flex justify-between items-center p-5 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-950/50 dark:to-blue-900/50 rounded-xl border-2 border-blue-200 dark:border-blue-800 shadow-lg animate-fade-in">
+                          <div className="flex items-center gap-3">
+                            <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full shadow-md"></div>
+                            <span className="text-sm font-semibold text-blue-900 dark:text-blue-100">Annual Management (0.5%)</span>
                           </div>
-                          <span className="font-semibold text-lg">${animatedValues.annualManagement.toFixed(2)}</span>
+                          <span className="font-bold text-xl text-blue-700 dark:text-blue-300">${animatedValues.annualManagement.toFixed(2)}</span>
                         </div>
                       </div>
                       
-                      <div className="bg-gradient-subtle p-4 rounded-lg border-2 border-primary/30">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="font-semibold text-lg">Net Investment Amount</span>
-                          <span className="text-2xl font-bold text-primary animate-scale-in">
+                      <div className="bg-gradient-to-r from-emerald-50 via-green-50 to-emerald-50 dark:from-emerald-950/50 dark:via-green-950/50 dark:to-emerald-950/50 p-6 rounded-xl border-2 border-emerald-200 dark:border-emerald-800 shadow-lg">
+                        <div className="flex justify-between items-center mb-3">
+                          <span className="font-bold text-lg text-emerald-900 dark:text-emerald-100">Net Investment Amount</span>
+                          <span className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent animate-scale-in">
                             ${animatedValues.netInvestment.toLocaleString()}
                           </span>
                         </div>
-                        <div className="flex justify-between items-center text-sm text-muted-foreground mb-3">
-                          <span>Total fees (first year)</span>
-                          <span className="font-medium">${animatedValues.totalFirstYear.toFixed(2)} ({feePercentage}%)</span>
+                        <div className="flex justify-between items-center text-sm mb-4">
+                          <span className="text-emerald-700 dark:text-emerald-300 font-medium">Total fees (first year)</span>
+                          <span className="font-semibold text-emerald-800 dark:text-emerald-200">${animatedValues.totalFirstYear.toFixed(2)} ({feePercentage}%)</span>
                         </div>
                         <Progress 
                           value={parseFloat(feePercentage)} 
-                          className="h-2"
+                          className="h-3 bg-emerald-100 dark:bg-emerald-900"
                           aria-label={`Fee percentage: ${feePercentage}%`}
                         />
                       </div>
