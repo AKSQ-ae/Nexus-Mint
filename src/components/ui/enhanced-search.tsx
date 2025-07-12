@@ -187,8 +187,20 @@ export function EnhancedSearch({
             setSelectedIndex(-1);
           }}
           onFocus={() => {
-            // Only auto-open if there's content or we want to show suggestions
-            if (query || showRecentSearches || showSuggestions) {
+            // Only open if user explicitly clicks and there's content to show
+            // Don't auto-open on page load or navigation
+          }}
+          onBlur={(e) => {
+            // Close dropdown when clicking outside, but allow clicking on dropdown items
+            setTimeout(() => {
+              if (!e.currentTarget.contains(document.activeElement)) {
+                setIsOpen(false);
+              }
+            }, 200);
+          }}
+          onClick={() => {
+            // Only open when explicitly clicked
+            if (query || recentSearches.length > 0) {
               setIsOpen(true);
             }
           }}
@@ -213,7 +225,7 @@ export function EnhancedSearch({
       </div>
 
       {/* Search Results Dropdown */}
-      {isOpen && (query.length > 0 || (showRecentSearches && recentSearches.length > 0) || (showSuggestions && recentSearches.length === 0)) && (
+      {isOpen && (query.length > 0 || recentSearches.length > 0) && (
         <Card className="absolute top-full left-0 right-0 mt-2 z-[9998] max-h-96 overflow-hidden shadow-2xl border-2 border-primary/20 bg-white" data-state="open">
           <div className="max-h-96 overflow-y-auto">
             {/* Loading State */}
@@ -296,8 +308,8 @@ export function EnhancedSearch({
               </div>
             )}
 
-            {/* Popular Searches */}
-            {!query && showSuggestions && recentSearches.length === 0 && (
+            {/* Popular Searches - Only show when explicitly requested */}
+            {!query && showSuggestions && recentSearches.length === 0 && isOpen && (
               <div>
                 <div className="p-2 text-xs font-medium text-muted-foreground uppercase tracking-wide border-b">
                   Popular Searches
@@ -308,6 +320,7 @@ export function EnhancedSearch({
                     onClick={() => {
                       setQuery(suggestion);
                       handleSearch(suggestion);
+                      setIsOpen(false);
                     }}
                     className="w-full text-left p-3 hover:bg-muted/50 transition-colors flex items-center gap-3"
                   >
