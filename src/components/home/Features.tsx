@@ -82,24 +82,20 @@ export function Features() {
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="flex items-center justify-center gap-4 mb-8">
             <div className="relative">
-              <Star className="h-12 w-12 text-primary animate-spin-slow" />
-              <Sparkles className="h-6 w-6 text-primary absolute -top-2 -right-2 animate-pulse" />
+              <Star className="h-12 w-12 text-primary" />
+              <Sparkles className="h-6 w-6 text-primary absolute -top-2 -right-2" />
             </div>
             <div className="text-center">
               <h2 className="text-5xl font-bold bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent mb-2">
                 Why Nexus Mint?
               </h2>
-              <div className="h-1 w-32 bg-gradient-to-r from-primary to-orange-accent mx-auto rounded-full animate-pulse" />
+              <div className="h-1 w-32 bg-gradient-to-r from-primary to-orange-accent mx-auto rounded-full" />
             </div>
             <div className="relative">
-              <Bolt className="h-12 w-12 text-orange-accent animate-bounce" />
-              <Crown className="h-6 w-6 text-orange-accent absolute -top-2 -right-2 animate-pulse" />
+              <Bolt className="h-12 w-12 text-orange-accent" />
+              <Crown className="h-6 w-6 text-orange-accent absolute -top-2 -right-2" />
             </div>
           </div>
-          
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-12 font-medium">
-            Own from AED 500 • Earn 8–12% p.a. • Trade 24/7
-          </p>
         </div>
         
         {/* Harmonized Core Features Grid */}
@@ -133,7 +129,7 @@ export function Features() {
                   )}
                   
                   {/* Consistent Sparkle Position */}
-                  <Sparkles className="absolute -top-1 -right-1 h-3 w-3 text-white/80 animate-pulse" />
+                  <Sparkles className="absolute -top-1 -right-1 h-3 w-3 text-white/80" />
                 </div>
                 
                 <CardTitle className="text-lg mb-3 group-hover:text-foreground transition-colors duration-300 font-bold">
