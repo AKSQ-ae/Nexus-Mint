@@ -278,8 +278,8 @@ export function AdvancedAnalytics({
                 type="monotone" 
                 dataKey="conservative" 
                 stackId="1"
-                stroke="#64748b" 
-                fill="#64748b" 
+                stroke="hsl(var(--muted-foreground))" 
+                fill="hsl(var(--muted-foreground))" 
                 fillOpacity={0.2}
                 name="Conservative"
               />
@@ -287,8 +287,8 @@ export function AdvancedAnalytics({
                 type="monotone" 
                 dataKey="projected" 
                 stackId="2"
-                stroke="#3b82f6" 
-                fill="#3b82f6" 
+                stroke="hsl(var(--primary))" 
+                fill="hsl(var(--primary))" 
                 fillOpacity={0.3}
                 name="Projected"
               />
@@ -296,17 +296,17 @@ export function AdvancedAnalytics({
                 type="monotone" 
                 dataKey="optimistic" 
                 stackId="3"
-                stroke="#10b981" 
-                fill="#10b981" 
+                stroke="hsl(var(--success))" 
+                fill="hsl(var(--success))" 
                 fillOpacity={0.2}
                 name="Optimistic"
               />
               <Line 
                 type="monotone" 
                 dataKey="actual" 
-                stroke="#f59e0b" 
+                stroke="hsl(var(--warning))" 
                 strokeWidth={3}
-                dot={{ fill: '#f59e0b', strokeWidth: 2, r: 4 }}
+                dot={{ fill: 'hsl(var(--warning))', strokeWidth: 2, r: 4 }}
                 name="Actual"
               />
             </AreaChart>

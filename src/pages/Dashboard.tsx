@@ -86,10 +86,10 @@ interface PropertyAllocation {
 }
 
 const PROPERTY_TYPE_COLORS = {
-  RESIDENTIAL: '#3b82f6',
-  COMMERCIAL: '#10b981',
-  INDUSTRIAL: '#f59e0b',
-  MIXED_USE: '#8b5cf6',
+  RESIDENTIAL: 'hsl(var(--primary))',
+  COMMERCIAL: 'hsl(var(--success))', 
+  INDUSTRIAL: 'hsl(var(--warning))',
+  MIXED_USE: 'hsl(var(--secondary))',
 };
 
 export default function Dashboard() {
@@ -219,7 +219,7 @@ export default function Dashboard() {
         name: type.replace('_', ' '),
         value: data.value,
         percentage: (data.value / currentValue) * 100,
-        color: PROPERTY_TYPE_COLORS[type as keyof typeof PROPERTY_TYPE_COLORS] || '#64748b',
+        color: PROPERTY_TYPE_COLORS[type as keyof typeof PROPERTY_TYPE_COLORS] || 'hsl(var(--muted-foreground))',
       }));
 
       setPropertyAllocation(allocationData);

@@ -214,9 +214,9 @@ export const DeploymentValidator: React.FC = () => {
               )}
 
               {validation.status === 'passed' && (
-                <Alert className="border-emerald-200 bg-emerald-50">
-                  <CheckCircle className="h-4 w-4 text-emerald-500" />
-                  <AlertDescription className="text-emerald-700">
+                <Alert className="border-success/20 bg-success/10">
+                  <CheckCircle className="h-4 w-4 text-success" />
+                  <AlertDescription className="text-success">
                     <div className="font-medium">✅ Ready for Production Deployment</div>
                     <div className="text-sm mt-1">
                       All critical systems have been validated and are functioning correctly.
