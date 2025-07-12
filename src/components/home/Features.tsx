@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Wallet, Search, TrendingUp, DollarSign, Shield, Users, Globe, BarChart3 } from 'lucide-react';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
+import { ProgressiveSection } from '@/components/ui/progressive-section';
 
 export function Features() {
   const features = [
@@ -71,32 +72,16 @@ export function Features() {
             The premier blockchain-powered real estate investment platform making property ownership accessible to everyone
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature) => (
+        
+        {/* Core Features - Always Visible */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-12">
+          {features.slice(0, 4).map((feature) => (
             <Card key={feature.name} className="card-premium group">
               <CardHeader className="text-center">
                 <div className="mx-auto h-16 w-16 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                   <feature.icon className="h-8 w-8 text-primary" />
                 </div>
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <CardTitle className="text-lg">{feature.name}</CardTitle>
-                  <InfoTooltip content={
-                    <div className="space-y-3 max-w-xs">
-                      <p className="font-medium">{feature.details}</p>
-                      <div>
-                        <p className="font-medium mb-2">Key Benefits:</p>
-                        <ul className="space-y-1">
-                          {feature.benefits.map((benefit, i) => (
-                            <li key={i} className="flex items-center gap-2 text-sm">
-                              <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0" />
-                              {benefit}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  } />
-                </div>
+                <CardTitle className="text-lg mb-2">{feature.name}</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <CardDescription className="text-muted-foreground leading-relaxed">
@@ -106,6 +91,50 @@ export function Features() {
             </Card>
           ))}
         </div>
+
+        {/* Advanced Features - Progressive Disclosure */}
+        <ProgressiveSection
+          title="Advanced Features"
+          preview="Discover additional capabilities including global accessibility, real-time analytics, liquidity options, and community support."
+          variant="card"
+          className="mb-8"
+        >
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mt-6">
+            {features.slice(4).map((feature) => (
+              <Card key={feature.name} className="card-premium group">
+                <CardHeader className="text-center">
+                  <div className="mx-auto h-16 w-16 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                    <feature.icon className="h-8 w-8 text-primary" />
+                  </div>
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <CardTitle className="text-lg">{feature.name}</CardTitle>
+                    <InfoTooltip content={
+                      <div className="space-y-3 max-w-xs">
+                        <p className="font-medium">{feature.details}</p>
+                        <div>
+                          <p className="font-medium mb-2">Key Benefits:</p>
+                          <ul className="space-y-1">
+                            {feature.benefits.map((benefit, i) => (
+                              <li key={i} className="flex items-center gap-2 text-sm">
+                                <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0" />
+                                {benefit}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    } />
+                  </div>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <CardDescription className="text-muted-foreground leading-relaxed">
+                    {feature.description}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </ProgressiveSection>
         
         {/* Trust Indicators */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">

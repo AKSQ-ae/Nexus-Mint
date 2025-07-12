@@ -271,12 +271,55 @@ All colors MUST be HSL.
     color: hsl(var(--text-primary));
   }
 
-  /* Enhanced Dropdown Visibility */
+/* Enhanced Dropdown Visibility */
   .dropdown-menu {
     background-color: hsl(var(--background));
     border: 1px solid hsl(var(--border));
     box-shadow: var(--shadow-premium);
     z-index: 50;
+  }
+
+  /* Enhanced Visual Hierarchy */
+  .section-spacing {
+    @apply py-16 lg:py-24;
+  }
+
+  .content-spacing {
+    @apply space-y-8 lg:space-y-12;
+  }
+
+  .text-hierarchy-1 {
+    @apply text-4xl lg:text-5xl font-bold leading-tight;
+  }
+
+  .text-hierarchy-2 {
+    @apply text-3xl lg:text-4xl font-semibold leading-tight;
+  }
+
+  .text-hierarchy-3 {
+    @apply text-2xl lg:text-3xl font-semibold;
+  }
+
+  .text-body-large {
+    @apply text-lg lg:text-xl leading-relaxed;
+  }
+
+  .text-body {
+    @apply text-base leading-relaxed;
+  }
+
+  /* Smart Interaction States */
+  .interactive-card {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1 focus:shadow-lg focus:-translate-y-1;
+  }
+
+  .interactive-button {
+    @apply transition-all duration-200 hover:scale-105 focus:scale-105 active:scale-95;
+  }
+
+  /* Keyboard Navigation Enhancement */
+  .focus-visible {
+    @apply ring-2 ring-primary ring-offset-2 ring-offset-background outline-none;
   }
 
   /* Button Accessibility Enhancement */

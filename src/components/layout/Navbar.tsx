@@ -6,8 +6,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { UserMenu } from './UserMenu';
 import { HelpCenter } from '@/components/ui/help-center';
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
+import { EnhancedSearch } from '@/components/ui/enhanced-search';
 
-import { Menu, X, Building2, Coins } from 'lucide-react';
+import { Menu, X, Building2, Coins, Search } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 export function Navbar() {
@@ -90,6 +91,7 @@ export function Navbar() {
 
           {/* Right Side Auth Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
+            <EnhancedSearch className="w-64" />
             <HelpCenter />
             {user ? (
               <div className="flex items-center space-x-4">

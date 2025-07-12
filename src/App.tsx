@@ -5,6 +5,8 @@ import { Providers } from "@/components/providers/Providers";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/ui/custom-cursor";
+import { SmartBreadcrumbs } from "@/components/ui/smart-breadcrumbs";
+import { QuickActionsFAB } from "@/components/ui/quick-actions";
 
 // Pages
 import Index from "./pages/Index";
@@ -38,6 +40,7 @@ function App() {
         <Providers>
           <div className="min-h-screen flex flex-col bg-background">
             <Navbar />
+            <SmartBreadcrumbs />
             <main className="flex-1">
               <Routes>
                 <Route path="/" element={<Index />} />
@@ -67,6 +70,7 @@ function App() {
             <Footer />
           </div>
           <CustomCursor />
+          <QuickActionsFAB />
           <Toaster />
         </Providers>
       </BrowserRouter>
