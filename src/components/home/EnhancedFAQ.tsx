@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { Search, ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
+import { Search, ChevronDown, ChevronUp, HelpCircle, Sparkles, MessageCircle, Mail, ExternalLink, Filter, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 interface FAQItem {
   id: string;
@@ -77,6 +79,7 @@ export function EnhancedFAQ() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
+  const [showFilters, setShowFilters] = useState(false);
 
   const filteredFAQs = useMemo(() => {
     return faqData.filter(item => {
@@ -100,111 +103,255 @@ export function EnhancedFAQ() {
     setExpandedItems(newExpanded);
   };
 
+  const clearFilters = () => {
+    setSearchQuery('');
+    setSelectedCategory('All');
+  };
+
+  const expandAll = () => {
+    setExpandedItems(new Set(filteredFAQs.map(item => item.id)));
+  };
+
+  const collapseAll = () => {
+    setExpandedItems(new Set());
+  };
+
   return (
-    <section className="py-16 bg-background">
+    <section className="py-16 bg-gradient-to-b from-background to-accent/5">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <HelpCircle className="h-8 w-8 text-primary" />
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="relative">
+              <HelpCircle className="h-8 w-8 text-primary" />
+              <Sparkles className="h-3 w-3 text-primary absolute -top-1 -right-1 animate-pulse" />
+            </div>
             <h2 className="text-3xl font-bold text-foreground">Frequently Asked Questions</h2>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Find answers to common questions about investing in real estate through Nexus
           </p>
-        </div>
-
-        <div className="max-w-4xl mx-auto">
-          {/* Search and Filter */}
-          <div className="mb-8 space-y-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                placeholder="Search for help..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-12"
-              />
+          <div className="flex items-center justify-center gap-4 mt-6 text-sm text-muted-foreground">
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span>{filteredFAQs.length} questions</span>
             </div>
-            
-            <div className="flex flex-wrap gap-2">
-              {categories.map(category => (
-                <Badge
-                  key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  className="cursor-pointer hover:scale-105 transition-transform"
-                  onClick={() => setSelectedCategory(category)}
-                >
-                  {category}
-                </Badge>
-              ))}
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <span>{categories.length - 1} categories</span>
             </div>
           </div>
+        </div>
 
-          {/* FAQ Items */}
-          <div className="space-y-4">
-            {filteredFAQs.map(item => (
-              <Card key={item.id} className="shadow-elegant hover:shadow-premium transition-all duration-300">
-                <CardContent className="p-0">
-                  <button
-                    onClick={() => toggleExpanded(item.id)}
-                    className="w-full p-6 text-left flex items-center justify-between hover:bg-accent/50 transition-colors"
-                  >
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-foreground mb-1">{item.question}</h3>
-                      <Badge variant="outline" className="text-xs">
-                        {item.category}
+        <div className="max-w-5xl mx-auto">
+          {/* Enhanced Search and Filter */}
+          <Card className="mb-8 shadow-elegant border-primary/20">
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+                  <Input
+                    placeholder="Search questions, answers, or keywords..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-11 h-12 text-base border-primary/30 focus:border-primary"
+                  />
+                  {searchQuery && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+                
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    <Filter className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm font-medium text-muted-foreground">Categories:</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {categories.map(category => (
+                      <Badge
+                        key={category}
+                        variant={selectedCategory === category ? "default" : "outline"}
+                        className="cursor-pointer hover:scale-105 transition-all duration-200 hover:shadow-md"
+                        onClick={() => setSelectedCategory(category)}
+                      >
+                        {category}
+                        {category !== 'All' && selectedCategory === category && (
+                          <X className="h-3 w-3 ml-1" />
+                        )}
                       </Badge>
-                    </div>
-                    {expandedItems.has(item.id) ? (
-                      <ChevronUp className="h-5 w-5 text-muted-foreground" />
-                    ) : (
-                      <ChevronDown className="h-5 w-5 text-muted-foreground" />
-                    )}
-                  </button>
+                    ))}
+                  </div>
                   
-                  {expandedItems.has(item.id) && (
-                    <div className="px-6 pb-6 animate-fade-in">
-                      <div className="bg-accent/30 rounded-lg p-4">
-                        <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
+                  {(searchQuery || selectedCategory !== 'All') && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={clearFilters}
+                      className="text-xs"
+                    >
+                      Clear all
+                    </Button>
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t">
+                  <div className="text-sm text-muted-foreground">
+                    Showing {filteredFAQs.length} of {faqData.length} questions
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="ghost" size="sm" onClick={expandAll} className="text-xs">
+                      Expand All
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={collapseAll} className="text-xs">
+                      Collapse All
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Enhanced FAQ Items */}
+          <div className="grid gap-4">
+            {filteredFAQs.map((item, index) => (
+              <Card key={item.id} className="shadow-elegant hover:shadow-premium transition-all duration-300 border-l-4 border-l-primary/30 hover:border-l-primary">
+                <Collapsible 
+                  open={expandedItems.has(item.id)} 
+                  onOpenChange={() => toggleExpanded(item.id)}
+                >
+                  <CollapsibleTrigger asChild>
+                    <div className="w-full p-6 text-left flex items-center justify-between hover:bg-accent/30 transition-colors cursor-pointer group">
+                      <div className="flex-1 flex items-start gap-4">
+                        <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary font-semibold text-sm flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                          {index + 1}
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">{item.question}</h3>
+                          <div className="flex items-center gap-2">
+                            <Badge variant="secondary" className="text-xs">
+                              {item.category}
+                            </Badge>
+                            <div className="flex gap-1">
+                              {item.keywords.slice(0, 3).map(keyword => (
+                                <span key={keyword} className="text-xs text-muted-foreground bg-accent/50 px-1.5 py-0.5 rounded">
+                                  {keyword}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {expandedItems.has(item.id) ? (
+                          <ChevronUp className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                        ) : (
+                          <ChevronDown className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                        )}
                       </div>
                     </div>
-                  )}
-                </CardContent>
+                  </CollapsibleTrigger>
+                  
+                  <CollapsibleContent>
+                    <div className="px-6 pb-6 animate-accordion-down">
+                      <div className="ml-12 bg-gradient-subtle rounded-lg p-4 border border-accent">
+                        <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
+                        <div className="flex items-center justify-between mt-4 pt-3 border-t border-accent">
+                          <div className="text-xs text-muted-foreground">
+                            Was this helpful?
+                          </div>
+                          <div className="flex gap-2">
+                            <Button variant="ghost" size="sm" className="text-xs hover:text-green-600">
+                              👍 Yes
+                            </Button>
+                            <Button variant="ghost" size="sm" className="text-xs hover:text-red-600">
+                              👎 No
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
               </Card>
             ))}
           </div>
 
+          {/* Enhanced No Results */}
           {filteredFAQs.length === 0 && (
-            <div className="text-center py-12">
-              <HelpCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-foreground mb-2">No results found</h3>
-              <p className="text-muted-foreground">
-                Try adjusting your search terms or browse by category
-              </p>
-            </div>
+            <Card className="shadow-elegant border-dashed border-2 border-muted">
+              <CardContent className="text-center py-12">
+                <div className="animate-bounce mb-4">
+                  <HelpCircle className="h-12 w-12 text-muted-foreground mx-auto" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">No questions match your search</h3>
+                <p className="text-muted-foreground mb-4">
+                  Try different keywords or browse by category
+                </p>
+                <Button variant="outline" onClick={clearFilters}>
+                  Clear filters
+                </Button>
+              </CardContent>
+            </Card>
           )}
 
-          {/* Contact Support */}
-          <div className="mt-12 text-center">
-            <Card className="bg-gradient-subtle p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-2">Still have questions?</h3>
-              <p className="text-muted-foreground mb-4">
-                Our support team is here to help you with any questions about investing with Nexus
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a 
-                  href="mailto:support@nexus.com" 
-                  className="inline-flex items-center justify-center px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-                >
-                  Email Support
-                </a>
-                <a 
-                  href="/contact" 
-                  className="inline-flex items-center justify-center px-6 py-2 border border-border rounded-lg hover:bg-accent transition-colors"
-                >
-                  Contact Us
-                </a>
-              </div>
+          {/* Enhanced Contact Support */}
+          <div className="mt-12">
+            <Card className="bg-gradient-subtle shadow-elegant border border-primary/20">
+              <CardHeader className="text-center">
+                <CardTitle className="flex items-center justify-center gap-2">
+                  <MessageCircle className="h-5 w-5 text-primary" />
+                  Still need help?
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-center">
+                <p className="text-muted-foreground mb-6">
+                  Our expert support team is standing by to help you succeed with your real estate investments
+                </p>
+                <div className="grid sm:grid-cols-3 gap-4">
+                  <Card className="border-primary/20 hover:border-primary/40 transition-colors cursor-pointer group">
+                    <CardContent className="p-4 text-center">
+                      <Mail className="h-8 w-8 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                      <h4 className="font-medium mb-1">Email Support</h4>
+                      <p className="text-xs text-muted-foreground mb-3">Get detailed help via email</p>
+                      <Button variant="outline" size="sm" className="w-full" asChild>
+                        <a href="mailto:support@nexus.com">
+                          Contact Us
+                        </a>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="border-primary/20 hover:border-primary/40 transition-colors cursor-pointer group">
+                    <CardContent className="p-4 text-center">
+                      <MessageCircle className="h-8 w-8 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                      <h4 className="font-medium mb-1">Live Chat</h4>
+                      <p className="text-xs text-muted-foreground mb-3">Chat with our team now</p>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Start Chat
+                      </Button>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="border-primary/20 hover:border-primary/40 transition-colors cursor-pointer group">
+                    <CardContent className="p-4 text-center">
+                      <ExternalLink className="h-8 w-8 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                      <h4 className="font-medium mb-1">Help Center</h4>
+                      <p className="text-xs text-muted-foreground mb-3">Browse our full documentation</p>
+                      <Button variant="outline" size="sm" className="w-full" asChild>
+                        <a href="/help">
+                          Visit Help Center
+                        </a>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CardContent>
             </Card>
           </div>
         </div>

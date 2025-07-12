@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { Calculator, DollarSign, TrendingUp, Shield, Info } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Calculator, DollarSign, TrendingUp, Shield, Info, CheckCircle, Zap, Globe, Lock } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 
 interface FeeStructure {
   name: string;
@@ -78,6 +80,12 @@ const comparisonData = [
 
 export function FeeTransparency() {
   const [investmentAmount, setInvestmentAmount] = useState<number>(10000);
+  const [animatedValues, setAnimatedValues] = useState({ 
+    investmentFee: 0, 
+    annualManagement: 0, 
+    totalFirstYear: 0, 
+    netInvestment: 0 
+  });
 
   const calculateFees = (amount: number) => {
     const investmentFee = amount * 0.015;
@@ -93,6 +101,16 @@ export function FeeTransparency() {
   };
 
   const fees = calculateFees(investmentAmount);
+
+  // Animate fee values when they change
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimatedValues(fees);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [fees.investmentFee, fees.annualManagement, fees.totalFirstYear, fees.netInvestment]);
+
+  const feePercentage = ((fees.totalFirstYear / investmentAmount) * 100).toFixed(2);
 
   return (
     <section className="py-16 bg-accent/20">
@@ -115,94 +133,172 @@ export function FeeTransparency() {
           </TabsList>
 
           <TabsContent value="calculator" className="space-y-6">
-            <div className="grid lg:grid-cols-2 gap-8">
+            <div className="grid lg:grid-cols-3 gap-8">
               {/* Calculator Input */}
-              <Card className="shadow-elegant">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Calculator className="h-5 w-5" />
-                    Investment Calculator
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div>
-                    <Label htmlFor="investment">Investment Amount (USD)</Label>
-                    <Input
-                      id="investment"
-                      type="number"
-                      value={investmentAmount}
-                      onChange={(e) => setInvestmentAmount(Number(e.target.value) || 0)}
-                      className="text-lg mt-2"
-                    />
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center p-3 bg-accent/50 rounded-lg">
-                      <span className="text-sm font-medium">Investment Fee (1.5%)</span>
-                      <span className="font-semibold">${fees.investmentFee.toFixed(2)}</span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center p-3 bg-accent/50 rounded-lg">
-                      <span className="text-sm font-medium">Annual Management (0.5%)</span>
-                      <span className="font-semibold">${fees.annualManagement.toFixed(2)}</span>
-                    </div>
-                    
-                    <div className="border-t pt-4">
-                      <div className="flex justify-between items-center">
-                        <span className="font-semibold">Net Investment Amount</span>
-                        <span className="text-lg font-bold text-primary">
-                          ${fees.netInvestment.toFixed(2)}
-                        </span>
+              <div className="lg:col-span-2 space-y-6">
+                <Card className="shadow-elegant border-primary/20">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Calculator className="h-5 w-5" />
+                      Investment Calculator
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div>
+                      <Label htmlFor="investment" className="text-base font-medium">Investment Amount (USD)</Label>
+                      <div className="relative mt-2">
+                        <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                        <Input
+                          id="investment"
+                          type="number"
+                          value={investmentAmount}
+                          onChange={(e) => setInvestmentAmount(Number(e.target.value) || 0)}
+                          className="text-lg pl-10 h-12 border-primary/30 focus:border-primary"
+                          placeholder="10,000"
+                        />
                       </div>
-                      <div className="flex justify-between items-center text-sm text-muted-foreground mt-1">
-                        <span>Total fees (first year)</span>
-                        <span>${fees.totalFirstYear.toFixed(2)}</span>
+                      <div className="flex gap-2 mt-3">
+                        {[5000, 10000, 25000, 50000].map(amount => (
+                          <Button
+                            key={amount}
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setInvestmentAmount(amount)}
+                            className="text-xs"
+                          >
+                            ${amount.toLocaleString()}
+                          </Button>
+                        ))}
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
 
-              {/* Fee Benefits */}
-              <Card className="shadow-elegant">
+                    <div className="space-y-4">
+                      <div className="relative">
+                        <div className="flex justify-between items-center p-4 bg-gradient-to-r from-accent/30 to-accent/50 rounded-lg border border-accent animate-fade-in">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-orange-500 rounded-full animate-pulse"></div>
+                            <span className="text-sm font-medium">Investment Fee (1.5%)</span>
+                          </div>
+                          <span className="font-semibold text-lg">${animatedValues.investmentFee.toFixed(2)}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="relative">
+                        <div className="flex justify-between items-center p-4 bg-gradient-to-r from-accent/30 to-accent/50 rounded-lg border border-accent animate-fade-in">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                            <span className="text-sm font-medium">Annual Management (0.5%)</span>
+                          </div>
+                          <span className="font-semibold text-lg">${animatedValues.annualManagement.toFixed(2)}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-gradient-subtle p-4 rounded-lg border-2 border-primary/30">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="font-semibold text-lg">Net Investment Amount</span>
+                          <span className="text-2xl font-bold text-primary animate-scale-in">
+                            ${animatedValues.netInvestment.toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm text-muted-foreground mb-3">
+                          <span>Total fees (first year)</span>
+                          <span className="font-medium">${animatedValues.totalFirstYear.toFixed(2)} ({feePercentage}%)</span>
+                        </div>
+                        <Progress 
+                          value={parseFloat(feePercentage)} 
+                          className="h-2"
+                          aria-label={`Fee percentage: ${feePercentage}%`}
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Fee Breakdown Visual */}
+                <Card className="shadow-elegant">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Info className="h-5 w-5" />
+                      Fee Breakdown
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-primary rounded-full"></div>
+                          <span>Net Investment</span>
+                        </div>
+                        <span className="font-medium">{(((investmentAmount - fees.investmentFee) / investmentAmount) * 100).toFixed(1)}%</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                          <span>Investment Fee</span>
+                        </div>
+                        <span className="font-medium">1.5%</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                          <span>Annual Management</span>
+                        </div>
+                        <span className="font-medium">0.5%</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Enhanced Benefits */}
+              <Card className="shadow-elegant bg-gradient-subtle">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <TrendingUp className="h-5 w-5" />
+                    <CheckCircle className="h-5 w-5 text-green-500" />
                     What You Get
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid gap-4">
-                    <div className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                    <div className="flex items-start gap-3 group hover:bg-accent/30 p-3 rounded-lg transition-colors">
+                      <Zap className="h-5 w-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
                       <div>
-                        <h4 className="font-medium">Professional Property Management</h4>
+                        <h4 className="font-medium text-foreground">Professional Property Management</h4>
                         <p className="text-sm text-muted-foreground">Full-service management including maintenance, tenant relations, and optimization</p>
                       </div>
                     </div>
                     
-                    <div className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                    <div className="flex items-start gap-3 group hover:bg-accent/30 p-3 rounded-lg transition-colors">
+                      <Lock className="h-5 w-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
                       <div>
-                        <h4 className="font-medium">Blockchain Infrastructure</h4>
+                        <h4 className="font-medium text-foreground">Blockchain Infrastructure</h4>
                         <p className="text-sm text-muted-foreground">Secure tokenization, smart contracts, and automated distributions</p>
                       </div>
                     </div>
                     
-                    <div className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                    <div className="flex items-start gap-3 group hover:bg-accent/30 p-3 rounded-lg transition-colors">
+                      <Shield className="h-5 w-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
                       <div>
-                        <h4 className="font-medium">Regulatory Compliance</h4>
+                        <h4 className="font-medium text-foreground">Regulatory Compliance</h4>
                         <p className="text-sm text-muted-foreground">Full legal and regulatory compliance across all jurisdictions</p>
                       </div>
                     </div>
                     
-                    <div className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+                    <div className="flex items-start gap-3 group hover:bg-accent/30 p-3 rounded-lg transition-colors">
+                      <Globe className="h-5 w-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
                       <div>
-                        <h4 className="font-medium">24/7 Platform Access</h4>
+                        <h4 className="font-medium text-foreground">24/7 Platform Access</h4>
                         <p className="text-sm text-muted-foreground">Real-time portfolio tracking, trading, and customer support</p>
                       </div>
+                    </div>
+                  </div>
+
+                  <div className="border-t pt-4 mt-6">
+                    <div className="text-center">
+                      <p className="text-xs text-muted-foreground mb-3">Ready to start investing?</p>
+                      <Button className="w-full shadow-elegant hover:shadow-premium transition-all">
+                        Start Investing Now
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
