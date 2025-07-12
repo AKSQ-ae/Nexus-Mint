@@ -181,6 +181,13 @@ export function Navbar() {
                 Analytics
               </Link>
               <Link 
+                to="/investor-resources" 
+                className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Investor Resources
+              </Link>
+              <Link 
                 to="/referrals" 
                 className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
                 onClick={() => setIsOpen(false)}
