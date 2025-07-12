@@ -182,12 +182,25 @@ export function Features() {
           ))}
         </div>
 
-        {/* Enhanced Trust Indicators with Better Design */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        {/* Enhanced Trust Indicators with Better Content */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {[
-            { icon: Shield, title: 'UAE SCA Compliant', desc: 'Fully regulated by UAE Securities & Commodities Authority', badge: 'Verified ✓', color: 'green' },
-            { icon: Users, title: '15,000+ Investors', desc: 'Growing global community of successful real estate investors', badge: 'Growing Daily', color: 'blue' },
-            { icon: Award, title: '$500M+ Assets', desc: 'Total assets under management across global portfolio', badge: 'Expanding', color: 'purple' }
+            { 
+              icon: Users, 
+              title: 'Global Investor Community', 
+              desc: 'Join a growing network of successful real estate investors from around the world, building wealth through smart property investments.', 
+              badge: 'Growing Daily', 
+              color: 'blue',
+              gradient: 'from-blue-500 to-blue-600'
+            },
+            { 
+              icon: Award, 
+              title: 'Premium Asset Portfolio', 
+              desc: 'Curated collection of high-grade Dubai properties across prime locations, professionally managed and strategically selected for optimal returns.', 
+              badge: 'Expanding', 
+              color: 'purple',
+              gradient: 'from-purple-500 to-purple-600'
+            }
           ].map((item, index) => (
             <Card key={index} className={`text-center p-8 bg-gradient-to-br from-${item.color}-50 to-${item.color}-100 border-2 border-${item.color}-200 hover:shadow-2xl transition-all duration-500 group hover:-translate-y-2 relative overflow-hidden`}>
               {/* Background Animation */}
@@ -195,11 +208,11 @@ export function Features() {
               
               <div className={`mx-auto w-20 h-20 bg-${item.color}-200 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 relative shadow-lg`}>
                 <item.icon className={`h-10 w-10 text-${item.color}-600`} />
-                <div className="absolute -inset-2 bg-gradient-to-r from-primary/20 to-orange-accent/20 rounded-full opacity-0 group-hover:opacity-100 animate-pulse transition-opacity duration-500" />
+                <div className={`absolute -inset-2 bg-gradient-to-r ${item.gradient} opacity-20 rounded-full opacity-0 group-hover:opacity-100 animate-pulse transition-opacity duration-500`} />
               </div>
               
               <h4 className="font-bold text-xl mb-3 text-foreground">{item.title}</h4>
-              <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{item.desc}</p>
+              <p className="text-sm text-muted-foreground mb-6 leading-relaxed">{item.desc}</p>
               <Badge className={`bg-${item.color}-200 text-${item.color}-800 font-bold px-4 py-1 rounded-full shadow-md`}>
                 {item.badge}
               </Badge>
