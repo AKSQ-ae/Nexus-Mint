@@ -1222,6 +1222,178 @@ export type Database = {
           },
         ]
       }
+      tokenization_processes: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          current_step: string
+          error_logs: Json | null
+          estimated_completion: string | null
+          id: string
+          process_type: string
+          progress_percentage: number | null
+          property_id: string
+          started_at: string
+          status: string
+          step_details: Json | null
+          steps_completed: Json | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          current_step?: string
+          error_logs?: Json | null
+          estimated_completion?: string | null
+          id?: string
+          process_type?: string
+          progress_percentage?: number | null
+          property_id: string
+          started_at?: string
+          status?: string
+          step_details?: Json | null
+          steps_completed?: Json | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          current_step?: string
+          error_logs?: Json | null
+          estimated_completion?: string | null
+          id?: string
+          process_type?: string
+          progress_percentage?: number | null
+          property_id?: string
+          started_at?: string
+          status?: string
+          step_details?: Json | null
+          steps_completed?: Json | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tokenization_processes_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tokenization_reports: {
+        Row: {
+          compliance_data: Json | null
+          created_at: string
+          generated_at: string
+          generated_by: string | null
+          id: string
+          metrics: Json | null
+          performance_data: Json | null
+          process_id: string
+          property_id: string
+          report_data: Json
+          report_type: string
+          status: string | null
+        }
+        Insert: {
+          compliance_data?: Json | null
+          created_at?: string
+          generated_at?: string
+          generated_by?: string | null
+          id?: string
+          metrics?: Json | null
+          performance_data?: Json | null
+          process_id: string
+          property_id: string
+          report_data?: Json
+          report_type?: string
+          status?: string | null
+        }
+        Update: {
+          compliance_data?: Json | null
+          created_at?: string
+          generated_at?: string
+          generated_by?: string | null
+          id?: string
+          metrics?: Json | null
+          performance_data?: Json | null
+          process_id?: string
+          property_id?: string
+          report_data?: Json
+          report_type?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tokenization_reports_process_id_fkey"
+            columns: ["process_id"]
+            isOneToOne: false
+            referencedRelation: "tokenization_processes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tokenization_reports_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tokenization_steps: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          duration_seconds: number | null
+          error_details: Json | null
+          id: string
+          process_id: string
+          started_at: string | null
+          status: string
+          step_data: Json | null
+          step_name: string
+          step_order: number
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          duration_seconds?: number | null
+          error_details?: Json | null
+          id?: string
+          process_id: string
+          started_at?: string | null
+          status?: string
+          step_data?: Json | null
+          step_name: string
+          step_order: number
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          duration_seconds?: number | null
+          error_details?: Json | null
+          id?: string
+          process_id?: string
+          started_at?: string | null
+          status?: string
+          step_data?: Json | null
+          step_name?: string
+          step_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tokenization_steps_process_id_fkey"
+            columns: ["process_id"]
+            isOneToOne: false
+            referencedRelation: "tokenization_processes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       transactions: {
         Row: {
           created_at: string | null

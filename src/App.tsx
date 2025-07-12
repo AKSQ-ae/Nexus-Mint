@@ -24,6 +24,7 @@ import NotFound from "./pages/NotFound";
 import { InvestmentSuccess } from "./pages/investment/InvestmentSuccess";
 import { InvestmentCancel } from "./pages/investment/InvestmentCancel";
 import TokenizationDemo from "./pages/TokenizationDemo";
+import TokenizationDashboard from "./pages/TokenizationDashboard";
 import Trading from "./pages/Trading";
 import AdvancedAnalytics from "./pages/AdvancedAnalytics";
 import GlobalTrading from "./pages/GlobalTrading";
@@ -64,6 +65,7 @@ function App() {
                 <Route path="/investment/success" element={<InvestmentSuccess />} />
                 <Route path="/investment/cancel" element={<InvestmentCancel />} />
                 <Route path="/tokenization-demo" element={<TokenizationDemo />} />
+                <Route path="/tokenization/:propertyId?" element={<TokenizationDashboard />} />
                 <Route path="/analytics" element={<AdvancedAnalytics />} />
                 <Route path="/global-trading" element={<GlobalTrading />} />
                 <Route path="/how-it-works" element={<HowItWorks />} />
