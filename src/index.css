@@ -427,17 +427,39 @@ All colors MUST be HSL.
   }
 
   /* Tap animation */
-  @keyframes tap-ripple {
-    0% {
-      transform: translate(-50%, -50%) scale(0);
-      opacity: 0.8;
-    }
-    50% {
-      opacity: 0.4;
-    }
-    100% {
-      transform: translate(-50%, -50%) scale(4);
-      opacity: 0;
-    }
-  }
-}
+   @keyframes tap-ripple {
+     0% {
+       transform: translate(-50%, -50%) scale(0);
+       opacity: 0.8;
+     }
+     50% {
+       opacity: 0.4;
+     }
+     100% {
+       transform: translate(-50%, -50%) scale(4);
+       opacity: 0;
+     }
+   }
+
+   /* Navbar enhancements */
+   .navbar-logo img {
+     height: 32px;
+     margin-right: 8px;
+     transition: all 0.3s ease;
+   }
+
+   .navbar-logo:hover img {
+     transform: scale(1.1);
+     filter: drop-shadow(0 0 10px hsl(var(--orange-accent) / 0.3));
+   }
+
+   .navbar a.active {
+     border-bottom: 2px solid hsl(var(--orange-accent));
+     color: hsl(var(--orange-accent));
+   }
+
+   .navbar a {
+     padding: 16px;
+     transition: all 0.3s ease;
+   }
+ }
