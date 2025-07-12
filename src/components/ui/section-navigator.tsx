@@ -13,6 +13,26 @@ export function SectionNavigator() {
   const [sections, setSections] = useState<Section[]>([]);
   const [currentSection, setCurrentSection] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
+  const [hasActiveDropdowns, setHasActiveDropdowns] = useState(false);
+
+  // Check for active dropdowns or modals
+  useEffect(() => {
+    const checkForActiveDropdowns = () => {
+      // Check for search dropdowns, modals, or other overlays
+      const hasSearch = document.querySelector('[data-state="open"]') !== null;
+      const hasSearchBackdrop = document.querySelector('[data-search-backdrop="true"]') !== null;
+      const hasModals = document.querySelector('.fixed.inset-0.z-\\[9999\\]') !== null;
+      const hasDropdowns = document.querySelector('[role="menu"][data-state="open"]') !== null;
+      
+      setHasActiveDropdowns(hasSearch || hasSearchBackdrop || hasModals || hasDropdowns);
+    };
+
+    // Check every 500ms for active dropdowns
+    const interval = setInterval(checkForActiveDropdowns, 500);
+    checkForActiveDropdowns(); // Initial check
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     // Define sections based on your landing page structure
@@ -83,8 +103,8 @@ export function SectionNavigator() {
 
   return (
     <div className={cn(
-      "fixed left-6 top-1/2 transform -translate-y-1/2 z-[9997] transition-all duration-500",
-      isVisible ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
+      "fixed left-6 top-1/2 transform -translate-y-1/2 z-[9995] transition-all duration-500",
+      isVisible && !hasActiveDropdowns ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
     )}>
       <div className="bg-white border border-grey-mid/30 rounded-2xl shadow-elegant py-4 px-2 min-w-[160px]">
         {/* Quick Navigation */}

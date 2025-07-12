@@ -205,7 +205,7 @@ export function EnhancedSearch({
 
       {/* Search Results Dropdown */}
       {isOpen && (query || showRecentSearches) && (
-        <Card className="absolute top-full left-0 right-0 mt-2 z-50 max-h-96 overflow-hidden shadow-2xl border-2 border-primary/20">
+        <Card className="absolute top-full left-0 right-0 mt-2 z-[9998] max-h-96 overflow-hidden shadow-2xl border-2 border-primary/20 bg-white" data-state="open">
           <div className="max-h-96 overflow-y-auto">
             {/* Loading State */}
             {isLoading && (
@@ -315,8 +315,9 @@ export function EnhancedSearch({
       {/* Click outside to close */}
       {isOpen && (
         <div 
-          className="fixed inset-0 z-40" 
+          className="fixed inset-0 z-[9997]" 
           onClick={() => setIsOpen(false)}
+          data-search-backdrop="true"
         />
       )}
     </div>

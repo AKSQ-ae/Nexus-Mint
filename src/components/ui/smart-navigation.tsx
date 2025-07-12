@@ -95,7 +95,7 @@ export function SmartNavigation() {
     <>
       {/* Floating Quick Access Button */}
       <div className={cn(
-        "fixed bottom-6 right-6 z-[9996] transition-all duration-500",
+        "fixed bottom-6 right-6 z-[9994] transition-all duration-500",
         isFloating ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"
       )}>
         <Button
