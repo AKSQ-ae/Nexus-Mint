@@ -41,24 +41,29 @@ export function Footer() {
             <h3 className="font-semibold mb-4">Company</h3>
             <ul className="space-y-2 text-muted-foreground">
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary transition-colors">
+                <Link to="/how-it-works" className="hover:text-primary transition-colors">
                   How It Works
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
+                <Link to="/compliance" className="hover:text-primary transition-colors">
+                  Compliance
+                </Link>
+              </li>
+              <li>
+                <Link to="/legal/terms" className="hover:text-primary transition-colors">
                   Terms of Service
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition-colors">
+                <Link to="/legal/privacy" className="hover:text-primary transition-colors">
                   Privacy Policy
-                </a>
+                </Link>
+              </li>
+              <li>
+                <Link to="/legal/risk-disclaimer" className="hover:text-primary transition-colors">
+                  Risk Disclaimer
+                </Link>
               </li>
             </ul>
           </div>

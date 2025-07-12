@@ -18,8 +18,8 @@
     <meta property="og:image" content="https://images.unsplash.com/photo-1560472354-b33ff0c44a43" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:site" content="@nexusmint" />
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1560472354-b33ff0c44a43" />
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
@@ -28,10 +28,34 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-title" content="Nexus Mint" />
     <link rel="apple-touch-icon" href="/placeholder.svg" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/placeholder.svg" />
+    
+    <!-- Base tag for proper routing -->
+    <base href="/" />
+    
+    <!-- Prevent indexing of 404 pages -->
+    <script>
+      if (window.location.pathname === '/404') {
+        const meta = document.createElement('meta');
+        meta.name = 'robots';
+        meta.content = 'noindex, nofollow';
+        document.head.appendChild(meta);
+      }
+    </script>
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Fallback for JavaScript disabled -->
+    <noscript>
+      <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+        <h1>Nexus Mint</h1>
+        <p>Please enable JavaScript to use this application.</p>
+      </div>
+    </noscript>
   </body>
 </html>

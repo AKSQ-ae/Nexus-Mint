@@ -30,6 +30,10 @@ import HowItWorks from "./pages/HowItWorks";
 import Demo from "./pages/Demo";
 import Referrals from "./pages/Referrals";
 import Payments from "./pages/Payments";
+import Compliance from "./pages/Compliance";
+import Terms from "./pages/legal/Terms";
+import Privacy from "./pages/legal/Privacy";
+import RiskDisclaimer from "./pages/legal/RiskDisclaimer";
 
 const queryClient = new QueryClient();
 
@@ -63,7 +67,14 @@ function App() {
                 <Route path="/demo" element={<Demo />} />
                 <Route path="/referrals" element={<Referrals />} />
                 <Route path="/payments" element={<Payments />} />
+                <Route path="/compliance" element={<Compliance />} />
+                <Route path="/legal/terms" element={<Terms />} />
+                <Route path="/legal/privacy" element={<Privacy />} />
+                <Route path="/legal/risk-disclaimer" element={<RiskDisclaimer />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
                 <Route path="/trading/:id" element={<Trading />} />
+                <Route path="/trading" element={<GlobalTrading />} />
                 <Route path="/404" element={<NotFound />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
