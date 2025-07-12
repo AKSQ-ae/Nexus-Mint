@@ -113,24 +113,24 @@ export function FeeTransparency() {
   const feePercentage = ((fees.totalFirstYear / investmentAmount) * 100).toFixed(2);
 
   return (
-    <section className="py-16 bg-accent/20">
+    <section className="py-16 bg-gradient-to-br from-blue-50 via-purple-50 to-orange-50 dark:from-blue-950/30 dark:via-purple-950/30 dark:to-orange-950/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-4 mb-6">
             <div className="relative">
-              <Shield className="h-12 w-12 text-primary animate-pulse" />
-              <div className="absolute inset-0 h-12 w-12 text-primary animate-ping opacity-20">
-                <Shield className="h-12 w-12" />
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 rounded-full flex items-center justify-center shadow-xl animate-bounce">
+                <Shield className="h-8 w-8 text-white" />
               </div>
+              <div className="absolute inset-0 w-16 h-16 bg-blue-500/30 rounded-full animate-ping"></div>
             </div>
             <h2 className="text-5xl font-bold text-foreground">
-              <span className="gradient-text">Transparent</span> Fee Structure
+              <span className="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 bg-clip-text text-transparent font-extrabold">Transparent</span> Fee Structure
             </h2>
             <div className="relative">
-              <DollarSign className="h-12 w-12 text-primary animate-pulse" />
-              <div className="absolute inset-0 h-12 w-12 text-primary animate-ping opacity-20">
-                <DollarSign className="h-12 w-12" />
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-500 via-orange-600 to-red-500 rounded-full flex items-center justify-center shadow-xl animate-bounce" style={{animationDelay: '0.2s'}}>
+                <DollarSign className="h-8 w-8 text-white" />
               </div>
+              <div className="absolute inset-0 w-16 h-16 bg-orange-500/30 rounded-full animate-ping" style={{animationDelay: '0.2s'}}></div>
             </div>
           </div>
           <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
@@ -140,26 +140,26 @@ export function FeeTransparency() {
           
           {/* Trust Indicators */}
           <div className="flex flex-wrap justify-center gap-6 text-sm">
-            <div className="flex items-center gap-2 bg-gradient-subtle px-4 py-2 rounded-full">
-              <CheckCircle className="h-4 w-4 text-green-500" />
-              <span>No Hidden Fees</span>
+            <div className="flex items-center gap-2 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/50 dark:to-emerald-900/50 px-6 py-3 rounded-full border border-green-200 dark:border-green-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
+              <span className="font-semibold text-green-800 dark:text-green-200">No Hidden Fees</span>
             </div>
-            <div className="flex items-center gap-2 bg-gradient-subtle px-4 py-2 rounded-full">
-              <CheckCircle className="h-4 w-4 text-green-500" />
-              <span>Industry-Leading Low Rates</span>
+            <div className="flex items-center gap-2 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/50 dark:to-indigo-900/50 px-6 py-3 rounded-full border border-blue-200 dark:border-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <CheckCircle className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <span className="font-semibold text-blue-800 dark:text-blue-200">Industry-Leading Low Rates</span>
             </div>
-            <div className="flex items-center gap-2 bg-gradient-subtle px-4 py-2 rounded-full">
-              <CheckCircle className="h-4 w-4 text-green-500" />
-              <span>Full Cost Transparency</span>
+            <div className="flex items-center gap-2 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/50 dark:to-pink-900/50 px-6 py-3 rounded-full border border-purple-200 dark:border-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <CheckCircle className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+              <span className="font-semibold text-purple-800 dark:text-purple-200">Full Cost Transparency</span>
             </div>
           </div>
         </div>
 
         <Tabs defaultValue="calculator" className="max-w-6xl mx-auto">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="calculator">Fee Calculator</TabsTrigger>
-            <TabsTrigger value="breakdown">Fee Breakdown</TabsTrigger>
-            <TabsTrigger value="comparison">Market Comparison</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border border-gray-200 dark:border-gray-700 shadow-lg">
+            <TabsTrigger value="calculator" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white font-semibold">Fee Calculator</TabsTrigger>
+            <TabsTrigger value="breakdown" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white font-semibold">Fee Breakdown</TabsTrigger>
+            <TabsTrigger value="comparison" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-semibold">Market Comparison</TabsTrigger>
           </TabsList>
 
           <TabsContent value="calculator" className="space-y-6">
@@ -281,7 +281,7 @@ export function FeeTransparency() {
               </div>
 
               {/* Enhanced Benefits */}
-              <Card className="shadow-elegant bg-gradient-subtle">
+              <Card className="shadow-xl bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-950/50 dark:via-purple-950/50 dark:to-pink-950/50 border-2 border-indigo-200 dark:border-indigo-700">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <CheckCircle className="h-5 w-5 text-green-500" />
