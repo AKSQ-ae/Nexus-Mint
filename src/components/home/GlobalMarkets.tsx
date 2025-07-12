@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { Link } from 'react-router-dom';
 import { 
   Globe, 
   TrendingUp, 
@@ -158,13 +159,24 @@ export function GlobalMarkets() {
                     <span className="text-sm">{market.timeZone}</span>
                   </div>
                 </div>
-                <Button 
-                  className="w-full mt-4" 
-                  disabled={market.status !== 'Live'}
-                  variant={market.featured ? 'default' : 'outline'}
-                >
-                  {market.status === 'Live' ? 'Explore Properties' : 'Notify Me'}
-                </Button>
+                {market.status === 'Live' ? (
+                  <Link to="/properties" className="w-full mt-4 block">
+                    <Button 
+                      className="w-full" 
+                      variant={market.featured ? 'default' : 'outline'}
+                    >
+                      Explore Properties
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button 
+                    className="w-full mt-4" 
+                    disabled
+                    variant="outline"
+                  >
+                    Notify Me
+                  </Button>
+                )}
               </CardContent>
             </Card>
           ))}
@@ -228,7 +240,9 @@ export function GlobalMarkets() {
                   <DollarSign className="h-8 w-8 text-primary mx-auto mb-2" />
                   <div className="text-2xl font-bold text-primary">$100</div>
                   <div className="text-sm text-muted-foreground">Start investing globally</div>
-                  <Button className="mt-3 w-full">Get Started</Button>
+                  <Link to="/properties" className="mt-3 w-full block">
+                    <Button className="w-full">Get Started</Button>
+                  </Link>
                 </div>
               </div>
             </div>
