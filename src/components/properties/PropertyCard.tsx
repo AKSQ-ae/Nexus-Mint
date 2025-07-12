@@ -36,20 +36,21 @@ export function PropertyCard({ property }: PropertyCardProps) {
   const availableTokens = Math.floor((property.total_tokens || 10000) * (1 - fundedPercentage / 100));
 
   return (
-    <Card className="h-full hover:shadow-lg transition-shadow group">
-      <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
+    <Card className="h-full group hover:scale-105 transition-all duration-300 overflow-hidden">
+      <div className="relative h-48 w-full overflow-hidden">
         <img
           src={firstImage}
           alt={property.title}
-          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+          className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="absolute top-3 right-3">
-          <Badge variant="secondary" className="bg-white/90 backdrop-blur-sm">
+          <Badge variant="secondary" className="bg-white/95 backdrop-blur-sm font-medium">
             {property.property_type}
           </Badge>
         </div>
         <div className="absolute top-3 left-3">
-          <Badge className="bg-green-600 text-white">
+          <Badge className="bg-success text-white font-semibold shadow-lg">
             {fundedPercentage.toFixed(0)}% Funded
           </Badge>
         </div>
@@ -102,8 +103,9 @@ export function PropertyCard({ property }: PropertyCardProps) {
         <div className="flex w-full gap-2">
           <Button 
             asChild 
-            className="flex-1"
             variant="outline"
+            size="sm"
+            className="flex-1"
           >
             <Link to={`/properties/${property.id}`}>
               View Details
@@ -111,8 +113,9 @@ export function PropertyCard({ property }: PropertyCardProps) {
           </Button>
           <Button 
             asChild 
+            variant="secondary"
+            size="sm"
             className="flex-1"
-            variant="outline"
           >
             <Link to={`/trading/${property.id}`}>
               <BarChart3 className="h-4 w-4 mr-1" />
@@ -121,7 +124,9 @@ export function PropertyCard({ property }: PropertyCardProps) {
           </Button>
           <Button 
             onClick={() => setShowQuickInvest(true)}
-            className="flex-1 bg-green-600 hover:bg-green-700"
+            variant="cta"
+            size="sm"
+            className="flex-1"
           >
             <Zap className="h-4 w-4 mr-1" />
             Invest

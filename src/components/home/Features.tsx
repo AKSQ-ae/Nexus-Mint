@@ -222,11 +222,11 @@ export function Features() {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <Button size="lg" variant="outline" className="px-10 py-4 text-lg font-semibold border-2 border-blue-600/30 hover:border-blue-600 hover:bg-blue-50 rounded-full transition-all duration-300 hover:scale-105">
+                <Button size="lg" variant="outline" className="hover:scale-105">
                   Explore Properties
                   <Building2 className="h-5 w-5 ml-2" />
                 </Button>
-                <Button size="lg" variant="ghost" className="px-10 py-4 text-lg font-semibold text-purple-600 hover:bg-purple-50 rounded-full transition-all duration-300 hover:scale-105">
+                <Button size="lg" variant="secondary" className="hover:scale-105">
                   How It Works
                   <ArrowRight className="h-5 w-5 ml-2" />
                 </Button>

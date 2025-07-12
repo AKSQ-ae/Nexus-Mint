@@ -118,8 +118,9 @@ export function Hero() {
           
           <div className="animate-fade-in-up flex justify-center max-w-md mx-auto" style={{animationDelay: '0.7s'}}>
             <Link to="/properties">
-              <Button size="xl" className="bg-starbucks-green hover:bg-starbucks-green/90 text-white font-semibold px-8 py-4 text-lg shadow-elegant hover:shadow-glow transform hover:scale-105">
+              <Button variant="hero" size="xl">
                 Start Investing
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
           </div>
@@ -210,8 +211,9 @@ export function Hero() {
             </div>
 
             <div className="flex flex-col items-center gap-4">
-              <Button size="xl" className="bg-orange-accent hover:bg-orange-accent/90 text-white font-semibold px-8 py-4 text-lg shadow-elegant hover:shadow-glow transform hover:scale-105">
+              <Button variant="cta" size="xl">
                 Request Early Access
+                <TrendingUp className="ml-2 h-5 w-5" />
               </Button>
               <p className="text-sm text-muted-foreground font-inter">
                 Secure your spot.

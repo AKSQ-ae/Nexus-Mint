@@ -9,17 +9,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-gradient-primary text-white shadow-elegant hover:shadow-premium btn-glow hover:scale-105",
+        default: "bg-gradient-primary text-white shadow-elegant hover:shadow-premium btn-glow hover:scale-105 font-medium",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-elegant hover:bg-destructive/90",
+          "bg-destructive text-destructive-foreground shadow-elegant hover:bg-destructive/90 hover:scale-105",
         outline:
-          "border border-border bg-background shadow-elegant hover:bg-accent hover:text-accent-foreground",
+          "border-2 border-primary bg-background text-primary shadow-elegant hover:bg-primary hover:text-white hover:scale-105 font-medium",
         secondary:
-          "bg-gradient-secondary text-secondary-foreground shadow-elegant hover:scale-105",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+          "bg-muted text-foreground shadow-elegant hover:bg-muted/80 hover:scale-105 font-medium",
+        ghost: "hover:bg-accent hover:text-accent-foreground hover:scale-105",
         link: "text-primary underline-offset-4 hover:underline",
-        premium: "bg-gradient-orange text-white shadow-premium hover:shadow-glow transform hover:scale-105 btn-glow",
-        cta: "bg-orange-accent hover:bg-orange-accent/90 text-white shadow-elegant hover:shadow-glow transform hover:scale-105",
+        premium: "bg-gradient-orange text-white shadow-premium hover:shadow-glow transform hover:scale-105 btn-glow font-semibold",
+        cta: "bg-orange-accent hover:bg-orange-accent/90 text-white shadow-elegant hover:shadow-glow transform hover:scale-105 font-semibold",
+        hero: "bg-gradient-primary text-white shadow-glow hover:shadow-premium transform hover:scale-110 btn-glow font-bold text-lg",
       },
       size: {
         default: "h-10 px-4 py-2",
