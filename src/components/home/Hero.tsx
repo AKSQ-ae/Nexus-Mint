@@ -19,8 +19,9 @@ export function Hero() {
         <div className="max-w-5xl mx-auto text-center">
           {/* Stylish NEXUS MINT Logo */}
           <div className="animate-fade-in-up flex justify-center mb-8">
-            <h1 className="text-7xl md:text-8xl lg:text-9xl font-black tracking-[0.15em] uppercase transform hover:scale-105 transition-all duration-500 relative text-blue-600">
-              NEXUS MINT
+            <h1 className="text-7xl md:text-8xl lg:text-9xl font-black tracking-[0.15em] uppercase transform hover:scale-105 transition-all duration-500 relative">
+              <span className="text-blue-600">NEXUS</span>
+              <span className="text-orange-500 ml-4">MINT</span>
             </h1>
           </div>
           
