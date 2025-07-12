@@ -9,21 +9,47 @@ import { TrustSignals } from '@/components/home/TrustSignals';
 import { EnhancedFAQ } from '@/components/home/EnhancedFAQ';
 import { FeeTransparency } from '@/components/home/FeeTransparency';
 import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt';
+import { SmartNavigation } from '@/components/ui/smart-navigation';
+import { SectionNavigator } from '@/components/ui/section-navigator';
 
 export default function Index() {
   return (
     <>
-      <Hero />
-      <Stats />
-      <TrustSignals />
-      <Features />
-      <FeaturedProperties />
-      <GlobalMarkets />
-      <HowItWorks />
-      <FeeTransparency />
-      <EnhancedFAQ />
-      <CTA />
+      <div data-section="hero">
+        <Hero />
+      </div>
+      <div data-section="stats">
+        <Stats />
+      </div>
+      <div data-section="trust-signals">
+        <TrustSignals />
+      </div>
+      <div data-section="features">
+        <Features />
+      </div>
+      <div data-section="properties">
+        <FeaturedProperties />
+      </div>
+      <div data-section="markets">
+        <GlobalMarkets />
+      </div>
+      <div data-section="how-it-works">
+        <HowItWorks />
+      </div>
+      <div data-section="fees">
+        <FeeTransparency />
+      </div>
+      <div data-section="faq">
+        <EnhancedFAQ />
+      </div>
+      <div data-section="cta">
+        <CTA />
+      </div>
       <PWAInstallPrompt />
+      
+      {/* Smart Navigation Components */}
+      <SmartNavigation />
+      <SectionNavigator />
     </>
   );
 }
