@@ -50,12 +50,11 @@ export const TapAnimationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         {tapEffects.map((tap) => (
           <div
             key={tap.id}
-            className="absolute w-8 h-8 -translate-x-1/2 -translate-y-1/2 animate-ping"
+            className="absolute w-6 h-6 -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{
               left: tap.x,
               top: tap.y,
-              background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
-              borderRadius: '50%',
+              background: 'radial-gradient(circle, hsl(var(--primary)), hsl(var(--accent)))',
               animation: 'tap-ripple 1s ease-out forwards',
             }}
           />
