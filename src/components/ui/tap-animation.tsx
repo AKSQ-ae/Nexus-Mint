@@ -50,12 +50,13 @@ export const TapAnimationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         {tapEffects.map((tap) => (
           <div
             key={tap.id}
-            className="absolute w-12 h-12 -translate-x-1/2 -translate-y-1/2 rounded-full"
+            className="absolute rounded-full pointer-events-none"
             style={{
-              left: tap.x,
-              top: tap.y,
-              background: 'radial-gradient(circle, hsl(var(--primary)), hsl(var(--accent)))',
-              borderRadius: '50%',
+              left: tap.x - 25,
+              top: tap.y - 25,
+              width: '50px',
+              height: '50px',
+              background: 'radial-gradient(circle, rgba(255,138,76,0.8), rgba(59,130,246,0.8))',
               animation: 'tap-ripple 1s ease-out forwards',
             }}
           />
@@ -69,18 +70,15 @@ export const TapAnimationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 const tapRippleAnimation = `
   @keyframes tap-ripple {
     0% {
-      transform: translate(-50%, -50%) scale(0);
+      transform: scale(0);
       opacity: 0.8;
-      border-radius: 50%;
     }
     50% {
       opacity: 0.4;
-      border-radius: 50%;
     }
     100% {
-      transform: translate(-50%, -50%) scale(4);
+      transform: scale(4);
       opacity: 0;
-      border-radius: 50%;
     }
   }
 `;
