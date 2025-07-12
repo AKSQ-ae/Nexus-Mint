@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { CursorToggle } from '@/components/ui/cursor-toggle';
+import { useToast } from '@/hooks/use-toast';
 
 const faqs = [
   {
@@ -47,6 +48,28 @@ const faqs = [
 export function InvestorResourcesContent() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const { toast } = useToast();
+
+  const handleLiveChat = () => {
+    toast({
+      title: "Live Chat",
+      description: "Starting live chat session... Our support team will be with you shortly.",
+    });
+  };
+
+  const handleDocumentation = () => {
+    toast({
+      title: "Documentation",
+      description: "Opening comprehensive investment guides and tutorials...",
+    });
+  };
+
+  const handleAccountSupport = () => {
+    toast({
+      title: "Account Support",
+      description: "Connecting you with account verification and setup assistance...",
+    });
+  };
 
   const categories = ['All', ...Array.from(new Set(faqs.map(faq => faq.category)))];
   
@@ -86,7 +109,10 @@ export function InvestorResourcesContent() {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-105 border-primary/20">
+        <Card 
+          className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-105 border-primary/20"
+          onClick={handleLiveChat}
+        >
           <CardHeader className="text-center p-6">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <MessageSquare className="h-6 w-6 text-primary" />
@@ -96,7 +122,10 @@ export function InvestorResourcesContent() {
           </CardHeader>
         </Card>
         
-        <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-105 border-primary/20">
+        <Card 
+          className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-105 border-primary/20"
+          onClick={handleDocumentation}
+        >
           <CardHeader className="text-center p-6">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <FileText className="h-6 w-6 text-primary" />
@@ -106,7 +135,10 @@ export function InvestorResourcesContent() {
           </CardHeader>
         </Card>
         
-        <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-105 border-primary/20">
+        <Card 
+          className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-105 border-primary/20"
+          onClick={handleAccountSupport}
+        >
           <CardHeader className="text-center p-6">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <Settings className="h-6 w-6 text-primary" />
