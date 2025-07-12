@@ -12,15 +12,13 @@ interface BeforeInstallPromptEvent extends Event {
 export function usePWA() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
-  const [isStandalone, setIsStandalone] = useState(false);
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
-    // Check if app is running in standalone mode
-    setIsStandalone(
-      window.matchMedia('(display-mode: standalone)').matches ||
-      (window.navigator as any).standalone === true
-    );
+    // Check if already installed
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isInWebApp = (window.navigator as any).standalone === true;
+    setIsInstalled(isStandalone || isInWebApp);
 
     // Listen for install prompt
     const handleBeforeInstallPrompt = (e: Event) => {
@@ -31,24 +29,17 @@ export function usePWA() {
 
     // Listen for app installed
     const handleAppInstalled = () => {
-      setInstallPrompt(null);
+      setIsInstalled(true);
       setIsInstallable(false);
+      setInstallPrompt(null);
     };
-
-    // Listen for online/offline status
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
     };
   }, []);
 
@@ -57,11 +48,11 @@ export function usePWA() {
 
     try {
       await installPrompt.prompt();
-      const { outcome } = await installPrompt.userChoice;
+      const choice = await installPrompt.userChoice;
       
-      if (outcome === 'accepted') {
-        setInstallPrompt(null);
+      if (choice.outcome === 'accepted') {
         setIsInstallable(false);
+        setInstallPrompt(null);
         return true;
       }
       return false;
@@ -73,8 +64,7 @@ export function usePWA() {
 
   return {
     isInstallable,
-    isStandalone,
-    isOnline,
+    isInstalled,
     installApp
   };
 }

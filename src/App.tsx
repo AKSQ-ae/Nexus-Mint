@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { SmartBreadcrumbs } from "@/components/ui/smart-breadcrumbs";
 import { TapAnimationProvider } from "@/components/ui/tap-animation";
+import { PWAInstallPrompt } from "@/components/pwa/PWAInstallPrompt";
 
 // Pages
 import Index from "./pages/Index";
@@ -86,6 +87,7 @@ function App() {
               </Routes>
             </main>
             <Footer />
+            <PWAInstallPrompt />
             </div>
             <CustomCursor />
             <Toaster />

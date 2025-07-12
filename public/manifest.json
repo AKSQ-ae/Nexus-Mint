@@ -6,6 +6,13 @@
   "display": "standalone",
   "background_color": "#0f0f23",
   "theme_color": "#0f0f23",
+  "scope": "/",
+  "protocol_handlers": [
+    {
+      "protocol": "web+nexusmint",
+      "url": "/?utm_source=pwa&utm_medium=protocol_handler&url=%s"
+    }
+  ],
   "orientation": "portrait-primary",
   "icons": [
     {
