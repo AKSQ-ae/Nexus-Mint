@@ -1,35 +1,30 @@
-import { Shield, Award, FileCheck, Users, Building2, TrendingUp } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Building2, Shield, TrendingUp } from 'lucide-react';
 
-const trustSignals = [
-  {
-    icon: Shield,
-    title: "Secured by Blockchain",
-    description: "Enterprise-grade blockchain security"
-  },
-  {
-    icon: Award,
-    title: "ISO 27001 Certified",
-    description: "International security management standard"
-  },
-  {
-    icon: FileCheck,
-    title: "Smart Contract Audited",
-    description: "Third-party security audits completed"
-  },
-  {
-    icon: Users,
-    title: "Institutional Backing",
-    description: "Supported by leading real estate firms"
-  },
+const investmentPillars = [
   {
     icon: Building2,
-    title: "Premium Properties",
-    description: "Grade A commercial and residential assets"
+    title: 'Curated Property Assets',
+    benefits: [
+      'Grade-A commercial & residential properties',
+      'Backed by leading real-estate partners'
+    ]
+  },
+  {
+    icon: Shield,
+    title: 'Security & Compliance',
+    benefits: [
+      'Enterprise-grade blockchain security',
+      'Third-party smart-contract audits'
+    ]
   },
   {
     icon: TrendingUp,
-    title: "Proven Track Record",
-    description: "10%+ average annual returns since 2020"
+    title: 'Transparent Performance',
+    benefits: [
+      '10%+ projected annual returns',
+      'Real-time on-chain audit trail'
+    ]
   }
 ];
 
@@ -44,29 +39,36 @@ export function TrustSignals() {
   return (
     <section className="py-24 bg-background">
       <div className="container mx-auto px-4">
-        {/* Trust Badges */}
+        {/* Investment Pillars */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-6">
-            Trusted & <span className="gradient-text">Secure</span>
+            Your Investment <span className="gradient-text">Pillars</span>
           </h2>
           <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Your investments are protected by industry-leading security and regulatory compliance
+            Three foundational pillars that make your investment secure, profitable, and transparent
           </p>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-            {trustSignals.map((signal, index) => (
-              <div 
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {investmentPillars.map((pillar, index) => (
+              <Card 
                 key={index}
-                className="flex flex-col items-center p-6 card-premium rounded-xl group hover:scale-105 transition-transform"
+                className="p-8 card-premium group hover:scale-105 transition-all duration-300"
               >
-                <div className="h-12 w-12 bg-gradient-secondary rounded-xl flex items-center justify-center mb-4 group-hover:shadow-glow">
-                  <signal.icon className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="font-semibold text-sm mb-2 text-center">{signal.title}</h3>
-                <p className="text-xs text-muted-foreground text-center leading-relaxed">
-                  {signal.description}
-                </p>
-              </div>
+                <CardContent className="p-0 text-center">
+                  <div className="h-16 w-16 bg-gradient-secondary rounded-xl flex items-center justify-center mb-6 mx-auto group-hover:shadow-glow">
+                    <pillar.icon className="h-8 w-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-4 text-foreground">{pillar.title}</h3>
+                  <ul className="space-y-3 text-left">
+                    {pillar.benefits.map((benefit, benefitIndex) => (
+                      <li key={benefitIndex} className="text-muted-foreground flex items-start">
+                        <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                        <span>{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
