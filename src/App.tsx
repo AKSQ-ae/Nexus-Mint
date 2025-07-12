@@ -34,6 +34,7 @@ import Compliance from "./pages/Compliance";
 import Terms from "./pages/legal/Terms";
 import Privacy from "./pages/legal/Privacy";
 import RiskDisclaimer from "./pages/legal/RiskDisclaimer";
+import InvestorResources from "./pages/InvestorResources";
 
 const queryClient = new QueryClient();
 
@@ -75,6 +76,7 @@ function App() {
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/trading/:id" element={<Trading />} />
                 <Route path="/trading" element={<GlobalTrading />} />
+                <Route path="/investor-resources" element={<InvestorResources />} />
                 <Route path="/404" element={<NotFound />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>

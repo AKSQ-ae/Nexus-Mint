@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { Search, ChevronDown, ChevronUp, HelpCircle, Sparkles, MessageCircle, Mail, ExternalLink, Filter, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -341,13 +342,13 @@ export function EnhancedFAQ() {
                   <Card className="border-primary/20 hover:border-primary/40 transition-colors cursor-pointer group">
                     <CardContent className="p-4 text-center">
                       <ExternalLink className="h-8 w-8 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                      <h4 className="font-medium mb-1">Help Center</h4>
-                      <p className="text-xs text-muted-foreground mb-3">Browse our full documentation</p>
-                      <Button variant="outline" size="sm" className="w-full" asChild>
-                        <a href="/help">
-                          Visit Help Center
-                        </a>
-                      </Button>
+                       <h4 className="font-medium mb-1">Investor Resources</h4>
+                       <p className="text-xs text-muted-foreground mb-3">Browse our full documentation</p>
+                       <Button variant="outline" size="sm" className="w-full" asChild>
+                         <Link to="/investor-resources">
+                           Visit Investor Resources
+                         </Link>
+                       </Button>
                     </CardContent>
                   </Card>
                 </div>
