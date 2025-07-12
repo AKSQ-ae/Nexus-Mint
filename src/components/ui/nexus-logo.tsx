@@ -21,8 +21,8 @@ export function NexusLogo({ className }: NexusLogoProps) {
           y2="34" 
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#2563EB" />
-          <stop offset="1" stopColor="#F97316" />
+          <stop stopColor="hsl(var(--primary))" />
+          <stop offset="1" stopColor="hsl(var(--accent))" />
         </linearGradient>
       </defs>
       
