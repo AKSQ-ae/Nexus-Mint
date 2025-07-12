@@ -17,11 +17,12 @@ export function Hero() {
       
       <div className="container mx-auto px-4 py-32 lg:py-40 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
-          {/* Interactive Nexus "N" Logo Only */}
-          <div className="animate-fade-in-up flex justify-center mb-3">
-            <h2 className="text-6xl md:text-7xl lg:text-8xl font-space font-black bg-gradient-nexus bg-clip-text text-transparent tracking-[0.2em] uppercase transform hover:scale-105 transition-all duration-300 drop-shadow-lg">
-              NEXUS MINT
-            </h2>
+          {/* Stylish NEXUS MINT Logo */}
+          <div className="animate-fade-in-up flex justify-center mb-8">
+            <h1 className="text-7xl md:text-8xl lg:text-9xl font-black bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 bg-clip-text text-transparent tracking-[0.15em] uppercase transform hover:scale-105 transition-all duration-500 drop-shadow-2xl relative">
+              <span className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-blue-500/20 to-blue-400/20 blur-xl transform scale-110"></span>
+              <span className="relative z-10">NEXUS MINT</span>
+            </h1>
           </div>
           
           {/* Own. Earn. Multiply Motto */}
