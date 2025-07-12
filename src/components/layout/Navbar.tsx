@@ -7,7 +7,7 @@ import { UserMenu } from './UserMenu';
 import { HelpCenter } from '@/components/ui/help-center';
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
 
-import { Menu, X, Building2, Coins, Search } from 'lucide-react';
+import { Menu, X, Building2, Coins } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 export function Navbar() {
