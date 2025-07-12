@@ -105,19 +105,6 @@ export function GlobalMarkets() {
             </div>
             <h2 className="text-3xl font-bold text-foreground">Global Property Markets</h2>
           </div>
-          <p className="text-lg text-muted-foreground mb-6">
-            Invest in premium properties worldwide - Beyond PRYPCO UAE limitations
-          </p>
-          
-          {/* Competitive Banner */}
-          <div className="inline-flex items-center gap-4 px-6 py-3 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full mb-8">
-            <span className="text-sm font-medium text-foreground">🌍 Global Advantage:</span>
-            <span className="text-sm text-muted-foreground">6 countries vs 1</span>
-            <span className="text-sm text-muted-foreground">•</span>
-            <span className="text-sm text-muted-foreground">$100 min vs AED 2,000</span>
-            <span className="text-sm text-muted-foreground">•</span>
-            <span className="text-sm text-muted-foreground">24/7 access</span>
-          </div>
         </div>
 
         {/* Markets Grid */}
