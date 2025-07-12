@@ -152,6 +152,7 @@ export function EnhancedSearch({
     }
     setIsOpen(false);
     setQuery('');
+    setSelectedIndex(-1);
   };
 
   const clearRecentSearches = () => {
@@ -180,10 +181,17 @@ export function EnhancedSearch({
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
-            setIsOpen(true);
+            if (e.target.value.length > 0) {
+              setIsOpen(true);
+            }
             setSelectedIndex(-1);
           }}
-          onFocus={() => setIsOpen(true)}
+          onFocus={() => {
+            // Only auto-open if there's content or we want to show suggestions
+            if (query || showRecentSearches || showSuggestions) {
+              setIsOpen(true);
+            }
+          }}
           onKeyDown={handleKeyDown}
           className="pl-10 pr-10"
         />
@@ -195,6 +203,7 @@ export function EnhancedSearch({
               setQuery('');
               setResults([]);
               setIsOpen(false);
+              setSelectedIndex(-1);
             }}
             className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
           >
@@ -204,7 +213,7 @@ export function EnhancedSearch({
       </div>
 
       {/* Search Results Dropdown */}
-      {isOpen && (query || showRecentSearches) && (
+      {isOpen && (query.length > 0 || (showRecentSearches && recentSearches.length > 0) || (showSuggestions && recentSearches.length === 0)) && (
         <Card className="absolute top-full left-0 right-0 mt-2 z-[9998] max-h-96 overflow-hidden shadow-2xl border-2 border-primary/20 bg-white" data-state="open">
           <div className="max-h-96 overflow-y-auto">
             {/* Loading State */}
