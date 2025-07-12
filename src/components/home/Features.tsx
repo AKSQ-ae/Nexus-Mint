@@ -84,14 +84,6 @@ export function Features() {
     },
   ];
 
-  const comparisonData = [
-    { label: 'Traditional Real Estate', nexus: '❌', traditional: '✅', description: 'High entry barrier' },
-    { label: 'Minimum Investment', nexus: '$100', traditional: '$100,000+', description: 'Accessible to everyone' },
-    { label: 'Liquidity', nexus: '24/7 Trading', traditional: 'Months to sell', description: 'Exit anytime' },
-    { label: 'Management', nexus: 'Automated', traditional: 'Self-managed', description: 'Hands-off investing' },
-    { label: 'Geographic Access', nexus: 'Global', traditional: 'Local only', description: 'Worldwide properties' },
-    { label: 'Transparency', nexus: 'Blockchain verified', traditional: 'Paper records', description: 'Complete transparency' }
-  ];
 
   return (
     <div className="py-20 bg-gradient-to-b from-background via-accent/5 to-background">
@@ -243,50 +235,6 @@ export function Features() {
           </div>
         </ProgressiveSection>
 
-        {/* Comparison Section */}
-        <div className="mb-16">
-          <Card className="bg-gradient-subtle border-primary/20">
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl mb-2">Nexus Mint vs Traditional Real Estate</CardTitle>
-              <CardDescription>See how we're revolutionizing property investment</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-border">
-                      <th className="text-left py-4 px-2 font-medium">Feature</th>
-                      <th className="text-center py-4 px-2 font-medium text-primary">Nexus Mint</th>
-                      <th className="text-center py-4 px-2 font-medium text-muted-foreground">Traditional</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {comparisonData.map((row, index) => (
-                      <tr key={index} className="border-b border-border hover:bg-accent/30 transition-colors">
-                        <td className="py-4 px-2">
-                          <div>
-                            <div className="font-medium">{row.label}</div>
-                            <div className="text-xs text-muted-foreground">{row.description}</div>
-                          </div>
-                        </td>
-                        <td className="py-4 px-2 text-center">
-                          <Badge variant="default" className="bg-green-100 text-green-800 border-green-200">
-                            {row.nexus}
-                          </Badge>
-                        </td>
-                        <td className="py-4 px-2 text-center">
-                          <Badge variant="outline" className="bg-red-50 text-red-600 border-red-200">
-                            {row.traditional}
-                          </Badge>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
         
         {/* Enhanced Trust Indicators */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

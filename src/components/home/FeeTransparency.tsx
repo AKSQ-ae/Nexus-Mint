@@ -115,14 +115,44 @@ export function FeeTransparency() {
   return (
     <section className="py-16 bg-accent/20">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Shield className="h-8 w-8 text-primary" />
-            <h2 className="text-3xl font-bold text-foreground">Transparent Fee Structure</h2>
+        <div className="text-center mb-16">
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <div className="relative">
+              <Shield className="h-12 w-12 text-primary animate-pulse" />
+              <div className="absolute inset-0 h-12 w-12 text-primary animate-ping opacity-20">
+                <Shield className="h-12 w-12" />
+              </div>
+            </div>
+            <h2 className="text-5xl font-bold text-foreground">
+              <span className="gradient-text">Transparent</span> Fee Structure
+            </h2>
+            <div className="relative">
+              <DollarSign className="h-12 w-12 text-primary animate-pulse" />
+              <div className="absolute inset-0 h-12 w-12 text-primary animate-ping opacity-20">
+                <DollarSign className="h-12 w-12" />
+              </div>
+            </div>
           </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            No hidden costs. All fees are clearly disclosed upfront so you know exactly what you're paying.
+          <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-8">
+            Complete transparency with no hidden fees. Calculate exactly what you'll pay and understand every cost before investing. 
+            Our industry-leading low fees maximize your returns.
           </p>
+          
+          {/* Trust Indicators */}
+          <div className="flex flex-wrap justify-center gap-6 text-sm">
+            <div className="flex items-center gap-2 bg-gradient-subtle px-4 py-2 rounded-full">
+              <CheckCircle className="h-4 w-4 text-green-500" />
+              <span>No Hidden Fees</span>
+            </div>
+            <div className="flex items-center gap-2 bg-gradient-subtle px-4 py-2 rounded-full">
+              <CheckCircle className="h-4 w-4 text-green-500" />
+              <span>Industry-Leading Low Rates</span>
+            </div>
+            <div className="flex items-center gap-2 bg-gradient-subtle px-4 py-2 rounded-full">
+              <CheckCircle className="h-4 w-4 text-green-500" />
+              <span>Full Cost Transparency</span>
+            </div>
+          </div>
         </div>
 
         <Tabs defaultValue="calculator" className="max-w-6xl mx-auto">
