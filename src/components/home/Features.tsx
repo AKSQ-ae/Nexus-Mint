@@ -88,9 +88,7 @@ export function Features() {
               <div className="flex items-center justify-center gap-6 mb-6">
                 {/* Left Decorative Element */}
                 <div className="flex items-center gap-2">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                    <Star className="h-6 w-6 text-white" />
-                  </div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-lg"></div>
                   <div className="hidden sm:flex flex-col h-8 justify-between">
                     <div className="w-1 h-1 bg-blue-500 rounded-full"></div>
                     <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
@@ -117,9 +115,7 @@ export function Features() {
                     <div className="w-1 h-1 bg-orange-400 rounded-full"></div>
                     <div className="w-1 h-1 bg-orange-500 rounded-full"></div>
                   </div>
-                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center shadow-lg">
-                    <Crown className="h-6 w-6 text-white" />
-                  </div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full shadow-lg"></div>
                 </div>
               </div>
               
