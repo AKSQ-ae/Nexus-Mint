@@ -41,7 +41,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter basename="/">
+      <BrowserRouter>
         <Providers>
           <div className="min-h-screen flex flex-col bg-background">
             <Navbar />
