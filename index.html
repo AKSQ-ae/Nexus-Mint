@@ -32,10 +32,15 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/placeholder.svg" />
     
-    <!-- Base tag removed to fix routing issues -->
-    
-    <!-- Prevent indexing of 404 pages -->
+    <!-- Force immediate client-side routing -->
     <script>
+      // Handle direct navigation to routes
+      if (window.location.pathname !== '/' && !window.location.pathname.includes('.')) {
+        const path = window.location.pathname;
+        window.history.replaceState({}, '', path);
+      }
+      
+      // Prevent indexing of 404 pages
       if (window.location.pathname === '/404') {
         const meta = document.createElement('meta');
         meta.name = 'robots';
