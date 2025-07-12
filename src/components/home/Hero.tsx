@@ -19,25 +19,19 @@ export function Hero() {
         <div className="max-w-5xl mx-auto text-center">
           {/* Stylish NEXUS MINT Logo */}
           <div className="animate-fade-in-up flex justify-center mb-8">
-            <h1 className="text-7xl md:text-8xl lg:text-9xl font-black text-blue-600 tracking-[0.15em] uppercase transform hover:scale-105 transition-all duration-500 relative"
-                style={{
-                  background: 'linear-gradient(to right, #2563eb, #3b82f6, #60a5fa)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}>
-              <span className="relative z-10">NEXUS MINT</span>
+            <h1 className="text-7xl md:text-8xl lg:text-9xl font-black tracking-[0.15em] uppercase transform hover:scale-105 transition-all duration-500 relative text-blue-600">
+              NEXUS MINT
             </h1>
           </div>
           
           {/* Own. Earn. Multiply Motto */}
           <div className="animate-fade-in-up flex justify-center mb-16" style={{animationDelay: '0.2s'}}>
-            <div className="flex items-center gap-4 text-lg md:text-xl lg:text-2xl font-space font-semibold">
-              <span className="text-orange-accent hover:text-blue-primary transition-colors duration-300 cursor-default">Own</span>
-              <div className="w-2 h-2 bg-orange-accent rounded-full animate-pulse"></div>
-              <span className="text-orange-accent hover:text-blue-primary transition-colors duration-300 cursor-default">Earn</span>
-              <div className="w-2 h-2 bg-orange-accent rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-              <span className="text-orange-accent hover:text-blue-primary transition-colors duration-300 cursor-default">Multiply</span>
+            <div className="flex items-center gap-4 text-lg md:text-xl lg:text-2xl font-semibold">
+              <span className="text-orange-500 hover:text-blue-600 transition-colors duration-300 cursor-default">Own</span>
+              <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+              <span className="text-orange-500 hover:text-blue-600 transition-colors duration-300 cursor-default">Earn</span>
+              <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+              <span className="text-orange-500 hover:text-blue-600 transition-colors duration-300 cursor-default">Multiply</span>
             </div>
           </div>
           
