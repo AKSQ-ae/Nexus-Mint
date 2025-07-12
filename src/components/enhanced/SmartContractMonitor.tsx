@@ -77,11 +77,18 @@ export function SmartContractMonitor({ contractAddress, propertyId }: SmartContr
       const uniqueContracts = new Set(eventsData?.map(e => e.contract_address)).size;
       const lastBlock = Math.max(...(eventsData?.map(e => e.block_number) || [0]));
 
+      // Track error events by checking for events with error data
+      const errorEvents = eventsData?.filter(e => {
+        if (!e.event_data || typeof e.event_data !== 'object') return false;
+        const eventData = e.event_data as Record<string, any>;
+        return eventData.error || eventData.failed || eventData.reverted || e.event_name.includes('Error');
+      }).length || 0;
+
       setMetrics({
         total_events: totalEvents,
         processed_events: processedEvents,
         pending_events: pendingEvents,
-        error_events: 0, // TODO: implement error tracking
+        error_events: errorEvents,
         last_block: lastBlock,
         contracts_monitored: uniqueContracts
       });

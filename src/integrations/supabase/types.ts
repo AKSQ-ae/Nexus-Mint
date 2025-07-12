@@ -361,7 +361,7 @@ export type Database = {
           status: string | null
           token_amount: number
           total_amount: number
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           actual_return?: number | null
@@ -386,7 +386,7 @@ export type Database = {
           status?: string | null
           token_amount: number
           total_amount: number
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           actual_return?: number | null
@@ -411,7 +411,7 @@ export type Database = {
           status?: string | null
           token_amount?: number
           total_amount?: number
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -1139,7 +1139,7 @@ export type Database = {
           purchase_price: number
           status: string | null
           token_amount: number
-          user_id: string | null
+          user_id: string
           wallet_address: string
         }
         Insert: {
@@ -1149,7 +1149,7 @@ export type Database = {
           purchase_price: number
           status?: string | null
           token_amount: number
-          user_id?: string | null
+          user_id: string
           wallet_address: string
         }
         Update: {
@@ -1159,7 +1159,7 @@ export type Database = {
           purchase_price?: number
           status?: string | null
           token_amount?: number
-          user_id?: string | null
+          user_id?: string
           wallet_address?: string
         }
         Relationships: [
