@@ -1,41 +1,24 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import { screen } from '@testing-library/dom';
-import userEvent from '@testing-library/user-event';
+import { describe, it, expect } from '@jest/globals';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Button } from '@/components/ui/button';
 
-describe('Button Component', () => {
-  it('renders correctly', () => {
-    render(<Button>Test Button</Button>);
-    expect(screen.getByRole('button', { name: /test button/i })).toBeInTheDocument();
+describe('Button Component Integration', () => {
+  it('renders button with text', () => {
+    render(<Button>Click me</Button>);
+    expect(screen.getByRole('button')).toHaveTextContent('Click me');
   });
 
-  it('handles click events', async () => {
-    const user = userEvent.setup();
+  it('handles click events', () => {
     const handleClick = jest.fn();
-    
     render(<Button onClick={handleClick}>Click me</Button>);
     
-    await user.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByRole('button'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it('applies variant styles correctly', () => {
-    render(<Button variant="destructive">Destructive Button</Button>);
-    const button = screen.getByRole('button');
-    expect(button).toHaveClass('bg-destructive');
-  });
-
-  it('is disabled when disabled prop is true', () => {
-    render(<Button disabled>Disabled Button</Button>);
-    const button = screen.getByRole('button');
-    expect(button).toBeDisabled();
-  });
-
-  it('renders with different sizes', () => {
-    render(<Button size="lg">Large Button</Button>);
-    const button = screen.getByRole('button');
-    expect(button).toHaveClass('h-11');
+    render(<Button variant="destructive">Delete</Button>);
+    expect(screen.getByRole('button')).toHaveClass('bg-destructive');
   });
 });

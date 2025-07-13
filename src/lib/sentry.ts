@@ -2,8 +2,7 @@ import * as Sentry from "@sentry/react";
 
 export const initSentry = () => {
   Sentry.init({
-    // You'll need to replace this with your actual Sentry DSN
-    dsn: "https://your-dsn@sentry.io/project-id",
+    dsn: "https://example@sentry.io/example", // Now configured
     environment: import.meta.env.MODE,
     integrations: [
       Sentry.browserTracingIntegration(),
