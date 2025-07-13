@@ -171,7 +171,7 @@ export function Navbar() {
         </div>
 
         {/* Mobile Navigation */}
-        <div className={`lg:hidden py-6 space-y-2 border-t border-white/10 bg-grey-dark/95 backdrop-blur-xl absolute top-full left-0 right-0 z-50 transition-all duration-300 ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+        <div className={`lg:hidden py-6 space-y-2 border-t border-white/10 bg-grey-dark/95 backdrop-blur-xl absolute top-full left-0 right-0 z-50 transition-all duration-300 ${isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-full'}`}>
             <div className="space-y-1">
               <Link 
                 to="/how-it-works" 
