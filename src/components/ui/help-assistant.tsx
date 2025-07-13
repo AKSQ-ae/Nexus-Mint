@@ -171,7 +171,7 @@ export function HelpAssistant() {
           </DialogHeader>
         </div>
         
-        <Tabs defaultValue="help" className="w-full" onValueChange={setActiveTab}>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-4 mx-6 mt-4">
             <TabsTrigger value="help" className="flex items-center gap-2">
               <BookOpen className="h-4 w-4" />
