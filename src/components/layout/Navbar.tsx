@@ -172,7 +172,7 @@ export function Navbar() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="lg:hidden py-6 space-y-2 border-t border-white/10 bg-grey-dark/95 backdrop-blur-xl">
+          <div className="lg:hidden py-6 space-y-2 border-t border-white/10 bg-grey-dark/95 backdrop-blur-xl absolute top-full left-0 right-0 z-50">
             <div className="space-y-1">
               <Link 
                 to="/how-it-works" 
