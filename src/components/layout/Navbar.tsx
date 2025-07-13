@@ -101,7 +101,7 @@ export function Navbar() {
           </div>
 
           {/* Right Side Auth Buttons */}
-          <div className="hidden lg:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4 ml-auto">
             <Link 
               to="/early-access" 
               className="text-gray-700 hover:text-gray-900 font-medium transition-all duration-300 hover:scale-105 flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100"
