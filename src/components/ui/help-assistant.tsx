@@ -222,15 +222,34 @@ export function HelpAssistant() {
                             <div className="flex-1">
                               <h4 className="font-medium text-sm mb-1">{action.title}</h4>
                               <p className="text-xs text-muted-foreground mb-2">{action.description}</p>
-                               <Button 
-                                 size="sm" 
-                                 variant={action.cta ? "default" : "outline"} 
-                                 className="w-full"
-                                 onClick={() => navigate(action.path)}
-                               >
-                                 {action.cta ? "Get Started" : "Open"}
-                                 <ArrowRight className="h-3 w-3 ml-1" />
-                               </Button>
+                                <Button 
+                                  size="sm" 
+                                  variant={action.cta ? "default" : "outline"} 
+                                  className="w-full"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    // Close the dialog first
+                                    const dialogClose = document.querySelector('[data-state="open"] [data-radix-dialog-close]') as HTMLElement;
+                                    if (dialogClose) {
+                                      dialogClose.click();
+                                    } else {
+                                      // Fallback: find and close any open dialog
+                                      const dialog = document.querySelector('[data-state="open"]') as HTMLElement;
+                                      if (dialog) {
+                                        const event = new KeyboardEvent('keydown', { key: 'Escape' });
+                                        dialog.dispatchEvent(event);
+                                      }
+                                    }
+                                    // Navigate after a short delay to ensure dialog closes
+                                    setTimeout(() => {
+                                      navigate(action.path);
+                                    }, 150);
+                                  }}
+                                >
+                                  {action.cta ? "Get Started" : "Open"}
+                                  <ArrowRight className="h-3 w-3 ml-1" />
+                                </Button>
                             </div>
                           </div>
                         </CardContent>
