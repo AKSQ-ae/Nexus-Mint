@@ -104,7 +104,7 @@ export function Navbar() {
           <div className="hidden lg:flex items-center space-x-4">
             <Link 
               to="/early-access" 
-              className="bg-orange-accent/10 text-orange-accent hover:bg-orange-accent/20 font-medium transition-all duration-300 hover:scale-105 flex items-center space-x-2 px-4 py-2 rounded-full border border-orange-accent/30"
+              className="text-gray-700 hover:text-gray-900 font-medium transition-all duration-300 hover:scale-105 flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100"
             >
               <span>Early Access</span>
             </Link>
