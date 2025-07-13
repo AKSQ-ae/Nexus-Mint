@@ -44,10 +44,10 @@ export function Navbar() {
   return (
     <nav className="bg-gradient-to-r from-blue-primary/5 via-white to-orange-accent/5 backdrop-blur-xl border-b border-blue-primary/10 sticky top-0 z-50 shadow-elegant transition-all duration-300">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid grid-cols-3 items-center h-20">
+        <div className="flex items-center h-20">
           
           {/* Left Navigation Links */}
-          <div className="hidden lg:flex items-center space-x-8 justify-start">
+          <div className="hidden lg:flex items-center space-x-8 flex-1">
             <Link 
               to="/how-it-works" 
               className="text-gray-700 hover:text-gray-900 font-medium transition-all duration-300 hover:scale-105 relative group"
@@ -101,7 +101,7 @@ export function Navbar() {
           </div>
 
           {/* Right Side Auth Buttons */}
-          <div className="hidden lg:flex items-center space-x-4 justify-end">
+          <div className="hidden lg:flex items-center space-x-4 justify-end flex-1">
             <Link 
               to="/early-access" 
               className="text-gray-700 hover:text-gray-900 font-medium transition-all duration-300 hover:scale-105 flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100"
