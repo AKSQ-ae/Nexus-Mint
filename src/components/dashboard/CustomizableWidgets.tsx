@@ -124,23 +124,29 @@ const DEFAULT_WIDGETS: Widget[] = [
 export function CustomizableWidgets({ children, userId }: CustomizableWidgetsProps) {
   const [widgets, setWidgets] = useState<Widget[]>(DEFAULT_WIDGETS);
   const [isCustomizing, setIsCustomizing] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    // Load user's widget preferences from localStorage
-    const savedWidgets = localStorage.getItem(`dashboard-widgets-${userId || 'default'}`);
-    if (savedWidgets) {
-      try {
-        const parsed = JSON.parse(savedWidgets);
-        setWidgets(parsed);
-      } catch (error) {
-        console.error('Error loading widget preferences:', error);
+    // Load user's widget preferences from localStorage only on client side
+    if (typeof window !== 'undefined') {
+      const savedWidgets = localStorage.getItem(`dashboard-widgets-${userId || 'default'}`);
+      if (savedWidgets) {
+        try {
+          const parsed = JSON.parse(savedWidgets);
+          setWidgets(parsed);
+        } catch (error) {
+          console.error('Error loading widget preferences:', error);
+        }
       }
+      setIsInitialized(true);
     }
   }, [userId]);
 
   const saveWidgetPreferences = (newWidgets: Widget[]) => {
     setWidgets(newWidgets);
-    localStorage.setItem(`dashboard-widgets-${userId || 'default'}`, JSON.stringify(newWidgets));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(`dashboard-widgets-${userId || 'default'}`, JSON.stringify(newWidgets));
+    }
   };
 
   const toggleWidgetVisibility = (widgetId: string) => {

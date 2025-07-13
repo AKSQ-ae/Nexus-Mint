@@ -37,11 +37,13 @@ export function EnhancedSearch({
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  // Load recent searches from localStorage
+  // Load recent searches from localStorage only on client side
   useEffect(() => {
-    const saved = localStorage.getItem('recent-searches');
-    if (saved) {
-      setRecentSearches(JSON.parse(saved));
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('recent-searches');
+      if (saved) {
+        setRecentSearches(JSON.parse(saved));
+      }
     }
   }, []);
 
@@ -112,7 +114,9 @@ export function EnhancedSearch({
       // Add to recent searches
       const updated = [searchQuery, ...recentSearches.filter(s => s !== searchQuery)].slice(0, 5);
       setRecentSearches(updated);
-      localStorage.setItem('recent-searches', JSON.stringify(updated));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('recent-searches', JSON.stringify(updated));
+      }
     }
   };
 
@@ -157,7 +161,9 @@ export function EnhancedSearch({
 
   const clearRecentSearches = () => {
     setRecentSearches([]);
-    localStorage.removeItem('recent-searches');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('recent-searches');
+    }
   };
 
   const getResultIcon = (type: string) => {

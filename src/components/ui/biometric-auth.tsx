@@ -127,7 +127,7 @@ export function useBiometricAuth() {
 
   useEffect(() => {
     const checkSupport = async () => {
-      if (window.PublicKeyCredential) {
+      if (typeof window !== 'undefined' && window.PublicKeyCredential) {
         try {
           const available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
           setIsSupported(available);
@@ -145,12 +145,16 @@ export function useBiometricAuth() {
   }, []);
 
   const enableBiometric = () => {
-    localStorage.setItem('nexus_biometric_enabled', 'true');
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('nexus_biometric_enabled', 'true');
+    }
     setIsEnabled(true);
   };
 
   const disableBiometric = () => {
-    localStorage.setItem('nexus_biometric_enabled', 'false');
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('nexus_biometric_enabled', 'false');
+    }
     setIsEnabled(false);
   };
 
