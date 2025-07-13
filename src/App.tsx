@@ -6,7 +6,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { SmartBreadcrumbs } from "@/components/ui/smart-breadcrumbs";
-import { SmartNavigation } from "@/components/ui/smart-navigation";
 import { TapAnimationProvider } from "@/components/ui/tap-animation";
 import { PWAInstallPrompt } from "@/components/pwa/PWAInstallPrompt";
 // import { useCapacitor } from "@/hooks/useCapacitor"; // Temporarily disabled
@@ -93,7 +92,6 @@ function AppContent() {
         </Routes>
       </main>
       <Footer />
-      <SmartNavigation />
       <PWAInstallPrompt />
     </div>
   );
