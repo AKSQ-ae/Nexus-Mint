@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "Nexus Mint API Tests",
+    "description": "Comprehensive API tests for Nexus Mint platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response time is less than 500ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(500);",
+              "});",
+              "",
+              "pm.test('Health check returns success', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData.status).to.eql('healthy');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/health",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "health"]
+        }
+      }
+    },
+    {
+      "name": "Get Exchange Rates",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Exchange rates are returned', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('rates');",
+              "    pm.expect(jsonData.rates).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{SUPABASE_URL}}/functions/v1/get-exchange-rates",
+          "host": ["{{SUPABASE_URL}}"],
+          "path": ["functions", "v1", "get-exchange-rates"]
+        }
+      }
+    },
+    {
+      "name": "Create Investment (Unauthorized)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 401', function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test('Error message is returned', function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('error');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"propertyId\": \"test-property-id\",\n  \"tokenAmount\": 100,\n  \"totalAmount\": 1000\n}"
+        },
+        "url": {
+          "raw": "{{SUPABASE_URL}}/functions/v1/create-investment",
+          "host": ["{{SUPABASE_URL}}"],
+          "path": ["functions", "v1", "create-investment"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:5173"
+    },
+    {
+      "key": "SUPABASE_URL",
+      "value": "https://qncfxkgjydeiefyhyllk.supabase.co"
+    }
+  ]
+}
