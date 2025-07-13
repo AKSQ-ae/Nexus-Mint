@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -114,6 +114,7 @@ export function HelpAssistant() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('help');
   const location = useLocation();
+  const navigate = useNavigate();
   
   const currentContext = contextualHelp[location.pathname as keyof typeof contextualHelp] || contextualHelp["/"];
 
@@ -225,7 +226,7 @@ export function HelpAssistant() {
                                  size="sm" 
                                  variant={action.cta ? "default" : "outline"} 
                                  className="w-full"
-                                 onClick={() => window.location.href = action.path}
+                                 onClick={() => navigate(action.path)}
                                >
                                  {action.cta ? "Get Started" : "Open"}
                                  <ArrowRight className="h-3 w-3 ml-1" />
