@@ -13,8 +13,27 @@ export default function Profile() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-foreground mb-2">Account Settings</h1>
         <p className="text-lg text-muted-foreground">
-          Manage your profile, verification, and account settings
+          Complete your setup to start investing in premium real estate
         </p>
+        
+        {/* Quick Setup Guide */}
+        <div className="mt-6 p-4 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-lg border border-primary/10">
+          <h3 className="font-semibold text-foreground mb-2">🚀 Quick Setup Guide</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div className="flex items-center gap-2">
+              <User className="h-4 w-4 text-primary" />
+              <span>1. Complete Profile</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <FileText className="h-4 w-4 text-primary" />
+              <span>2. Upload KYC Documents</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Wallet className="h-4 w-4 text-primary" />
+              <span>3. Connect Wallet</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <Tabs defaultValue="profile" className="space-y-6">

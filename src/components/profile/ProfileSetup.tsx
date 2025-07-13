@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Progress } from '@/components/ui/progress';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { getUserProfile, updateUserProfile, createUserProfile } from '@/lib/services/user-service';
@@ -91,16 +92,49 @@ export function ProfileSetup() {
     setProfile(prev => ({ ...prev, [field]: value }));
   };
 
+  const calculateCompletionPercentage = () => {
+    const requiredFields = ['full_name', 'investment_experience', 'risk_tolerance'];
+    const optionalFields = ['phone', 'date_of_birth', 'nationality', 'address', 'preferred_investment_size'];
+    
+    const requiredCompleted = requiredFields.filter(field => profile[field as keyof typeof profile]?.trim()).length;
+    const optionalCompleted = optionalFields.filter(field => profile[field as keyof typeof profile]?.trim()).length;
+    
+    const requiredScore = (requiredCompleted / requiredFields.length) * 60; // 60% for required
+    const optionalScore = (optionalCompleted / optionalFields.length) * 40; // 40% for optional
+    
+    return Math.round(requiredScore + optionalScore);
+  };
+
+  const completionPercentage = calculateCompletionPercentage();
+
   return (
     <Card className="max-w-4xl mx-auto">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <User className="h-5 w-5" />
-          Complete Your Profile
-        </CardTitle>
-        <CardDescription>
-          Please provide your information to start investing in real estate
-        </CardDescription>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <CardTitle className="flex items-center gap-2">
+              <User className="h-5 w-5" />
+              Complete Your Profile
+            </CardTitle>
+            <CardDescription>
+              Please provide your information to start investing in real estate
+            </CardDescription>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-primary">{completionPercentage}%</div>
+            <p className="text-sm text-muted-foreground">Complete</p>
+          </div>
+        </div>
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span>Profile completion</span>
+            <span>{completionPercentage}%</span>
+          </div>
+          <Progress value={completionPercentage} className="h-2" />
+          {completionPercentage < 60 && (
+            <p className="text-sm text-amber-600">Complete required fields to start investing</p>
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">

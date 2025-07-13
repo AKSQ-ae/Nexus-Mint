@@ -100,13 +100,25 @@ export default function SignUp() {
 
   return (
     <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl text-center">Create account</CardTitle>
-          <CardDescription className="text-center">
-            Enter your details to create your Nexus Platform account
-          </CardDescription>
-        </CardHeader>
+      <div className="w-full max-w-md space-y-6">
+        {/* Welcome Banner */}
+        <div className="text-center space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
+            ✨ Join 100+ investors already earning
+          </div>
+          <h1 className="text-3xl font-bold text-foreground">Start Your Investment Journey</h1>
+          <p className="text-muted-foreground">
+            Create your free account and begin investing in premium real estate with as little as $100
+          </p>
+        </div>
+        
+        <Card className="w-full">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl text-center">Create account</CardTitle>
+            <CardDescription className="text-center">
+              Quick setup - takes less than 2 minutes
+            </CardDescription>
+          </CardHeader>
         <CardContent>
           {error && (
             <Alert variant="destructive" className="mb-4">
@@ -208,7 +220,8 @@ export default function SignUp() {
             </Link>
           </div>
         </CardContent>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 }

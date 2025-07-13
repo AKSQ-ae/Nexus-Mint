@@ -72,7 +72,15 @@ export default function SignIn() {
 
   return (
     <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
+      <div className="w-full max-w-md space-y-6">
+        {/* Navigation Context */}
+        <div className="text-center">
+          <Link to="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            ← Back to Home
+          </Link>
+        </div>
+        
+      <Card className="w-full">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl text-center">Sign in</CardTitle>
           <CardDescription className="text-center">
@@ -161,6 +169,7 @@ export default function SignIn() {
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }
