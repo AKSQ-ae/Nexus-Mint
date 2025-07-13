@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, HelpCircle, MessageSquare, FileText, Settings, TrendingUp, DollarSign, Shield, Users, Home, CreditCard } from 'lucide-react';
+import { Search, HelpCircle, MessageSquare, FileText, Settings, TrendingUp, DollarSign, Shield, Users, Home, CreditCard, Bot } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -8,6 +8,7 @@ import { LiveChatWidget } from '@/components/support/LiveChatWidget';
 import { DocumentationModal } from '@/components/support/DocumentationModal';
 import { AccountSupportModal } from '@/components/support/AccountSupportModal';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 const faqs = [
   {
@@ -54,6 +55,7 @@ export function InvestorResourcesContent() {
   const [isLiveChatOpen, setIsLiveChatOpen] = useState(false);
   const [isDocumentationOpen, setIsDocumentationOpen] = useState(false);
   const [isAccountSupportOpen, setIsAccountSupportOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleLiveChat = () => {
     setIsLiveChatOpen(true);
@@ -65,6 +67,10 @@ export function InvestorResourcesContent() {
 
   const handleAccountSupport = () => {
     setIsAccountSupportOpen(true);
+  };
+
+  const handleAIBuddy = () => {
+    navigate('/ai-buddy');
   };
 
   const categories = ['All', ...Array.from(new Set(faqs.map(faq => faq.category)))];
@@ -104,7 +110,20 @@ export function InvestorResourcesContent() {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        <Card 
+          className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-105 border-primary/20"
+          onClick={handleAIBuddy}
+        >
+          <CardHeader className="text-center p-6">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Bot className="h-6 w-6 text-primary" />
+            </div>
+            <CardTitle className="text-lg">AI Investment Buddy</CardTitle>
+            <CardDescription>Chat with your personal AI advisor about your portfolio</CardDescription>
+          </CardHeader>
+        </Card>
+
         <Card 
           className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-105 border-primary/20"
           onClick={handleLiveChat}
