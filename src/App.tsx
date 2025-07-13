@@ -38,6 +38,8 @@ import Terms from "./pages/legal/Terms";
 import Privacy from "./pages/legal/Privacy";
 import RiskDisclaimer from "./pages/legal/RiskDisclaimer";
 import InvestorResources from "./pages/InvestorResources";
+import EarlyAccess from "./pages/EarlyAccess";
+import SystemHealth from "./pages/SystemHealth";
 
 const queryClient = new QueryClient();
 
@@ -82,6 +84,8 @@ function App() {
                 <Route path="/trading/:id" element={<Trading />} />
                 <Route path="/trading" element={<GlobalTrading />} />
                 <Route path="/investor-resources" element={<InvestorResources />} />
+                <Route path="/early-access" element={<EarlyAccess />} />
+                <Route path="/system-health" element={<SystemHealth />} />
                 <Route path="/404" element={<NotFound />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
