@@ -221,10 +221,15 @@ export function HelpAssistant() {
                             <div className="flex-1">
                               <h4 className="font-medium text-sm mb-1">{action.title}</h4>
                               <p className="text-xs text-muted-foreground mb-2">{action.description}</p>
-                              <Button size="sm" variant={action.cta ? "default" : "outline"} className="w-full">
-                                {action.cta ? "Get Started" : "Open"}
-                                <ArrowRight className="h-3 w-3 ml-1" />
-                              </Button>
+                               <Button 
+                                 size="sm" 
+                                 variant={action.cta ? "default" : "outline"} 
+                                 className="w-full"
+                                 onClick={() => window.location.href = action.path}
+                               >
+                                 {action.cta ? "Get Started" : "Open"}
+                                 <ArrowRight className="h-3 w-3 ml-1" />
+                               </Button>
                             </div>
                           </div>
                         </CardContent>
