@@ -8,7 +8,7 @@ import { CustomCursor } from "@/components/ui/custom-cursor";
 import { SmartBreadcrumbs } from "@/components/ui/smart-breadcrumbs";
 import { TapAnimationProvider } from "@/components/ui/tap-animation";
 import { PWAInstallPrompt } from "@/components/pwa/PWAInstallPrompt";
-import { useCapacitor } from "@/hooks/useCapacitor";
+// import { useCapacitor } from "@/hooks/useCapacitor"; // Temporarily disabled
 
 // Pages
 import Index from "./pages/Index";
@@ -45,6 +45,7 @@ import SystemHealth from "./pages/SystemHealth";
 const queryClient = new QueryClient();
 
 function AppContent() {
+  console.log('AppContent loading - useCapacitor disabled');
   // Temporarily removed useCapacitor to fix React context issue
   // const { isNative, deviceInfo, isKeyboardOpen } = useCapacitor();
 
