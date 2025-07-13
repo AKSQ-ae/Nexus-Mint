@@ -20,13 +20,38 @@ export default function ResetPassword() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if we have the necessary tokens in the URL
+    // Handle Supabase auth state change for password reset
+    const handleAuthStateChange = () => {
+      supabase.auth.onAuthStateChange(async (event, session) => {
+        if (event === 'PASSWORD_RECOVERY') {
+          // User is in password recovery mode, allow them to reset password
+          return;
+        }
+        
+        if (event === 'SIGNED_IN' && session) {
+          // If user is signed in after password reset, we're good
+          return;
+        }
+      });
+    };
+
+    // Check URL parameters for Supabase tokens
     const accessToken = searchParams.get('access_token');
     const refreshToken = searchParams.get('refresh_token');
+    const type = searchParams.get('type');
     
-    if (!accessToken || !refreshToken) {
+    if (type === 'recovery' && accessToken && refreshToken) {
+      // Set the session from URL parameters
+      supabase.auth.setSession({
+        access_token: accessToken,
+        refresh_token: refreshToken
+      });
+    } else if (!type && !accessToken) {
+      // No recovery tokens in URL - this might be an invalid link
       setError('Invalid or expired reset link. Please request a new one.');
     }
+
+    handleAuthStateChange();
   }, [searchParams]);
 
   const validateForm = () => {
