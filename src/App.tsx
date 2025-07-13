@@ -42,6 +42,7 @@ import RiskDisclaimer from "./pages/legal/RiskDisclaimer";
 import InvestorResources from "./pages/InvestorResources";
 import EarlyAccess from "./pages/EarlyAccess";
 import SystemHealth from "./pages/SystemHealth";
+import QualityAssurance from "./pages/QualityAssurance";
 
 const queryClient = new QueryClient();
 
@@ -88,6 +89,7 @@ function AppContent() {
           <Route path="/investor-resources" element={<InvestorResources />} />
           <Route path="/early-access" element={<EarlyAccess />} />
           <Route path="/system-health" element={<SystemHealth />} />
+          <Route path="/quality-assurance" element={<QualityAssurance />} />
           <Route path="/404" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
