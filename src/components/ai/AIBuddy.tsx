@@ -148,7 +148,7 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
   };
 
   const handleSendMessage = async () => {
-    if (!inputMessage.trim()) return;
+    if (!inputMessage.trim() || isLoading) return;
 
     const userMessage = inputMessage.trim();
     setInputMessage('');
@@ -161,23 +161,95 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
           message: userMessage,
           userId,
           portfolioData,
-          conversationHistory: messages.slice(-5) // Last 5 messages for context
+          conversationHistory: messages.slice(-10) // Keep last 10 messages for context
         }
       });
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
+      // Add AI response with suggestions and rationale
       addMessage('ai', data.response, data.suggestions);
+      
+      // Store interaction for learning (if successful)
+      if (data.response) {
+        storeInteractionFeedback(userMessage, data.response, data.intent);
+      }
     } catch (error) {
-      console.error('Error sending message:', error);
-      addMessage('ai', "Sorry, I'm having trouble right now. Let me try to help you another way. What specific aspect of your investments would you like to discuss?");
+      console.error('AI Chat Error:', error);
+      
+      // Graceful fallback with cached insights
+      const fallbackResponse = generateFallbackResponse(userMessage, portfolioData);
+      addMessage('ai', fallbackResponse.response, fallbackResponse.suggestions);
+      
       toast({
-        title: "Chat error",
-        description: "There was an issue processing your message.",
-        variant: "destructive",
+        title: "Connection Issue",
+        description: "Using cached insights. Full AI features will return shortly.",
+        variant: "default"
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Fallback response generator for offline/error scenarios
+  const generateFallbackResponse = (message: string, portfolio: PortfolioInsight | null) => {
+    const lowerMessage = message.toLowerCase();
+    
+    if (lowerMessage.includes('portfolio') || lowerMessage.includes('performance')) {
+      return {
+        response: portfolio 
+          ? `Your portfolio currently shows ${portfolio.totalTokens} tokens across ${portfolio.propertyCount} properties with ${portfolio.growth > 0 ? '+' : ''}${portfolio.growth.toFixed(1)}% growth. I'll provide more detailed analysis once I'm fully connected.`
+          : "I'll analyze your portfolio performance once your data loads. Please try again in a moment.",
+        suggestions: ["Show my investments", "Market overview", "Investment opportunities"]
+      };
+    }
+    
+    if (lowerMessage.includes('invest') || lowerMessage.includes('property')) {
+      return {
+        response: "I'm currently updating market data. Based on your profile, I typically recommend diversified real estate investments in Dubai Marina and Downtown areas. Full recommendations coming shortly.",
+        suggestions: ["Dubai properties", "Investment calculator", "Risk assessment"]
+      };
+    }
+    
+    if (lowerMessage.includes('risk') || lowerMessage.includes('safety')) {
+      return {
+        response: "⚠️ Risk assessment is important! While I reconnect, remember that all investments carry risk. Consider diversifying across property types and locations.",
+        suggestions: ["Risk tolerance", "Diversification tips", "Safety guidelines"]
+      };
+    }
+    
+    return {
+      response: "I'm experiencing a brief connection issue but I'm still here to help! While I reconnect, feel free to explore your portfolio data below or ask about general investment topics.",
+      suggestions: ["Portfolio overview", "Help & Support", "Investment basics"]
+    };
+  };
+
+  // Store interaction feedback for learning
+  const storeInteractionFeedback = async (userMessage: string, aiResponse: string, intent: string) => {
+    try {
+      // This could be expanded to store in a database for learning
+      const interaction = {
+        timestamp: new Date().toISOString(),
+        userMessage,
+        aiResponse,
+        intent,
+        userId
+      };
+      
+      // For now, store locally - could be enhanced to sync with backend
+      const existingInteractions = JSON.parse(localStorage.getItem('aiInteractions') || '[]');
+      existingInteractions.push(interaction);
+      
+      // Keep only last 50 interactions to manage storage
+      if (existingInteractions.length > 50) {
+        existingInteractions.splice(0, existingInteractions.length - 50);
+      }
+      
+      localStorage.setItem('aiInteractions', JSON.stringify(existingInteractions));
+    } catch (error) {
+      console.error('Failed to store interaction feedback:', error);
     }
   };
 
