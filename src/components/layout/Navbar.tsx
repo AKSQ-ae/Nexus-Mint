@@ -104,7 +104,7 @@ export function Navbar() {
           <div className="hidden lg:flex items-center space-x-4">
             <Link 
               to="/early-access" 
-              className="bg-gradient-to-r from-orange-accent/20 to-orange-accent/10 text-orange-accent hover:from-orange-accent/30 hover:to-orange-accent/20 font-semibold transition-all duration-300 hover:scale-105 flex items-center space-x-2 px-6 py-2.5 rounded-full border border-orange-accent/40 shadow-sm backdrop-blur-sm"
+              className="bg-orange-accent/10 text-orange-accent hover:bg-orange-accent/20 font-medium transition-all duration-300 hover:scale-105 flex items-center space-x-2 px-4 py-2 rounded-full border border-orange-accent/30"
             >
               <span>Early Access</span>
             </Link>
