@@ -1,17 +1,11 @@
 module.exports = {
-  tags: ['wcag2a', 'wcag2aa', 'wcag21aa'],
   rules: {
-    // Customize rules as needed
+    // Configure specific accessibility rules
     'color-contrast': { enabled: true },
-    'keyboard-navigation': { enabled: true },
-    'focus-management': { enabled: true },
-    'aria-labels': { enabled: true },
-    'heading-structure': { enabled: true },
-    'form-labels': { enabled: true },
-    'image-alt': { enabled: true },
+    'focus-order-semantics': { enabled: true },
+    'landmark-one-main': { enabled: true },
+    'page-has-heading-one': { enabled: true },
+    'region': { enabled: true }
   },
-  exclude: [
-    // Exclude third-party components if needed
-    '#third-party-widget',
-  ],
+  tags: ['wcag2a', 'wcag2aa', 'wcag21aa']
 };

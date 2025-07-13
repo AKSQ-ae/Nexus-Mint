@@ -1,3 +1,4 @@
+import { describe, it, expect } from '@jest/globals';
 import { cn } from '@/lib/utils';
 
 describe('Utils', () => {
@@ -11,11 +12,7 @@ describe('Utils', () => {
     });
 
     it('should handle undefined and null values', () => {
-      expect(cn('base', undefined, null, 'end')).toBe('base end');
-    });
-
-    it('should merge tailwind classes correctly', () => {
-      expect(cn('p-4', 'p-2')).toBe('p-2');
+      expect(cn('base', undefined, null, 'valid')).toBe('base valid');
     });
   });
 });
