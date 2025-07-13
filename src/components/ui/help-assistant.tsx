@@ -172,20 +172,32 @@ export function HelpAssistant() {
         </div>
         
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mx-6 mt-4">
-            <TabsTrigger value="help" className="flex items-center gap-2">
+          <TabsList className="grid w-full grid-cols-4 mx-6 mt-4 mb-4">
+            <TabsTrigger 
+              value="help" 
+              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
               <BookOpen className="h-4 w-4" />
               Help Topics
             </TabsTrigger>
-            <TabsTrigger value="contextual" className="flex items-center gap-2">
+            <TabsTrigger 
+              value="contextual" 
+              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
               <Lightbulb className="h-4 w-4" />
               Page Tips
             </TabsTrigger>
-            <TabsTrigger value="learning" className="flex items-center gap-2">
+            <TabsTrigger 
+              value="learning" 
+              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
               <TrendingUp className="h-4 w-4" />
               Learning Paths
             </TabsTrigger>
-            <TabsTrigger value="support" className="flex items-center gap-2">
+            <TabsTrigger 
+              value="support" 
+              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
               <MessageCircle className="h-4 w-4" />
               Support
             </TabsTrigger>
