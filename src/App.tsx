@@ -44,58 +44,64 @@ import SystemHealth from "./pages/SystemHealth";
 
 const queryClient = new QueryClient();
 
-function App() {
+function AppContent() {
   const { isNative, deviceInfo, isKeyboardOpen } = useCapacitor();
 
+  return (
+    <div className={`min-h-screen flex flex-col bg-background ${isKeyboardOpen ? 'keyboard-open' : ''}`}>
+      <Navbar />
+      <SmartBreadcrumbs />
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/properties" element={<Properties />} />
+          <Route path="/properties/:id" element={<PropertyDetail />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/auth/signin" element={<SignIn />} />
+          <Route path="/auth/signup" element={<SignUp />} />
+          <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+          <Route path="/auth/reset-password" element={<ResetPassword />} />
+          <Route path="/investment/success" element={<InvestmentSuccess />} />
+          <Route path="/investment/cancel" element={<InvestmentCancel />} />
+          <Route path="/tokenization-demo" element={<TokenizationDemo />} />
+          <Route path="/tokenization/:propertyId?" element={<TokenizationDashboard />} />
+          <Route path="/analytics" element={<AdvancedAnalytics />} />
+          <Route path="/global-trading" element={<GlobalTrading />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/demo" element={<Demo />} />
+          <Route path="/referrals" element={<Referrals />} />
+          <Route path="/payments" element={<Payments />} />
+          <Route path="/compliance" element={<Compliance />} />
+          <Route path="/legal/terms" element={<Terms />} />
+          <Route path="/legal/privacy" element={<Privacy />} />
+          <Route path="/legal/risk-disclaimer" element={<RiskDisclaimer />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/trading/:id" element={<Trading />} />
+          <Route path="/trading" element={<GlobalTrading />} />
+          <Route path="/investor-resources" element={<InvestorResources />} />
+          <Route path="/early-access" element={<EarlyAccess />} />
+          <Route path="/system-health" element={<SystemHealth />} />
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+      <Footer />
+      <PWAInstallPrompt />
+    </div>
+  );
+}
+
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Providers>
           <TapAnimationProvider>
-            <div className={`min-h-screen flex flex-col bg-background ${isKeyboardOpen ? 'keyboard-open' : ''}`}>
-            <Navbar />
-            <SmartBreadcrumbs />
-            <main className="flex-1">
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/properties" element={<Properties />} />
-                <Route path="/properties/:id" element={<PropertyDetail />} />
-                <Route path="/portfolio" element={<Portfolio />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/auth/signin" element={<SignIn />} />
-                <Route path="/auth/signup" element={<SignUp />} />
-                <Route path="/auth/forgot-password" element={<ForgotPassword />} />
-                <Route path="/auth/reset-password" element={<ResetPassword />} />
-                <Route path="/investment/success" element={<InvestmentSuccess />} />
-                <Route path="/investment/cancel" element={<InvestmentCancel />} />
-                <Route path="/tokenization-demo" element={<TokenizationDemo />} />
-                <Route path="/tokenization/:propertyId?" element={<TokenizationDashboard />} />
-                <Route path="/analytics" element={<AdvancedAnalytics />} />
-                <Route path="/global-trading" element={<GlobalTrading />} />
-                <Route path="/how-it-works" element={<HowItWorks />} />
-                <Route path="/demo" element={<Demo />} />
-                <Route path="/referrals" element={<Referrals />} />
-                <Route path="/payments" element={<Payments />} />
-                <Route path="/compliance" element={<Compliance />} />
-                <Route path="/legal/terms" element={<Terms />} />
-                <Route path="/legal/privacy" element={<Privacy />} />
-                <Route path="/legal/risk-disclaimer" element={<RiskDisclaimer />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/trading/:id" element={<Trading />} />
-                <Route path="/trading" element={<GlobalTrading />} />
-                <Route path="/investor-resources" element={<InvestorResources />} />
-                <Route path="/early-access" element={<EarlyAccess />} />
-                <Route path="/system-health" element={<SystemHealth />} />
-                <Route path="/404" element={<NotFound />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
-            <PWAInstallPrompt />
-            </div>
+            <AppContent />
             <CustomCursor />
             <Toaster />
           </TapAnimationProvider>
