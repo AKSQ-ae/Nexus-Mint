@@ -486,4 +486,57 @@ All colors MUST be HSL.
      padding: 16px;
      transition: all 0.3s ease;
    }
+
+   /* Mobile-specific styles for Capacitor */
+   .keyboard-open {
+     transform: translateY(-50px);
+     transition: transform 0.3s ease;
+   }
+
+   /* Safe area handling for iOS */
+   @supports (padding: max(0px)) {
+     .safe-area-top {
+       padding-top: max(env(safe-area-inset-top), 16px);
+     }
+     
+     .safe-area-bottom {
+       padding-bottom: max(env(safe-area-inset-bottom), 16px);
+     }
+     
+     .safe-area-left {
+       padding-left: max(env(safe-area-inset-left), 16px);
+     }
+     
+     .safe-area-right {
+       padding-right: max(env(safe-area-inset-right), 16px);
+     }
+   }
+
+   /* Native app optimizations */
+   .native-app {
+     -webkit-user-select: none;
+     user-select: none;
+     -webkit-tap-highlight-color: transparent;
+   }
+
+   .native-app input,
+   .native-app textarea {
+     -webkit-user-select: text;
+     user-select: text;
+   }
+
+   /* Touch targets for mobile */
+   .touch-target {
+     min-height: 44px;
+     min-width: 44px;
+   }
+
+   /* Status bar adjustments */
+   .status-bar-light {
+     color-scheme: light;
+   }
+
+   .status-bar-dark {
+     color-scheme: dark;
+   }
  }

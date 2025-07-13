@@ -8,6 +8,7 @@ import { CustomCursor } from "@/components/ui/custom-cursor";
 import { SmartBreadcrumbs } from "@/components/ui/smart-breadcrumbs";
 import { TapAnimationProvider } from "@/components/ui/tap-animation";
 import { PWAInstallPrompt } from "@/components/pwa/PWAInstallPrompt";
+import { useCapacitor } from "@/hooks/useCapacitor";
 
 // Pages
 import Index from "./pages/Index";
@@ -44,12 +45,14 @@ import SystemHealth from "./pages/SystemHealth";
 const queryClient = new QueryClient();
 
 function App() {
+  const { isNative, deviceInfo, isKeyboardOpen } = useCapacitor();
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Providers>
           <TapAnimationProvider>
-            <div className="min-h-screen flex flex-col bg-background">
+            <div className={`min-h-screen flex flex-col bg-background ${isKeyboardOpen ? 'keyboard-open' : ''}`}>
             <Navbar />
             <SmartBreadcrumbs />
             <main className="flex-1">

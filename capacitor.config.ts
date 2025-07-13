@@ -1,27 +1,37 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'app.lovable.8da2f6ad10c846bc86fd5c6d7f52edd9',
+  appId: 'com.nexusmint.app',
   appName: 'NEXUS MINT',
   webDir: 'dist',
   server: {
-    url: 'https://8da2f6ad-10c8-46bc-86fd-5c6d7f52edd9.lovableproject.com?forceHideBadge=true',
+    url: 'https://nexus-mint.com',
     cleartext: true
   },
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,
-      backgroundColor: '#0f0f23',
-      showSpinner: false
+      backgroundColor: '#1e40af',
+      showSpinner: false,
     },
     StatusBar: {
-      style: 'dark',
-      backgroundColor: '#0f0f23'
+      style: 'default',
+      backgroundColor: '#ffffff',
     },
     Keyboard: {
-      resize: 'body'
-    }
-  }
+      resize: 'body',
+      style: 'dark',
+    },
+  },
+  ios: {
+    contentInset: 'automatic',
+    scrollEnabled: true,
+  },
+  android: {
+    allowMixedContent: true,
+    captureInput: true,
+    webContentsDebuggingEnabled: false,
+  },
 };
 
 export default config;

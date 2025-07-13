@@ -42,9 +42,9 @@ export function Navbar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-blue-primary/5 via-white to-orange-accent/5 backdrop-blur-xl border-b border-blue-primary/10 sticky top-0 z-50 shadow-elegant transition-all duration-300">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="flex items-center h-20">
+    <nav className="bg-gradient-to-r from-blue-primary/5 via-white to-orange-accent/5 backdrop-blur-xl border-b border-blue-primary/10 sticky top-0 z-50 shadow-elegant transition-all duration-300 safe-area-top">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 safe-area-left safe-area-right">
+        <div className="flex items-center h-20 touch-target">
           
           {/* Left Navigation Links */}
           <div className="hidden lg:flex items-center space-x-8 flex-1">
