@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { SplashScreen } from '@capacitor/splash-screen';
@@ -16,6 +16,19 @@ interface DeviceInfo {
 }
 
 export const useCapacitor = () => {
+  // Safety check for React hooks
+  if (!React || typeof useState !== 'function') {
+    console.warn('React hooks not available, falling back to default values');
+    return {
+      isNative: false,
+      deviceInfo: null,
+      isKeyboardOpen: false,
+      setStatusBarStyle: async () => {},
+      setStatusBarColor: async () => {},
+      exitApp: async () => {},
+    };
+  }
+
   const [isNative, setIsNative] = useState(false);
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);

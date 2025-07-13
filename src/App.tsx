@@ -45,10 +45,11 @@ import SystemHealth from "./pages/SystemHealth";
 const queryClient = new QueryClient();
 
 function AppContent() {
-  const { isNative, deviceInfo, isKeyboardOpen } = useCapacitor();
+  // Temporarily removed useCapacitor to fix React context issue
+  // const { isNative, deviceInfo, isKeyboardOpen } = useCapacitor();
 
   return (
-    <div className={`min-h-screen flex flex-col bg-background ${isKeyboardOpen ? 'keyboard-open' : ''}`}>
+    <div className="min-h-screen flex flex-col bg-background">{/* removed ${isKeyboardOpen ? 'keyboard-open' : ''} */}
       <Navbar />
       <SmartBreadcrumbs />
       <main className="flex-1">
