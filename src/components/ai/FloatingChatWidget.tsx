@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, X, Sparkles, Zap } from 'lucide-react';
+import { MessageCircle, X, Sparkles, Zap, Mic } from 'lucide-react';
 import { ChatInterface } from './ChatInterface';
+import { VoiceInterface } from './VoiceInterface';
 import { cn } from '@/lib/utils';
 
 export function FloatingChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
+  const [mode, setMode] = useState<'chat' | 'voice'>('chat');
   const [isMinimized, setIsMinimized] = useState(false);
 
   const toggleChat = () => {
@@ -25,11 +27,40 @@ export function FloatingChatWidget() {
     <div className="fixed bottom-6 right-6 z-50">
       {isOpen ? (
         <div className="relative animate-scale-in">
-          <ChatInterface
-            isMinimized={isMinimized}
-            onToggleMinimize={toggleMinimize}
-            className="shadow-2xl border-0"
-          />
+          <div className="w-full max-w-md">
+            {/* Mode Toggle */}
+            <div className="flex bg-background border rounded-t-xl p-2 gap-1">
+              <Button
+                variant={mode === 'chat' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setMode('chat')}
+                className="flex-1 text-xs"
+              >
+                <MessageCircle className="w-3 h-3 mr-1" />
+                Chat
+              </Button>
+              <Button
+                variant={mode === 'voice' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setMode('voice')}
+                className="flex-1 text-xs"
+              >
+                <Mic className="w-3 h-3 mr-1" />
+                Voice
+              </Button>
+            </div>
+            
+            {/* Interface */}
+            {mode === 'chat' ? (
+              <ChatInterface
+                isMinimized={isMinimized}
+                onToggleMinimize={toggleMinimize}
+                className="shadow-2xl border-0 rounded-t-none"
+              />
+            ) : (
+              <VoiceInterface className="rounded-t-none" />
+            )}
+          </div>
           {!isMinimized && (
             <Button
               variant="ghost"
@@ -50,10 +81,10 @@ export function FloatingChatWidget() {
           <div className="absolute bottom-16 right-0 bg-background border rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 pointer-events-none whitespace-nowrap">
             <div className="flex items-center gap-2 text-sm">
               <Sparkles className="h-4 w-4 text-primary" />
-              <span className="font-medium">AI Real Estate Assistant</span>
+              <span className="font-medium">AI TOKO Assistant</span>
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              Get instant investment advice & insights
+              Chat or speak with AI for real estate insights
             </p>
           </div>
           

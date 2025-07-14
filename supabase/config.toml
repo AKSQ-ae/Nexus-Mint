@@ -42,6 +42,9 @@ verify_jwt = false
 [functions.ai-chat]
 verify_jwt = false
 
+[functions.realtime-voice-chat]
+verify_jwt = false
+
 [db]
 port = 54322
 shadow_port = 54320
