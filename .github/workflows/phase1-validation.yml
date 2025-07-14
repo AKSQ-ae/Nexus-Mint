@@ -88,8 +88,12 @@ jobs:
 
       - name: Set up Supabase CLI
         run: |
-          curl -fsSL https://supabase.com/install.sh | sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          curl -sL https://github.com/supabase/cli/releases/latest/download/supabase-linux-amd64 -o supabase
+          chmod +x supabase
+          sudo mv supabase /usr/local/bin/supabase
+
+      - name: Verify Supabase CLI
+        run: supabase --version
 
       - name: Start Supabase local development
         env:
