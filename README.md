@@ -149,9 +149,8 @@ Comprehensive testing suite covering all application layers:
 
 **Commands:**
 ```bash
-npm test              # Run unit tests (when configured)
 npm run lint          # Code quality checks
-npm run build         # Type checking and build
+npm run build         # Build and type checking
 ```
 
 ---
@@ -245,7 +244,6 @@ supabase db pull              # Pull remote schema
 supabase functions deploy     # Deploy edge functions
 
 # Testing
-npm test                      # Unit tests (when configured)
 npm run lint                 # Code quality
 
 # Mobile (Capacitor)
