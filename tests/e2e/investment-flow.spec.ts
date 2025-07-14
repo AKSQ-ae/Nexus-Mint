@@ -1,27 +1,79 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Complete Investment Flow', () => {
+test.describe('Investment Flow', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    // Mock wallet connection and Stripe
+    await page.addInitScript(() => {
+      (window as any).ethereum = {
+        request: async (params: any) => {
+          if (params.method === 'eth_requestAccounts') {
+            return ['0xDEADBEEF12345678'];
+          }
+          return null;
+        },
+        isMetaMask: true,
+        selectedAddress: '0xDEADBEEF12345678',
+      };
+
+      // Mock Stripe
+      (window as any).Stripe = () => ({
+        elements: () => ({
+          create: () => ({
+            mount: () => {},
+            on: () => {},
+          }),
+        }),
+        confirmPayment: () => Promise.resolve({ paymentIntent: { status: 'succeeded' } }),
+      });
+    });
   });
 
-  test('should complete full investment journey', async ({ page }) => {
-    // Step 1: Navigate to properties
-    await page.click('text=Properties');
-    await expect(page).toHaveURL('/properties');
-    
-    // Verify properties are loaded
-    await expect(page.locator('[data-testid="property-card"]').first()).toBeVisible();
-    
-    // Step 2: Select a property
-    await page.locator('[data-testid="property-card"]').first().click();
-    await expect(page.locator('h1')).toContainText('Property Details');
-    
-    // Step 3: Start investment process
-    await page.click('text=Invest Now');
-    
-    // Should redirect to sign in if not authenticated
-    await expect(page).toHaveURL(/\/auth\/signin/);
+  test('should complete full investment flow', async ({ page }) => {
+    // 1. Navigate to properties page
+    await page.goto('/properties');
+    await expect(page.locator('h1:has-text("Properties")')).toBeVisible();
+
+    // 2. Click on a tokenized property
+    await page.click('[data-testid="property-card"]:first-child');
+    await page.waitForURL('**/properties/**');
+
+    // 3. Click invest button
+    await page.click('button:has-text("Invest Now")');
+    await expect(page.locator('text=Investment Calculator')).toBeVisible();
+
+    // 4. Enter investment amount
+    await page.fill('input[placeholder*="amount"]', '1000');
+    await expect(page.locator('text=1000 AED')).toBeVisible();
+
+    // 5. Proceed to payment
+    await page.click('button:has-text("Proceed to Payment")');
+    await expect(page.locator('text=Payment Method')).toBeVisible();
+
+    // 6. Select payment method
+    await page.click('input[value="stripe"]');
+    await page.click('button:has-text("Continue")');
+
+    // 7. Mock successful payment
+    await page.route('**/supabase/functions/create-investment-payment', route => {
+      route.fulfill({
+        status: 200,
+        body: JSON.stringify({ 
+          success: true, 
+          paymentIntent: { id: 'pi_test_123', client_secret: 'test_secret' }
+        })
+      });
+    });
+
+    // 8. Complete payment
+    await page.click('button:has-text("Complete Investment")');
+
+    // 9. Wait for success page
+    await expect(page.locator('text=Investment Successful')).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('text=Transaction Hash:')).toBeVisible();
+
+    // 10. Verify portfolio update
+    await page.click('a[href="/portfolio"]');
+    await expect(page.locator('text=1000 AED')).toBeVisible();
   });
 
   test('should handle wallet connection flow', async ({ page }) => {

@@ -1,22 +1,70 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Comprehensive User Journey Tests', () => {
-  test.beforeEach(async ({ page }) => {
+test.describe('Comprehensive System Integration', () => {
+  test('should complete full user journey from signup to investment', async ({ page }) => {
+    // 1. Start from home page
     await page.goto('/');
-  });
+    await expect(page.locator('h1')).toBeVisible();
 
-  test('Complete authentication flow', async ({ page }) => {
-    // Test sign up flow
-    await page.click('text=Sign In');
-    await expect(page).toHaveURL(/.*signin/);
-    
-    // Test form validation
+    // 2. Navigate to authentication
+    await page.click('a[href="/auth/signin"]');
+    await page.waitForURL('**/auth/signin');
+
+    // 3. Sign up new user
+    await page.click('a[href="/auth/signup"]');
+    await page.fill('input[type="email"]', 'test@example.com');
+    await page.fill('input[type="password"]', 'TestPassword123!');
     await page.click('button[type="submit"]');
-    await expect(page.locator('text=required')).toBeVisible();
-    
-    // Test navigation back
-    await page.click('text=Home');
-    await expect(page).toHaveURL(/.*\//);
+
+    // 4. Mock wallet connection
+    await page.addInitScript(() => {
+      (window as any).ethereum = {
+        request: async () => ['0xDEADBEEF12345678'],
+        isMetaMask: true,
+        selectedAddress: '0xDEADBEEF12345678',
+      };
+    });
+
+    // 5. Connect wallet
+    await page.click('button:has-text("Connect Wallet")');
+    await expect(page.locator('text=0xDEAD...5678')).toBeVisible({ timeout: 10000 });
+
+    // 6. Complete profile setup
+    await page.click('a[href="/profile"]');
+    await page.fill('input[name="fullName"]', 'Test User');
+    await page.fill('input[name="phoneNumber"]', '+971501234567');
+    await page.click('button:has-text("Save Profile")');
+
+    // 7. Upload KYC document
+    const mockFileContent = Buffer.from('mock-kyc-document');
+    await page.setInputFiles('input[type="file"]', {
+      name: 'passport.png',
+      mimeType: 'image/png',
+      buffer: mockFileContent,
+    });
+    await page.click('button:has-text("Upload")');
+
+    // 8. Browse properties
+    await page.click('a[href="/properties"]');
+    await expect(page.locator('[data-testid="property-card"]')).toBeVisible();
+
+    // 9. View property details
+    await page.click('[data-testid="property-card"]:first-child');
+    await expect(page.locator('text=Property Details')).toBeVisible();
+
+    // 10. Make investment
+    await page.click('button:has-text("Invest Now")');
+    await page.fill('input[placeholder*="amount"]', '1000');
+    await page.click('button:has-text("Proceed to Payment")');
+
+    // 11. Complete payment
+    await page.click('input[value="stripe"]');
+    await page.click('button:has-text("Complete Investment")');
+    await expect(page.locator('text=Investment Successful')).toBeVisible({ timeout: 15000 });
+
+    // 12. Check portfolio
+    await page.click('a[href="/portfolio"]');
+    await expect(page.locator('text=1000 AED')).toBeVisible();
   });
 
   test('Investment process end-to-end', async ({ page }) => {
