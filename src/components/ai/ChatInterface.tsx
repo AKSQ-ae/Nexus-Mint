@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Send, Bot, User, Minimize2, Maximize2, Copy, Trash2, Sparkles, MessageCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { IntelligentChatProcessor, InvestmentIntent } from './IntelligentChatProcessor';
 import { cn } from '@/lib/utils';
 import { ChatSounds } from './ChatSounds';
 
@@ -23,20 +24,30 @@ interface ChatInterfaceProps {
   isMinimized?: boolean;
   onToggleMinimize?: () => void;
   className?: string;
+  onInvestmentFlow?: (propertyId: string, amount: number) => void;
+  onKycFlow?: () => void;
+  onPortfolioView?: () => void;
 }
 
 const suggestions = [
-  "What are the best property types to invest in?",
-  "How does tokenization work?", 
-  "Show me trending properties",
-  "What's my portfolio performance?"
+  "Invest 5000 AED in Dubai property",
+  "Show me my portfolio",
+  "Find me 8%+ yield properties",
+  "Verify my ID for KYC"
 ];
 
-export function ChatInterface({ isMinimized = false, onToggleMinimize, className }: ChatInterfaceProps) {
+export function ChatInterface({ 
+  isMinimized = false, 
+  onToggleMinimize, 
+  className,
+  onInvestmentFlow,
+  onKycFlow,
+  onPortfolioView 
+}: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: '👋 Welcome to Nexus Mint! I\'m your AI assistant specialized in real estate investments and tokenization.\n\n✨ I can help you with:\n• Investment strategies & market insights\n• Property tokenization process\n• Portfolio optimization\n• Risk assessment & analysis\n• Platform features & navigation\n\nWhat would you like to explore today?',
+      content: '🚀 **AI TOKO: One Chat to Rule Them All**\n\n**45 min → 3 min. 80% fewer clicks.**\n\n🔒 **Instant KYC** - "Show me your ID"—snap, verify, invest.\n🚀 **Smart Discovery** - "Find me Dubai deals under 50K AED, 8%+ yield."\n🤖 **One-Touch Investing** - "Invest 5K AED"—done. Payment, tokens, portfolio updated.\n📈 **Predictive Nudges** - "Your Marina holding is up 8%. Want to reinvest?"\n\nTry saying: *"Invest 5000 AED in Dubai property"* or *"Show me my portfolio"*',
       role: 'assistant',
       timestamp: new Date(),
     }
@@ -109,28 +120,67 @@ export function ChatInterface({ isMinimized = false, onToggleMinimize, className
     setMessages(prev => [...prev, typingMessage]);
 
     try {
-      const { data, error } = await supabase.functions.invoke('ai-chat', {
-        body: {
-          messages: [...messages, userMessage].map(m => ({
-            role: m.role,
-            content: m.content
-          }))
+      // Analyze user intent for smart processing
+      const intent = IntelligentChatProcessor.analyzeIntent(textToSend);
+      console.log('Detected intent:', intent);
+
+      let smartResponse = '';
+      let requiresFlowProcessing = false;
+
+      // Handle high-confidence smart flows
+      if (intent.confidence > 0.8) {
+        const flowResult = await IntelligentChatProcessor.processInvestmentFlow(intent);
+        smartResponse = IntelligentChatProcessor.generateSmartResponse(intent, flowResult);
+        requiresFlowProcessing = true;
+
+        // Trigger appropriate flows
+        if (intent.type === 'kyc' && onKycFlow) {
+          setTimeout(() => onKycFlow(), 1000);
+        } else if (intent.type === 'portfolio' && onPortfolioView) {
+          setTimeout(() => onPortfolioView(), 1000);
+        } else if (intent.type === 'investment' && flowResult?.suggestedProperties && onInvestmentFlow) {
+          // Could trigger investment flow with first suggested property
         }
-      });
+      }
 
-      if (error) throw error;
+      if (requiresFlowProcessing && smartResponse) {
+        // Use smart response instead of calling AI
+        setMessages(prev => {
+          const filtered = prev.filter(m => m.id !== 'typing');
+          const aiMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            content: smartResponse,
+            role: 'assistant',
+            timestamp: new Date(),
+          };
+          return [...filtered, aiMessage];
+        });
+      } else {
+        // Fall back to AI chat for general queries
+        const { data, error } = await supabase.functions.invoke('ai-chat', {
+          body: {
+            messages: [...messages, userMessage].map(m => ({
+              role: m.role,
+              content: m.content
+            })),
+            intent: intent // Pass intent to AI for context
+          }
+        });
 
-      // Remove typing indicator and add real response
-      setMessages(prev => {
-        const filtered = prev.filter(m => m.id !== 'typing');
-        const aiMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          content: data.message,
-          role: 'assistant',
-          timestamp: new Date(),
-        };
-        return [...filtered, aiMessage];
-      });
+        if (error) throw error;
+
+        // Remove typing indicator and add real response
+        setMessages(prev => {
+          const filtered = prev.filter(m => m.id !== 'typing');
+          const aiMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            content: data.message,
+            role: 'assistant',
+            timestamp: new Date(),
+          };
+          return [...filtered, aiMessage];
+        });
+      }
 
       ChatSounds.playMessageReceived();
 

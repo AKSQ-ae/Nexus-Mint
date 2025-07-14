@@ -3,12 +3,14 @@ import { Button } from '@/components/ui/button';
 import { MessageCircle, X, Sparkles, Zap, Mic } from 'lucide-react';
 import { ChatInterface } from './ChatInterface';
 import { VoiceInterface } from './VoiceInterface';
+import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 export function FloatingChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState<'chat' | 'voice'>('chat');
   const [isMinimized, setIsMinimized] = useState(false);
+  const navigate = useNavigate();
 
   const toggleChat = () => {
     if (isOpen && !isMinimized) {
@@ -21,6 +23,21 @@ export function FloatingChatWidget() {
 
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized);
+  };
+
+  const handleInvestmentFlow = (propertyId: string, amount: number) => {
+    navigate(`/properties/${propertyId}?amount=${amount}&flow=quick-invest`);
+    setIsOpen(false);
+  };
+
+  const handleKycFlow = () => {
+    navigate('/profile?section=kyc');
+    setIsOpen(false);
+  };
+
+  const handlePortfolioView = () => {
+    navigate('/portfolio');
+    setIsOpen(false);
   };
 
   return (
@@ -56,6 +73,9 @@ export function FloatingChatWidget() {
                 isMinimized={isMinimized}
                 onToggleMinimize={toggleMinimize}
                 className="shadow-2xl border-0 rounded-t-none"
+                onInvestmentFlow={handleInvestmentFlow}
+                onKycFlow={handleKycFlow}
+                onPortfolioView={handlePortfolioView}
               />
             ) : (
               <VoiceInterface className="rounded-t-none" />
