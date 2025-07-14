@@ -18,7 +18,7 @@ import {
   Activity
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
+import { useToast } from '@/hooks/use-toast';
 
 interface EvidenceItem {
   id: string;
@@ -39,6 +39,7 @@ interface ValidationResult {
 export const Phase1EvidenceValidator: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [validation, setValidation] = useState<ValidationResult | null>(null);
+  const { toast } = useToast();
   const [selectedProperty, setSelectedProperty] = useState<string>('');
   const [properties, setProperties] = useState<any[]>([]);
 
@@ -62,13 +63,21 @@ export const Phase1EvidenceValidator: React.FC = () => {
       }
     } catch (error) {
       console.error('Error loading properties:', error);
-      toast.error('Failed to load properties');
+      toast({
+        title: "Error",
+        description: "Failed to load properties",
+        variant: "destructive"
+      });
     }
   };
 
   const runValidation = async () => {
     if (!selectedProperty) {
-      toast.error('Please select a property to validate');
+      toast({
+        title: "Validation Error",
+        description: "Please select a property to validate",
+        variant: "destructive"
+      });
       return;
     }
 
@@ -220,11 +229,18 @@ export const Phase1EvidenceValidator: React.FC = () => {
         items: validationItems
       });
 
-      toast.success(`Validation completed: ${percentage}% ready`);
+      toast({
+        title: "Validation Complete",
+        description: `${percentage}% ready for regulatory submission`
+      });
 
     } catch (error) {
       console.error('Validation error:', error);
-      toast.error('Validation failed');
+      toast({
+        title: "Validation Failed",
+        description: "Unable to complete validation",
+        variant: "destructive"
+      });
     } finally {
       setIsLoading(false);
     }
@@ -249,10 +265,17 @@ export const Phase1EvidenceValidator: React.FC = () => {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      toast.success('Evidence package downloaded');
+      toast({
+        title: "Download Complete",
+        description: "Evidence package downloaded successfully"
+      });
     } catch (error) {
       console.error('Export error:', error);
-      toast.error('Failed to generate evidence package');
+      toast({
+        title: "Export Failed",
+        description: "Failed to generate evidence package",
+        variant: "destructive"
+      });
     }
   };
 
@@ -273,12 +296,19 @@ export const Phase1EvidenceValidator: React.FC = () => {
 
       if (error) throw error;
 
-      toast.success('Live contract deployment initiated!');
-      setTimeout(() => runValidation(), 2000); // Re-validate after deployment
+      toast({
+        title: "Deployment Initiated",
+        description: "Live contract deployment started successfully"
+      });
+      setTimeout(() => runValidation(), 2000);
       
     } catch (error) {
       console.error('Deployment error:', error);
-      toast.error('Deployment failed');
+      toast({
+        title: "Deployment Failed",
+        description: "Unable to deploy contract",
+        variant: "destructive"
+      });
     } finally {
       setIsLoading(false);
     }

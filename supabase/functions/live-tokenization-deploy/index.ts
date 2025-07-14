@@ -1,55 +1,41 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
-
-// Enhanced logging for regulatory evidence
-const logStep = (step: string, details?: any) => {
-  const timestamp = new Date().toISOString();
-  const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
-  console.log(`[${timestamp}] [LIVE-TOKENIZATION-DEPLOY] ${step}${detailsStr}`);
-};
+import { handleCors, createSuccessResponse, createErrorResponse } from "../_shared/response-utils.ts";
+import { createSupabaseClient, authenticateUser } from "../_shared/supabase-utils.ts";
+import { createLogger } from "../_shared/logger.ts";
+import { simulateContractDeployment, generateContractSourceCode } from "../_shared/blockchain-utils.ts";
+import { validateInput, ValidationRule } from "../_shared/validation.ts";
 
 serve(async (req) => {
-  // Handle CORS preflight requests
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
-  }
+  const corsResponse = handleCors(req);
+  if (corsResponse) return corsResponse;
 
+  const logger = createLogger('live-tokenization-deploy');
+  
   try {
-    logStep("Live tokenization deployment initiated");
+    logger.info("Live tokenization deployment initiated");
     
-    // Initialize Supabase client with service role for admin operations
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
-      { auth: { persistSession: false } }
-    );
+    const supabaseClient = createSupabaseClient(true); // Use service role
+    const user = await authenticateUser(req, supabaseClient);
+    
+    logger.updateContext({ userId: user.id });
+    logger.info("User authenticated", { email: user.email });
 
-    // Authenticate user
-    const authHeader = req.headers.get('Authorization')!;
-    const token = authHeader.replace('Bearer ', '');
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser(token);
-    
-    if (authError || !user) {
-      throw new Error('Authentication failed');
-    }
-    
-    logStep("User authenticated", { userId: user.id, email: user.email });
+    // Validate request body
+    const requestBody = await req.json();
+    const validationRules: ValidationRule[] = [
+      { field: 'propertyId', type: 'required' },
+      { field: 'propertyId', type: 'uuid' }
+    ];
 
-    // Get request parameters
-    const { propertyId, contractParams } = await req.json();
-    
-    if (!propertyId) {
-      throw new Error('Property ID is required');
+    const validation = validateInput(requestBody, validationRules);
+    if (!validation.isValid) {
+      return createErrorResponse('Validation failed', 400, { errors: validation.errors });
     }
 
-    logStep("Processing deployment request", { propertyId, contractParams });
+    const { propertyId, contractParams } = requestBody;
+    logger.info("Processing deployment request", { propertyId, contractParams });
 
-    // Fetch property details from database
+    // Fetch property details
     const { data: property, error: propertyError } = await supabaseClient
       .from('properties')
       .select('*')
@@ -57,31 +43,19 @@ serve(async (req) => {
       .single();
 
     if (propertyError || !property) {
-      throw new Error(`Property not found: ${propertyId}`);
+      return createErrorResponse(`Property not found: ${propertyId}`, 404);
     }
 
-    logStep("Property data retrieved", { 
+    logger.info("Property data retrieved", { 
       propertyTitle: property.title, 
-      propertyLocation: property.location,
-      propertyPrice: property.price 
+      propertyLocation: property.location 
     });
 
-    // Simulate live contract deployment (in production, this would call actual blockchain)
-    const deploymentResult = {
-      contractAddress: `0x${Math.random().toString(16).slice(2, 42)}`,
-      transactionHash: `0x${Math.random().toString(16).slice(2, 66)}`,
-      blockNumber: Math.floor(Math.random() * 1000000) + 10000000,
-      gasUsed: Math.floor(Math.random() * 500000) + 200000,
-      deploymentCost: (Math.random() * 0.1 + 0.05).toFixed(6), // ETH
-      networkId: contractParams?.networkId || 80001, // Mumbai testnet
-      verificationStatus: 'pending',
-      explorerUrl: `https://mumbai.polygonscan.com/address/0x${Math.random().toString(16).slice(2, 42)}`,
-      deployedAt: new Date().toISOString()
-    };
+    // Simulate contract deployment
+    const deploymentResult = simulateContractDeployment(contractParams?.networkId || 80001);
+    logger.info("Contract deployment simulated", deploymentResult);
 
-    logStep("Contract deployment simulated", deploymentResult);
-
-    // Store contract information in database
+    // Store contract information
     const { data: contractData, error: contractError } = await supabaseClient
       .from('property_tokens')
       .insert({
@@ -110,13 +84,13 @@ serve(async (req) => {
       .single();
 
     if (contractError) {
-      throw new Error(`Failed to store contract data: ${contractError.message}`);
+      return createErrorResponse(`Failed to store contract data: ${contractError.message}`, 500);
     }
 
-    logStep("Contract data stored in database", { contractId: contractData.id });
+    logger.info("Contract data stored in database", { contractId: contractData.id });
 
-    // Update property tokenization status
-    const { error: updateError } = await supabaseClient
+    // Update property status
+    await supabaseClient
       .from('properties')
       .update({
         tokenization_status: 'deployed',
@@ -126,12 +100,8 @@ serve(async (req) => {
       })
       .eq('id', propertyId);
 
-    if (updateError) {
-      logStep("Warning: Failed to update property status", updateError);
-    }
-
-    // Create initial token supply record
-    const { error: supplyError } = await supabaseClient
+    // Create token supply record
+    await supabaseClient
       .from('token_supply')
       .insert({
         property_id: propertyId,
@@ -142,12 +112,8 @@ serve(async (req) => {
         minimum_investment: contractParams?.minInvestment || 100
       });
 
-    if (supplyError) {
-      logStep("Warning: Failed to create token supply record", supplyError);
-    }
-
-    // Log deployment event for audit trail
-    const { error: eventError } = await supabaseClient
+    // Log deployment event
+    await supabaseClient
       .from('smart_contract_events')
       .insert({
         contract_address: deploymentResult.contractAddress,
@@ -162,44 +128,11 @@ serve(async (req) => {
         }
       });
 
-    if (eventError) {
-      logStep("Warning: Failed to log deployment event", eventError);
-    }
+    logger.info("Live deployment completed successfully");
 
-    // Create tokenization process record
-    const { error: processError } = await supabaseClient
-      .from('tokenization_processes')
-      .insert({
-        property_id: propertyId,
-        user_id: user.id,
-        process_type: 'live_deployment',
-        status: 'completed',
-        current_step: 'deployment_complete',
-        progress_percentage: 100,
-        steps_completed: ['initialization', 'contract_compilation', 'deployment', 'verification'],
-        step_details: {
-          deployment: deploymentResult,
-          contract: contractData
-        },
-        completed_at: new Date().toISOString()
-      });
-
-    if (processError) {
-      logStep("Warning: Failed to create process record", processError);
-    }
-
-    logStep("Live deployment completed successfully", {
-      contractAddress: deploymentResult.contractAddress,
-      propertyId,
-      transactionHash: deploymentResult.transactionHash
-    });
-
-    // Return deployment results
-    return new Response(JSON.stringify({
-      success: true,
+    return createSuccessResponse({
       deployment: deploymentResult,
       contract: contractData,
-      message: 'Property successfully tokenized and deployed to blockchain',
       regulatory_evidence: {
         contract_address: deploymentResult.contractAddress,
         transaction_hash: deploymentResult.transactionHash,
@@ -208,81 +141,10 @@ serve(async (req) => {
         deployment_timestamp: deploymentResult.deployedAt,
         verification_pending: true
       }
-    }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 200,
-    });
+    }, 'Property successfully tokenized and deployed to blockchain');
 
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    logStep("ERROR in live deployment", { error: errorMessage });
-    
-    return new Response(JSON.stringify({
-      success: false,
-      error: errorMessage,
-      timestamp: new Date().toISOString()
-    }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 500,
-    });
+    logger.error("ERROR in live deployment", error);
+    return createErrorResponse(error instanceof Error ? error.message : 'Unknown error');
   }
 });
-
-// Generate contract source code for regulatory evidence
-function generateContractSourceCode(property: any, params: any): string {
-  return `// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
-
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-
-/**
- * @title PropertyToken for ${property.title}
- * @dev ERC1155 token representing ownership in ${property.location}
- * Property ID: ${property.id}
- * Total Supply: ${params?.totalSupply || 1000000}
- * Price per Token: ${property.price_per_token || (property.price / 1000000)} ETH
- */
-contract PropertyToken is ERC1155, AccessControl, Pausable, ReentrancyGuard {
-    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
-    bytes32 public constant PROPERTY_MANAGER_ROLE = keccak256("PROPERTY_MANAGER_ROLE");
-    bytes32 public constant FINANCE_ROLE = keccak256("FINANCE_ROLE");
-    
-    struct PropertyInfo {
-        string propertyId;
-        string title;
-        string location;
-        uint256 totalValue;
-        uint256 totalSupply;
-        uint256 pricePerToken;
-        bool isActive;
-        string metadataURI;
-    }
-    
-    PropertyInfo public propertyInfo;
-    
-    constructor(string memory _baseURI, address _admin) ERC1155(_baseURI) {
-        _grantRole(DEFAULT_ADMIN_ROLE, _admin);
-        _grantRole(ADMIN_ROLE, _admin);
-        _grantRole(PROPERTY_MANAGER_ROLE, _admin);
-        _grantRole(FINANCE_ROLE, _admin);
-        
-        propertyInfo = PropertyInfo({
-            propertyId: "${property.id}",
-            title: "${property.title}",
-            location: "${property.location}",
-            totalValue: ${property.price},
-            totalSupply: ${params?.totalSupply || 1000000},
-            pricePerToken: ${property.price_per_token || (property.price / 1000000)},
-            isActive: true,
-            metadataURI: "https://api.nexusmint.com/metadata/${property.id}.json"
-        });
-        
-        _mint(address(this), 1, ${params?.totalSupply || 1000000}, "");
-    }
-    
-    // Contract implementation continues...
-}`;
-}
