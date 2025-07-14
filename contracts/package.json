@@ -1,0 +1,31 @@
+{
+  "name": "nexus-mint-contracts",
+  "version": "1.0.0",
+  "description": "Smart contracts for Nexus Mint property tokenization",
+  "main": "index.js",
+  "scripts": {
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "deploy:testnet": "hardhat run scripts/testnet-deploy.ts --network mumbai",
+    "deploy:evidence": "hardhat run scripts/evidence-test.ts",
+    "verify": "hardhat verify --network mumbai"
+  },
+  "keywords": [
+    "ethereum",
+    "smart-contracts",
+    "real-estate",
+    "tokenization"
+  ],
+  "author": "Nexus Mint",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "@types/node": "^20.0.0",
+    "hardhat": "^2.25.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.0",
+    "ethers": "^6.0.0"
+  }
+}

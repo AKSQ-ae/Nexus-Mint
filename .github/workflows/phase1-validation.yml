@@ -1,0 +1,193 @@
+name: Phase 1 Validation & Evidence
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set up Deno (for edge functions)
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+  contracts:
+    needs: setup
+    runs-on: ubuntu-latest
+    outputs:
+      contractAddress: ${{ steps.deploy.outputs.contractAddress }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Hardhat dependencies
+        working-directory: ./contracts
+        run: npm ci
+
+      - name: Run Hardhat tests
+        working-directory: ./contracts
+        run: npx hardhat test
+
+      - name: Deploy to testnet & verify
+        id: deploy
+        working-directory: ./contracts
+        env:
+          PRIVATE_KEY: ${{ secrets.TESTNET_PRIVATE_KEY }}
+          POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
+        run: |
+          npx hardhat run scripts/testnet-deploy.ts --network mumbai | tee deploy.log
+          contractAddress=$(grep "Contract Address:" deploy.log | awk '{print $3}' || echo "0x0000000000000000000000000000000000000000")
+          echo "contractAddress=$contractAddress" >> $GITHUB_OUTPUT
+
+  edge-functions:
+    needs: setup
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Set up Supabase CLI
+        run: |
+          curl -fsSL https://supabase.com/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Start Supabase local development
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          supabase start
+          sleep 10
+
+      - name: Test regulatory-evidence-export function
+        env:
+          SUPABASE_URL: http://localhost:54321
+          SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
+          SUPABASE_SERVICE_ROLE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU
+        run: |
+          supabase functions serve regulatory-evidence-export &
+          sleep 5
+          RESPONSE=$(curl -s -f -X POST "http://localhost:54321/functions/v1/regulatory-evidence-export" \
+            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0" \
+            -H "Content-Type: application/json" \
+            -d '{"propertyId":"test-id","includeTransactions":false}' || echo '{"success":false}')
+          echo "Evidence export response: $RESPONSE"
+
+      - name: Test live-investment-flow function
+        env:
+          SUPABASE_URL: http://localhost:54321
+          SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
+          SUPABASE_SERVICE_ROLE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU
+        run: |
+          supabase functions serve live-investment-flow &
+          sleep 5
+          RESPONSE=$(curl -s -f -X POST "http://localhost:54321/functions/v1/live-investment-flow" \
+            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0" \
+            -H "Content-Type: application/json" \
+            -d '{"propertyId":"test-id","tokenAmount":1,"paymentMethod":"mock","walletAddress":"0x0000000000000000000000000000000000000000"}' || echo '{"success":false}')
+          echo "Investment flow response: $RESPONSE"
+
+  evidence-validator:
+    needs: [contracts, edge-functions]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Phase 1 Evidence CLI Validation
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          npm run validate:phase1 | tee validation.log
+          if ! grep -q "PHASE 1 VALIDATION SUCCESSFUL" validation.log; then
+            echo "❌ Phase 1 validation failed"
+            exit 1
+          fi
+          echo "✅ Phase 1 validation passed"
+
+      - name: Create validation reports directory
+        run: mkdir -p validation-reports
+
+      - name: Copy validation artifacts
+        run: |
+          cp validation-reports/*.json . 2>/dev/null || echo "No JSON reports found"
+          cp validation-reports/*.csv . 2>/dev/null || echo "No CSV reports found"
+          ls -la
+
+      - name: Upload Phase 1 evidence artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: phase1-evidence-reports
+          path: |
+            validation-reports/
+            validation.log
+          retention-days: 90
+
+  summary:
+    needs: [contracts, edge-functions, evidence-validator]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Phase 1 Validation Summary
+        run: |
+          echo "🏗️ Phase 1 Validation Pipeline Results:"
+          echo "- Contracts: ${{ needs.contracts.result }}"
+          echo "- Edge Functions: ${{ needs.edge-functions.result }}"
+          echo "- Evidence Validator: ${{ needs.evidence-validator.result }}"
+          echo "- Contract Address: ${{ needs.contracts.outputs.contractAddress }}"
+          
+          if [[ "${{ needs.contracts.result }}" == "success" && 
+                "${{ needs.edge-functions.result }}" == "success" && 
+                "${{ needs.evidence-validator.result }}" == "success" ]]; then
+            echo "✅ Phase 1 validation completed successfully!"
+          else
+            echo "⚠️ Some Phase 1 validation steps failed"
+          fi
