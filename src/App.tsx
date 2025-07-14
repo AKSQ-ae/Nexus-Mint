@@ -15,6 +15,7 @@ import Profile from '@/pages/Profile';
 import SignIn from '@/pages/auth/SignIn';
 import SignUp from '@/pages/auth/SignUp';
 import TokenizationDashboard from '@/pages/TokenizationDashboard';
+import TokenizationWidget from '@/pages/TokenizationWidget';
 import AIBuddyPage from '@/pages/AIBuddyPage';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/tokenization" element={<TokenizationDashboard />} />
+              <Route path="/tokenization-widget" element={<TokenizationWidget />} />
               <Route path="/ai-buddy" element={<AIBuddyPage />} />
               <Route path="/auth/signin" element={<SignIn />} />
               <Route path="/auth/signup" element={<SignUp />} />
