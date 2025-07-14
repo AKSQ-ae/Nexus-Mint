@@ -78,7 +78,8 @@ const HeavyComponent = React.lazy(() => import('./HeavyComponent'));
 npm run build  # Tailwind automatically purges unused classes
 
 # Analyze and identify heavy dependencies
-npm run analyze:bundle
+npm run analyze:bundle         # Inspect JS bundle sizes
+npm run analyze:css            # Check CSS output size
 ```
 
 ### Image Optimization
