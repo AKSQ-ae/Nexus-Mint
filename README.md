@@ -1,73 +1,272 @@
-# Welcome to your Lovable project
+# Nexus Mint
 
-## Project info
+[![Build Status](https://github.com/YOUR_USERNAME/nexus-mint/workflows/CI/badge.svg)](https://github.com/YOUR_USERNAME/nexus-mint/actions)
+[![Coverage](https://codecov.io/gh/YOUR_USERNAME/nexus-mint/branch/main/graph/badge.svg)](https://codecov.io/gh/YOUR_USERNAME/nexus-mint)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**URL**: https://lovable.dev/projects/8da2f6ad-10c8-46bc-86fd-5c6d7f52edd9
+> Own fractional UAE real-estate in minutes — Sharia-compliant, AI-driven, next-gen investing.
 
-## How can I edit this code?
+**Repository**: https://github.com/YOUR_USERNAME/nexus-mint
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🚀 Overview
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/8da2f6ad-10c8-46bc-86fd-5c6d7f52edd9) and start prompting.
+A one-stop platform for tokenizing, buying and managing real-estate assets on Polygon, with an AI "TOKO" assistant guiding you end-to-end. Built on modern web technologies with enterprise-grade security and compliance features.
 
-Changes made via Lovable will be committed automatically to this repo.
+**Key Features:**
+- 🏢 Real estate tokenization on Polygon blockchain
+- 🤖 AI-powered investment assistant (TOKO)
+- 💳 Integrated payment processing (Stripe + MetaMask)
+- 📊 Advanced analytics and portfolio management
+- 🔒 KYC/AML compliance and regulatory documentation
+- 📱 Progressive Web App with mobile support
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🛠️ Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Before setting up the project, ensure you have:
 
-Follow these steps:
+- **Node.js** (v18+)
+- **npm** or **yarn** package manager
+- **Hardhat** CLI installed globally (`npm install -g hardhat`)
+- **Supabase** project with service-role key & URL
+- **Vercel** or hosting platform account
+- **MetaMask** wallet (for blockchain interactions)
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## ⚙️ Setup & Local Development
 
-# Step 3: Install the necessary dependencies.
-npm i
+### 1. Clone & Install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+git clone https://github.com/YOUR_USERNAME/nexus-mint.git
+cd nexus-mint
+npm install
 ```
 
-**Edit a file directly in GitHub**
+### 2. Supabase Configuration
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+This project uses Supabase's secure secrets management instead of traditional `.env` files. Configure these secrets in your Supabase Dashboard → Settings → Edge Functions:
 
-**Use GitHub Codespaces**
+| Secret Name | Description |
+|-------------|-------------|
+| `STRIPE_SECRET_KEY` | Stripe payment processing API key |
+| `OPENAI_API_KEY` | OpenAI API key for AI assistant |
+| `RESEND_API_KEY` | Email service API key |
+| `SUPABASE_URL` | Your Supabase project URL |
+| `SUPABASE_ANON_KEY` | Supabase anonymous/public key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key |
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+> **Note**: No local `.env` file required. Authentication and API keys are managed through Supabase Edge Functions.
 
-## What technologies are used for this project?
+### 3. Smart Contracts (Hardhat)
 
-This project is built with:
+Navigate to the contracts directory and configure your blockchain deployment:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```bash
+cd contracts
+npm install
+```
 
-## How can I deploy this project?
+**Key Scripts:**
+- **`scripts/deploy.ts`** - Deploy ERC-1155 property token contracts to selected network
+- **`scripts/verify.ts`** - Auto-verify contract source on Polygonscan
+- **`scripts/testnet-deploy.ts`** - Deploy to Mumbai testnet for testing
 
-Simply open [Lovable](https://lovable.dev/projects/8da2f6ad-10c8-46bc-86fd-5c6d7f52edd9) and click on Share -> Publish.
+**Supported Networks:**
+- Mumbai Testnet (for development)
+- Polygon Mainnet (for production)
 
-## Can I connect a custom domain to my Lovable project?
+Update `hardhat.config.ts` with your RPC endpoints and deployer private key for contract deployment.
 
-Yes, you can!
+### 4. Supabase Backend
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+The platform uses Supabase Edge Functions for server-side logic:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+**Key Functions:**
+- **`live-tokenization-deploy`** - Deploys & records new property token contracts
+- **`regulatory-evidence-export`** - Generates compliance documentation bundles
+- **`live-investment-flow`** - Processes on-chain investment transactions
+- **`ai-buddy-chat`** - Powers the AI assistant conversations
+
+**Database Management:**
+```bash
+# Push schema & policies to Supabase
+supabase db push
+
+# Pull production data locally (for development)
+supabase db pull
+
+# Deploy edge functions
+# Functions are automatically deployed via Lovable integration
+```
+
+### 5. Frontend (Vite + React)
+
+Built with modern web technologies:
+- **Vite** - Fast build tool and dev server
+- **React 18** - UI framework with TypeScript
+- **shadcn/ui** - Beautiful, accessible component library
+- **Tailwind CSS** - Utility-first styling
+- **Tanstack Query** - Data fetching and caching
+
+**App Structure:**
+- **/** - Hero page with platform overview
+- **/properties** - Browse available real estate investments
+- **/tokenization** - Interactive property tokenization wizard
+- **/dashboard** - Portfolio management and analytics
+- **/ai-buddy** - AI assistant chat interface
+- **/documentation** - Regulatory and technical documentation
+
+**Development Commands:**
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build locally
+npm run lint         # Run ESLint
+npm run type-check   # TypeScript validation
+```
+
+---
+
+## 🔍 Testing
+
+Comprehensive testing suite covering all application layers:
+
+**Unit Tests:**
+- Jest configuration in `contracts/` and `src/`
+- Component testing with React Testing Library
+
+**Integration Tests:**
+- API endpoint testing
+- Database interaction testing
+
+**End-to-End Tests:**
+- Playwright specs under `tests/e2e/`
+- Full user journey testing
+
+**Commands:**
+```bash
+npm test              # Run all unit tests
+npm run test:e2e      # Run E2E tests
+npm run test:coverage # Generate coverage reports
+npm run lint          # Code quality checks
+```
+
+---
+
+## 🚢 Deployment
+
+### Smart Contracts
+
+1. Configure your target network in `contracts/hardhat.config.ts`
+2. Deploy contracts using Hardhat:
+   ```bash
+   cd contracts
+   npx hardhat run scripts/deploy.ts --network mumbai
+   ```
+3. Update frontend with deployed contract addresses
+
+### Supabase
+
+1. Database migrations and RLS policies are automatically synced
+2. Edge functions are deployed via Lovable integration
+3. Verify deployment in Supabase Dashboard → Edge Functions
+
+### Frontend
+
+**Vercel Deployment:**
+1. Connect GitHub repository to Vercel
+2. Configure environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
+
+**Manual Deployment:**
+```bash
+npm run build
+# Deploy dist/ folder to your hosting platform
+```
+
+---
+
+## 🎯 Development Workflow
+
+### For Lovable Development
+1. Visit [Lovable Project](https://lovable.dev/projects/8da2f6ad-10c8-46bc-86fd-5c6d7f52edd9)
+2. Use AI-powered editing and real-time preview
+3. Changes automatically sync to GitHub
+
+### For Local Development
+1. `git clone` and `npm install`
+2. `npm run dev` for local development
+3. Create feature branches and submit PRs
+4. Follow commit message conventions
+
+---
+
+## 🙌 Contributing
+
+We welcome contributions! Please follow these guidelines:
+
+1. **Fork** the repository
+2. Create a **feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. Open a **Pull Request**
+
+**Code Standards:**
+- Use TypeScript for all new code
+- Follow ESLint and Prettier configurations
+- Write tests for new features
+- Update documentation as needed
+
+---
+
+## 📋 Cheat Sheet
+
+Common commands for daily development:
+
+```bash
+# Frontend Development
+npm run dev                    # Start local development server
+npm run build                  # Production build
+npm run preview               # Preview production build
+
+# Smart Contracts
+cd contracts && npx hardhat compile              # Compile contracts
+npx hardhat run scripts/deploy.ts --network mumbai  # Deploy to testnet
+npx hardhat run scripts/deploy.ts --network polygon # Deploy to mainnet
+
+# Database
+supabase db push              # Push schema changes
+supabase db pull              # Pull remote schema
+supabase functions deploy     # Deploy edge functions
+
+# Testing
+npm test                      # Unit tests
+npm run test:e2e             # End-to-end tests
+npm run lint                 # Code quality
+
+# Mobile (Capacitor)
+npx cap sync                 # Sync web assets to mobile
+npx cap run ios             # Run on iOS simulator
+npx cap run android         # Run on Android emulator
+```
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🔗 Links
+
+- **Live Platform**: [Your production URL]
+- **Documentation**: [/documentation](/documentation)
+- **Phase 1 Validation**: [/phase1-validation](/phase1-validation)
+- **System Health**: [/system-health](/system-health)
+- **Lovable Project**: https://lovable.dev/projects/8da2f6ad-10c8-46bc-86fd-5c6d7f52edd9
