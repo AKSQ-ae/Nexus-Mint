@@ -8,8 +8,9 @@ import { Badge } from '@/components/ui/badge';
 import { Send, Bot, User, Minimize2, Maximize2, Copy, Trash2, Sparkles, MessageCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { IntelligentChatProcessor, InvestmentIntent } from './IntelligentChatProcessor';
+import { TOKONavigationEngine, UserContext } from './TOKONavigationEngine';
 import { ChatPerformanceMonitor } from './ChatPerformanceMonitor';
 import { ChatErrorBoundary } from './ChatErrorBoundary';
 import { cn } from '@/lib/utils';
@@ -21,6 +22,9 @@ interface Message {
   role: 'user' | 'assistant';
   timestamp: Date;
   isTyping?: boolean;
+  actions?: string[];
+  nextSteps?: string[];
+  contextualHelp?: string;
 }
 
 interface ChatInterfaceProps {
@@ -35,9 +39,9 @@ interface ChatInterfaceProps {
 const suggestions = [
   "Start my KYC verification",
   "Find Dubai properties under 50K",
-  "Show me my portfolio dashboard",
+  "Show me my portfolio dashboard", 
   "Help me register an account",
-  "Navigate to investment page"
+  "Invest 10000 AED in Marina"
 ];
 
 export function ChatInterface({ 
@@ -49,10 +53,19 @@ export function ChatInterface({
   onPortfolioView 
 }: ChatInterfaceProps) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [userContext, setUserContext] = useState<UserContext>({
+    isAuthenticated: false,
+    hasKyc: false,
+    hasInvestments: false,
+    currentPage: location.pathname
+  });
+  const [tokoEngine, setTokoEngine] = useState<TOKONavigationEngine | null>(null);
+  
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: '🚀 **AI TOKO: Navigator to Rule Them All**\n\n**45 min → 3 min. 80% fewer clicks.**\n\n🎯 **I don\'t just chat - I guide you through the app!**\n\n✨ **Tell me what you want to do:**\n• *"Start my KYC"* → I\'ll open KYC page and guide you\n• *"Find Dubai properties"* → I\'ll search and show results\n• *"Invest 5000 AED"* → I\'ll navigate to investment flow\n• *"Check my portfolio"* → I\'ll open your dashboard\n• *"Register new account"* → I\'ll guide you through signup\n• *"Need help with..."* → I\'ll find the right page\n\n🚀 **Ready to navigate? Just tell me your next step!**',
+      content: '🚀 **AI TOKO: One Chat to Rule Them All**\n\n**45 min → 3 min. 80% fewer clicks.**\n\n🎯 **I don\'t just chat - I navigate and guide you through everything!**\n\n✨ **Tell me what you want to do:**\n• *"Start my KYC"* → I\'ll navigate and guide you through verification\n• *"Find Dubai properties"* → I\'ll open search with filters applied\n• *"Invest 5000 AED"* → I\'ll find matches and start investment flow\n• *"Check my portfolio"* → I\'ll open dashboard and highlight key metrics\n• *"Register new account"* → I\'ll guide you through quick signup\n• *"Need help with..."* → I\'ll find the right page and provide context\n\n🚀 **Ready to navigate? Just tell me your next step!**',
       role: 'assistant',
       timestamp: new Date(),
     }
@@ -62,6 +75,70 @@ export function ChatInterface({
   const [showSuggestions, setShowSuggestions] = useState(true);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+
+  // Initialize TOKO Engine and update user context
+  useEffect(() => {
+    const initializeContext = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        let hasKyc = false;
+        let hasInvestments = false;
+        
+        if (user) {
+          // Check KYC status
+          const { data: kycDocs } = await supabase
+            .from('kyc_documents')
+            .select('status')
+            .eq('user_id', user.id)
+            .eq('status', 'approved')
+            .limit(1);
+          
+          hasKyc = !!(kycDocs && kycDocs.length > 0);
+          
+          // Check if user has investments
+          const { data: investments } = await supabase
+            .from('investments')
+            .select('id')
+            .eq('user_id', user.id)
+            .limit(1);
+          
+          hasInvestments = !!(investments && investments.length > 0);
+        }
+        
+        const context: UserContext = {
+          isAuthenticated: !!user,
+          hasKyc,
+          hasInvestments,
+          currentPage: location.pathname
+        };
+        
+        setUserContext(context);
+        setTokoEngine(new TOKONavigationEngine(navigate, context));
+      } catch (error) {
+        console.error('Error initializing context:', error);
+        // Fallback to basic context
+        const fallbackContext: UserContext = {
+          isAuthenticated: false,
+          hasKyc: false,
+          hasInvestments: false,
+          currentPage: location.pathname
+        };
+        setUserContext(fallbackContext);
+        setTokoEngine(new TOKONavigationEngine(navigate, fallbackContext));
+      }
+    };
+
+    initializeContext();
+  }, [navigate, location.pathname]);
+
+  // Update context when location changes
+  useEffect(() => {
+    if (tokoEngine) {
+      tokoEngine.updateContext({ currentPage: location.pathname });
+      setUserContext(prev => ({ ...prev, currentPage: location.pathname }));
+    }
+  }, [location.pathname, tokoEngine]);
 
   const scrollToBottom = () => {
     if (scrollAreaRef.current) {
@@ -99,12 +176,11 @@ export function ChatInterface({
 
   const handleSendMessage = async (messageText?: string) => {
     const textToSend = messageText || input.trim();
-    if (!textToSend || isLoading) return;
+    if (!textToSend || isLoading || !tokoEngine) return;
 
     // Start performance monitoring
     const startTime = ChatPerformanceMonitor.startTimer();
     let success = false;
-    let intent: InvestmentIntent | null = null;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -130,164 +206,67 @@ export function ChatInterface({
     setMessages(prev => [...prev, typingMessage]);
 
     try {
-      // Analyze user intent for smart processing
-      intent = IntelligentChatProcessor.analyzeIntent(textToSend);
-      console.log('Detected intent:', intent);
+      // Use TOKO Navigation Engine for comprehensive processing
+      const tokoResponse = await tokoEngine.processUserIntent(textToSend);
+      
+      console.log('TOKO Response:', tokoResponse);
 
-      let aiResponse = '';
-      let requiresFlowProcessing = false;
+      // Create enhanced message with TOKO response
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: tokoResponse.message,
+        role: 'assistant',
+        timestamp: new Date(),
+        actions: tokoResponse.actions.map(action => `${action.type}: ${action.target}`),
+        nextSteps: tokoResponse.nextSteps,
+        contextualHelp: tokoResponse.contextualHelp
+      };
 
-      // Handle high-confidence smart flows with navigation
-      if (intent.confidence > 0.8) {
-        const flowResult = await IntelligentChatProcessor.processInvestmentFlow(intent);
-        aiResponse = IntelligentChatProcessor.generateSmartResponse(intent, flowResult, navigate);
-        requiresFlowProcessing = true;
+      // Remove typing indicator and add real response
+      setMessages(prev => {
+        const filtered = prev.filter(m => m.id !== 'typing');
+        return [...filtered, assistantMessage];
+      });
 
-        // Track flow initiation
-        await ChatPerformanceMonitor.trackFlowCompletion(intent.type, true);
-
-        // Execute navigation and page interactions
-        try {
-          setTimeout(() => {
-            if (intent.type === 'kyc') {
-              toast({
-                title: "🚀 Navigating to KYC",
-                description: "Opening KYC verification page...",
-              });
-              navigate('/profile');
-              if (onKycFlow) onKycFlow();
-            } else if (intent.type === 'portfolio') {
-              toast({
-                title: "📈 Opening Portfolio",
-                description: "Navigating to your dashboard...",
-              });
-              navigate('/portfolio');
-              if (onPortfolioView) onPortfolioView();
-            } else if (intent.type === 'discovery') {
-              toast({
-                title: "🔍 Property Search",
-                description: "Opening properties with your criteria...",
-              });
-              const searchParams = new URLSearchParams();
-              if (intent.location) searchParams.set('location', intent.location);
-              if (intent.criteria) searchParams.set('search', intent.criteria);
-              navigate(`/properties?${searchParams.toString()}`);
-            } else if (intent.type === 'investment') {
-              if (flowResult?.requiresKyc) {
-                if (flowResult.actionRequired === 'authentication') {
-                  toast({
-                    title: "🔐 Authentication Required",
-                    description: "Redirecting to sign in...",
-                  });
-                  navigate('/auth/signin');
-                } else {
-                  toast({
-                    title: "🔒 KYC Required",
-                    description: "Opening KYC verification...",
-                  });
-                  navigate('/profile');
-                }
-              } else if (flowResult?.suggestedProperties) {
-                toast({
-                  title: "🚀 Investment Ready",
-                  description: "Opening investment page with matches...",
-                });
-                navigate('/properties');
-                if (onInvestmentFlow && flowResult.suggestedProperties.length > 0) {
-                  const firstProperty = flowResult.suggestedProperties[0];
-                  setTimeout(() => onInvestmentFlow(firstProperty.id, intent.amount || 0), 1000);
-                }
-              }
-            } else if (intent.type === 'register') {
-              toast({
-                title: "🎯 Account Registration",
-                description: "Opening sign up page...",
-              });
-              navigate('/auth/signup');
-            } else if (intent.type === 'dashboard') {
-              toast({
-                title: "📊 Dashboard Navigation",
-                description: "Opening your overview dashboard...",
-              });
-              navigate('/dashboard');
-            } else if (intent.type === 'help') {
-              toast({
-                title: "🆘 Help & Resources",
-                description: "Finding relevant help resources...",
-              });
-              // Navigate to most relevant help section based on criteria
-              if (intent.criteria?.includes('invest') || intent.criteria?.includes('property')) {
-                navigate('/properties');
-              } else if (intent.criteria?.includes('kyc') || intent.criteria?.includes('verif')) {
-                navigate('/profile');
-              } else if (intent.criteria?.includes('portfolio') || intent.criteria?.includes('dashboard')) {
-                navigate('/portfolio');
-              } else {
-                navigate('/dashboard'); // Default help location
-              }
-            }
-          }, 1000);
-        } catch (flowError) {
-          console.error('Error triggering navigation:', flowError);
-          await ChatPerformanceMonitor.trackFlowCompletion(intent.type, false);
+      // Show contextual toast based on actions
+      if (tokoResponse.actions.length > 0) {
+        const primaryAction = tokoResponse.actions[0];
+        let toastMessage = '';
+        
+        switch (primaryAction.type) {
+          case 'navigate':
+            toastMessage = `🚀 Navigating to ${primaryAction.target}`;
+            break;
+          case 'scroll':
+            toastMessage = `📍 Scrolling to ${primaryAction.target}`;
+            break;
+          case 'focus':
+            toastMessage = `🎯 Focusing on ${primaryAction.target}`;
+            break;
+          case 'fill':
+            toastMessage = `✍️ Filling form field`;
+            break;
+          case 'click':
+            toastMessage = `👆 Clicking ${primaryAction.target}`;
+            break;
+        }
+        
+        if (toastMessage) {
+          toast({
+            title: "TOKO Navigation",
+            description: toastMessage,
+          });
         }
       }
 
-      if (requiresFlowProcessing && aiResponse) {
-        // Use smart response instead of calling AI
-        setMessages(prev => {
-          const filtered = prev.filter(m => m.id !== 'typing');
-          const assistantMessage: Message = {
-            id: (Date.now() + 1).toString(),
-            content: aiResponse,
-            role: 'assistant',
-            timestamp: new Date(),
-          };
-          return [...filtered, assistantMessage];
-        });
-        success = true;
-      } else {
-        // Fall back to AI chat for general queries with timeout
-        const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('AI response timeout')), 30000)
-        );
-
-        const aiPromise = supabase.functions.invoke('ai-buddy-chat', {
-          body: {
-            messages: [...messages, userMessage].map(m => ({
-              role: m.role,
-              content: m.content
-            })),
-            intent: intent // Pass intent to AI for context
-          }
-        });
-
-        const { data, error } = await Promise.race([aiPromise, timeoutPromise]) as any;
-
-        if (error) throw error;
-
-        aiResponse = data.message;
-
-        // Remove typing indicator and add real response
-        setMessages(prev => {
-          const filtered = prev.filter(m => m.id !== 'typing');
-          const assistantMessage: Message = {
-            id: (Date.now() + 1).toString(),
-            content: aiResponse,
-            role: 'assistant',
-            timestamp: new Date(),
-          };
-          return [...filtered, assistantMessage];
-        });
-        success = true;
-      }
-
+      success = true;
+      
       // Log successful interaction
       const responseTime = ChatPerformanceMonitor.endTimer(startTime);
       await ChatPerformanceMonitor.logInteraction({
         userMessage: textToSend,
-        aiResponse,
-        intentDetected: intent?.type || 'unknown',
+        aiResponse: tokoResponse.message,
+        intentDetected: 'toko_navigation',
         responseTime,
         success: true,
         userId: (await supabase.auth.getUser()).data.user?.id
@@ -296,51 +275,136 @@ export function ChatInterface({
       ChatSounds.playMessageReceived();
 
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error('Error with TOKO processing:', error);
       
-      // Remove typing indicator and show error message
-      setMessages(prev => {
-        const filtered = prev.filter(m => m.id !== 'typing');
-        const errorMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          content: '🚫 **Temporary Connection Issue**\n\nI\'m having trouble connecting right now. While I work on getting back online, you can:\n\n• Browse properties directly\n• Check your portfolio\n• Use the search function\n\nTry asking me again in a moment!',
-          role: 'assistant',
-          timestamp: new Date(),
-        };
-        return [...filtered, errorMessage];
-      });
+      // Fallback to previous AI processing for complex queries
+      try {
+        // Analyze user intent for smart processing
+        const intent = IntelligentChatProcessor.analyzeIntent(textToSend);
+        console.log('Fallback to intent processing:', intent);
 
-      // Log failed interaction
-      const responseTime = ChatPerformanceMonitor.endTimer(startTime);
-      await ChatPerformanceMonitor.logInteraction({
-        userMessage: textToSend,
-        aiResponse: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        intentDetected: intent?.type || 'error',
-        responseTime,
-        success: false,
-        userId: (await supabase.auth.getUser()).data.user?.id
-      });
+        let aiResponse = '';
+        let requiresFlowProcessing = false;
 
-      // User-friendly error handling
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      if (errorMessage.includes('timeout')) {
-        toast({
-          title: 'Response Timeout',
-          description: 'AI is taking longer than usual. Please try a simpler question.',
-          variant: 'destructive',
+        // Handle high-confidence smart flows with navigation
+        if (intent.confidence > 0.8) {
+          const flowResult = await IntelligentChatProcessor.processInvestmentFlow(intent);
+          aiResponse = IntelligentChatProcessor.generateSmartResponse(intent, flowResult, navigate);
+          requiresFlowProcessing = true;
+
+          // Track flow initiation
+          await ChatPerformanceMonitor.trackFlowCompletion(intent.type, true);
+        }
+
+        if (requiresFlowProcessing && aiResponse) {
+          // Use smart response instead of calling AI
+          setMessages(prev => {
+            const filtered = prev.filter(m => m.id !== 'typing');
+            const assistantMessage: Message = {
+              id: (Date.now() + 1).toString(),
+              content: aiResponse,
+              role: 'assistant',
+              timestamp: new Date(),
+            };
+            return [...filtered, assistantMessage];
+          });
+          success = true;
+        } else {
+          // Fall back to AI chat for general queries with timeout
+          const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('AI response timeout')), 30000)
+          );
+
+          const aiPromise = supabase.functions.invoke('ai-buddy-chat', {
+            body: {
+              messages: [...messages, userMessage].map(m => ({
+                role: m.role,
+                content: m.content
+              })),
+              intent: intent // Pass intent to AI for context
+            }
+          });
+
+          const { data, error } = await Promise.race([aiPromise, timeoutPromise]) as any;
+
+          if (error) throw error;
+
+          aiResponse = data.message;
+
+          // Remove typing indicator and add real response
+          setMessages(prev => {
+            const filtered = prev.filter(m => m.id !== 'typing');
+            const assistantMessage: Message = {
+              id: (Date.now() + 1).toString(),
+              content: aiResponse,
+              role: 'assistant',
+              timestamp: new Date(),
+            };
+            return [...filtered, assistantMessage];
+          });
+          success = true;
+        }
+
+        // Log successful interaction
+        const responseTime = ChatPerformanceMonitor.endTimer(startTime);
+        await ChatPerformanceMonitor.logInteraction({
+          userMessage: textToSend,
+          aiResponse,
+          intentDetected: intent?.type || 'unknown',
+          responseTime,
+          success: true,
+          userId: (await supabase.auth.getUser()).data.user?.id
         });
-      } else if (errorMessage.includes('network') || errorMessage.includes('fetch')) {
-        toast({
-          title: 'Network Issue',
-          description: 'Please check your connection and try again.',
-          variant: 'destructive',
+
+        ChatSounds.playMessageReceived();
+
+      } catch (fallbackError) {
+        console.error('Both TOKO and fallback processing failed:', fallbackError);
+        
+        // Remove typing indicator and show error message
+        setMessages(prev => {
+          const filtered = prev.filter(m => m.id !== 'typing');
+          const errorMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            content: '🚫 **Temporary Connection Issue**\n\nI\'m having trouble connecting right now. While I work on getting back online, you can:\n\n• Navigate manually using the menu\n• Browse properties directly\n• Check your portfolio\n• Use the search function\n\nTry asking me again in a moment!',
+            role: 'assistant',
+            timestamp: new Date(),
+          };
+          return [...filtered, errorMessage];
         });
-      } else {
-        toast({
-          title: 'AI Temporarily Unavailable',
-          description: 'Please try again in a moment.',
-          variant: 'destructive',
+
+        // Log failed interaction
+        const responseTime = ChatPerformanceMonitor.endTimer(startTime);
+        await ChatPerformanceMonitor.logInteraction({
+          userMessage: textToSend,
+          aiResponse: `Error: ${fallbackError instanceof Error ? fallbackError.message : 'Unknown error'}`,
+          intentDetected: 'error',
+          responseTime,
+          success: false,
+          userId: (await supabase.auth.getUser()).data.user?.id
         });
+
+        // User-friendly error handling
+        const errorMessage = fallbackError instanceof Error ? fallbackError.message : 'Unknown error';
+        if (errorMessage.includes('timeout')) {
+          toast({
+            title: 'Response Timeout',
+            description: 'AI is taking longer than usual. Please try a simpler question.',
+            variant: 'destructive',
+          });
+        } else if (errorMessage.includes('network') || errorMessage.includes('fetch')) {
+          toast({
+            title: 'Network Issue',
+            description: 'Please check your connection and try again.',
+            variant: 'destructive',
+          });
+        } else {
+          toast({
+            title: 'AI Temporarily Unavailable',
+            description: 'Please try again in a moment.',
+            variant: 'destructive',
+          });
+        }
       }
     } finally {
       setIsLoading(false);
