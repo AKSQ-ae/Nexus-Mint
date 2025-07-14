@@ -524,6 +524,36 @@ export function ChatInterface({
                   ) : (
                     <>
                       <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
+                      
+                      {/* Enhanced TOKO Response Display */}
+                      {message.actions && message.actions.length > 0 && (
+                        <div className="mt-3 p-2 bg-primary/5 rounded-lg border border-primary/10">
+                          <p className="text-xs font-medium text-primary mb-1">🤖 TOKO Actions:</p>
+                          <div className="space-y-1">
+                            {message.actions.map((action, idx) => (
+                              <p key={idx} className="text-xs text-muted-foreground">• {action}</p>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {message.nextSteps && message.nextSteps.length > 0 && (
+                        <div className="mt-3 p-2 bg-secondary/5 rounded-lg border border-secondary/10">
+                          <p className="text-xs font-medium text-secondary-foreground mb-1">📋 Next Steps:</p>
+                          <div className="space-y-1">
+                            {message.nextSteps.map((step, idx) => (
+                              <p key={idx} className="text-xs text-muted-foreground">{step}</p>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {message.contextualHelp && (
+                        <div className="mt-3 p-2 bg-blue-50 rounded-lg border border-blue-100">
+                          <p className="text-xs font-medium text-blue-600 mb-1">💡 Pro Tip:</p>
+                          <p className="text-xs text-blue-700">{message.contextualHelp}</p>
+                        </div>
+                      )}
                       <div className="flex items-center justify-between mt-2">
                         <span className="text-xs opacity-70">
                           {message.timestamp.toLocaleTimeString([], { 

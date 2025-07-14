@@ -19,6 +19,7 @@ import TokenizationWidget from '@/pages/TokenizationWidget';
 import AIBuddyPage from '@/pages/AIBuddyPage';
 import InvestorResources from '@/pages/InvestorResources';
 import NotFound from '@/pages/NotFound';
+import { FloatingChatWidget } from '@/components/ai/FloatingChatWidget';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          <FloatingChatWidget />
           <Toaster />
         </div>
       </Router>
