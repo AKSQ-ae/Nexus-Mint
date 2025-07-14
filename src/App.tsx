@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Providers } from "@/components/providers/Providers";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -48,15 +48,15 @@ import SystemResilience from "./pages/SystemResilience";
 import AIBuddyPage from "./pages/AIBuddyPage";
 import AIReview from "./pages/AIReview";
 
-// Create QueryClient outside component to avoid React dependency issues
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      retry: 1,
-    },
-  },
-});
+// Temporarily disable QueryClient to fix React bundling issue
+// const queryClient = new QueryClient({
+//   defaultOptions: {
+//     queries: {
+//       staleTime: 5 * 60 * 1000, // 5 minutes
+//       retry: 1,
+//     },
+//   },
+// });
 
 function AppContent() {
   console.log('AppContent loading - useCapacitor disabled');
@@ -118,17 +118,15 @@ function AppContent() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Providers>
-          <TapAnimationProvider>
-            <AppContent />
-            <CustomCursor />
-            <Toaster />
-          </TapAnimationProvider>
-        </Providers>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <BrowserRouter>
+      <Providers>
+        <TapAnimationProvider>
+          <AppContent />
+          <CustomCursor />
+          <Toaster />
+        </TapAnimationProvider>
+      </Providers>
+    </BrowserRouter>
   );
 }
 
