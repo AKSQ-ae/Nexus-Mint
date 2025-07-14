@@ -1,3 +1,5 @@
+// Audio utility classes for OpenAI Realtime API integration
+
 export class AudioRecorder {
   private stream: MediaStream | null = null;
   private audioContext: AudioContext | null = null;
@@ -9,6 +11,7 @@ export class AudioRecorder {
 
   async start() {
     try {
+      console.log('Starting audio recorder...');
       this.stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           sampleRate: 24000,
@@ -18,10 +21,12 @@ export class AudioRecorder {
           autoGainControl: true
         }
       });
-      
+
       this.audioContext = new AudioContext({
         sampleRate: 24000,
       });
+
+      await this.audioContext.resume();
       
       this.source = this.audioContext.createMediaStreamSource(this.stream);
       this.processor = this.audioContext.createScriptProcessor(4096, 1, 1);
@@ -32,39 +37,16 @@ export class AudioRecorder {
           this.onAudioData(new Float32Array(inputData));
         }
       };
-      
+
       this.source.connect(this.processor);
       this.processor.connect(this.audioContext.destination);
       this.isRecording = true;
       
-      console.log('Audio recording started');
+      console.log('Audio recorder started successfully');
     } catch (error) {
       console.error('Error accessing microphone:', error);
       throw error;
     }
-  }
-
-  stop() {
-    this.isRecording = false;
-    
-    if (this.source) {
-      this.source.disconnect();
-      this.source = null;
-    }
-    if (this.processor) {
-      this.processor.disconnect();
-      this.processor = null;
-    }
-    if (this.stream) {
-      this.stream.getTracks().forEach(track => track.stop());
-      this.stream = null;
-    }
-    if (this.audioContext) {
-      this.audioContext.close();
-      this.audioContext = null;
-    }
-    
-    console.log('Audio recording stopped');
   }
 
   pause() {
@@ -73,6 +55,31 @@ export class AudioRecorder {
 
   resume() {
     this.isRecording = true;
+  }
+
+  stop() {
+    console.log('Stopping audio recorder...');
+    this.isRecording = false;
+    
+    if (this.source) {
+      this.source.disconnect();
+      this.source = null;
+    }
+    
+    if (this.processor) {
+      this.processor.disconnect();
+      this.processor = null;
+    }
+    
+    if (this.stream) {
+      this.stream.getTracks().forEach(track => track.stop());
+      this.stream = null;
+    }
+    
+    if (this.audioContext) {
+      this.audioContext.close();
+      this.audioContext = null;
+    }
   }
 }
 
@@ -95,6 +102,54 @@ export const encodeAudioForAPI = (float32Array: Float32Array): string => {
   return btoa(binary);
 };
 
+const createWavFromPCM = (pcmData: Uint8Array): ArrayBuffer => {
+  // Convert bytes to 16-bit samples (little endian)
+  const int16Data = new Int16Array(pcmData.length / 2);
+  for (let i = 0; i < pcmData.length; i += 2) {
+    int16Data[i / 2] = (pcmData[i + 1] << 8) | pcmData[i];
+  }
+  
+  // Create WAV header
+  const wavHeader = new ArrayBuffer(44);
+  const view = new DataView(wavHeader);
+  
+  const writeString = (view: DataView, offset: number, string: string) => {
+    for (let i = 0; i < string.length; i++) {
+      view.setUint8(offset + i, string.charCodeAt(i));
+    }
+  };
+
+  // WAV header parameters
+  const sampleRate = 24000;
+  const numChannels = 1;
+  const bitsPerSample = 16;
+  const blockAlign = (numChannels * bitsPerSample) / 8;
+  const byteRate = sampleRate * blockAlign;
+
+  // Write WAV header
+  writeString(view, 0, 'RIFF');
+  view.setUint32(4, 36 + int16Data.byteLength, true);
+  writeString(view, 8, 'WAVE');
+  writeString(view, 12, 'fmt ');
+  view.setUint32(16, 16, true); // Subchunk1Size
+  view.setUint16(20, 1, true); // AudioFormat (PCM)
+  view.setUint16(22, numChannels, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, byteRate, true);
+  view.setUint16(32, blockAlign, true);
+  view.setUint16(34, bitsPerSample, true);
+  writeString(view, 36, 'data');
+  view.setUint32(40, int16Data.byteLength, true);
+
+  // Combine header and data
+  const wavArray = new ArrayBuffer(wavHeader.byteLength + int16Data.byteLength);
+  const wavView = new Uint8Array(wavArray);
+  wavView.set(new Uint8Array(wavHeader), 0);
+  wavView.set(new Uint8Array(int16Data.buffer), wavHeader.byteLength);
+  
+  return wavArray;
+};
+
 export class AudioQueue {
   private queue: Uint8Array[] = [];
   private isPlaying = false;
@@ -105,6 +160,7 @@ export class AudioQueue {
   }
 
   async addToQueue(audioData: Uint8Array) {
+    console.log('Adding audio chunk to queue, size:', audioData.length);
     this.queue.push(audioData);
     if (!this.isPlaying) {
       await this.playNext();
@@ -114,6 +170,7 @@ export class AudioQueue {
   private async playNext() {
     if (this.queue.length === 0) {
       this.isPlaying = false;
+      console.log('Audio queue empty, stopping playback');
       return;
     }
 
@@ -121,78 +178,28 @@ export class AudioQueue {
     const audioData = this.queue.shift()!;
 
     try {
-      const wavData = this.createWavFromPCM(audioData);
-      const audioBuffer = await this.audioContext.decodeAudioData(wavData.buffer);
+      console.log('Playing audio chunk, size:', audioData.length);
+      const wavData = createWavFromPCM(audioData);
+      const audioBuffer = await this.audioContext.decodeAudioData(wavData);
       
       const source = this.audioContext.createBufferSource();
       source.buffer = audioBuffer;
       source.connect(this.audioContext.destination);
       
-      source.onended = () => this.playNext();
+      source.onended = () => {
+        console.log('Audio chunk finished playing');
+        this.playNext();
+      };
+      
       source.start(0);
     } catch (error) {
-      console.error('Error playing audio:', error);
+      console.error('Error playing audio chunk:', error);
       this.playNext(); // Continue with next segment even if current fails
     }
   }
 
-  private createWavFromPCM(pcmData: Uint8Array): Uint8Array {
-    // Ensure we have valid PCM data
-    if (pcmData.length % 2 !== 0) {
-      console.warn('PCM data length is not even, padding with zero');
-      const paddedData = new Uint8Array(pcmData.length + 1);
-      paddedData.set(pcmData);
-      paddedData[pcmData.length] = 0;
-      pcmData = paddedData;
-    }
-
-    // Convert bytes to 16-bit samples with proper little-endian byte order
-    const int16Data = new Int16Array(pcmData.length / 2);
-    for (let i = 0; i < pcmData.length; i += 2) {
-      int16Data[i / 2] = (pcmData[i + 1] << 8) | pcmData[i];
-    }
-    
-    // Create WAV header
-    const wavHeader = new ArrayBuffer(44);
-    const view = new DataView(wavHeader);
-    
-    const writeString = (view: DataView, offset: number, string: string) => {
-      for (let i = 0; i < string.length; i++) {
-        view.setUint8(offset + i, string.charCodeAt(i));
-      }
-    };
-
-    // WAV header parameters
-    const sampleRate = 24000;
-    const numChannels = 1;
-    const bitsPerSample = 16;
-    const blockAlign = (numChannels * bitsPerSample) / 8;
-    const byteRate = sampleRate * blockAlign;
-
-    // Write WAV header
-    writeString(view, 0, 'RIFF');
-    view.setUint32(4, 36 + int16Data.byteLength, true);
-    writeString(view, 8, 'WAVE');
-    writeString(view, 12, 'fmt ');
-    view.setUint32(16, 16, true);
-    view.setUint16(20, 1, true);
-    view.setUint16(22, numChannels, true);
-    view.setUint32(24, sampleRate, true);
-    view.setUint32(28, byteRate, true);
-    view.setUint16(32, blockAlign, true);
-    view.setUint16(34, bitsPerSample, true);
-    writeString(view, 36, 'data');
-    view.setUint32(40, int16Data.byteLength, true);
-
-    // Combine header and data
-    const wavArray = new Uint8Array(wavHeader.byteLength + int16Data.byteLength);
-    wavArray.set(new Uint8Array(wavHeader), 0);
-    wavArray.set(new Uint8Array(int16Data.buffer), wavHeader.byteLength);
-    
-    return wavArray;
-  }
-
   clear() {
+    console.log('Clearing audio queue');
     this.queue = [];
     this.isPlaying = false;
   }

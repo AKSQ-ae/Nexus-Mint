@@ -49,7 +49,7 @@ export function ChatInterface({
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: '🚀 **AI TOKO: One Chat to Rule Them All**\n\n**45 min → 3 min. 80% fewer clicks.**\n\n🔒 **Instant KYC** - "Show me your ID"—snap, verify, invest.\n🚀 **Smart Discovery** - "Find me Dubai deals under 50K AED, 8%+ yield."\n🤖 **One-Touch Investing** - "Invest 5K AED"—done. Payment, tokens, portfolio updated.\n📈 **Predictive Nudges** - "Your Marina holding is up 8%. Want to reinvest?"\n\nTry saying: *"Invest 5000 AED in Dubai property"* or *"Show me my portfolio"*',
+      content: '🚀 **AI TOKO: One Chat to Rule Them All**\n\n**45 min → 3 min. 80% fewer clicks.**\n\n🔒 **Instant KYC** - "Show me your ID"—snap, verify, invest.\n🚀 **Smart Discovery** - "Find me Dubai deals under 50K AED, 8%+ yield."\n🤖 **One-Touch Investing** - "Invest 5K AED"—done. Payment, tokens, portfolio updated.\n📈 **Predictive Nudges** - "Your Marina holding is up 8%. Want to reinvest?"\n\n✨ **I can actually DO these things now! Try:**\n• *"Start my KYC verification"*\n• *"Find properties in Dubai under 50K AED"*\n• *"Invest 5000 AED in property"*\n• *"Show me my portfolio"*',
       role: 'assistant',
       timestamp: new Date(),
     }
@@ -181,7 +181,7 @@ export function ChatInterface({
           setTimeout(() => reject(new Error('AI response timeout')), 30000)
         );
 
-        const aiPromise = supabase.functions.invoke('ai-chat', {
+        const aiPromise = supabase.functions.invoke('ai-buddy-chat', {
           body: {
             messages: [...messages, userMessage].map(m => ({
               role: m.role,

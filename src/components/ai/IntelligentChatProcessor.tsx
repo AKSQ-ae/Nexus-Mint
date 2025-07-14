@@ -214,7 +214,7 @@ export class IntelligentChatProcessor {
         return "🔒 **Instant KYC Verification**\n\n**What I need:**\n• Government-issued ID (passport/Emirates ID)\n• Clear selfie for verification\n\n**Time:** 30 seconds\n**Security:** Bank-grade encryption\n\nReady to start? Say *'Yes, verify me'*";
 
       default:
-        return "👋 I'm AI TOKO! I can help you:\n\n🚀 **Invest faster**: *'Invest 5000 AED in Dubai'*\n📊 **Track portfolio**: *'Show my investments'*\n🔍 **Find deals**: *'8%+ yield properties'*\n🔒 **Quick KYC**: *'Verify my ID'*\n\nWhat would you like to do?";
+        return "👋 I'm AI TOKO! I can **actually** help you:\n\n🚀 **Invest faster**: *'Invest 5000 AED in Dubai'* - I'll execute it!\n📊 **Track portfolio**: *'Show my investments'* - Real data!\n🔍 **Find deals**: *'8%+ yield properties'* - Live search!\n🔒 **Quick KYC**: *'Verify my ID'* - 30 seconds!\n\n✨ **No more clicking around - just tell me what you want!**";
     }
   }
 }

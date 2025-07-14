@@ -42,6 +42,7 @@ export function VoiceInterface({ className, onMessage }: VoiceInterfaceProps) {
       try {
         audioContextRef.current = new AudioContext({ sampleRate: 24000 });
         audioQueueRef.current = new AudioQueue(audioContextRef.current);
+        console.log('Audio context initialized successfully');
       } catch (error) {
         console.error('Failed to initialize audio context:', error);
       }
