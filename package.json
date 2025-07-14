@@ -4,12 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:dev": "vite build --mode development",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
+  "dev": "vite",
+  "build": "vite build", 
+  "build:dev": "vite build --mode development",
+  "lint": "eslint .",
+  "preview": "vite preview",
+  "lighthouse": "lhci autorun",
+  "analyze:bundle": "npm run build && source-map-explorer 'dist/assets/index-*.js'",
+  "analyze:css": "npm run build && source-map-explorer 'dist/assets/index-*.css'"
+},
   "dependencies": {
     "@11labs/react": "^0.1.4",
     "@axe-core/react": "^4.10.2",
