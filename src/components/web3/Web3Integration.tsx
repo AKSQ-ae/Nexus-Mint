@@ -91,7 +91,9 @@ export const Web3Integration = ({
           propertyId,
           tokenAmountBN,
           '0x' // empty bytes data
-        ]
+        ],
+        account: address!,
+        chain: undefined, // Will use current chain
       });
 
       toast.success('Investment transaction submitted!', {
