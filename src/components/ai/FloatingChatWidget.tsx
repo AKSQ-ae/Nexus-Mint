@@ -4,6 +4,7 @@ import { MessageCircle, X, Sparkles, Zap, Mic } from 'lucide-react';
 import { ChatInterface } from './ChatInterface';
 import { VoiceInterface } from './VoiceInterface';
 import { useNavigate } from 'react-router-dom';
+import { ChatErrorBoundary } from './ChatErrorBoundary';
 import { cn } from '@/lib/utils';
 
 export function FloatingChatWidget() {
@@ -69,16 +70,20 @@ export function FloatingChatWidget() {
             
             {/* Interface */}
             {mode === 'chat' ? (
-              <ChatInterface
-                isMinimized={isMinimized}
-                onToggleMinimize={toggleMinimize}
-                className="shadow-2xl border-0 rounded-t-none"
-                onInvestmentFlow={handleInvestmentFlow}
-                onKycFlow={handleKycFlow}
-                onPortfolioView={handlePortfolioView}
-              />
+              <ChatErrorBoundary>
+                <ChatInterface
+                  isMinimized={isMinimized}
+                  onToggleMinimize={toggleMinimize}
+                  className="shadow-2xl border-0 rounded-t-none"
+                  onInvestmentFlow={handleInvestmentFlow}
+                  onKycFlow={handleKycFlow}
+                  onPortfolioView={handlePortfolioView}
+                />
+              </ChatErrorBoundary>
             ) : (
-              <VoiceInterface className="rounded-t-none" />
+              <ChatErrorBoundary>
+                <VoiceInterface className="rounded-t-none" />
+              </ChatErrorBoundary>
             )}
           </div>
           {!isMinimized && (

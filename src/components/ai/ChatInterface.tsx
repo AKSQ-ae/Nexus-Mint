@@ -9,6 +9,8 @@ import { Send, Bot, User, Minimize2, Maximize2, Copy, Trash2, Sparkles, MessageC
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { IntelligentChatProcessor, InvestmentIntent } from './IntelligentChatProcessor';
+import { ChatPerformanceMonitor } from './ChatPerformanceMonitor';
+import { ChatErrorBoundary } from './ChatErrorBoundary';
 import { cn } from '@/lib/utils';
 import { ChatSounds } from './ChatSounds';
 
@@ -96,6 +98,11 @@ export function ChatInterface({
     const textToSend = messageText || input.trim();
     if (!textToSend || isLoading) return;
 
+    // Start performance monitoring
+    const startTime = ChatPerformanceMonitor.startTimer();
+    let success = false;
+    let intent: InvestmentIntent | null = null;
+
     const userMessage: Message = {
       id: Date.now().toString(),
       content: textToSend,
@@ -121,43 +128,60 @@ export function ChatInterface({
 
     try {
       // Analyze user intent for smart processing
-      const intent = IntelligentChatProcessor.analyzeIntent(textToSend);
+      intent = IntelligentChatProcessor.analyzeIntent(textToSend);
       console.log('Detected intent:', intent);
 
-      let smartResponse = '';
+      let aiResponse = '';
       let requiresFlowProcessing = false;
 
       // Handle high-confidence smart flows
       if (intent.confidence > 0.8) {
         const flowResult = await IntelligentChatProcessor.processInvestmentFlow(intent);
-        smartResponse = IntelligentChatProcessor.generateSmartResponse(intent, flowResult);
+        aiResponse = IntelligentChatProcessor.generateSmartResponse(intent, flowResult);
         requiresFlowProcessing = true;
 
-        // Trigger appropriate flows
-        if (intent.type === 'kyc' && onKycFlow) {
-          setTimeout(() => onKycFlow(), 1000);
-        } else if (intent.type === 'portfolio' && onPortfolioView) {
-          setTimeout(() => onPortfolioView(), 1000);
-        } else if (intent.type === 'investment' && flowResult?.suggestedProperties && onInvestmentFlow) {
-          // Could trigger investment flow with first suggested property
+        // Track flow initiation
+        await ChatPerformanceMonitor.trackFlowCompletion(intent.type, true);
+
+        // Trigger appropriate flows with error handling
+        try {
+          if (intent.type === 'kyc' && onKycFlow) {
+            setTimeout(() => onKycFlow(), 1000);
+          } else if (intent.type === 'portfolio' && onPortfolioView) {
+            setTimeout(() => onPortfolioView(), 1000);
+          } else if (intent.type === 'investment' && flowResult?.suggestedProperties && onInvestmentFlow) {
+            // Could trigger investment flow with first suggested property
+            if (flowResult.suggestedProperties.length > 0) {
+              const firstProperty = flowResult.suggestedProperties[0];
+              setTimeout(() => onInvestmentFlow?.(firstProperty.id, intent.amount || 0), 1500);
+            }
+          }
+        } catch (flowError) {
+          console.error('Error triggering flow:', flowError);
+          await ChatPerformanceMonitor.trackFlowCompletion(intent.type, false);
         }
       }
 
-      if (requiresFlowProcessing && smartResponse) {
+      if (requiresFlowProcessing && aiResponse) {
         // Use smart response instead of calling AI
         setMessages(prev => {
           const filtered = prev.filter(m => m.id !== 'typing');
-          const aiMessage: Message = {
+          const assistantMessage: Message = {
             id: (Date.now() + 1).toString(),
-            content: smartResponse,
+            content: aiResponse,
             role: 'assistant',
             timestamp: new Date(),
           };
-          return [...filtered, aiMessage];
+          return [...filtered, assistantMessage];
         });
+        success = true;
       } else {
-        // Fall back to AI chat for general queries
-        const { data, error } = await supabase.functions.invoke('ai-chat', {
+        // Fall back to AI chat for general queries with timeout
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('AI response timeout')), 30000)
+        );
+
+        const aiPromise = supabase.functions.invoke('ai-chat', {
           body: {
             messages: [...messages, userMessage].map(m => ({
               role: m.role,
@@ -167,31 +191,86 @@ export function ChatInterface({
           }
         });
 
+        const { data, error } = await Promise.race([aiPromise, timeoutPromise]) as any;
+
         if (error) throw error;
+
+        aiResponse = data.message;
 
         // Remove typing indicator and add real response
         setMessages(prev => {
           const filtered = prev.filter(m => m.id !== 'typing');
-          const aiMessage: Message = {
+          const assistantMessage: Message = {
             id: (Date.now() + 1).toString(),
-            content: data.message,
+            content: aiResponse,
             role: 'assistant',
             timestamp: new Date(),
           };
-          return [...filtered, aiMessage];
+          return [...filtered, assistantMessage];
         });
+        success = true;
       }
+
+      // Log successful interaction
+      const responseTime = ChatPerformanceMonitor.endTimer(startTime);
+      await ChatPerformanceMonitor.logInteraction({
+        userMessage: textToSend,
+        aiResponse,
+        intentDetected: intent?.type || 'unknown',
+        responseTime,
+        success: true,
+        userId: (await supabase.auth.getUser()).data.user?.id
+      });
 
       ChatSounds.playMessageReceived();
 
     } catch (error) {
       console.error('Error sending message:', error);
-      setMessages(prev => prev.filter(m => m.id !== 'typing'));
-      toast({
-        title: 'Connection Error',
-        description: 'Unable to reach AI assistant. Please try again.',
-        variant: 'destructive',
+      
+      // Remove typing indicator and show error message
+      setMessages(prev => {
+        const filtered = prev.filter(m => m.id !== 'typing');
+        const errorMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          content: '🚫 **Temporary Connection Issue**\n\nI\'m having trouble connecting right now. While I work on getting back online, you can:\n\n• Browse properties directly\n• Check your portfolio\n• Use the search function\n\nTry asking me again in a moment!',
+          role: 'assistant',
+          timestamp: new Date(),
+        };
+        return [...filtered, errorMessage];
       });
+
+      // Log failed interaction
+      const responseTime = ChatPerformanceMonitor.endTimer(startTime);
+      await ChatPerformanceMonitor.logInteraction({
+        userMessage: textToSend,
+        aiResponse: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        intentDetected: intent?.type || 'error',
+        responseTime,
+        success: false,
+        userId: (await supabase.auth.getUser()).data.user?.id
+      });
+
+      // User-friendly error handling
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      if (errorMessage.includes('timeout')) {
+        toast({
+          title: 'Response Timeout',
+          description: 'AI is taking longer than usual. Please try a simpler question.',
+          variant: 'destructive',
+        });
+      } else if (errorMessage.includes('network') || errorMessage.includes('fetch')) {
+        toast({
+          title: 'Network Issue',
+          description: 'Please check your connection and try again.',
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          title: 'AI Temporarily Unavailable',
+          description: 'Please try again in a moment.',
+          variant: 'destructive',
+        });
+      }
     } finally {
       setIsLoading(false);
     }
