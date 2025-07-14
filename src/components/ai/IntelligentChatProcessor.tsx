@@ -2,13 +2,14 @@ import React from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
 export interface InvestmentIntent {
-  type: 'investment' | 'portfolio' | 'discovery' | 'kyc' | 'general';
+  type: 'investment' | 'portfolio' | 'discovery' | 'kyc' | 'general' | 'register' | 'dashboard' | 'help';
   amount?: number;
   currency?: string;
   location?: string;
   criteria?: string;
   propertyId?: string;
   confidence: number;
+  action?: string;
 }
 
 export class IntelligentChatProcessor {
@@ -36,7 +37,33 @@ export class IntelligentChatProcessor {
     /verify\s+(?:my\s+)?id/i,
     /kyc\s+verification/i,
     /upload\s+documents/i,
-    /complete\s+verification/i
+    /complete\s+verification/i,
+    /start\s+(?:my\s+)?kyc/i
+  ];
+
+  private static registerPatterns = [
+    /register\s+(?:new\s+)?account/i,
+    /sign\s+up/i,
+    /create\s+account/i,
+    /open\s+account/i,
+    /new\s+user/i,
+    /get\s+started/i
+  ];
+
+  private static dashboardPatterns = [
+    /(?:show|open|go\s+to)\s+(?:my\s+)?dashboard/i,
+    /main\s+page/i,
+    /home\s+page/i,
+    /overview/i
+  ];
+
+  private static helpPatterns = [
+    /help\s+(?:me\s+)?with/i,
+    /how\s+(?:do\s+)?i/i,
+    /guide\s+me/i,
+    /need\s+help/i,
+    /assistance/i,
+    /support/i
   ];
 
   static analyzeIntent(message: string): InvestmentIntent {
@@ -89,6 +116,38 @@ export class IntelligentChatProcessor {
         return {
           type: 'kyc',
           confidence: 0.9
+        };
+      }
+    }
+
+    // Check register patterns
+    for (const pattern of this.registerPatterns) {
+      if (pattern.test(cleanMessage)) {
+        return {
+          type: 'register',
+          confidence: 0.95
+        };
+      }
+    }
+
+    // Check dashboard patterns
+    for (const pattern of this.dashboardPatterns) {
+      if (pattern.test(cleanMessage)) {
+        return {
+          type: 'dashboard',
+          confidence: 0.9
+        };
+      }
+    }
+
+    // Check help patterns
+    for (const pattern of this.helpPatterns) {
+      const match = cleanMessage.match(pattern);
+      if (match) {
+        return {
+          type: 'help',
+          criteria: cleanMessage,
+          confidence: 0.85
         };
       }
     }
@@ -185,7 +244,7 @@ export class IntelligentChatProcessor {
     }
   }
 
-  static generateSmartResponse(intent: InvestmentIntent, flowResult?: any): string {
+  static generateSmartResponse(intent: InvestmentIntent, flowResult?: any, navigate?: any): string {
     switch (intent.type) {
       case 'investment':
         if (flowResult?.requiresKyc) {
@@ -211,10 +270,19 @@ export class IntelligentChatProcessor {
         return `🔍 **Smart Property Discovery**\n\nSearching for: ${intent.criteria}\n${intent.location ? `📍 Location: ${intent.location}` : ''}\n\nFiltering thousands of properties to find your perfect match...`;
 
       case 'kyc':
-        return "🔒 **Instant KYC Verification**\n\n**What I need:**\n• Government-issued ID (passport/Emirates ID)\n• Clear selfie for verification\n\n**Time:** 30 seconds\n**Security:** Bank-grade encryption\n\nReady to start? Say *'Yes, verify me'*";
+        return "🔒 **Opening KYC Verification Page**\n\n✅ **Navigating to Profile → KYC Section**\n\n**What you'll need:**\n• Government-issued ID (passport/Emirates ID)\n• Clear selfie for verification\n\n**Time:** 30 seconds\n**Security:** Bank-grade encryption\n\n🚀 **Page is loading... Get your ID ready!**";
+
+      case 'register':
+        return "🎯 **Opening Account Registration**\n\n✅ **Navigating to Sign Up Page**\n\n**Quick setup process:**\n1. Enter your email and create password\n2. Verify email address\n3. Complete basic profile\n4. Start investing!\n\n🚀 **Registration page loading...**";
+
+      case 'dashboard':
+        return "📊 **Opening Your Dashboard**\n\n✅ **Navigating to Portfolio Overview**\n\n**You'll see:**\n• Investment performance\n• Property holdings\n• Recent transactions\n• Market insights\n\n🚀 **Dashboard loading...**";
+
+      case 'help':
+        return "🆘 **Finding Help Resources**\n\n✅ **Analyzing your request...**\n\n**I can guide you to:**\n• Investor Resources page\n• Step-by-step tutorials\n• Support documentation\n• Relevant help sections\n\n🚀 **Preparing personalized guidance...**";
 
       default:
-        return "👋 I'm AI TOKO! I can **actually** help you:\n\n🚀 **Invest faster**: *'Invest 5000 AED in Dubai'* - I'll execute it!\n📊 **Track portfolio**: *'Show my investments'* - Real data!\n🔍 **Find deals**: *'8%+ yield properties'* - Live search!\n🔒 **Quick KYC**: *'Verify my ID'* - 30 seconds!\n\n✨ **No more clicking around - just tell me what you want!**";
+        return "🎯 **AI TOKO: Your Navigation Assistant**\n\n**I can guide you anywhere in the app! Try:**\n\n🚀 **Navigation**: *'Open my dashboard'*, *'Go to properties'*\n📋 **Processes**: *'Start KYC'*, *'Register account'*\n💰 **Investing**: *'Find Dubai properties'*, *'Invest 5000 AED'*\n📊 **Portfolio**: *'Show my investments'*, *'Check performance'*\n🆘 **Help**: *'Help me with investing'*, *'Guide me through KYC'*\n\n✨ **Just tell me where you want to go or what you want to do!**";
     }
   }
 }

@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Send, Bot, User, Minimize2, Maximize2, Copy, Trash2, Sparkles, MessageCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 import { IntelligentChatProcessor, InvestmentIntent } from './IntelligentChatProcessor';
 import { ChatPerformanceMonitor } from './ChatPerformanceMonitor';
 import { ChatErrorBoundary } from './ChatErrorBoundary';
@@ -32,10 +33,11 @@ interface ChatInterfaceProps {
 }
 
 const suggestions = [
-  "Invest 5000 AED in Dubai property",
-  "Show me my portfolio",
-  "Find me 8%+ yield properties",
-  "Verify my ID for KYC"
+  "Start my KYC verification",
+  "Find Dubai properties under 50K",
+  "Show me my portfolio dashboard",
+  "Help me register an account",
+  "Navigate to investment page"
 ];
 
 export function ChatInterface({ 
@@ -46,10 +48,11 @@ export function ChatInterface({
   onKycFlow,
   onPortfolioView 
 }: ChatInterfaceProps) {
+  const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: '🚀 **AI TOKO: One Chat to Rule Them All**\n\n**45 min → 3 min. 80% fewer clicks.**\n\n🔒 **Instant KYC** - "Show me your ID"—snap, verify, invest.\n🚀 **Smart Discovery** - "Find me Dubai deals under 50K AED, 8%+ yield."\n🤖 **One-Touch Investing** - "Invest 5K AED"—done. Payment, tokens, portfolio updated.\n📈 **Predictive Nudges** - "Your Marina holding is up 8%. Want to reinvest?"\n\n✨ **I can actually DO these things now! Try:**\n• *"Start my KYC verification"*\n• *"Find properties in Dubai under 50K AED"*\n• *"Invest 5000 AED in property"*\n• *"Show me my portfolio"*',
+      content: '🚀 **AI TOKO: Navigator to Rule Them All**\n\n**45 min → 3 min. 80% fewer clicks.**\n\n🎯 **I don\'t just chat - I guide you through the app!**\n\n✨ **Tell me what you want to do:**\n• *"Start my KYC"* → I\'ll open KYC page and guide you\n• *"Find Dubai properties"* → I\'ll search and show results\n• *"Invest 5000 AED"* → I\'ll navigate to investment flow\n• *"Check my portfolio"* → I\'ll open your dashboard\n• *"Register new account"* → I\'ll guide you through signup\n• *"Need help with..."* → I\'ll find the right page\n\n🚀 **Ready to navigate? Just tell me your next step!**',
       role: 'assistant',
       timestamp: new Date(),
     }
@@ -134,30 +137,98 @@ export function ChatInterface({
       let aiResponse = '';
       let requiresFlowProcessing = false;
 
-      // Handle high-confidence smart flows
+      // Handle high-confidence smart flows with navigation
       if (intent.confidence > 0.8) {
         const flowResult = await IntelligentChatProcessor.processInvestmentFlow(intent);
-        aiResponse = IntelligentChatProcessor.generateSmartResponse(intent, flowResult);
+        aiResponse = IntelligentChatProcessor.generateSmartResponse(intent, flowResult, navigate);
         requiresFlowProcessing = true;
 
         // Track flow initiation
         await ChatPerformanceMonitor.trackFlowCompletion(intent.type, true);
 
-        // Trigger appropriate flows with error handling
+        // Execute navigation and page interactions
         try {
-          if (intent.type === 'kyc' && onKycFlow) {
-            setTimeout(() => onKycFlow(), 1000);
-          } else if (intent.type === 'portfolio' && onPortfolioView) {
-            setTimeout(() => onPortfolioView(), 1000);
-          } else if (intent.type === 'investment' && flowResult?.suggestedProperties && onInvestmentFlow) {
-            // Could trigger investment flow with first suggested property
-            if (flowResult.suggestedProperties.length > 0) {
-              const firstProperty = flowResult.suggestedProperties[0];
-              setTimeout(() => onInvestmentFlow?.(firstProperty.id, intent.amount || 0), 1500);
+          setTimeout(() => {
+            if (intent.type === 'kyc') {
+              toast({
+                title: "🚀 Navigating to KYC",
+                description: "Opening KYC verification page...",
+              });
+              navigate('/profile');
+              if (onKycFlow) onKycFlow();
+            } else if (intent.type === 'portfolio') {
+              toast({
+                title: "📈 Opening Portfolio",
+                description: "Navigating to your dashboard...",
+              });
+              navigate('/portfolio');
+              if (onPortfolioView) onPortfolioView();
+            } else if (intent.type === 'discovery') {
+              toast({
+                title: "🔍 Property Search",
+                description: "Opening properties with your criteria...",
+              });
+              const searchParams = new URLSearchParams();
+              if (intent.location) searchParams.set('location', intent.location);
+              if (intent.criteria) searchParams.set('search', intent.criteria);
+              navigate(`/properties?${searchParams.toString()}`);
+            } else if (intent.type === 'investment') {
+              if (flowResult?.requiresKyc) {
+                if (flowResult.actionRequired === 'authentication') {
+                  toast({
+                    title: "🔐 Authentication Required",
+                    description: "Redirecting to sign in...",
+                  });
+                  navigate('/auth/signin');
+                } else {
+                  toast({
+                    title: "🔒 KYC Required",
+                    description: "Opening KYC verification...",
+                  });
+                  navigate('/profile');
+                }
+              } else if (flowResult?.suggestedProperties) {
+                toast({
+                  title: "🚀 Investment Ready",
+                  description: "Opening investment page with matches...",
+                });
+                navigate('/properties');
+                if (onInvestmentFlow && flowResult.suggestedProperties.length > 0) {
+                  const firstProperty = flowResult.suggestedProperties[0];
+                  setTimeout(() => onInvestmentFlow(firstProperty.id, intent.amount || 0), 1000);
+                }
+              }
+            } else if (intent.type === 'register') {
+              toast({
+                title: "🎯 Account Registration",
+                description: "Opening sign up page...",
+              });
+              navigate('/auth/signup');
+            } else if (intent.type === 'dashboard') {
+              toast({
+                title: "📊 Dashboard Navigation",
+                description: "Opening your overview dashboard...",
+              });
+              navigate('/dashboard');
+            } else if (intent.type === 'help') {
+              toast({
+                title: "🆘 Help & Resources",
+                description: "Finding relevant help resources...",
+              });
+              // Navigate to most relevant help section based on criteria
+              if (intent.criteria?.includes('invest') || intent.criteria?.includes('property')) {
+                navigate('/properties');
+              } else if (intent.criteria?.includes('kyc') || intent.criteria?.includes('verif')) {
+                navigate('/profile');
+              } else if (intent.criteria?.includes('portfolio') || intent.criteria?.includes('dashboard')) {
+                navigate('/portfolio');
+              } else {
+                navigate('/dashboard'); // Default help location
+              }
             }
-          }
+          }, 1000);
         } catch (flowError) {
-          console.error('Error triggering flow:', flowError);
+          console.error('Error triggering navigation:', flowError);
           await ChatPerformanceMonitor.trackFlowCompletion(intent.type, false);
         }
       }
