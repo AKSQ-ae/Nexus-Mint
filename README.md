@@ -149,7 +149,7 @@ Comprehensive testing suite covering all application layers:
 
 **Commands:**
 ```bash
-npm test              # Run unit tests (via Vitest)
+npm test              # Run unit tests (when configured)
 npm run lint          # Code quality checks
 npm run build         # Type checking and build
 ```
