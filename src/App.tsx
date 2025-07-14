@@ -17,6 +17,8 @@ import SignUp from '@/pages/auth/SignUp';
 import TokenizationDashboard from '@/pages/TokenizationDashboard';
 import TokenizationWidget from '@/pages/TokenizationWidget';
 import AIBuddyPage from '@/pages/AIBuddyPage';
+import InvestorResources from '@/pages/InvestorResources';
+import NotFound from '@/pages/NotFound';
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
               <Route path="/ai-buddy" element={<AIBuddyPage />} />
               <Route path="/auth/signin" element={<SignIn />} />
               <Route path="/auth/signup" element={<SignUp />} />
+              <Route path="/investor-resources" element={<InvestorResources />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />

@@ -160,13 +160,13 @@ export class TOKONavigationEngine {
         message: "🔒 **Opening KYC Verification Center**\n\n✅ **Navigated to Profile → KYC Section**\n\n**Ready to verify in 30 seconds:**\n• 📸 Document camera is active\n• 🔐 Secure upload area ready\n• ⚡ Real-time verification\n\n**I'll guide you through each step!**",
         actions: [
           { type: 'navigate', target: '/profile' },
-          { type: 'scroll', target: '#kyc-section', delay: 1000 },
-          { type: 'focus', target: '#document-upload', delay: 1500 }
+          { type: 'click', target: '[data-value="kyc"]', delay: 1000 },
+          { type: 'scroll', target: '[data-value="kyc"]', delay: 1500 }
         ],
         nextSteps: [
-          "1. Click 'Upload ID Document' button",
-          "2. Take photo of your ID (passport or Emirates ID)",
-          "3. Take verification selfie",
+          "1. Click 'Upload Document' button for passport",
+          "2. Take clear photo of your ID document",
+          "3. Upload proof of address",
           "4. Submit for instant verification"
         ],
         contextualHelp: "💡 **Pro tip**: Good lighting and clear photos speed up verification!"
@@ -175,13 +175,14 @@ export class TOKONavigationEngine {
 
     if (intent.action === 'check') {
       return {
-        message: "📋 **Checking KYC Status**\n\n✅ **Opening Profile Dashboard**\n\nI'll show you your current verification status and next steps if needed.",
+        message: "📋 **Checking KYC Status**\n\n✅ **Opening Profile → KYC Tab**\n\nI'll show you your current verification status and next steps if needed.",
         actions: [
           { type: 'navigate', target: '/profile' },
-          { type: 'scroll', target: '#kyc-status', delay: 1000 }
+          { type: 'click', target: '[data-value="kyc"]', delay: 1000 },
+          { type: 'scroll', target: '.progress', delay: 1500 }
         ],
         nextSteps: [
-          "Review your verification status",
+          "Review your verification progress",
           "If pending: Check for any required actions",
           "If approved: You're ready to invest!",
           "If rejected: I'll help you resubmit"
@@ -215,12 +216,12 @@ export class TOKONavigationEngine {
         message: "🔒 **KYC Required for Investment**\n\n✅ **Navigating to KYC Verification**\n\nTo invest, you need to verify your identity first. I'll guide you through it!",
         actions: [
           { type: 'navigate', target: '/profile' },
-          { type: 'scroll', target: '#kyc-section', delay: 1000 }
+          { type: 'click', target: '[data-value="kyc"]', delay: 1000 }
         ],
         nextSteps: [
-          "1. Upload your ID document",
-          "2. Take verification selfie",
-          "3. Wait for approval (usually instant)",
+          "1. Upload your passport or ID document",
+          "2. Upload proof of address",
+          "3. Wait for approval (usually 1-3 business days)",
           "4. Start investing!"
         ],
         contextualHelp: "KYC is a one-time process that unlocks all investment features."
@@ -233,9 +234,7 @@ export class TOKONavigationEngine {
         message: `💰 **Finding Perfect Properties for ${amount} ${currency}**\n\n✅ **Opening Properties with Smart Filter**\n\nI'm filtering properties that match your budget and showing the best investment opportunities.`,
         actions: [
           { type: 'navigate', target: '/properties' },
-          { type: 'fill', target: '#amount-filter', value: amount.toString(), delay: 1000 },
-          { type: 'fill', target: '#currency-filter', value: currency, delay: 1200 },
-          { type: 'click', target: '#apply-filters', delay: 1500 }
+          { type: 'scroll', target: '.property-filters', delay: 1000 }
         ],
         nextSteps: [
           "1. Review filtered properties",
@@ -253,8 +252,7 @@ export class TOKONavigationEngine {
         message: `🔍 **Smart Property Discovery: ${location}**\n\n✅ **Opening Properties with Location Filter**\n\nFinding the best ${location} properties with highest yield potential.`,
         actions: [
           { type: 'navigate', target: '/properties' },
-          { type: 'fill', target: '#location-filter', value: location, delay: 1000 },
-          { type: 'click', target: '#apply-filters', delay: 1500 }
+          { type: 'scroll', target: '.property-grid', delay: 1000 }
         ],
         nextSteps: [
           "1. Browse filtered properties",
@@ -319,8 +317,7 @@ export class TOKONavigationEngine {
         message: "📈 **Analyzing Portfolio Performance**\n\n✅ **Opening Detailed Analytics**\n\nShowing your investment returns, growth trends, and market comparison.",
         actions: [
           { type: 'navigate', target: '/portfolio' },
-          { type: 'click', target: '#performance-tab', delay: 1000 },
-          { type: 'scroll', target: '#performance-charts', delay: 1500 }
+          { type: 'scroll', target: '.portfolio-metrics', delay: 1000 }
         ],
         nextSteps: [
           "1. Review overall ROI percentage",
@@ -356,7 +353,7 @@ export class TOKONavigationEngine {
       message: "🎯 **Opening Quick Registration**\n\n✅ **Navigating to Sign Up**\n\n**60-second account setup:**\n• Email and password creation\n• Instant email verification\n• Profile completion\n• Ready to invest!",
       actions: [
         { type: 'navigate', target: '/auth/signup' },
-        { type: 'focus', target: '#email-input', delay: 1000 }
+        { type: 'focus', target: 'input[type="email"]', delay: 1000 }
       ],
       nextSteps: [
         "1. Enter your email address",
@@ -461,39 +458,62 @@ export class TOKONavigationEngine {
   }
 
   private executeAction(action: NavigationAction): void {
-    switch (action.type) {
-      case 'navigate':
-        this.navigate(action.target);
-        break;
-        
-      case 'scroll':
-        const scrollElement = document.querySelector(action.target);
-        if (scrollElement) {
-          scrollElement.scrollIntoView({ behavior: 'smooth' });
-        }
-        break;
-        
-      case 'focus':
-        const focusElement = document.querySelector(action.target) as HTMLElement;
-        if (focusElement) {
-          focusElement.focus();
-        }
-        break;
-        
-      case 'fill':
-        const fillElement = document.querySelector(action.target) as HTMLInputElement;
-        if (fillElement && action.value) {
-          fillElement.value = action.value;
-          fillElement.dispatchEvent(new Event('input', { bubbles: true }));
-        }
-        break;
-        
-      case 'click':
-        const clickElement = document.querySelector(action.target) as HTMLElement;
-        if (clickElement) {
-          clickElement.click();
-        }
-        break;
+    try {
+      console.log(`🤖 TOKO executing action: ${action.type} on ${action.target}`);
+      
+      switch (action.type) {
+        case 'navigate':
+          this.navigate(action.target);
+          console.log(`✅ Navigated to: ${action.target}`);
+          break;
+          
+        case 'scroll':
+          const scrollElement = document.querySelector(action.target);
+          if (scrollElement) {
+            scrollElement.scrollIntoView({ behavior: 'smooth' });
+            console.log(`✅ Scrolled to: ${action.target}`);
+          } else {
+            console.warn(`⚠️ Scroll target not found: ${action.target}`);
+          }
+          break;
+          
+        case 'focus':
+          const focusElement = document.querySelector(action.target) as HTMLElement;
+          if (focusElement) {
+            focusElement.focus();
+            console.log(`✅ Focused on: ${action.target}`);
+          } else {
+            console.warn(`⚠️ Focus target not found: ${action.target}`);
+          }
+          break;
+          
+        case 'fill':
+          const fillElement = document.querySelector(action.target) as HTMLInputElement;
+          if (fillElement && action.value) {
+            fillElement.value = action.value;
+            fillElement.dispatchEvent(new Event('input', { bubbles: true }));
+            fillElement.dispatchEvent(new Event('change', { bubbles: true }));
+            console.log(`✅ Filled ${action.target} with: ${action.value}`);
+          } else {
+            console.warn(`⚠️ Fill target not found or no value: ${action.target}`);
+          }
+          break;
+          
+        case 'click':
+          const clickElement = document.querySelector(action.target) as HTMLElement;
+          if (clickElement) {
+            clickElement.click();
+            console.log(`✅ Clicked: ${action.target}`);
+          } else {
+            console.warn(`⚠️ Click target not found: ${action.target}`);
+          }
+          break;
+          
+        default:
+          console.warn(`⚠️ Unknown action type: ${action.type}`);
+      }
+    } catch (error) {
+      console.error(`❌ Error executing action ${action.type} on ${action.target}:`, error);
     }
   }
 
