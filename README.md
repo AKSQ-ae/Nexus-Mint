@@ -1,12 +1,12 @@
 # Nexus Mint
 
-[![Build Status](https://github.com/YOUR_USERNAME/nexus-mint/workflows/CI/badge.svg)](https://github.com/YOUR_USERNAME/nexus-mint/actions)
-[![Coverage](https://codecov.io/gh/YOUR_USERNAME/nexus-mint/branch/main/graph/badge.svg)](https://codecov.io/gh/YOUR_USERNAME/nexus-mint)
+[![Build Status](https://github.com/lovable-dev/nexus-mint/workflows/CI/badge.svg)](https://github.com/lovable-dev/nexus-mint/actions)
+[![Coverage](https://codecov.io/gh/lovable-dev/nexus-mint/branch/main/graph/badge.svg)](https://codecov.io/gh/lovable-dev/nexus-mint)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> Own fractional UAE real-estate in minutes — Sharia-compliant, AI-driven, next-gen investing.
+> Your AI buddy that knows your money, watches the market, and tells you exactly what to buy next.
 
-**Repository**: https://github.com/YOUR_USERNAME/nexus-mint
+**Repository**: https://github.com/lovable-dev/nexus-mint
 
 ---
 
@@ -42,7 +42,7 @@ Before setting up the project, ensure you have:
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/nexus-mint.git
+git clone https://github.com/lovable-dev/nexus-mint.git
 cd nexus-mint
 npm install
 ```
@@ -100,8 +100,8 @@ supabase db push
 # Pull production data locally (for development)
 supabase db pull
 
-# Deploy edge functions
-# Functions are automatically deployed via Lovable integration
+# Deploy edge functions (automatically deployed via Lovable integration)
+supabase functions deploy
 ```
 
 ### 5. Frontend (Vite + React)
@@ -202,7 +202,7 @@ npm run build
 1. `git clone` and `npm install`
 2. `npm run dev` for local development
 3. Create feature branches and submit PRs
-4. Follow commit message conventions
+4. Follow [Conventional Commits](https://www.conventionalcommits.org/) format (e.g., `feat:`, `fix:`, `docs:`)
 
 ---
 
@@ -221,6 +221,8 @@ We welcome contributions! Please follow these guidelines:
 - Follow ESLint and Prettier configurations
 - Write tests for new features
 - Update documentation as needed
+- Open issues for bugs and feature requests
+- Review our [Code of Conduct](CODE_OF_CONDUCT.md) for community guidelines
 
 ---
 
@@ -235,9 +237,9 @@ npm run build                  # Production build
 npm run preview               # Preview production build
 
 # Smart Contracts
-cd contracts && npx hardhat compile              # Compile contracts
-npx hardhat run scripts/deploy.ts --network mumbai  # Deploy to testnet
-npx hardhat run scripts/deploy.ts --network polygon # Deploy to mainnet
+cd contracts && npx hardhat compile    # Compile contracts
+cd contracts && npx hardhat run scripts/deploy.ts --network mumbai   # Deploy to testnet
+cd contracts && npx hardhat run scripts/deploy.ts --network polygon  # Deploy to mainnet
 
 # Database
 supabase db push              # Push schema changes
@@ -265,7 +267,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔗 Links
 
-- **Live Platform**: [Your production URL]
+- **Live Platform**: [nexus-mint.lovable.app](https://nexus-mint.lovable.app)
 - **Documentation**: [/documentation](/documentation)
 - **Phase 1 Validation**: [/phase1-validation](/phase1-validation)
 - **System Health**: [/system-health](/system-health)
