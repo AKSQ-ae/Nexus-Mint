@@ -46,6 +46,7 @@ import SystemHealth from "./pages/SystemHealth";
 import QualityAssurance from "./pages/QualityAssurance";
 import SystemResilience from "./pages/SystemResilience";
 import AIBuddyPage from "./pages/AIBuddyPage";
+import Phase1Validation from "./pages/Phase1Validation";
 
 const queryClient = new QueryClient();
 
@@ -95,6 +96,7 @@ function AppContent() {
           <Route path="/quality-assurance" element={<QualityAssurance />} />
           <Route path="/system-resilience" element={<SystemResilience />} />
           <Route path="/ai-buddy" element={<AIBuddyPage />} />
+          <Route path="/phase1-validation" element={<Phase1Validation />} />
           <Route path="/404" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
