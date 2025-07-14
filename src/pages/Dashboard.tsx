@@ -296,6 +296,79 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* User Progress Cards - Small Cards from Dashboard */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        {/* Identity Verification Card */}
+        <Card className="border-border/50">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <CheckCircle className="h-4 w-4" />
+              Identity Verification
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex justify-between text-sm">
+                <span>Progress</span>
+                <span className="font-medium">75%</span>
+              </div>
+              <Progress value={75} className="h-2" />
+              <div className="text-xs text-muted-foreground">
+                Complete verification to start investing
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Investment Goal Card */}
+        <Card className="border-border/50">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <DollarSign className="h-4 w-4" />
+              Investment Goal
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex justify-between text-sm">
+                <span>Progress</span>
+                <span className="font-medium">$15,000 / $50,000</span>
+              </div>
+              <Progress value={30} className="h-2" />
+              <div className="text-xs text-muted-foreground">
+                Target date: 31/12/2024
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Next Steps Card */}
+        <Card className="border-border/50">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              Next Steps (3)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-red-600">Complete Address Verification</span>
+                <Badge variant="outline" className="text-xs">2 min</Badge>
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-yellow-600">Set Investment Preferences</span>
+                <Badge variant="outline" className="text-xs">5 min</Badge>
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-green-600">Connect Your Wallet</span>
+                <Badge variant="outline" className="text-xs">1 min</Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Portfolio Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="relative overflow-hidden">
