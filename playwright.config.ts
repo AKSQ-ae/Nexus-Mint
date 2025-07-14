@@ -12,7 +12,7 @@ export default defineConfig({
     timeout: 10000, // 10 second expect timeout
   },
   use: {
-    baseURL: 'http://localhost:8080', // Changed from 5173 to 8080
+    baseURL: 'http://localhost:8080',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -24,11 +24,10 @@ export default defineConfig({
       name: 'chromium',
       use: { 
         ...devices['Desktop Chrome'],
-        // Ignore HTTPS errors and other certificate issues
         ignoreHTTPSErrors: true,
       },
     },
-    // Only run Chrome in CI to reduce complexity
+    // Enable Firefox and WebKit locally, only run Chrome in CI
     ...(process.env.CI ? [] : [
       {
         name: 'firefox',
@@ -40,10 +39,15 @@ export default defineConfig({
       },
     ]),
   ],
-  webServer: {
+  // Remove/comment out webServer block if you start the dev server manually!
+  // If you want Playwright to ALWAYS use your running server (and never try to start its own),
+  // comment out or remove the block below.
+  // If you want Playwright to manage the dev server, keep the block below.
+  // If you still have timeouts, try increasing timeout or removing the block.
+  webServer: process.env.CI ? {
     command: 'npm run dev',
-    port: 8080, // Changed from 5173 to 8080
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000, // 2 minutes to start server
-  },
+    port: 8080,
+    reuseExistingServer: false,
+    timeout: 120000,
+  } : undefined,
 })
