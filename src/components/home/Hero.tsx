@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { ArrowRight, TrendingUp, Shield, Users, Play, Building, DollarSign, ChartLine, RefreshCw } from 'lucide-react';
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
+import { FloatingChatWidget } from '@/components/ai/FloatingChatWidget';
 
 export function Hero() {
   console.log('Hero component rendering with journey section');
@@ -228,6 +229,9 @@ export function Hero() {
         </div>
         
       </div>
+      
+      {/* AI TOKO Floating Chat Widget */}
+      <FloatingChatWidget />
       
       {/* Gradient overlay */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent"></div>
