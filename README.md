@@ -127,7 +127,6 @@ npm run dev          # Start development server
 npm run build        # Build for production
 npm run preview      # Preview production build locally
 npm run lint         # Run ESLint
-npm run type-check   # TypeScript validation
 ```
 
 ---
@@ -150,10 +149,9 @@ Comprehensive testing suite covering all application layers:
 
 **Commands:**
 ```bash
-npm test              # Run all unit tests
-npm run test:e2e      # Run E2E tests
-npm run test:coverage # Generate coverage reports
+npm test              # Run unit tests (via Vitest)
 npm run lint          # Code quality checks
+npm run build         # Type checking and build
 ```
 
 ---
@@ -193,7 +191,7 @@ npm run build
 
 ## 🎯 Development Workflow
 
-### For Lovable Development
+### For Lovable Development (Optional)
 1. Visit [Lovable Project](https://lovable.dev/projects/8da2f6ad-10c8-46bc-86fd-5c6d7f52edd9)
 2. Use AI-powered editing and real-time preview
 3. Changes automatically sync to GitHub
@@ -247,8 +245,7 @@ supabase db pull              # Pull remote schema
 supabase functions deploy     # Deploy edge functions
 
 # Testing
-npm test                      # Unit tests
-npm run test:e2e             # End-to-end tests
+npm test                      # Unit tests (when configured)
 npm run lint                 # Code quality
 
 # Mobile (Capacitor)
