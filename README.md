@@ -1,12 +1,12 @@
 # Nexus Mint
 
-[![Build Status](https://github.com/lovable-dev/nexus-mint/workflows/CI/badge.svg)](https://github.com/lovable-dev/nexus-mint/actions)
-[![Coverage](https://codecov.io/gh/lovable-dev/nexus-mint/branch/main/graph/badge.svg)](https://codecov.io/gh/lovable-dev/nexus-mint)
+[![Build Status](https://github.com/AKSQ-ae/Nexus-Mint/workflows/CI/badge.svg)](https://github.com/AKSQ-ae/Nexus-Mint/actions)
+[![Coverage](https://codecov.io/gh/AKSQ-ae/Nexus-Mint/branch/main/graph/badge.svg)](https://codecov.io/gh/AKSQ-ae/Nexus-Mint)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > Your AI buddy that knows your money, watches the market, and tells you exactly what to buy next.
 
-**Repository**: https://github.com/lovable-dev/nexus-mint
+**Repository**: https://github.com/AKSQ-ae/Nexus-Mint
 
 ---
 
@@ -42,7 +42,7 @@ Before setting up the project, ensure you have:
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/lovable-dev/nexus-mint.git
+git clone https://github.com/AKSQ-ae/Nexus-Mint.git
 cd nexus-mint
 npm install
 ```
@@ -267,7 +267,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔗 Links
 
-- **Live Platform**: [nexus-mint.lovable.app](https://nexus-mint.lovable.app)
+- **Live Platform**: [app.nexus-mint.com](https://app.nexus-mint.com)
 - **Documentation**: [/documentation](/documentation)
 - **Phase 1 Validation**: [/phase1-validation](/phase1-validation)
 - **System Health**: [/system-health](/system-health)
