@@ -12,7 +12,7 @@ export default defineConfig({
     timeout: 10000, // 10 second expect timeout
   },
   use: {
-    baseURL: 'http://localhost:5173',
+    baseURL: 'http://localhost:8080', // Changed from 5173 to 8080
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -42,7 +42,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm run dev',
-    port: 5173,
+    port: 8080, // Changed from 5173 to 8080
     reuseExistingServer: !process.env.CI,
     timeout: 120000, // 2 minutes to start server
   },
