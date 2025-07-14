@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, TrendingUp, Shield, Users, Play, Building, DollarSign, ChartLine, RefreshCw } from 'lucide-react';
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
 
-
 export function Hero() {
   console.log('Hero component rendering with journey section');
   
   return (
-    <section className="bg-white text-gray-900 relative overflow-hidden min-h-screen flex items-center">
+    <section className="bg-white text-foreground relative overflow-hidden">
       {/* Premium animated background elements */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-20 left-20 w-72 h-72 bg-secondary/40 rounded-full blur-3xl animate-float"></div>

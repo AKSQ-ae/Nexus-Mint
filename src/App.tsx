@@ -15,43 +15,32 @@ import Profile from '@/pages/Profile';
 import SignIn from '@/pages/auth/SignIn';
 import SignUp from '@/pages/auth/SignUp';
 import TokenizationDashboard from '@/pages/TokenizationDashboard';
-import TokenizationWidget from '@/pages/TokenizationWidget';
 import AIBuddyPage from '@/pages/AIBuddyPage';
-import InvestorResources from '@/pages/InvestorResources';
-import NotFound from '@/pages/NotFound';
-import { ChatProvider } from '@/ai/Chat/ChatContext';
-import { FloatingChatWidget } from '@/ai/Chat/FloatingChatWidget';
 
 function App() {
   return (
     <Providers>
-      <ChatProvider>
-        <Router>
-          <div className="min-h-screen bg-background flex flex-col">
-            <Navbar />
-            <main className="flex-1">
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/properties" element={<Properties />} />
-                <Route path="/properties/:id" element={<PropertyDetail />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/portfolio" element={<Portfolio />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/tokenization" element={<TokenizationDashboard />} />
-                <Route path="/tokenization-widget" element={<TokenizationWidget />} />
-                <Route path="/ai-buddy" element={<AIBuddyPage />} />
-                <Route path="/auth/signin" element={<SignIn />} />
-                <Route path="/auth/signup" element={<SignUp />} />
-                <Route path="/investor-resources" element={<InvestorResources />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
-            <FloatingChatWidget />
-            <Toaster />
-          </div>
-        </Router>
-      </ChatProvider>
+      <Router>
+        <div className="min-h-screen bg-background flex flex-col">
+          <Navbar />
+          <main className="flex-1">
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/properties" element={<Properties />} />
+              <Route path="/properties/:id" element={<PropertyDetail />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/tokenization" element={<TokenizationDashboard />} />
+              <Route path="/ai-buddy" element={<AIBuddyPage />} />
+              <Route path="/auth/signin" element={<SignIn />} />
+              <Route path="/auth/signup" element={<SignUp />} />
+            </Routes>
+          </main>
+          <Footer />
+          <Toaster />
+        </div>
+      </Router>
     </Providers>
   );
 }

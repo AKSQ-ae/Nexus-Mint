@@ -276,22 +276,6 @@ const AISettings: React.FC = () => {
             />
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <Label>🚀 Smart Investment Flows</Label>
-              <p className="text-sm text-muted-foreground">Enable one-click investment processing and auto-routing</p>
-            </div>
-            <Switch checked={true} />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <Label>📈 Predictive Nudges</Label>
-              <p className="text-sm text-muted-foreground">Get proactive portfolio insights and opportunities</p>
-            </div>
-            <Switch checked={true} />
-          </div>
-
           <div className="space-y-2">
             <Label>Notification Frequency</Label>
             <Select
