@@ -17,10 +17,17 @@ export type Database = {
       ai_interactions: {
         Row: {
           ai_response: string
+          confidence_score: number | null
           created_at: string | null
+          data_sources_used: string[] | null
           id: string
           intent_detected: string | null
+          outcome_date: string | null
+          outcome_result: string | null
+          outcome_tracked: boolean | null
           portfolio_context: Json | null
+          reasoning_factors: string[] | null
+          recommendation_type: string | null
           response_time_ms: number | null
           session_id: string
           suggestions_provided: string[] | null
@@ -31,10 +38,17 @@ export type Database = {
         }
         Insert: {
           ai_response: string
+          confidence_score?: number | null
           created_at?: string | null
+          data_sources_used?: string[] | null
           id?: string
           intent_detected?: string | null
+          outcome_date?: string | null
+          outcome_result?: string | null
+          outcome_tracked?: boolean | null
           portfolio_context?: Json | null
+          reasoning_factors?: string[] | null
+          recommendation_type?: string | null
           response_time_ms?: number | null
           session_id: string
           suggestions_provided?: string[] | null
@@ -45,10 +59,17 @@ export type Database = {
         }
         Update: {
           ai_response?: string
+          confidence_score?: number | null
           created_at?: string | null
+          data_sources_used?: string[] | null
           id?: string
           intent_detected?: string | null
+          outcome_date?: string | null
+          outcome_result?: string | null
+          outcome_tracked?: boolean | null
           portfolio_context?: Json | null
+          reasoning_factors?: string[] | null
+          recommendation_type?: string | null
           response_time_ms?: number | null
           session_id?: string
           suggestions_provided?: string[] | null
@@ -1990,11 +2011,47 @@ export type Database = {
           },
         ]
       }
+      user_data_requests: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          data_location: string | null
+          id: string
+          request_type: string
+          requested_at: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          data_location?: string | null
+          id?: string
+          request_type: string
+          requested_at?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          data_location?: string | null
+          id?: string
+          request_type?: string
+          requested_at?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_profiles: {
         Row: {
           accredited_investor: boolean | null
           avatar_url: string | null
+          consent_date: string | null
+          consent_given: boolean | null
           created_at: string | null
+          data_retention_days: number | null
           display_name: string | null
           email: string | null
           full_name: string | null
@@ -2003,9 +2060,11 @@ export type Database = {
           is_active: boolean | null
           kyc_level: number | null
           kyc_status: string | null
+          last_data_export: string | null
           last_login: string | null
           phone: string | null
           preferred_investment_size: number | null
+          privacy_settings: Json | null
           properties_owned: number | null
           risk_tolerance: string | null
           total_invested: number | null
@@ -2016,7 +2075,10 @@ export type Database = {
         Insert: {
           accredited_investor?: boolean | null
           avatar_url?: string | null
+          consent_date?: string | null
+          consent_given?: boolean | null
           created_at?: string | null
+          data_retention_days?: number | null
           display_name?: string | null
           email?: string | null
           full_name?: string | null
@@ -2025,9 +2087,11 @@ export type Database = {
           is_active?: boolean | null
           kyc_level?: number | null
           kyc_status?: string | null
+          last_data_export?: string | null
           last_login?: string | null
           phone?: string | null
           preferred_investment_size?: number | null
+          privacy_settings?: Json | null
           properties_owned?: number | null
           risk_tolerance?: string | null
           total_invested?: number | null
@@ -2038,7 +2102,10 @@ export type Database = {
         Update: {
           accredited_investor?: boolean | null
           avatar_url?: string | null
+          consent_date?: string | null
+          consent_given?: boolean | null
           created_at?: string | null
+          data_retention_days?: number | null
           display_name?: string | null
           email?: string | null
           full_name?: string | null
@@ -2047,9 +2114,11 @@ export type Database = {
           is_active?: boolean | null
           kyc_level?: number | null
           kyc_status?: string | null
+          last_data_export?: string | null
           last_login?: string | null
           phone?: string | null
           preferred_investment_size?: number | null
+          privacy_settings?: Json | null
           properties_owned?: number | null
           risk_tolerance?: string | null
           total_invested?: number | null
@@ -2348,6 +2417,28 @@ export type Database = {
       can_access_property: {
         Args: { user_id: string; property_id: string }
         Returns: boolean
+      }
+      cleanup_expired_data: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      get_user_advice_history: {
+        Args: { target_user_id: string }
+        Returns: {
+          interaction_id: string
+          user_message: string
+          ai_response: string
+          recommendation_type: string
+          reasoning_factors: string[]
+          data_sources_used: string[]
+          confidence_score: number
+          user_feedback: number
+          outcome_tracked: boolean
+          outcome_result: string
+          outcome_date: string
+          created_at: string
+          session_id: string
+        }[]
       }
       get_user_role: {
         Args: { user_id: string }
