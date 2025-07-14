@@ -147,10 +147,18 @@ Comprehensive testing suite covering all application layers:
 - Playwright specs under `tests/e2e/`
 - Full user journey testing
 
+**Accessibility & Performance:**
+- Lighthouse CI enforces quality thresholds on every PR
+- Bundle size analysis with source-map-explorer
+- See [docs/accessibility.md](docs/accessibility.md) for full guidelines
+
 **Commands:**
 ```bash
-npm run lint          # Code quality checks
-npm run build         # Build and type checking
+npm run lint              # Code quality checks
+npm run build             # Build and type checking
+npm run lighthouse        # Run Lighthouse CI audits
+npm run analyze:bundle    # Analyze JavaScript bundle size
+npm run analyze:css       # Analyze CSS bundle size
 ```
 
 ---
@@ -245,6 +253,9 @@ supabase functions deploy     # Deploy edge functions
 
 # Testing
 npm run lint                 # Code quality
+npm run lighthouse           # Accessibility & performance audits
+npm run analyze:bundle       # Bundle size analysis
+npm run analyze:css          # CSS bundle analysis
 
 # Mobile (Capacitor)
 npx cap sync                 # Sync web assets to mobile
