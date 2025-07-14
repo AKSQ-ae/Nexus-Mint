@@ -8,6 +8,7 @@ import { PersonalizedGreeting, MOCK_USER_PROGRESS } from '@/components/ux/person
 import { TrustAnchors } from '@/components/ux/trust-anchors';
 import { ContextualQuickActions } from '@/components/ux/quick-actions';
 import { EnhancedFeedback, useFeedback } from '@/components/ux/enhanced-feedback';
+import { FloatingChatWidget } from '@/components/ai/FloatingChatWidget';
 
 export default function Index() {
   const { feedback, showSuccess } = useFeedback();
@@ -77,6 +78,7 @@ export default function Index() {
       />
       
       <PWAInstallPrompt />
+      <FloatingChatWidget />
     </>
   );
 }
