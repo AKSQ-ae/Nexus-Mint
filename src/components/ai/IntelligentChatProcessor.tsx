@@ -245,44 +245,89 @@ export class IntelligentChatProcessor {
   }
 
   static generateSmartResponse(intent: InvestmentIntent, flowResult?: any, navigate?: any): string {
+    // Execute navigation actions immediately based on intent
+    this.executeNavigation(intent, flowResult, navigate);
+    
     switch (intent.type) {
       case 'investment':
         if (flowResult?.requiresKyc) {
           if (flowResult.actionRequired === 'authentication') {
-            return "🔐 To start investing, I'll need you to sign in first. Would you like me to guide you through the process?";
+            return "🔐 **Navigating to Sign In...**\n\nOpening login page so you can start investing!";
           }
-          return "🔒 **Instant KYC Required**\n\nTo invest, I need to verify your identity first. This takes just 30 seconds:\n\n1. Snap a photo of your ID\n2. Take a quick selfie\n3. You're ready to invest!\n\nShall I start the verification process?";
+          return "🔒 **Opening KYC Verification**\n\n✅ **Navigated to Profile → KYC**\n\nReady to verify? Just:\n1. 📸 Snap your ID photo\n2. 🤳 Take a selfie\n3. ✨ Start investing!\n\n**Upload area is ready for your documents.**";
         }
         
         if (flowResult?.suggestedProperties) {
           const props = flowResult.suggestedProperties;
-          return `🚀 **Perfect! Found ${props.length} matches for your ${intent.amount} ${intent.currency} investment:**\n\n${props.map((p: any, i: number) => 
-            `${i + 1}. **${p.title}** - ${p.location}\n   💰 ${p.price_per_token} ${intent.currency}/token\n   📍 Min: ${p.min_investment} ${intent.currency}`
-          ).join('\n\n')}\n\n**Ready to invest?** Say *"Invest in property 1"* to proceed instantly.`;
+          return `🚀 **Opening Property Matches**\n\n✅ **Navigated to Properties Page**\n\nShowing ${props.length} perfect matches for ${intent.amount} ${intent.currency}:\n\n${props.map((p: any, i: number) => 
+            `${i + 1}. **${p.title}** - ${p.location}\n   💰 ${p.price_per_token} ${intent.currency}/token`
+          ).join('\n\n')}\n\n**Click any property to invest instantly!**`;
         }
         
-        return `🤖 **Investment Processing**\n\nLooking for properties matching:\n• Amount: ${intent.amount} ${intent.currency}\n• Location: ${intent.location || 'Any'}\n\nLet me find the perfect matches...`;
+        return `🔍 **Opening Property Search**\n\n✅ **Navigated to Properties**\n\nFiltering for:\n• Budget: ${intent.amount} ${intent.currency}\n• Location: ${intent.location || 'All Dubai'}\n\n**Perfect matches loading...**`;
 
       case 'portfolio':
-        return "📈 **Your Portfolio Dashboard**\n\nAnalyzing your investments and performance...\n\n*Tip: Try asking 'What's my ROI?' or 'Show gains this month'*";
+        return "📊 **Opening Your Dashboard**\n\n✅ **Navigated to Portfolio**\n\nYour investment overview is now displayed:\n• Current holdings\n• Performance metrics\n• Recent activity\n• Growth trends";
 
       case 'discovery':
-        return `🔍 **Smart Property Discovery**\n\nSearching for: ${intent.criteria}\n${intent.location ? `📍 Location: ${intent.location}` : ''}\n\nFiltering thousands of properties to find your perfect match...`;
+        return `🔍 **Opening Property Discovery**\n\n✅ **Navigated to Properties**\n\nSearching: ${intent.criteria}\n${intent.location ? `📍 Location: ${intent.location}` : ''}\n\n**Advanced filters applied, showing best matches!**`;
 
       case 'kyc':
-        return "🔒 **Opening KYC Verification Page**\n\n✅ **Navigating to Profile → KYC Section**\n\n**What you'll need:**\n• Government-issued ID (passport/Emirates ID)\n• Clear selfie for verification\n\n**Time:** 30 seconds\n**Security:** Bank-grade encryption\n\n🚀 **Page is loading... Get your ID ready!**";
+        return "🔒 **Opening KYC Center**\n\n✅ **Navigated to Profile → KYC**\n\n**Ready to verify:**\n• 📸 Document camera active\n• 🔐 Secure upload ready\n• ⚡ 30-second verification\n\n**Start by uploading your ID!**";
 
       case 'register':
-        return "🎯 **Opening Account Registration**\n\n✅ **Navigating to Sign Up Page**\n\n**Quick setup process:**\n1. Enter your email and create password\n2. Verify email address\n3. Complete basic profile\n4. Start investing!\n\n🚀 **Registration page loading...**";
+        return "🎯 **Opening Registration**\n\n✅ **Navigated to Sign Up**\n\n**Quick setup form ready:**\n• Email & password fields active\n• Terms & conditions available\n• Instant email verification\n\n**Start typing your email to begin!**";
 
       case 'dashboard':
-        return "📊 **Opening Your Dashboard**\n\n✅ **Navigating to Portfolio Overview**\n\n**You'll see:**\n• Investment performance\n• Property holdings\n• Recent transactions\n• Market insights\n\n🚀 **Dashboard loading...**";
+        return "📊 **Opening Dashboard**\n\n✅ **Navigated to Overview**\n\n**Your command center is ready:**\n• Portfolio performance visible\n• Recent transactions loaded\n• Market insights updated\n• Quick action buttons active";
 
       case 'help':
-        return "🆘 **Finding Help Resources**\n\n✅ **Analyzing your request...**\n\n**I can guide you to:**\n• Investor Resources page\n• Step-by-step tutorials\n• Support documentation\n• Relevant help sections\n\n🚀 **Preparing personalized guidance...**";
+        return "🆘 **Opening Help Center**\n\n✅ **Navigated to Resources**\n\n**Finding relevant guides:**\n• Investment tutorials\n• Platform documentation\n• Video walkthroughs\n• Live support options\n\n**Browse or ask me anything specific!**";
 
       default:
-        return "🎯 **AI TOKO: Your Navigation Assistant**\n\n**I can guide you anywhere in the app! Try:**\n\n🚀 **Navigation**: *'Open my dashboard'*, *'Go to properties'*\n📋 **Processes**: *'Start KYC'*, *'Register account'*\n💰 **Investing**: *'Find Dubai properties'*, *'Invest 5000 AED'*\n📊 **Portfolio**: *'Show my investments'*, *'Check performance'*\n🆘 **Help**: *'Help me with investing'*, *'Guide me through KYC'*\n\n✨ **Just tell me where you want to go or what you want to do!**";
+        return "🎯 **AI TOKO: One Chat to Rule Them All**\n\n**I control the entire platform! Try:**\n\n🚀 **Instant Actions**:\n• *\"Open my dashboard\"* → Portfolio loads\n• *\"Start KYC\"* → Verification opens\n• *\"Find Dubai properties\"* → Search loads\n• *\"Invest 5000 AED\"* → Investment flow starts\n\n📱 **I'll navigate, open pages, and guide you through everything!**";
+    }
+  }
+
+  static executeNavigation(intent: InvestmentIntent, flowResult?: any, navigate?: any): void {
+    if (!navigate) return;
+
+    switch (intent.type) {
+      case 'investment':
+        if (flowResult?.requiresKyc) {
+          if (flowResult.actionRequired === 'authentication') {
+            navigate('/auth/signin');
+          } else {
+            navigate('/profile');
+          }
+        } else {
+          navigate('/properties');
+        }
+        break;
+      
+      case 'portfolio':
+        navigate('/dashboard');
+        break;
+      
+      case 'discovery':
+        navigate('/properties');
+        break;
+      
+      case 'kyc':
+        navigate('/profile');
+        break;
+      
+      case 'register':
+        navigate('/auth/signup');
+        break;
+      
+      case 'dashboard':
+        navigate('/dashboard');
+        break;
+      
+      case 'help':
+        navigate('/investor-resources');
+        break;
     }
   }
 }
