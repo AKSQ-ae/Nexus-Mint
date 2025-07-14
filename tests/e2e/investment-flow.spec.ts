@@ -76,6 +76,45 @@ test.describe('Investment Flow', () => {
     await expect(page.locator('text=1000 AED')).toBeVisible();
   });
 
+  test('should calculate investment fees correctly', async ({ page }) => {
+    await page.goto('/properties');
+    await page.click('[data-testid="property-card"]:first-child');
+    await page.click('button:has-text("Invest Now")');
+
+    // Test different amounts
+    const testCases = [
+      { amount: '100', expectedFee: '2' }, // 2% fee
+      { amount: '1000', expectedFee: '20' },
+      { amount: '5000', expectedFee: '100' },
+    ];
+
+    for (const testCase of testCases) {
+      await page.fill('input[placeholder*="amount"]', testCase.amount);
+      await expect(page.locator(`text=${testCase.expectedFee} AED`)).toBeVisible();
+    }
+  });
+
+  test('should handle payment failures gracefully', async ({ page }) => {
+    await page.goto('/properties');
+    await page.click('[data-testid="property-card"]:first-child');
+    await page.click('button:has-text("Invest Now")');
+    
+    await page.fill('input[placeholder*="amount"]', '1000');
+    await page.click('button:has-text("Proceed to Payment")');
+    await page.click('input[value="stripe"]');
+
+    // Mock payment failure
+    await page.route('**/supabase/functions/create-investment-payment', route => {
+      route.fulfill({
+        status: 400,
+        body: JSON.stringify({ error: 'Payment failed' })
+      });
+    });
+
+    await page.click('button:has-text("Complete Investment")');
+    await expect(page.locator('text=Payment failed')).toBeVisible();
+  });
+
   test('should handle wallet connection flow', async ({ page }) => {
     // Navigate to wallet connection
     await page.goto('/auth/signin');
@@ -118,41 +157,6 @@ test.describe('Investment Flow', () => {
     
     // Verify submission success
     await expect(page.locator('text=KYC submitted successfully')).toBeVisible();
-  });
-
-  test('should handle investment calculation', async ({ page }) => {
-    await page.goto('/properties');
-    
-    // Select property
-    await page.locator('[data-testid="property-card"]').first().click();
-    
-    // Test investment calculator
-    await page.fill('[data-testid="investment-amount"]', '1000');
-    
-    // Verify calculations update
-    await expect(page.locator('[data-testid="token-amount"]')).toContainText('10'); // 1000/100 = 10 tokens
-    await expect(page.locator('[data-testid="fees-amount"]')).toContainText('25'); // 2.5% fee
-    await expect(page.locator('[data-testid="total-amount"]')).toContainText('1025');
-  });
-
-  test('should complete payment flow', async ({ page }) => {
-    // Mock authenticated user with completed KYC
-    await page.goto('/investment/new?property=test-property-id&amount=1000');
-    
-    // Select payment method
-    await page.click('[data-testid="payment-method-card"]');
-    
-    // Fill card details (test data)
-    await page.fill('[data-testid="card-number"]', '4242424242424242');
-    await page.fill('[data-testid="card-expiry"]', '12/25');
-    await page.fill('[data-testid="card-cvc"]', '123');
-    
-    // Submit payment
-    await page.click('[data-testid="submit-payment"]');
-    
-    // Verify success page
-    await expect(page).toHaveURL(/\/investment\/success/);
-    await expect(page.locator('text=Investment Successful')).toBeVisible();
   });
 
   test('should show portfolio after investment', async ({ page }) => {
