@@ -14,6 +14,132 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_interactions: {
+        Row: {
+          ai_response: string
+          created_at: string | null
+          id: string
+          intent_detected: string | null
+          portfolio_context: Json | null
+          response_time_ms: number | null
+          session_id: string
+          suggestions_provided: string[] | null
+          updated_at: string | null
+          user_feedback: number | null
+          user_id: string | null
+          user_message: string
+        }
+        Insert: {
+          ai_response: string
+          created_at?: string | null
+          id?: string
+          intent_detected?: string | null
+          portfolio_context?: Json | null
+          response_time_ms?: number | null
+          session_id: string
+          suggestions_provided?: string[] | null
+          updated_at?: string | null
+          user_feedback?: number | null
+          user_id?: string | null
+          user_message: string
+        }
+        Update: {
+          ai_response?: string
+          created_at?: string | null
+          id?: string
+          intent_detected?: string | null
+          portfolio_context?: Json | null
+          response_time_ms?: number | null
+          session_id?: string
+          suggestions_provided?: string[] | null
+          updated_at?: string | null
+          user_feedback?: number | null
+          user_id?: string | null
+          user_message?: string
+        }
+        Relationships: []
+      }
+      ai_safety_rules: {
+        Row: {
+          action_message: string | null
+          action_type: string
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          rule_description: string
+          rule_type: string
+          trigger_keywords: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          action_message?: string | null
+          action_type: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          rule_description: string
+          rule_type: string
+          trigger_keywords?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          action_message?: string | null
+          action_type?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          rule_description?: string
+          rule_type?: string
+          trigger_keywords?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      ai_user_preferences: {
+        Row: {
+          blacklisted_keywords: string[] | null
+          communication_style: string | null
+          created_at: string | null
+          data_retention_days: number | null
+          id: string
+          learning_rate: string | null
+          notification_frequency: string | null
+          preferred_markets: string[] | null
+          risk_warnings_enabled: boolean | null
+          updated_at: string | null
+          user_id: string | null
+          voice_enabled: boolean | null
+        }
+        Insert: {
+          blacklisted_keywords?: string[] | null
+          communication_style?: string | null
+          created_at?: string | null
+          data_retention_days?: number | null
+          id?: string
+          learning_rate?: string | null
+          notification_frequency?: string | null
+          preferred_markets?: string[] | null
+          risk_warnings_enabled?: boolean | null
+          updated_at?: string | null
+          user_id?: string | null
+          voice_enabled?: boolean | null
+        }
+        Update: {
+          blacklisted_keywords?: string[] | null
+          communication_style?: string | null
+          created_at?: string | null
+          data_retention_days?: number | null
+          id?: string
+          learning_rate?: string | null
+          notification_frequency?: string | null
+          preferred_markets?: string[] | null
+          risk_warnings_enabled?: boolean | null
+          updated_at?: string | null
+          user_id?: string | null
+          voice_enabled?: boolean | null
+        }
+        Relationships: []
+      }
       chat_messages: {
         Row: {
           attachments: Json | null
