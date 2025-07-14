@@ -48,16 +48,15 @@ import SystemResilience from "./pages/SystemResilience";
 import AIBuddyPage from "./pages/AIBuddyPage";
 import AIReview from "./pages/AIReview";
 
-function App() {
-  // Initialize QueryClient inside component to ensure React is available
-  const queryClient = React.useMemo(() => new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 5 * 60 * 1000, // 5 minutes
-        retry: 1,
-      },
+// Create QueryClient outside component to avoid React dependency issues
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      retry: 1,
     },
-  }), []);
+  },
+});
 
 function AppContent() {
   console.log('AppContent loading - useCapacitor disabled');
@@ -117,6 +116,7 @@ function AppContent() {
   );
 }
 
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
