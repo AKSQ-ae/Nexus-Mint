@@ -93,6 +93,24 @@ export default function Index() {
         <CTA />
       </div>
       
+      {/* Quick Access to Investor Resources */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-gradient-to-r from-primary to-accent rounded-lg p-6 text-center">
+          <h3 className="text-xl font-bold text-white mb-2">Need Help Getting Started?</h3>
+          <p className="text-white/90 mb-4">Access our comprehensive investor resources and support center</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/investor-resources" 
+               className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-white/90 transition-colors">
+              📚 Investor Resources
+            </a>
+            <a href="/early-access" 
+               className="bg-white/20 text-white border border-white/30 px-6 py-3 rounded-lg font-semibold hover:bg-white/30 transition-colors">
+              🚀 Join Early Access
+            </a>
+          </div>
+        </div>
+      </div>
+      
       {/* Context-Aware Quick Actions */}
       <ContextualQuickActions 
         position="bottom-right"
