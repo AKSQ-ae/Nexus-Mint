@@ -1,224 +1,187 @@
-import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.50.5';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-interface ChatRequest {
+const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
+const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+
+interface RequestBody {
   message: string;
   userId: string;
-  portfolioData?: {
-    totalInvested: number;
-    totalValue: number;
-    propertyCount: number;
-    totalTokens: number;
-    growth: number;
-  };
-  conversationHistory?: Array<{
-    type: 'user' | 'ai';
-    content: string;
-  }>;
+  portfolioData?: any;
+  conversationHistory?: any[];
 }
 
-const handler = async (req: Request): Promise<Response> => {
+serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { message, userId, portfolioData, conversationHistory }: ChatRequest = await req.json();
-    
-    if (!message || !userId) {
-      throw new Error('Message and userId are required');
-    }
+    const startTime = Date.now();
+    const { message, userId, portfolioData, conversationHistory }: RequestBody = await req.json();
 
-    const openaiApiKey = Deno.env.get('OPENAI_API_KEY');
-    if (!openaiApiKey) {
+    if (!openAIApiKey) {
       throw new Error('OpenAI API key not configured');
     }
 
-    // Build context for the AI
-    const portfolioContext = portfolioData ? `
-User Portfolio Overview:
-- Total Invested: $${portfolioData.totalInvested.toLocaleString()}
-- Current Value: $${portfolioData.totalValue.toLocaleString()}
-- Properties: ${portfolioData.propertyCount}
-- Tokens: ${portfolioData.totalTokens}
-- Growth: ${portfolioData.growth > 0 ? '+' : ''}${portfolioData.growth.toFixed(1)}%
-` : '';
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Analyze message intent to provide personalized responses
-    const messageIntent = analyzeMessageIntent(message);
-    
-    // Build conversation history
-    const conversationContext = conversationHistory?.map(msg => ({
+    // Check user preferences and safety rules
+    const { data: userPrefs } = await supabase
+      .from('ai_user_preferences')
+      .select('*')
+      .eq('user_id', userId)
+      .single();
+
+    const { data: safetyRules } = await supabase
+      .from('ai_safety_rules')
+      .select('*')
+      .eq('is_active', true);
+
+    // Check for safety violations
+    const lowerMessage = message.toLowerCase();
+    const violatedRules = safetyRules?.filter(rule => 
+      rule.trigger_keywords?.some((keyword: string) => lowerMessage.includes(keyword.toLowerCase()))
+    ) || [];
+
+    if (violatedRules.length > 0) {
+      const rule = violatedRules[0];
+      return new Response(JSON.stringify({
+        response: rule.action_message || "I can't help with that request. Let's focus on your investment goals instead.",
+        suggestions: ["Portfolio analysis", "Investment opportunities", "Risk assessment"],
+        confidence: 1.0,
+        reasoning: ["Safety guidelines"],
+        dataSources: ["AI Safety Rules"],
+        recommendationType: "safety_warning"
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Build enhanced prompt with explainability requirements
+    const systemPrompt = `You are an expert investment advisor AI buddy. Always provide your response as a JSON object with these fields:
+
+{
+  "response": "your main answer",
+  "reasoning": ["key factor 1", "key factor 2", "key factor 3"],
+  "dataSources": ["data source 1", "data source 2"],
+  "confidence": 0.85,
+  "recommendationType": "portfolio_analysis",
+  "suggestions": ["follow-up 1", "follow-up 2", "follow-up 3"]
+}
+
+User Context:
+- Portfolio: ${portfolioData ? `$${portfolioData.totalInvested?.toLocaleString()} across ${portfolioData.propertyCount} properties, ${portfolioData.growth >= 0 ? '+' : ''}${portfolioData.growth?.toFixed(1)}% growth` : 'No portfolio data'}
+- Communication style: ${userPrefs?.communication_style || 'balanced'}
+- Risk warnings enabled: ${userPrefs?.risk_warnings_enabled !== false}
+- Preferred markets: ${userPrefs?.preferred_markets?.join(', ') || 'Dubai, UAE'}
+
+Always be helpful, personalized, and explain your reasoning clearly.`;
+
+    const conversationContext = conversationHistory?.slice(-6).map(msg => ({
       role: msg.type === 'user' ? 'user' : 'assistant',
       content: msg.content
     })) || [];
 
-    const systemPrompt = `You are a friendly, knowledgeable investment advisor and buddy for a real estate tokenization platform called Nexus Mint. You help users understand their investments, discover new opportunities, and make informed decisions.
-
-Key Personality Traits:
-- Conversational and friendly, like talking to a knowledgeable friend
-- Start open-ended and listen to what the user wants
-- Naturally suggest opportunities when appropriate
-- Give specific impact numbers when suggesting investments
-- Be encouraging and supportive
-- Use casual, warm language
-
-${portfolioContext}
-
-Current Conversation Context:
-${messageIntent.context}
-
-Your responses should:
-1. Address the user's specific question or concern
-2. Provide personalized insights based on their portfolio
-3. Suggest relevant actions or opportunities naturally
-4. Use specific numbers and impacts when relevant
-5. Keep the conversation flowing naturally
-
-Always respond in a conversational, helpful tone. If suggesting investments, explain specifically how they would impact the user's portfolio (e.g., "Adding this Miami property would increase your real estate exposure to 40% and could boost your overall returns by about 12%").`;
-
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${openaiApiKey}`,
+        'Authorization': `Bearer ${openAIApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
-          ...conversationContext.slice(-6), // Keep last 6 messages for context
+          ...conversationContext,
           { role: 'user', content: message }
         ],
-        temperature: 0.8,
-        max_tokens: 300,
+        temperature: 0.7,
+        max_tokens: 800,
       }),
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(`OpenAI API error: ${error.error?.message || 'Unknown error'}`);
+      throw new Error(`OpenAI API error: ${response.status}`);
     }
 
     const data = await response.json();
-    const aiResponse = data.choices[0].message.content;
+    const aiContent = data.choices[0].message.content;
 
-    // Generate contextual suggestions based on the response and user intent
-    const suggestions = generateSuggestions(messageIntent, portfolioData);
+    let parsedResponse;
+    try {
+      // Try to parse as JSON first
+      parsedResponse = JSON.parse(aiContent);
+    } catch {
+      // Fallback to text response with basic structure
+      parsedResponse = {
+        response: aiContent,
+        reasoning: ["AI analysis", "Market data", "Portfolio context"],
+        dataSources: ["Portfolio data", "Market trends"],
+        confidence: 0.8,
+        recommendationType: "general_advice",
+        suggestions: ["Tell me more", "Portfolio overview", "Market opportunities"]
+      };
+    }
 
-    return new Response(JSON.stringify({
-      response: aiResponse,
-      suggestions,
-      intent: messageIntent.type
-    }), {
+    const responseTime = Date.now() - startTime;
+
+    // Enhanced response with all explainability data
+    const enhancedResponse = {
+      ...parsedResponse,
+      intent: determineIntent(message),
+      responseTime,
+      timestamp: new Date().toISOString()
+    };
+
+    return new Response(JSON.stringify(enhancedResponse), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
 
   } catch (error) {
-    console.error('Error in ai-buddy-chat:', error);
-    return new Response(JSON.stringify({ 
-      error: error.message,
-      response: "I'm having a bit of trouble right now, but I'm here to help! What would you like to know about your investments?"
+    console.error('AI Chat Error:', error);
+    
+    // Graceful fallback response
+    return new Response(JSON.stringify({
+      response: "I'm experiencing a brief connection issue, but I'm still here to help! Let me provide some general guidance while I reconnect.",
+      suggestions: ["Portfolio overview", "Investment opportunities", "Help & Support"],
+      reasoning: ["System recovery"],
+      dataSources: ["Cached insights"],
+      confidence: 0.6,
+      recommendationType: "system_message",
+      intent: "system_error"
     }), {
-      status: 500,
+      status: 200, // Return 200 to allow graceful handling
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   }
-};
+});
 
-function analyzeMessageIntent(message: string): { type: string; context: string } {
+function determineIntent(message: string): string {
   const lowerMessage = message.toLowerCase();
   
-  if (lowerMessage.includes('portfolio') || lowerMessage.includes('performance') || lowerMessage.includes('how am i doing')) {
-    return {
-      type: 'portfolio_inquiry',
-      context: 'User wants to know about their portfolio performance and current status.'
-    };
+  if (lowerMessage.includes('portfolio') || lowerMessage.includes('performance')) {
+    return 'portfolio_inquiry';
+  }
+  if (lowerMessage.includes('invest') || lowerMessage.includes('buy') || lowerMessage.includes('opportunity')) {
+    return 'investment_opportunity';
+  }
+  if (lowerMessage.includes('risk') || lowerMessage.includes('safe') || lowerMessage.includes('danger')) {
+    return 'risk_assessment';
+  }
+  if (lowerMessage.includes('market') || lowerMessage.includes('trend') || lowerMessage.includes('price')) {
+    return 'market_inquiry';
+  }
+  if (lowerMessage.includes('sell') || lowerMessage.includes('exit') || lowerMessage.includes('liquidate')) {
+    return 'exit_strategy';
   }
   
-  if (lowerMessage.includes('new') || lowerMessage.includes('opportunities') || lowerMessage.includes('invest')) {
-    return {
-      type: 'opportunity_seeking',
-      context: 'User is interested in new investment opportunities.'
-    };
-  }
-  
-  if (lowerMessage.includes('market') || lowerMessage.includes('trends') || lowerMessage.includes('news')) {
-    return {
-      type: 'market_inquiry',
-      context: 'User wants to know about market trends and news.'
-    };
-  }
-  
-  if (lowerMessage.includes('reward') || lowerMessage.includes('loyalty') || lowerMessage.includes('bonus')) {
-    return {
-      type: 'rewards_inquiry',
-      context: 'User is asking about rewards, loyalty programs, or bonuses.'
-    };
-  }
-  
-  if (lowerMessage.includes('help') || lowerMessage.includes('how') || lowerMessage.includes('what')) {
-    return {
-      type: 'help_seeking',
-      context: 'User needs help or guidance.'
-    };
-  }
-  
-  return {
-    type: 'general_conversation',
-    context: 'General conversation - be supportive and guide naturally toward their investments.'
-  };
+  return 'general_inquiry';
 }
-
-function generateSuggestions(intent: { type: string }, portfolioData?: any): string[] {
-  const baseSuggestions = [
-    "Tell me about new opportunities",
-    "How is my portfolio doing?",
-    "What's new in the market?",
-    "Any rewards available for me?"
-  ];
-  
-  switch (intent.type) {
-    case 'portfolio_inquiry':
-      return [
-        "Show me detailed analytics",
-        "How can I improve my returns?",
-        "What's my risk level?",
-        "Compare my performance"
-      ];
-    
-    case 'opportunity_seeking':
-      return [
-        "Show me high-yield properties",
-        "Find properties in growing markets",
-        "What fits my risk profile?",
-        "Show me trending locations"
-      ];
-    
-    case 'market_inquiry':
-      return [
-        "Show me market trends",
-        "Which cities are performing best?",
-        "What's the forecast?",
-        "How do I position my portfolio?"
-      ];
-    
-    case 'rewards_inquiry':
-      return [
-        "Check my referral rewards",
-        "Show loyalty program benefits",
-        "What bonuses can I earn?",
-        "How to maximize rewards?"
-      ];
-    
-    default:
-      return baseSuggestions;
-  }
-}
-
-serve(handler);

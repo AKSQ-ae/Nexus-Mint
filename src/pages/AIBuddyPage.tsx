@@ -1,106 +1,146 @@
-import React from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Brain, MessageSquare, History, Settings, Shield, TrendingUp, Search, Calculator, AlertTriangle, Sparkles } from 'lucide-react';
 import AIBuddy from '@/components/ai/AIBuddy';
-import { Card } from '@/components/ui/card';
-import { Sparkles, MessageCircle, TrendingUp } from 'lucide-react';
+import { AdviceHistory } from '@/components/ai/AdviceHistory';
+import AISettings from '@/components/ai/AISettings';
+import { PrivacyControls } from '@/components/ai/PrivacyControls';
+import { useAuth } from '@/contexts/AuthContext';
 
 const AIBuddyPage: React.FC = () => {
   const { user } = useAuth();
+  const [activeTab, setActiveTab] = useState('chat');
+
+  if (!user) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Card>
+          <CardContent className="p-8 text-center">
+            <Brain className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+            <h2 className="text-xl font-semibold mb-2">AI Investment Buddy</h2>
+            <p className="text-muted-foreground mb-4">
+              Please sign in to access your personalized AI investment assistant.
+            </p>
+            <Button onClick={() => window.location.href = '/auth/signin'}>
+              Sign In
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="mb-8 text-center">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <Sparkles className="w-8 h-8 text-primary" />
-          <h1 className="text-3xl font-bold">Your AI Investment Buddy</h1>
-        </div>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Meet your personal investment advisor. Get insights, discover opportunities, 
-          and grow your portfolio with conversational AI that knows your investments inside out.
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold flex items-center gap-3">
+          <Brain className="h-8 w-8 text-primary" />
+          AI Investment Buddy
+        </h1>
+        <p className="text-muted-foreground mt-2">
+          Your personalized AI assistant for investment insights and recommendations
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main AI Chat */}
-        <div className="lg:col-span-2">
-          <AIBuddy userId={user?.id} className="w-full" />
-        </div>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="chat" className="flex items-center gap-2">
+            <MessageSquare className="h-4 w-4" />
+            Chat
+          </TabsTrigger>
+          <TabsTrigger value="history" className="flex items-center gap-2">
+            <History className="h-4 w-4" />
+            History
+          </TabsTrigger>
+          <TabsTrigger value="settings" className="flex items-center gap-2">
+            <Settings className="h-4 w-4" />
+            Settings
+          </TabsTrigger>
+          <TabsTrigger value="privacy" className="flex items-center gap-2">
+            <Shield className="h-4 w-4" />
+            Privacy
+          </TabsTrigger>
+        </TabsList>
 
-        {/* Features Sidebar */}
-        <div className="space-y-4">
-          <Card className="p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <MessageCircle className="w-6 h-6 text-blue-600" />
-              <h3 className="font-semibold">Natural Conversations</h3>
+        <TabsContent value="chat" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <AIBuddy userId={user.id} className="h-[700px]" />
             </div>
-            <p className="text-sm text-muted-foreground mb-4">
-              Chat naturally about your investments. No complex menus - just ask what you want to know.
-            </p>
-            <ul className="text-sm space-y-2">
-              <li className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-                Text & voice chat support
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-                Remembers your preferences
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-                24/7 availability
-              </li>
-            </ul>
-          </Card>
+            <div className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Quick Actions</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <Button variant="outline" className="w-full justify-start">
+                    <TrendingUp className="h-4 w-4 mr-2" />
+                    Portfolio Analysis
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <Search className="h-4 w-4 mr-2" />
+                    Find Opportunities
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <Calculator className="h-4 w-4 mr-2" />
+                    Investment Calculator
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <AlertTriangle className="h-4 w-4 mr-2" />
+                    Risk Assessment
+                  </Button>
+                </CardContent>
+              </Card>
 
-          <Card className="p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <TrendingUp className="w-6 h-6 text-green-600" />
-              <h3 className="font-semibold">Personalized Insights</h3>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">AI Capabilities</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full" />
+                    <span>Real-time portfolio analysis</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full" />
+                    <span>Market trend insights</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full" />
+                    <span>Personalized recommendations</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full" />
+                    <span>Risk assessment</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                    <span>Voice interaction</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                    <span>Learning from feedback</span>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-            <p className="text-sm text-muted-foreground mb-4">
-              Get recommendations tailored to your portfolio, risk tolerance, and goals.
-            </p>
-            <ul className="text-sm space-y-2">
-              <li className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-green-600" />
-                Portfolio performance analysis
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-green-600" />
-                Market opportunities
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-green-600" />
-                Growth strategies
-              </li>
-            </ul>
-          </Card>
+          </div>
+        </TabsContent>
 
-          <Card className="p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <Sparkles className="w-6 h-6 text-purple-600" />
-              <h3 className="font-semibold">Smart Suggestions</h3>
-            </div>
-            <p className="text-sm text-muted-foreground mb-4">
-              Discover new opportunities with impact predictions for your specific portfolio.
-            </p>
-            <ul className="text-sm space-y-2">
-              <li className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-purple-600" />
-                Property recommendations
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-purple-600" />
-                Reward opportunities
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-purple-600" />
-                Diversification tips
-              </li>
-            </ul>
-          </Card>
-        </div>
-      </div>
+        <TabsContent value="history" className="space-y-6">
+          <AdviceHistory />
+        </TabsContent>
+
+        <TabsContent value="settings" className="space-y-6">
+          <AISettings />
+        </TabsContent>
+
+        <TabsContent value="privacy" className="space-y-6">
+          <PrivacyControls />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
