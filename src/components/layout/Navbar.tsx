@@ -76,13 +76,6 @@ export function Navbar() {
               <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-accent transition-all duration-300 group-hover:w-full"></div>
             </Link>
             <Link 
-              to="/ai-buddy" 
-              className="text-gray-700 hover:text-gray-900 font-medium transition-all duration-300 hover:scale-105 relative group"
-            >
-              AI Buddy
-              <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-accent transition-all duration-300 group-hover:w-full"></div>
-            </Link>
-            <Link 
               to="/analytics" 
               className="text-gray-700 hover:text-gray-900 font-medium transition-all duration-300 hover:scale-105 relative group"
             >

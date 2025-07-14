@@ -3,12 +3,9 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { useConversation } from '@11labs/react';
-import { ConsentModal } from './ConsentModal';
-import { Shield } from 'lucide-react';
 import { 
   Mic, 
   MicOff, 
@@ -17,12 +14,7 @@ import {
   TrendingUp,
   DollarSign,
   MapPin,
-  Calendar,
-  ThumbsUp,
-  ThumbsDown,
-  Brain,
-  ChevronDown,
-  ChevronUp
+  Calendar
 } from 'lucide-react';
 
 interface AIBuddyProps {
@@ -44,11 +36,6 @@ interface Message {
   content: string;
   timestamp: Date;
   suggestions?: string[];
-  reasoning?: string[];
-  dataSources?: string[];
-  confidence?: number;
-  recommendationType?: string;
-  feedback?: number; // 1 for positive, -1 for negative
 }
 
 const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
@@ -58,9 +45,6 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [portfolioData, setPortfolioData] = useState<PortfolioInsight | null>(null);
   const [conversationMode, setConversationMode] = useState<'text' | 'voice'>('text');
-  const [showConsentModal, setShowConsentModal] = useState(false);
-  const [hasConsent, setHasConsent] = useState(false);
-  const [expandedReasons, setExpandedReasons] = useState<Set<string>>(new Set());
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const conversation = useConversation({
@@ -91,36 +75,11 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
     }
   });
 
-  // Check consent and load user data
+  // Load user portfolio data
   useEffect(() => {
-    const checkConsent = async () => {
+    const loadPortfolioData = async () => {
       if (!userId) return;
 
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-
-        const { data, error } = await supabase
-          .from('user_profiles')
-          .select('consent_given')
-          .eq('id', user.id)
-          .single();
-
-        if (error) throw error;
-
-        if (data?.consent_given) {
-          setHasConsent(true);
-          loadPortfolioData();
-        } else {
-          setShowConsentModal(true);
-        }
-      } catch (error) {
-        console.error('Error checking consent:', error);
-        setShowConsentModal(true);
-      }
-    };
-
-    const loadPortfolioData = async () => {
       try {
         const { data, error } = await supabase.functions.invoke('intelligent-analytics', {
           body: {
@@ -136,7 +95,7 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
       }
     };
 
-    checkConsent();
+    loadPortfolioData();
   }, [userId]);
 
   // Initial greeting when component mounts
@@ -177,17 +136,13 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
     ];
   };
 
-  const addMessage = (type: 'user' | 'ai', content: string, suggestions?: string[], reasoning?: string[], dataSources?: string[], confidence?: number, recommendationType?: string) => {
+  const addMessage = (type: 'user' | 'ai', content: string, suggestions?: string[]) => {
     const newMessage: Message = {
       id: Date.now().toString(),
       type,
       content,
       timestamp: new Date(),
-      suggestions: type === 'ai' ? suggestions : undefined,
-      reasoning: reasoning,
-      dataSources: dataSources,
-      confidence: confidence,
-      recommendationType: recommendationType
+      suggestions: type === 'ai' ? suggestions : undefined
     };
     setMessages(prev => [...prev, newMessage]);
   };
@@ -214,12 +169,12 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
         throw error;
       }
 
-      // Add AI response with all explainability data
-      addMessage('ai', data.response, data.suggestions, data.reasoning, data.dataSources, data.confidence, data.recommendationType);
+      // Add AI response with suggestions and rationale
+      addMessage('ai', data.response, data.suggestions);
       
-      // Store interaction in database for analytics and learning
+      // Store interaction for learning (if successful)
       if (data.response) {
-        await storeInteractionInDB(userMessage, data);
+        storeInteractionFeedback(userMessage, data.response, data.intent);
       }
     } catch (error) {
       console.error('AI Chat Error:', error);
@@ -271,104 +226,31 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
     };
   };
 
-  // Store interaction in database for analytics and learning
-  const storeInteractionInDB = async (userMessage: string, aiData: any) => {
+  // Store interaction feedback for learning
+  const storeInteractionFeedback = async (userMessage: string, aiResponse: string, intent: string) => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { error } = await supabase
-        .from('ai_interactions')
-        .insert({
-          user_id: user.id,
-          session_id: `session_${Date.now()}`,
-          user_message: userMessage,
-          ai_response: aiData.response,
-          intent_detected: aiData.intent,
-          reasoning_factors: aiData.reasoning || [],
-          data_sources_used: aiData.dataSources || [],
-          confidence_score: aiData.confidence,
-          recommendation_type: aiData.recommendationType,
-          suggestions_provided: aiData.suggestions || [],
-          portfolio_context: portfolioData ? JSON.parse(JSON.stringify(portfolioData)) : null,
-          response_time_ms: aiData.responseTime || null
-        });
-
-      if (error) {
-        console.error('Error storing interaction:', error);
+      // This could be expanded to store in a database for learning
+      const interaction = {
+        timestamp: new Date().toISOString(),
+        userMessage,
+        aiResponse,
+        intent,
+        userId
+      };
+      
+      // For now, store locally - could be enhanced to sync with backend
+      const existingInteractions = JSON.parse(localStorage.getItem('aiInteractions') || '[]');
+      existingInteractions.push(interaction);
+      
+      // Keep only last 50 interactions to manage storage
+      if (existingInteractions.length > 50) {
+        existingInteractions.splice(0, existingInteractions.length - 50);
       }
+      
+      localStorage.setItem('aiInteractions', JSON.stringify(existingInteractions));
     } catch (error) {
-      console.error('Failed to store interaction in DB:', error);
+      console.error('Failed to store interaction feedback:', error);
     }
-  };
-
-  // Handle feedback on AI messages
-  const handleMessageFeedback = async (messageId: string, feedback: number) => {
-    try {
-      setMessages(prev => prev.map(msg => 
-        msg.id === messageId ? { ...msg, feedback } : msg
-      ));
-
-      // Find the original interaction and update feedback
-      const message = messages.find(m => m.id === messageId);
-      if (!message) return;
-
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { error } = await supabase
-        .from('ai_interactions')
-        .update({ user_feedback: feedback })
-        .eq('user_id', user.id)
-        .eq('ai_response', message.content);
-
-      if (error) {
-        console.error('Error updating feedback:', error);
-      } else {
-        toast({
-          title: feedback > 0 ? "Thanks for the feedback!" : "Feedback recorded",
-          description: "This helps me learn and improve.",
-        });
-      }
-    } catch (error) {
-      console.error('Failed to record feedback:', error);
-    }
-  };
-
-  const toggleReasonExpansion = (messageId: string) => {
-    setExpandedReasons(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(messageId)) {
-        newSet.delete(messageId);
-      } else {
-        newSet.add(messageId);
-      }
-      return newSet;
-    });
-  };
-
-  const handleConsentGiven = () => {
-    setHasConsent(true);
-    setShowConsentModal(false);
-    
-    // Now load portfolio data
-    const loadPortfolioData = async () => {
-      try {
-        const { data, error } = await supabase.functions.invoke('intelligent-analytics', {
-          body: {
-            userId,
-            type: 'portfolio'
-          }
-        });
-
-        if (error) throw error;
-        setPortfolioData(data.insights);
-      } catch (error) {
-        console.error('Error loading portfolio:', error);
-      }
-    };
-
-    loadPortfolioData();
   };
 
   const handleSuggestionClick = (suggestion: string) => {
@@ -493,140 +375,39 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {!hasConsent ? (
-          <div className="text-center py-8">
-            <Shield className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <p className="text-muted-foreground">
-              Please provide consent to start chatting with your AI Investment Buddy
-            </p>
-          </div>
-        ) : (
-          messages.map((message) => (
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
             <div
-              key={message.id}
-              className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`max-w-[80%] rounded-lg p-3 ${
+                message.type === 'user'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted'
+              }`}
             >
-              <div
-                className={`max-w-[80%] rounded-lg p-3 ${
-                  message.type === 'user'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-muted'
-                }`}
-              >
-                <p className="text-sm">{message.content}</p>
-                
-                {/* AI message explainability */}
-                {message.type === 'ai' && (message.reasoning || message.confidence) && (
-                  <Collapsible className="mt-2">
-                    <CollapsibleTrigger
-                      className="flex items-center gap-2 text-xs text-primary hover:text-primary/80 transition-colors"
-                      onClick={() => toggleReasonExpansion(message.id)}
+              <p className="text-sm">{message.content}</p>
+              {message.suggestions && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {message.suggestions.map((suggestion, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="cursor-pointer hover:bg-secondary/80"
+                      onClick={() => handleSuggestionClick(suggestion)}
                     >
-                      <Brain className="h-3 w-3" />
-                      Why this response?
-                      {message.confidence && (
-                        <Badge variant="outline" className="ml-1 text-xs">
-                          {Math.round(message.confidence * 100)}% confident
-                        </Badge>
-                      )}
-                      {expandedReasons.has(message.id) ? (
-                        <ChevronUp className="h-3 w-3" />
-                      ) : (
-                        <ChevronDown className="h-3 w-3" />
-                      )}
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="mt-2 space-y-2">
-                      {message.reasoning && message.reasoning.length > 0 && (
-                        <div>
-                          <p className="text-xs font-medium opacity-70">Key Factors:</p>
-                          <div className="flex flex-wrap gap-1 mt-1">
-                            {message.reasoning.map((factor, index) => (
-                              <Badge key={index} variant="secondary" className="text-xs">
-                                {factor}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {message.dataSources && message.dataSources.length > 0 && (
-                        <div>
-                          <p className="text-xs font-medium opacity-70">Data Sources:</p>
-                          <div className="flex flex-wrap gap-1 mt-1">
-                            {message.dataSources.map((source, index) => (
-                              <Badge key={index} variant="outline" className="text-xs">
-                                {source}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </CollapsibleContent>
-                  </Collapsible>
-                )}
-
-                {message.suggestions && (
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {message.suggestions.map((suggestion, index) => (
-                      <Badge
-                        key={index}
-                        variant="secondary"
-                        className="cursor-pointer hover:bg-secondary/80"
-                        onClick={() => handleSuggestionClick(suggestion)}
-                      >
-                        {suggestion}
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-
-                {/* Feedback buttons for AI messages */}
-                {message.type === 'ai' && message.feedback === undefined && (
-                  <div className="flex items-center gap-2 mt-2">
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => handleMessageFeedback(message.id, 1)}
-                      className="h-6 px-2 text-xs opacity-70 hover:opacity-100"
-                    >
-                      <ThumbsUp className="h-3 w-3" />
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => handleMessageFeedback(message.id, -1)}
-                      className="h-6 px-2 text-xs opacity-70 hover:opacity-100"
-                    >
-                      <ThumbsDown className="h-3 w-3" />
-                    </Button>
-                  </div>
-                )}
-
-                {/* Show feedback if given */}
-                {message.feedback !== undefined && (
-                  <div className="flex items-center gap-1 mt-2">
-                    {message.feedback > 0 ? (
-                      <ThumbsUp className="h-3 w-3 text-green-600" />
-                    ) : (
-                      <ThumbsDown className="h-3 w-3 text-red-600" />
-                    )}
-                    <span className="text-xs opacity-70">Thanks for the feedback!</span>
-                  </div>
-                )}
-
-                <div className="flex items-center justify-between mt-1">
-                  <p className="text-xs opacity-70">
-                    {message.timestamp.toLocaleTimeString()}
-                  </p>
-                  {message.recommendationType && (
-                    <Badge variant="outline" className="text-xs">
-                      {message.recommendationType}
+                      {suggestion}
                     </Badge>
-                  )}
+                  ))}
                 </div>
-              </div>
+              )}
+              <p className="text-xs opacity-70 mt-1">
+                {message.timestamp.toLocaleTimeString()}
+              </p>
             </div>
-          ))
-        )}
+          </div>
+        ))}
         
         {isLoading && (
           <div className="flex justify-start">
@@ -644,7 +425,7 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
       </div>
 
       {/* Input */}
-      {conversationMode === 'text' && hasConsent && (
+      {conversationMode === 'text' && (
         <div className="p-4 border-t">
           <div className="flex gap-2">
             <Input
@@ -664,13 +445,6 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
           </div>
         </div>
       )}
-
-      {/* Consent Modal */}
-      <ConsentModal
-        isOpen={showConsentModal}
-        onClose={() => setShowConsentModal(false)}
-        onConsent={handleConsentGiven}
-      />
 
       {conversationMode === 'voice' && (
         <div className="p-4 border-t bg-muted/30">
