@@ -29,11 +29,24 @@ serve(async (req) => {
   socket.onopen = () => {
     console.log('Client connected to realtime chat');
     
+    // Validate OpenAI API key
+    const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
+    if (!openAIApiKey) {
+      console.error('OPENAI_API_KEY not found');
+      socket.send(JSON.stringify({
+        type: 'error',
+        error: 'OpenAI API key not configured'
+      }));
+      return;
+    }
+    
     // Connect to OpenAI Realtime API
     const openaiUrl = 'wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-12-17';
+    console.log('Connecting to OpenAI:', openaiUrl);
+    
     openaiWs = new WebSocket(openaiUrl, [], {
       headers: {
-        'Authorization': `Bearer ${Deno.env.get('OPENAI_API_KEY')}`,
+        'Authorization': `Bearer ${openAIApiKey}`,
         'OpenAI-Beta': 'realtime=v1'
       }
     });
@@ -141,9 +154,23 @@ serve(async (req) => {
   };
 
   socket.onmessage = (event) => {
+    console.log('Client message received:', event.data);
+    
     // Forward client messages to OpenAI
     if (openaiWs && openaiWs.readyState === WebSocket.OPEN) {
-      openaiWs.send(event.data);
+      try {
+        // Validate JSON before sending
+        JSON.parse(event.data);
+        openaiWs.send(event.data);
+      } catch (error) {
+        console.error('Invalid JSON message from client:', error);
+        socket.send(JSON.stringify({
+          type: 'error',
+          error: 'Invalid message format'
+        }));
+      }
+    } else {
+      console.warn('OpenAI WebSocket not ready, message dropped');
     }
   };
 

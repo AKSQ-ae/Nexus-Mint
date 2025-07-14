@@ -137,7 +137,16 @@ export class AudioQueue {
   }
 
   private createWavFromPCM(pcmData: Uint8Array): Uint8Array {
-    // Convert bytes to 16-bit samples
+    // Ensure we have valid PCM data
+    if (pcmData.length % 2 !== 0) {
+      console.warn('PCM data length is not even, padding with zero');
+      const paddedData = new Uint8Array(pcmData.length + 1);
+      paddedData.set(pcmData);
+      paddedData[pcmData.length] = 0;
+      pcmData = paddedData;
+    }
+
+    // Convert bytes to 16-bit samples with proper little-endian byte order
     const int16Data = new Int16Array(pcmData.length / 2);
     for (let i = 0; i < pcmData.length; i += 2) {
       int16Data[i / 2] = (pcmData[i + 1] << 8) | pcmData[i];

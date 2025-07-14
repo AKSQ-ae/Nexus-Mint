@@ -68,12 +68,16 @@ export function VoiceInterface({ className, onMessage }: VoiceInterfaceProps) {
   }, [onMessage]);
 
   const handleAudioData = useCallback((audioData: Float32Array) => {
-    if (wsRef.current?.readyState === WebSocket.OPEN && isRecording) {
-      const base64Audio = encodeAudioForAPI(audioData);
-      wsRef.current.send(JSON.stringify({
-        type: 'input_audio_buffer.append',
-        audio: base64Audio
-      }));
+    if (wsRef.current?.readyState === WebSocket.OPEN && isRecording && audioData.length > 0) {
+      try {
+        const base64Audio = encodeAudioForAPI(audioData);
+        wsRef.current.send(JSON.stringify({
+          type: 'input_audio_buffer.append',
+          audio: base64Audio
+        }));
+      } catch (error) {
+        console.error('Error encoding/sending audio:', error);
+      }
     }
   }, [isRecording]);
 
@@ -86,8 +90,9 @@ export function VoiceInterface({ className, onMessage }: VoiceInterfaceProps) {
       // Request microphone permission
       await navigator.mediaDevices.getUserMedia({ audio: true });
 
-      // Connect to WebSocket
+      // Connect to WebSocket with proper URL
       const wsUrl = `wss://qncfxkgjydeiefyhyllk.functions.supabase.co/realtime-voice-chat`;
+      console.log('Connecting to:', wsUrl);
       wsRef.current = new WebSocket(wsUrl);
 
       wsRef.current.onopen = () => {
@@ -140,16 +145,24 @@ export function VoiceInterface({ className, onMessage }: VoiceInterfaceProps) {
             console.log('AI response started');
             setIsSpeaking(true);
             setAssistantTranscript('');
+            // Clear any pending audio to prevent overlapping
+            if (audioQueueRef.current) {
+              audioQueueRef.current.clear();
+            }
             break;
 
           case 'response.audio.delta':
-            if (audioQueueRef.current && !isMuted) {
-              const binaryString = atob(data.delta);
-              const bytes = new Uint8Array(binaryString.length);
-              for (let i = 0; i < binaryString.length; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
+            if (audioQueueRef.current && !isMuted && data.delta) {
+              try {
+                const binaryString = atob(data.delta);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                  bytes[i] = binaryString.charCodeAt(i);
+                }
+                await audioQueueRef.current.addToQueue(bytes);
+              } catch (error) {
+                console.error('Error processing audio delta:', error);
               }
-              await audioQueueRef.current.addToQueue(bytes);
             }
             break;
 
@@ -164,12 +177,13 @@ export function VoiceInterface({ className, onMessage }: VoiceInterfaceProps) {
 
           case 'response.done':
             console.log('AI response complete');
-            if (assistantTranscript) {
+            if (assistantTranscript.trim()) {
               addMessage({
                 type: 'assistant',
-                content: assistantTranscript,
+                content: assistantTranscript.trim(),
                 isTranscript: true
               });
+              setAssistantTranscript('');
             }
             break;
 
@@ -217,11 +231,22 @@ export function VoiceInterface({ className, onMessage }: VoiceInterfaceProps) {
     if (!audioContextRef.current || isRecording) return;
 
     try {
+      // Resume audio context if suspended
+      if (audioContextRef.current.state === 'suspended') {
+        await audioContextRef.current.resume();
+      }
+      
       audioRecorderRef.current = new AudioRecorder(handleAudioData);
       await audioRecorderRef.current.start();
       setIsRecording(true);
+      console.log('Recording started successfully');
     } catch (error) {
       console.error('Error starting recording:', error);
+      toast({
+        title: "Recording Error",
+        description: "Could not start recording. Please try again.",
+        variant: "destructive"
+      });
     }
   };
 
