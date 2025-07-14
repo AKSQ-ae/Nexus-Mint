@@ -4,6 +4,13 @@ import { createSupabaseClient, authenticateUser } from "../_shared/supabase-util
 import { createLogger } from "../_shared/logger.ts";
 import { simulateContractDeployment, generateContractSourceCode } from "../_shared/blockchain-utils.ts";
 import { validateInput, ValidationRule } from "../_shared/validation.ts";
+import { 
+  applyRateLimit, 
+  validateRequest, 
+  createSecureResponse, 
+  getClientIdentifier 
+} from "../_shared/security-middleware.ts";
+import { AuditLogger } from "../_shared/audit-logger.ts";
 
 serve(async (req) => {
   const corsResponse = handleCors(req);
@@ -12,13 +19,40 @@ serve(async (req) => {
   const logger = createLogger('live-tokenization-deploy');
   
   try {
-    logger.info("Live tokenization deployment initiated");
+    // Apply security middleware
+    const clientId = getClientIdentifier(req);
+    const requestValidation = validateRequest(req);
+    if (!requestValidation.valid) {
+      return createSecureResponse({ error: requestValidation.error }, 400);
+    }
+
+    const rateLimit = applyRateLimit(req);
+    if (!rateLimit.allowed) {
+      return createSecureResponse(
+        { error: 'Rate limit exceeded', remainingRequests: rateLimit.remaining }, 
+        429,
+        { 'X-RateLimit-Remaining': rateLimit.remaining.toString() }
+      );
+    }
+
+    logger.info("Live tokenization deployment initiated", { clientId });
     
     const supabaseClient = createSupabaseClient(true); // Use service role
+    const auditLogger = new AuditLogger(supabaseClient);
+    
     const user = await authenticateUser(req, supabaseClient);
     
     logger.updateContext({ userId: user.id });
     logger.info("User authenticated", { email: user.email });
+
+    // Log security event
+    await auditLogger.logAuthentication(
+      user.id, 
+      'login_success', 
+      clientId, 
+      req.headers.get('user-agent') || undefined,
+      { function: 'live-tokenization-deploy' }
+    );
 
     // Validate request body
     const requestBody = await req.json();

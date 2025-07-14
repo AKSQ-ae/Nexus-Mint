@@ -1,33 +1,62 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
-
-const logStep = (step: string, details?: any) => {
-  const timestamp = new Date().toISOString();
-  const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
-  console.log(`[${timestamp}] [REGULATORY-EVIDENCE] ${step}${detailsStr}`);
-};
+import { handleCors, createSuccessResponse, createErrorResponse } from "../_shared/response-utils.ts";
+import { createSupabaseClient, authenticateUser } from "../_shared/supabase-utils.ts";
+import { createLogger } from "../_shared/logger.ts";
+import { validateInput, ValidationRule } from "../_shared/validation.ts";
+import { 
+  applyRateLimit, 
+  validateRequest, 
+  createSecureResponse, 
+  getClientIdentifier 
+} from "../_shared/security-middleware.ts";
+import { AuditLogger } from "../_shared/audit-logger.ts";
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
-  }
+  const corsResponse = handleCors(req);
+  if (corsResponse) return corsResponse;
+
+  const logger = createLogger('regulatory-evidence-export');
 
   try {
-    logStep("Regulatory evidence export initiated");
+    // Apply security middleware
+    const clientId = getClientIdentifier(req);
+    const requestValidation = validateRequest(req);
+    if (!requestValidation.valid) {
+      return createSecureResponse({ error: requestValidation.error }, 400);
+    }
+
+    const rateLimit = applyRateLimit(req);
+    if (!rateLimit.allowed) {
+      return createSecureResponse(
+        { error: 'Rate limit exceeded', remainingRequests: rateLimit.remaining }, 
+        429,
+        { 'X-RateLimit-Remaining': rateLimit.remaining.toString() }
+      );
+    }
+
+    logger.info("Regulatory evidence export initiated", { clientId });
     
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
-      { auth: { persistSession: false } }
-    );
+    const supabaseClient = createSupabaseClient(true);
+    const auditLogger = new AuditLogger(supabaseClient);
 
     // Authenticate user
-    const authHeader = req.headers.get('Authorization')!;
+    const user = await authenticateUser(req, supabaseClient);
+    
+    logger.updateContext({ userId: user.id });
+    logger.info("User authenticated for evidence export", { email: user.email });
+
+    // Log compliance access
+    await auditLogger.logComplianceEvent(
+      user.id,
+      'regulatory_evidence_export',
+      'compliance_report',
+      undefined,
+      { 
+        function: 'regulatory-evidence-export',
+        ip_address: clientId,
+        user_agent: req.headers.get('user-agent') || undefined
+      }
+    );
     const token = authHeader.replace('Bearer ', '');
     const { data: { user }, error: authError } = await supabaseClient.auth.getUser(token);
     
