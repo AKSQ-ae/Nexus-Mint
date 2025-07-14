@@ -24,11 +24,11 @@ jobs:
         run: npm run build
       
       - name: Start server
-        run: npm run dev &
+        run: npm run preview &
         
       - name: Wait for server to be ready
         run: |
-          timeout 60 bash -c 'until curl -f http://localhost:5173; do sleep 2; done'
+          timeout 60 bash -c 'until curl -f http://localhost:4173; do sleep 2; done'
           sleep 5
       
       - name: Run Lighthouse CI
