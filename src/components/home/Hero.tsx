@@ -1,60 +1,80 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight, TrendingUp, Shield, Users, Play, Building, DollarSign, ChartLine, RefreshCw } from 'lucide-react';
+import { ArrowRight, TrendingUp, Shield, Users, Play, Building, DollarSign, ChartLine, RefreshCw, Sparkles, Target, Zap } from 'lucide-react';
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
 
 export function Hero() {
   console.log('Hero component rendering with journey section');
   
   return (
-    <section className="bg-white text-foreground relative overflow-hidden">
-      {/* Premium animated background elements */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-secondary/40 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-primary-glow/30 rounded-full blur-3xl animate-float" style={{animationDelay: '1.5s'}}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-128 h-128 bg-secondary/20 rounded-full blur-3xl animate-float" style={{animationDelay: '3s'}}></div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-blue-50/30 to-orange-50/30">
+      {/* Enhanced animated background elements */}
+      <div className="absolute inset-0">
+        {/* Floating orbs */}
+        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-blue-400/20 to-blue-600/20 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-br from-orange-400/20 to-orange-600/20 rounded-full blur-3xl animate-float-delay-1"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-128 h-128 bg-gradient-to-br from-blue-300/10 to-orange-300/10 rounded-full blur-3xl animate-float-delay-2"></div>
+        
+        {/* Grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+        
+        {/* Sparkle effects */}
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400 rounded-full animate-pulse-slow"></div>
+        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-orange-400 rounded-full animate-pulse-fast"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse-slow"></div>
       </div>
       
-      <div className="container mx-auto px-4 py-32 lg:py-40 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Stylish NEXUS MINT Logo */}
-          <div className="animate-fade-in-up flex justify-center mb-8">
-            <h1 className="text-7xl md:text-8xl lg:text-9xl font-black tracking-[0.15em] uppercase transform hover:scale-105 transition-all duration-500 relative">
-              <span className="text-blue-600">NEXUS</span>
-              <span className="text-orange-500 ml-4">MINT</span>
-            </h1>
-          </div>
-          
-          {/* Own. Earn. Multiply Motto */}
-          <div className="animate-fade-in-up flex justify-center mb-16" style={{animationDelay: '0.2s'}}>
-            <div className="flex items-center gap-4 text-lg md:text-xl lg:text-2xl font-semibold">
-              <span className="text-blue-primary hover:scale-105 transition-all duration-300 cursor-default">Own</span>
-              <div className="w-2 h-2 bg-orange-accent rounded-full animate-pulse"></div>
-              <span className="text-orange-accent hover:scale-105 transition-all duration-300 cursor-default">Earn</span>
-              <div className="w-2 h-2 bg-blue-secondary rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-              <span className="text-blue-secondary hover:scale-105 transition-all duration-300 cursor-default">Multiply</span>
+      <div className="container mx-auto px-4 py-20 lg:py-32 relative z-10">
+        <div className="max-w-6xl mx-auto text-center">
+          {/* Enhanced NEXUS MINT Logo */}
+          <div className="animate-fade-in-up flex justify-center mb-12">
+            <div className="relative group">
+              <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-[0.15em] uppercase transform hover:scale-105 transition-all duration-700 relative">
+                <span className="text-blue-600 group-hover:text-blue-700 transition-colors duration-500">NEXUS</span>
+                <span className="text-orange-500 ml-2 lg:ml-4 group-hover:text-orange-600 transition-colors duration-500">MINT</span>
+              </h1>
+              {/* Glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-orange-500/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
           </div>
           
-          {/* Step-based transaction flow */}
-          <div className="mb-16 max-w-6xl mx-auto">
+          {/* Enhanced Own. Earn. Multiply Motto */}
+          <div className="animate-fade-in-up flex justify-center mb-16" style={{animationDelay: '0.2s'}}>
+            <div className="flex flex-wrap items-center justify-center gap-4 text-lg md:text-xl lg:text-2xl font-semibold">
+              <div className="flex items-center gap-2 group">
+                <span className="text-blue-primary group-hover:scale-110 transition-all duration-300 cursor-default">Own</span>
+                <Target className="w-5 h-5 text-blue-primary group-hover:rotate-12 transition-all duration-300" />
+              </div>
+              <div className="w-2 h-2 bg-orange-accent rounded-full animate-pulse"></div>
+              <div className="flex items-center gap-2 group">
+                <span className="text-orange-accent group-hover:scale-110 transition-all duration-300 cursor-default">Earn</span>
+                <Zap className="w-5 h-5 text-orange-accent group-hover:rotate-12 transition-all duration-300" />
+              </div>
+              <div className="w-2 h-2 bg-blue-secondary rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+              <div className="flex items-center gap-2 group">
+                <span className="text-blue-secondary group-hover:scale-110 transition-all duration-300 cursor-default">Multiply</span>
+                <TrendingUp className="w-5 h-5 text-blue-secondary group-hover:rotate-12 transition-all duration-300" />
+              </div>
+            </div>
+          </div>
+          
+          {/* Enhanced Step-based transaction flow */}
+          <div className="mb-20 max-w-7xl mx-auto">
             <div className="text-center mb-16 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-              <h3 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">
+              <h3 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-bold text-foreground mb-6">
                 Your Journey to Real Estate Wealth
               </h3>
-              <p className="text-lg text-muted-foreground font-inter max-w-2xl mx-auto">
-                Three simple steps to transform your investment approach
+              <p className="text-lg lg:text-xl text-muted-foreground font-inter max-w-3xl mx-auto leading-relaxed">
+                Three simple steps to transform your investment approach and build generational wealth
               </p>
             </div>
             
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-              <div className="step-card group animate-fade-in-up relative overflow-hidden bg-white/95 backdrop-blur-sm border border-gray-200 rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105" style={{animationDelay: '0.5s'}}>
+            <div className="grid grid-cols-1 gap-8 lg:gap-12 sm:grid-cols-3">
+              <div className="step-card group animate-fade-in-up relative overflow-hidden bg-white/95 backdrop-blur-sm border border-gray-200/50 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-700 hover:scale-105" style={{animationDelay: '0.5s'}}>
                 <div className="absolute top-4 right-4 text-6xl font-bold text-orange-500/10">01</div>
                 <div className="step-icon mx-auto mb-6 relative z-10 flex justify-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-600 via-blue-500 to-blue-400 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg>
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-600 via-blue-500 to-blue-400 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:scale-110">
+                    <Building className="w-10 h-10 text-white group-hover:rotate-12 transition-all duration-500" />
                   </div>
                 </div>
                 <h4 className="text-2xl font-bold mb-4 text-gray-900 group-hover:text-blue-600 transition-colors relative z-10">
@@ -63,34 +83,30 @@ export function Hero() {
                 <p className="text-gray-600 font-medium leading-relaxed text-lg relative z-10">
                   Start with AED 500 to own on-chain, fractional shares in prime UAE real estate
                 </p>
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
               
-              <div className="step-card group animate-fade-in-up relative overflow-hidden bg-white/95 backdrop-blur-sm border border-gray-200 rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105" style={{animationDelay: '0.6s'}}>
+              <div className="step-card group animate-fade-in-up relative overflow-hidden bg-white/95 backdrop-blur-sm border border-gray-200/50 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-700 hover:scale-105" style={{animationDelay: '0.6s'}}>
                 <div className="absolute top-4 right-4 text-6xl font-bold text-blue-600/10">02</div>
                 <div className="step-icon mx-auto mb-6 relative z-10 flex justify-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-600 via-blue-500 to-blue-400 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                    </svg>
+                  <div className="w-20 h-20 bg-gradient-to-br from-green-600 via-green-500 to-green-400 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:scale-110">
+                    <DollarSign className="w-10 h-10 text-white group-hover:rotate-12 transition-all duration-500" />
                   </div>
                 </div>
-                <h4 className="text-2xl font-bold mb-4 text-gray-900 group-hover:text-blue-600 transition-colors relative z-10">
+                <h4 className="text-2xl font-bold mb-4 text-gray-900 group-hover:text-green-600 transition-colors relative z-10">
                   Earn 8–12% p.a.
                 </h4>
                  <p className="text-gray-600 font-medium leading-relaxed text-lg relative z-10">
                    Earn 8–12% p.a. rental income, paid quarterly into your Nexus Mint Wallet fully transparent, zero paperwork.
                  </p>
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-green-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
               
-              <div className="step-card group animate-fade-in-up relative overflow-hidden bg-white/95 backdrop-blur-sm border border-gray-200 rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105" style={{animationDelay: '0.7s'}}>
+              <div className="step-card group animate-fade-in-up relative overflow-hidden bg-white/95 backdrop-blur-sm border border-gray-200/50 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-700 hover:scale-105" style={{animationDelay: '0.7s'}}>
                 <div className="absolute top-4 right-4 text-6xl font-bold text-orange-500/10">03</div>
                 <div className="step-icon mx-auto mb-6 relative z-10 flex justify-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-orange-500 via-orange-400 to-orange-300 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
+                  <div className="w-20 h-20 bg-gradient-to-br from-orange-500 via-orange-400 to-orange-300 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:scale-110">
+                    <ChartLine className="w-10 h-10 text-white group-hover:rotate-12 transition-all duration-500" />
                   </div>
                 </div>
                 <h4 className="text-2xl font-bold mb-4 text-gray-900 group-hover:text-orange-500 transition-colors relative z-10">
@@ -99,49 +115,53 @@ export function Hero() {
                 <p className="text-gray-600 font-medium leading-relaxed text-lg relative z-10">
                   Trade & Multiply on our marketplace, reinvesting instantly to watch your wealth compound as property values rise.
                 </p>
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
             </div>
           </div>
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.8s'}}>
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-8 leading-none text-foreground">
-              <span className="block bg-gradient-to-r from-coral via-secondary to-coral bg-clip-text text-transparent font-extrabold">Own Premium Real Estate for $100</span>
-            </h1>
+            <h2 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-playfair font-bold mb-8 leading-none text-foreground">
+              <span className="block bg-gradient-to-r from-blue-600 via-orange-500 to-blue-600 bg-clip-text text-transparent font-extrabold animate-gradient-x">
+                Own Premium Real Estate for $100
+              </span>
+            </h2>
           </div>
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-12 font-inter leading-relaxed max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-12 font-inter leading-relaxed max-w-4xl mx-auto">
               Fractional UAE Real Estate. Instant Liquidity. Proven Yields.
             </p>
           </div>
           
-          <div className="animate-fade-in-up flex flex-col sm:flex-row gap-4 items-center justify-center max-w-lg mx-auto" style={{animationDelay: '0.7s'}}>
-            <Link to="/auth/signup" className="w-full sm:w-auto">
-              <Button variant="hero" size="xl" className="w-full sm:w-auto">
+          <div className="animate-fade-in-up flex flex-col sm:flex-row gap-6 items-center justify-center max-w-2xl mx-auto" style={{animationDelay: '0.7s'}}>
+            <Link to="/auth/signup" className="w-full sm:w-auto group">
+              <Button variant="hero" size="xl" className="w-full sm:w-auto group-hover:scale-105 transition-all duration-300">
+                <Sparkles className="mr-2 h-5 w-5 group-hover:rotate-180 transition-all duration-500" />
                 Get Started Free
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-all duration-300" />
               </Button>
             </Link>
-            <Link to="/properties" className="w-full sm:w-auto">
-              <Button variant="outline" size="xl" className="w-full sm:w-auto bg-white/90 hover:bg-white">
+            <Link to="/properties" className="w-full sm:w-auto group">
+              <Button variant="outline" size="xl" className="w-full sm:w-auto bg-white/90 hover:bg-white group-hover:scale-105 transition-all duration-300">
+                <Building className="mr-2 h-5 w-5 group-hover:rotate-12 transition-all duration-300" />
                 Browse Properties
               </Button>
             </Link>
           </div>
           
-          {/* Early Access Section */}
-          <div className="animate-fade-in-up mt-16 text-center" style={{animationDelay: '0.9s'}}>
-            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">Early Access</h2>
-            <p className="text-lg text-muted-foreground font-inter max-w-2xl mx-auto mb-8">
+          {/* Enhanced Early Access Section */}
+          <div className="animate-fade-in-up mt-20 text-center" style={{animationDelay: '0.9s'}}>
+            <h3 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-bold text-foreground mb-6">Early Access</h3>
+            <p className="text-lg lg:text-xl text-muted-foreground font-inter max-w-3xl mx-auto mb-12 leading-relaxed">
               Join our invitation-only launch cohort and lock in your spot today.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-8">
-              <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto mb-12">
+              <div className="metric-card group animate-fade-in-up" style={{animationDelay: '1.0s'}}>
                 <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <Building className="w-8 h-8 text-white" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:scale-110">
+                    <Building className="w-8 h-8 text-white group-hover:rotate-12 transition-all duration-500" />
                   </div>
                 </div>
                 <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
@@ -159,10 +179,10 @@ export function Hero() {
                 </svg>
               </div>
 
-              <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
+              <div className="metric-card group animate-fade-in-up" style={{animationDelay: '1.1s'}}>
                 <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <DollarSign className="w-8 h-8 text-white" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:scale-110">
+                    <Users className="w-8 h-8 text-white group-hover:rotate-12 transition-all duration-500" />
                   </div>
                 </div>
                 <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
@@ -180,10 +200,10 @@ export function Hero() {
                 </svg>
               </div>
 
-              <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
+              <div className="metric-card group animate-fade-in-up" style={{animationDelay: '1.2s'}}>
                 <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-accent via-coral to-orange-accent/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <ChartLine className="w-8 h-8 text-white" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-accent via-orange-500 to-orange-accent/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:scale-110">
+                    <ChartLine className="w-8 h-8 text-white group-hover:rotate-12 transition-all duration-500" />
                   </div>
                 </div>
                 <div className="text-3xl md:text-4xl font-playfair font-bold text-orange-accent mb-2">
@@ -201,36 +221,54 @@ export function Hero() {
                 </svg>
               </div>
 
-              <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
+              <div className="metric-card group animate-fade-in-up" style={{animationDelay: '1.3s'}}>
                 <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-secondary via-coral to-secondary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <RefreshCw className="w-8 h-8 text-white animate-pulse" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-green-600 via-green-500 to-green-400 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:scale-110">
+                    <Shield className="w-8 h-8 text-white group-hover:rotate-12 transition-all duration-500" />
                   </div>
                 </div>
-                <div className="text-3xl md:text-4xl font-playfair font-bold text-secondary mb-2">
-                  24/7
+                <div className="text-3xl md:text-4xl font-playfair font-bold text-green-600 mb-2">
+                  <span className="count-up" data-target="100">100</span>%
                 </div>
-                <p className="text-muted-foreground font-inter font-medium mb-3">Liquidity</p>
-                <p className="text-sm text-muted-foreground font-inter">Trade anytime, instant settlement</p>
+                <p className="text-muted-foreground font-inter font-medium mb-3">Regulated & Secure</p>
+                <svg className="w-full h-6 mx-auto" viewBox="0 0 100 20">
+                  <polyline 
+                    points="0,10 25,8 50,6 75,4 100,2"
+                    fill="none" 
+                    stroke="hsl(142 71% 45%)" 
+                    strokeWidth="2"
+                    className="animate-draw-line"
+                  />
+                </svg>
               </div>
             </div>
 
-            <div className="flex flex-col items-center gap-4">
-              <Button variant="cta" size="xl">
-                Request Early Access
-                <TrendingUp className="ml-2 h-5 w-5" />
-              </Button>
-              <p className="text-sm text-muted-foreground font-inter">
-                Secure your spot.
-              </p>
+            {/* Enhanced CTA for Early Access */}
+            <div className="animate-fade-in-up" style={{animationDelay: '1.4s'}}>
+              <div className="bg-gradient-to-r from-blue-primary/10 via-orange-accent/10 to-blue-primary/10 rounded-2xl p-8 border border-blue-primary/20">
+                <h4 className="text-2xl font-bold text-foreground mb-4">Ready to Start Your Investment Journey?</h4>
+                <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                  Join our exclusive early access program and be among the first to experience the future of real estate investment.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link to="/early-access" className="group">
+                    <Button className="bg-gradient-to-r from-blue-primary to-blue-secondary hover:from-blue-600 hover:to-blue-700 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                      <Shield className="mr-2 h-5 w-5 group-hover:rotate-12 transition-all duration-300" />
+                      Join Early Access
+                    </Button>
+                  </Link>
+                  <Link to="/how-it-works" className="group">
+                    <Button variant="outline" className="border-blue-primary text-blue-primary hover:bg-blue-primary hover:text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 group-hover:scale-105">
+                      <Play className="mr-2 h-5 w-5 group-hover:rotate-12 transition-all duration-300" />
+                      Learn More
+                    </Button>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        
       </div>
-      
-      {/* Gradient overlay */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent"></div>
     </section>
   );
 }
