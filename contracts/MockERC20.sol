@@ -6,10 +6,11 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * @title MockERC20
- * @dev Mock ERC20 token for testing purposes
+ * @dev Mock AED stablecoin for testing Nexus Mint Sharia platform
+ * @notice This is for testing only - use real AED stablecoin in production
  */
 contract MockERC20 is ERC20, Ownable {
-    uint8 private _decimals;
+    uint8 private _customDecimals;
     
     constructor(
         string memory name,
@@ -17,19 +18,26 @@ contract MockERC20 is ERC20, Ownable {
         uint8 decimals_,
         uint256 initialSupply
     ) ERC20(name, symbol) {
-        _decimals = decimals_;
+        _customDecimals = decimals_;
         _mint(msg.sender, initialSupply);
     }
     
     function decimals() public view virtual override returns (uint8) {
-        return _decimals;
+        return _customDecimals;
     }
     
-    function mint(address to, uint256 amount) public onlyOwner {
+    /**
+     * @dev Mint additional tokens (for testing purposes)
+     */
+    function mint(address to, uint256 amount) external onlyOwner {
         _mint(to, amount);
     }
     
-    function burn(uint256 amount) public {
-        _burn(msg.sender, amount);
+    /**
+     * @dev Faucet function for easy testing
+     */
+    function faucet(address to, uint256 amount) external {
+        require(amount <= 1000000 * 10**_customDecimals, "Faucet limit exceeded");
+        _mint(to, amount);
     }
 }
