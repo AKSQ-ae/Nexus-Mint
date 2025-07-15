@@ -2,10 +2,30 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Basic Navigation Tests', () => {
   test.beforeEach(async ({ page }) => {
-    // Suppress console errors
+    // Mock dependencies before page loads
     await page.addInitScript(() => {
+      // Mock Supabase environment
+      (window as any).SUPABASE_ANON_KEY = 'test-key';
+      (window as any).SUPABASE_URL = 'https://test.supabase.co';
+      
+      // Mock wallet
+      (window as any).ethereum = {
+        request: async () => ['0xTest'],
+        isMetaMask: true
+      };
+      
+      // Suppress console noise
       console.error = () => {};
       console.warn = () => {};
+    });
+
+    // Mock API calls
+    await page.route('**/supabase/**', route => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ data: [], error: null })
+      });
     });
   });
 
