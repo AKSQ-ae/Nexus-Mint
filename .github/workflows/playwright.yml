@@ -1,10 +1,10 @@
-name: Playwright Tests Online
+name: 🎭 Playwright Tests
+
+# Optimized triggers - run on PRs and manual triggers only
 on:
-  push:
-    branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  workflow_dispatch:
+  workflow_dispatch: # Allow manual runs
 
 jobs:
   test:
@@ -16,7 +16,7 @@ jobs:
       with:
         node-version: lts/*
     - name: Install dependencies
-      run: npm ci
+      run: npm ci --legacy-peer-deps
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests

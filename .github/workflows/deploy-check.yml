@@ -1,0 +1,30 @@
+name: 🚀 Deploy Check
+
+# Simple check to ensure builds work before Vercel deployment
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: 🔧 Install dependencies
+        run: npm ci --legacy-peer-deps
+      
+      - name: 🏗️ Build project
+        run: npm run build
+      
+      - name: ✅ Build successful
+        run: echo "✅ Build completed successfully - ready for Vercel deployment!"

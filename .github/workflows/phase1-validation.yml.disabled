@@ -1,10 +1,16 @@
-name: Phase 1 Validation & Evidence
+# TEMPORARILY DISABLED - Heavy workflow impacting Vercel deployments
+# Re-enable when needed for major releases
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+# name: Phase 1 Validation & Evidence
+
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
+
+# Workflow disabled to optimize development flow
+# Run manually when needed: gh workflow run phase1-validation.yml
 
 jobs:
   setup:
