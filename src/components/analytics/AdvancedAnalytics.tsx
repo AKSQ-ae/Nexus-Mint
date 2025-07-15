@@ -106,7 +106,7 @@ export function AdvancedAnalytics({
       };
     });
     setYieldProjections(projections);
-  };
+  }, [portfolioValue]);
 
   const generateTaxReport = async () => {
     setLoading(true);
@@ -139,7 +139,7 @@ export function AdvancedAnalytics({
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     generateMockData();
