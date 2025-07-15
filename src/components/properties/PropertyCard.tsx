@@ -7,18 +7,9 @@ import { Progress } from '@/components/ui/progress';
 import { MapPin, Building, TrendingUp, Zap, BarChart3 } from 'lucide-react';
 import { QuickInvestFlow } from '@/components/investment/QuickInvestFlow';
 import { currencyService } from '@/lib/services/currency-service';
+import { Property } from '@/types';
 
-interface Property {
-  id: string;
-  title: string;
-  description: string;
-  city: string;
-  country: string;
-  property_type: string;
-  price_per_token: number;
-  total_tokens: number;
-  images: any;
-}
+// ✅ Using proper Property type from /types/index.ts
 
 interface PropertyCardProps {
   property: Property;

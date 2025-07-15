@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -104,14 +104,14 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
       const greeting = generatePersonalizedGreeting();
       addMessage('ai', greeting, generateInitialSuggestions());
     }
-  }, [portfolioData]);
+  }, [portfolioData, generatePersonalizedGreeting]);
 
   // Scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const generatePersonalizedGreeting = (): string => {
+  const generatePersonalizedGreeting = useCallback((): string => {
     if (!portfolioData) {
       return "Hey! I'm your investment buddy. What's on your mind today?";
     }
@@ -125,7 +125,7 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
     } else {
       return `Hello! Your portfolio is holding steady at $${totalInvested.toLocaleString()} across ${propertyCount} properties. What would you like to explore today?`;
     }
-  };
+  }, [portfolioData]);
 
   const generateInitialSuggestions = (): string[] => {
     return [

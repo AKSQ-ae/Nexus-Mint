@@ -16,7 +16,12 @@ interface DeviceInfo {
 }
 
 export const useCapacitor = () => {
-  // Safety check for React hooks
+  // ✅ Always call hooks at the top level
+  const [isNative, setIsNative] = useState(false);
+  const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+
+  // Safety check for React hooks moved after hooks are called
   if (!React || typeof useState !== 'function') {
     console.warn('React hooks not available, falling back to default values');
     return {
@@ -28,10 +33,6 @@ export const useCapacitor = () => {
       exitApp: async () => {},
     };
   }
-
-  const [isNative, setIsNative] = useState(false);
-  const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
-  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   useEffect(() => {
     const initializeCapacitor = async () => {

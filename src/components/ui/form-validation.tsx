@@ -54,7 +54,7 @@ export const validators = {
   },
 
   phoneNumber: (value: string): ValidationResult => {
-    const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
+    const phoneRegex = /^\+?[\d\s\-()]{10,}$/;
     const isValid = phoneRegex.test(value);
     return {
       isValid,
@@ -67,7 +67,7 @@ interface ValidatedInputProps {
   label: string;
   value: string | number;
   onChange: (value: string) => void;
-  validators: ((value: any) => ValidationResult)[];
+  validators: ((value: string | number) => ValidationResult)[];
   type?: 'text' | 'email' | 'number' | 'tel';
   placeholder?: string;
   disabled?: boolean;

@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { Property } from '@/types';
 import { 
   Search, 
   Filter, 
@@ -24,22 +25,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
 import { currencyService } from '@/lib/services/currency-service';
 
-interface Property {
-  id: string;
-  title: string;
-  description: string;
-  address: string;
-  city: string;
-  country: string;
-  property_type: string;
-  price: number;
-  price_per_token: number;
-  total_tokens: number;
-  tokenization_status: string;
-  images: any;
-  created_at: string;
-  is_featured?: boolean;
-}
+// ✅ Using proper Property type from /types/index.ts
 
 interface FilterState {
   search: string;
