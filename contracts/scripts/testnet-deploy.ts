@@ -93,7 +93,7 @@ async function main() {
       console.log("🔄 Auto-verifying contract...");
       try {
         await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds
-        const hre = require("hardhat");
+        import hre from 'hardhat';
         await hre.run("verify:verify", {
           address: contractAddress,
           constructorArguments: [baseURI, deployer.address],
