@@ -9,7 +9,7 @@ interface DeploymentResult {
   gasUsed: string;
   timestamp: string;
   verificationUrl?: string;
-  propertyCreated?: any;
+  propertyCreated?: Record<string, unknown>;
 }
 
 async function main() {

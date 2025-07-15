@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -72,11 +72,7 @@ export function AdvancedAnalytics({
   const [loading, setLoading] = useState(false);
   const [nextDistributionDate, setNextDistributionDate] = useState<Date | null>(null);
 
-  useEffect(() => {
-    generateMockData();
-  }, []);
-
-  const generateMockData = () => {
+  const generateMockData = useCallback(() => {
     // Generate mock distributions for next 6 months
     const mockDistributions: Distribution[] = Array.from({ length: 6 }, (_, i) => {
       const date = new Date();
@@ -143,7 +139,11 @@ export function AdvancedAnalytics({
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    generateMockData();
+  }, [generateMockData]);
 
   const pendingDistributions = distributions.filter(d => d.status === 'pending');
   const totalPendingAmount = pendingDistributions.reduce((sum, d) => sum + d.amount, 0);

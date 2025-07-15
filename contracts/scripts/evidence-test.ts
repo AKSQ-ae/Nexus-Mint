@@ -10,7 +10,7 @@ import * as path from "path";
 interface TestResult {
   test: string;
   status: 'PASS' | 'FAIL';
-  evidence?: any;
+  evidence?: Record<string, unknown>;
   error?: string;
 }
 
@@ -23,7 +23,7 @@ interface EvidenceReport {
     failed: number;
     successRate: number;
   };
-  contractDeployment?: any;
+      contractDeployment?: Record<string, unknown>;
   regulatoryCompliance: boolean;
 }
 
@@ -33,7 +33,7 @@ async function main() {
 
   const results: TestResult[] = [];
   let contractAddress = "";
-  let propertyTokenContract: any = null;
+  let propertyTokenContract: Record<string, unknown> | null = null;
 
   // Test 1: Smart Contract Compilation
   try {

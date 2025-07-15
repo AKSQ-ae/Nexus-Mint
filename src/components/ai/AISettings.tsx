@@ -43,7 +43,7 @@ const AISettings: React.FC = () => {
 
   useEffect(() => {
     loadPreferences();
-  }, [user]);
+  }, [loadPreferences]);
 
   const loadPreferences = async () => {
     if (!user) return;
