@@ -23,6 +23,10 @@
     "contracts:test": "cd contracts && npx hardhat test",
     "contracts:deploy": "cd contracts && npx hardhat run scripts/deploy.ts"
   },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0"
+  },
   "dependencies": {
     "@11labs/react": "^0.1.4",
     "@axe-core/react": "^4.10.2",
