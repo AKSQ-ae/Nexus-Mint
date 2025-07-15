@@ -3,6 +3,29 @@
 ## Overview
 This document describes the database schema for the Nexus Mint real estate tokenization platform, built on Supabase PostgreSQL.
 
+**⚠️ Important**: The actual SQL schema definitions are located in `/supabase/migrations/001_initial_schema.sql`
+
+## Database Tables
+The following tables are defined in the schema:
+
+### Core Tables (10 tables)
+- **properties** - Real estate property listings
+- **property_tokens** - Blockchain token representations  
+- **user_profiles** - User account information
+- **kyc_documents** - KYC verification documents
+- **investments** - User investment records
+- **payment_methods** - Payment method configurations
+- **payment_transactions** - Payment transaction history
+- **ai_interactions** - AI assistant conversation history
+- **notifications** - User notification system
+- **analytics_events** - Application analytics tracking
+
+### Security Features
+- Row Level Security (RLS) enabled on all user tables
+- Comprehensive access policies
+- Audit triggers for data changes
+- Performance indexes on key columns
+
 ## Entity Relationship Diagram
 
 ```mermaid

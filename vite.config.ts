@@ -13,7 +13,7 @@ export default defineConfig({
   build: {
     // Optimize for production deployment
     outDir: 'dist',
-    sourcemap: false,
+    sourcemap: true, // Enable source maps for analysis
     minify: 'esbuild',
     target: 'es2020',
     rollupOptions: {
@@ -21,13 +21,31 @@ export default defineConfig({
         manualChunks: {
           // Split vendor chunks for better caching
           'vendor-react': ['react', 'react-dom'],
-          'vendor-ui': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-toast'],
+          'vendor-router': ['react-router-dom'],
+          'vendor-ui': [
+            '@radix-ui/react-dialog', 
+            '@radix-ui/react-dropdown-menu', 
+            '@radix-ui/react-toast',
+            '@radix-ui/react-progress',
+            '@radix-ui/react-slider',
+            '@radix-ui/react-switch'
+          ],
           'vendor-crypto': ['ethers', 'viem'],
-          'vendor-routing': ['react-router-dom']
+          'vendor-wallets': [
+            '@reown/appkit',
+            '@reown/appkit-controllers',
+            '@walletconnect/core',
+            '@walletconnect/utils'
+          ],
+          'vendor-icons': ['lucide-react'],
+          'vendor-utils': ['clsx', 'tailwind-merge'],
+          'vendor-analytics': ['@sentry/react'],
+          'vendor-supabase': ['@supabase/supabase-js'],
+          'vendor-ai': ['@11labs/react']
         }
       }
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 800, // Reduced from 1000
     // Ensure compatibility with Vercel
     assetsDir: 'assets',
     emptyOutDir: true
@@ -51,9 +69,13 @@ export default defineConfig({
       'react',
       'react-dom',
       'react-router-dom',
-      '@radix-ui/react-dialog',
-      '@radix-ui/react-dropdown-menu',
-      '@radix-ui/react-toast'
+      'ethers',
+      'viem',
+      'lucide-react'
+    ],
+    exclude: [
+      '@reown/appkit',
+      '@walletconnect/core'
     ]
   }
 })

@@ -155,13 +155,32 @@ class FunctionalityTester {
   async testDatabase() {
     return this.testFeature('Database Schema', async () => {
       const schemaFile = 'supabase/schema.md';
+      const migrationFile = 'supabase/migrations/001_initial_schema.sql';
       
       if (!fs.existsSync(schemaFile)) {
         throw new Error('Database schema file missing');
       }
       
+      let tables = 0;
+      
+      // Check schema.md file
       const schema = fs.readFileSync(schemaFile, 'utf8');
-      const tables = (schema.match(/CREATE TABLE/g) || []).length;
+      tables += (schema.match(/CREATE TABLE/g) || []).length;
+      
+      // Check migration files
+      if (fs.existsSync(migrationFile)) {
+        const migration = fs.readFileSync(migrationFile, 'utf8');
+        tables += (migration.match(/CREATE TABLE/g) || []).length;
+      }
+      
+      // Check entire migrations directory
+      if (fs.existsSync('supabase/migrations')) {
+        const migrationFiles = fs.readdirSync('supabase/migrations').filter(file => file.endsWith('.sql'));
+        migrationFiles.forEach(file => {
+          const content = fs.readFileSync(`supabase/migrations/${file}`, 'utf8');
+          tables += (content.match(/CREATE TABLE/g) || []).length;
+        });
+      }
       
       if (tables < 5) {
         throw new Error('Insufficient database schema');
