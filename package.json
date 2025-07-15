@@ -21,7 +21,11 @@
     "analyze:css": "npm run build && source-map-explorer 'dist/assets/index-*.css'",
     "contracts:compile": "cd contracts && npx hardhat compile",
     "contracts:test": "cd contracts && npx hardhat test",
-    "contracts:deploy": "cd contracts && npx hardhat run scripts/deploy.ts"
+    "contracts:deploy": "cd contracts && npx hardhat run scripts/deploy.ts",
+    "contracts:analyze": "node scripts/contract-analysis.js",
+    "coverage:check": "npm run test:coverage && node -e \"const coverage = require('./coverage/coverage-summary.json'); const threshold = 95; const total = coverage.total.lines.pct; if (total < threshold) { console.error('Coverage below threshold:', total + '%'); process.exit(1); } else { console.log('Coverage meets threshold:', total + '%'); }\"",
+    "security:audit": "npm audit --audit-level=moderate && snyk test",
+    "quality:gate": "npm run contracts:analyze && npm run coverage:check && npm run security:audit"
   },
   "engines": {
     "node": ">=20.0.0",
@@ -85,6 +89,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.3.0",
+    "crypto-js": "^4.2.0",
     "ethers": "^6.15.0",
     "hardhat": "^0.0.7",
     "input-otp": "^1.2.4",
@@ -127,6 +132,7 @@
     "tailwindcss": "^3.4.11",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "@types/crypto-js": "^4.2.2"
   }
 }

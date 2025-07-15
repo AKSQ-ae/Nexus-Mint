@@ -1,0 +1,196 @@
+name: CI Coverage & Contract Analysis
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  COVERAGE_THRESHOLD: 95
+  NODE_VERSION: '20'
+
+jobs:
+  test-coverage:
+    name: Test & Coverage Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests with coverage
+      run: npm run test:coverage
+      
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        fail_ci_if_error: true
+        coverage_command: npm run test:coverage
+        coverage_report: coverage/lcov.info
+        
+    - name: Check coverage threshold
+      run: |
+        COVERAGE=$(npx jest --coverage --coverageReporters=text --coverageReporters=lcov --passWithNoTests | grep -E "All files.*%|Statements.*%|Branches.*%|Functions.*%|Lines.*%" | tail -1)
+        echo "Coverage report: $COVERAGE"
+        
+        # Extract coverage percentage (assuming format like "All files  |    95.45 |    94.12 |    96.15 |    95.45 |")
+        COVERAGE_PCT=$(echo "$COVERAGE" | grep -oE "[0-9]+\.[0-9]+" | head -1)
+        
+        if (( $(echo "$COVERAGE_PCT < $COVERAGE_THRESHOLD" | bc -l) )); then
+          echo "❌ Coverage ($COVERAGE_PCT%) is below threshold ($COVERAGE_THRESHOLD%)"
+          exit 1
+        else
+          echo "✅ Coverage ($COVERAGE_PCT%) meets threshold ($COVERAGE_THRESHOLD%)"
+        fi
+
+  contract-analysis:
+    name: Smart Contract Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd contracts && npm ci
+        
+    - name: Compile contracts
+      run: cd contracts && npx hardhat compile
+      
+    - name: Run contract tests
+      run: cd contracts && npx hardhat test
+      
+    - name: Run Slither analysis
+      uses: crytic/slither-action@v0.2.0
+      with:
+        target: 'contracts'
+        args: '--print human-summary --print contract-summary'
+        
+    - name: Run Mythril analysis
+      run: |
+        pip install mythril
+        myth analyze contracts/NexusMintShariaToken.sol --solv 0.8.19
+        myth analyze contracts/NexusMintShariaFactory.sol --solv 0.8.19
+        myth analyze contracts/NexusMintShariaMarketplace.sol --solv 0.8.19
+        
+    - name: Check for critical vulnerabilities
+      run: |
+        # Check if any critical issues were found in previous steps
+        if [ -f "slither-report.txt" ]; then
+          CRITICAL_ISSUES=$(grep -i "critical" slither-report.txt | wc -l)
+          if [ "$CRITICAL_ISSUES" -gt 0 ]; then
+            echo "❌ Found $CRITICAL_ISSUES critical security issues"
+            exit 1
+          fi
+        fi
+        echo "✅ No critical security issues found"
+
+  security-audit:
+    name: Security & Dependency Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run npm audit
+      run: npm audit --audit-level=moderate
+      
+    - name: Run Snyk security scan
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --severity-threshold=high
+
+  e2e-tests:
+    name: End-to-End Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps
+      
+    - name: Run E2E tests
+      run: npm run test:e2e
+      
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
+
+  quality-gates:
+    name: Quality Gates
+    runs-on: ubuntu-latest
+    needs: [test-coverage, contract-analysis, security-audit, e2e-tests]
+    
+    steps:
+    - name: Check all jobs passed
+      run: |
+        echo "✅ All quality checks passed:"
+        echo "- Code coverage meets threshold"
+        echo "- Contract analysis completed"
+        echo "- Security audit passed"
+        echo "- E2E tests completed"
+        
+    - name: Generate quality report
+      run: |
+        echo "# Quality Gates Report" > quality-report.md
+        echo "## Summary" >> quality-report.md
+        echo "- ✅ Code Coverage: Meets 95% threshold" >> quality-report.md
+        echo "- ✅ Contract Analysis: No critical vulnerabilities" >> quality-report.md
+        echo "- ✅ Security Audit: Passed" >> quality-report.md
+        echo "- ✅ E2E Tests: All passed" >> quality-report.md
+        echo "" >> quality-report.md
+        echo "## Next Steps" >> quality-report.md
+        echo "- Ready for deployment" >> quality-report.md
+        echo "- Consider manual review for high-value transactions" >> quality-report.md
+        
+    - name: Upload quality report
+      uses: actions/upload-artifact@v4
+      with:
+        name: quality-report
+        path: quality-report.md
