@@ -4,6 +4,7 @@ import App from './App.tsx'
 import './index.css'
 import { initSentry } from './lib/sentry'
 import { addResourceHints, preloadRoutes, registerServiceWorkerUpdates } from './components/performance/LoadingOptimization'
+import SentryErrorBoundary from './components/SentryErrorBoundary'
 
 // Initialize Sentry for error tracking
 initSentry();
@@ -13,4 +14,8 @@ addResourceHints();
 preloadRoutes();
 registerServiceWorkerUpdates();
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+  <SentryErrorBoundary>
+    <App />
+  </SentryErrorBoundary>
+);

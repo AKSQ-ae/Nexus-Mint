@@ -1,8 +1,8 @@
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CreditCard, Building2, TrendingUp, Link2, Star, CheckCircle, Award, Zap, ArrowRight, Sparkles, Crown, Bolt, Shield, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { useState, useEffect } from 'react';
 
 export function Features() {
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
