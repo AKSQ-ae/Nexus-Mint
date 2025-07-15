@@ -23,7 +23,14 @@ const handler = async (req: Request): Promise<Response> => {
 
     const elevenlabsApiKey = Deno.env.get('ELEVENLABS_API_KEY');
     if (!elevenlabsApiKey) {
-      throw new Error('ElevenLabs API key not configured');
+      console.warn('ElevenLabs API key not configured - voice features disabled');
+      return new Response(JSON.stringify({
+        error: 'Voice features not configured',
+        message: 'Voice chat is not available in this environment'
+      }), {
+        status: 503,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     // Create a conversational AI agent session with ElevenLabs

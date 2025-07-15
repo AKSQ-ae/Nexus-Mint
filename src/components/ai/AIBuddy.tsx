@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { useConversation } from '@11labs/react';
+import { useConversation } from '@elevenlabs/react';
 import { 
   Mic, 
   MicOff, 
@@ -262,6 +262,20 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
     try {
       setConversationMode('voice');
       
+      // Check if we're in a deployment environment
+      const isDeployment = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+      
+      if (isDeployment) {
+        // In deployment, voice might not be available - show message and fallback
+        toast({
+          title: "Voice feature",
+          description: "Voice chat is being configured for deployment. Using text mode for now.",
+          variant: "default",
+        });
+        setConversationMode('text');
+        return;
+      }
+      
       // Generate signed URL from our edge function
       const { data, error } = await supabase.functions.invoke('elevenlabs-session', {
         body: { userId }
@@ -270,7 +284,7 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
       if (error) throw error;
 
       await conversation.startSession({ 
-        agentId: data.agentId,
+        agentId: data.agentId || 'default-agent',
         overrides: {
           agent: {
             prompt: {

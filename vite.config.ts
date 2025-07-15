@@ -41,7 +41,7 @@ export default defineConfig({
           'vendor-utils': ['clsx', 'tailwind-merge'],
           'vendor-analytics': ['@sentry/react'],
           'vendor-supabase': ['@supabase/supabase-js'],
-          'vendor-ai': ['@11labs/react']
+          'vendor-ai': ['@elevenlabs/react']
         }
       }
     },

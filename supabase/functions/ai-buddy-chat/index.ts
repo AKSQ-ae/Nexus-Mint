@@ -36,7 +36,20 @@ const handler = async (req: Request): Promise<Response> => {
 
     const openaiApiKey = Deno.env.get('OPENAI_API_KEY');
     if (!openaiApiKey) {
-      throw new Error('OpenAI API key not configured');
+      console.warn('OpenAI API key not configured - using fallback responses');
+      // Return a fallback response instead of throwing error
+      return new Response(JSON.stringify({
+        response: "I'm your AI investment buddy! I'm currently being set up with full AI capabilities. For now, I can help you with basic portfolio information and general investment guidance. What would you like to know about your investments?",
+        suggestions: [
+          "Show me new investment opportunities",
+          "How is my portfolio performing?",
+          "What's happening in the market?",
+          "Any rewards available for me?"
+        ],
+        intent: 'general_conversation'
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     // Build context for the AI
