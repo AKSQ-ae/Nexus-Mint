@@ -193,7 +193,7 @@ async function main() {
     }
     
     console.log("🎉 ALL TESTS COMPLETED SUCCESSFULLY!");
-    console.log("\n✅ Your Nexus Mint Sharia platform is ready for production!");
+    console.log("\n✅ Your Nexus Mint platform is ready for production!");
 }
 
 main()
