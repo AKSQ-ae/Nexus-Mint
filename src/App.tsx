@@ -48,6 +48,7 @@ import SystemResilience from "./pages/SystemResilience";
 import AIBuddyPage from "./pages/AIBuddyPage";
 import Phase1Validation from "./pages/Phase1Validation";
 import Documentation from "./pages/Documentation";
+import ShariaTokenization from "./pages/ShariaTokenization";
 
 const queryClient = new QueryClient();
 
@@ -99,6 +100,7 @@ function AppContent() {
           <Route path="/ai-buddy" element={<AIBuddyPage />} />
           <Route path="/phase1-validation" element={<Phase1Validation />} />
           <Route path="/documentation" element={<Documentation />} />
+          <Route path="/sharia-tokenization" element={<ShariaTokenization />} />
           <Route path="/404" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
