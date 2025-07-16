@@ -76,5 +76,8 @@ export default defineConfig(({ mode }) => ({
       '@reown/appkit',
       '@walletconnect/core'
     ]
-  }
+  },
+  esbuild: {
+    drop: mode === 'production' ? ['console', 'debugger'] : [],
+  },
 }))

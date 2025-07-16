@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/providers/Providers";
@@ -12,42 +12,42 @@ import { HelpAssistant } from "@/components/ui/help-assistant";
 // import { useCapacitor } from "@/hooks/useCapacitor"; // Temporarily disabled
 
 // Pages
-import Index from "./pages/Index";
-import Properties from "./pages/Properties";
-import PropertyDetail from "./pages/PropertyDetail";
-import Portfolio from "./pages/Portfolio";
-import Dashboard from "./pages/Dashboard";
-import Profile from "./pages/Profile";
-import AdminDashboard from "./pages/AdminDashboard";
-import SignIn from "./pages/auth/SignIn";
-import SignUp from "./pages/auth/SignUp";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import ResetPassword from "./pages/auth/ResetPassword";
-import NotFound from "./pages/NotFound";
-import { InvestmentSuccess } from "./pages/investment/InvestmentSuccess";
-import { InvestmentCancel } from "./pages/investment/InvestmentCancel";
-import TokenizationDemo from "./pages/TokenizationDemo";
-import TokenizationDashboard from "./pages/TokenizationDashboard";
-import Trading from "./pages/Trading";
-import AdvancedAnalytics from "./pages/AdvancedAnalytics";
-import GlobalTrading from "./pages/GlobalTrading";
-import HowItWorks from "./pages/HowItWorks";
-import Demo from "./pages/Demo";
-import Referrals from "./pages/Referrals";
-import Payments from "./pages/Payments";
-import Compliance from "./pages/Compliance";
-import Terms from "./pages/legal/Terms";
-import Privacy from "./pages/legal/Privacy";
-import RiskDisclaimer from "./pages/legal/RiskDisclaimer";
-import InvestorResources from "./pages/InvestorResources";
-import EarlyAccess from "./pages/EarlyAccess";
-import SystemHealth from "./pages/SystemHealth";
-import QualityAssurance from "./pages/QualityAssurance";
-import SystemResilience from "./pages/SystemResilience";
-import TOKOAdvisorPage from "./pages/TOKOAdvisorPage";
-import Phase1Validation from "./pages/Phase1Validation";
-import Documentation from "./pages/Documentation";
-import ShariaTokenization from "./pages/ShariaTokenization";
+const Index = lazy(() => import("./pages/Index"));
+const Properties = lazy(() => import("./pages/Properties"));
+const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
+const Portfolio = lazy(() => import("./pages/Portfolio"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Profile = lazy(() => import("./pages/Profile"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const SignIn = lazy(() => import("./pages/auth/SignIn"));
+const SignUp = lazy(() => import("./pages/auth/SignUp"));
+const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const InvestmentSuccess = lazy(() => import("./pages/investment/InvestmentSuccess").then(m => ({ default: m.InvestmentSuccess })));
+const InvestmentCancel = lazy(() => import("./pages/investment/InvestmentCancel").then(m => ({ default: m.InvestmentCancel })));
+const TokenizationDemo = lazy(() => import("./pages/TokenizationDemo"));
+const TokenizationDashboard = lazy(() => import("./pages/TokenizationDashboard"));
+const Trading = lazy(() => import("./pages/Trading"));
+const AdvancedAnalytics = lazy(() => import("./pages/AdvancedAnalytics"));
+const GlobalTrading = lazy(() => import("./pages/GlobalTrading"));
+const HowItWorks = lazy(() => import("./pages/HowItWorks"));
+const Demo = lazy(() => import("./pages/Demo"));
+const Referrals = lazy(() => import("./pages/Referrals"));
+const Payments = lazy(() => import("./pages/Payments"));
+const Compliance = lazy(() => import("./pages/Compliance"));
+const Terms = lazy(() => import("./pages/legal/Terms"));
+const Privacy = lazy(() => import("./pages/legal/Privacy"));
+const RiskDisclaimer = lazy(() => import("./pages/legal/RiskDisclaimer"));
+const InvestorResources = lazy(() => import("./pages/InvestorResources"));
+const EarlyAccess = lazy(() => import("./pages/EarlyAccess"));
+const SystemHealth = lazy(() => import("./pages/SystemHealth"));
+const QualityAssurance = lazy(() => import("./pages/QualityAssurance"));
+const SystemResilience = lazy(() => import("./pages/SystemResilience"));
+const TOKOAdvisorPage = lazy(() => import("./pages/TOKOAdvisorPage"));
+const Phase1Validation = lazy(() => import("./pages/Phase1Validation"));
+const Documentation = lazy(() => import("./pages/Documentation"));
+const ShariaTokenization = lazy(() => import("./pages/ShariaTokenization"));
 
 // QueryClient is now handled in Providers component
 
@@ -61,7 +61,8 @@ function AppContent() {
       <Navbar />
       <SmartBreadcrumbs />
       <main className="flex-1">
-        <Routes>
+        <Suspense fallback={<div className="p-4 text-center">Loading...</div>}>
+          <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/properties" element={<Properties />} />
           <Route path="/properties/:id" element={<PropertyDetail />} />
@@ -103,6 +104,7 @@ function AppContent() {
           <Route path="/404" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </Suspense>
       </main>
       <Footer />
       <PWAInstallPrompt />

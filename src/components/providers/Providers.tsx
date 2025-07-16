@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { HelmetProvider } from 'react-helmet-async';
 import { WagmiProvider } from 'wagmi';
 import { config } from '@/lib/wagmi';
 import { AuthProvider } from '@/contexts/AuthContext';
@@ -13,14 +14,16 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <CursorProvider>
-            {children}
-          </CursorProvider>
-        </AuthProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <HelmetProvider>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <CursorProvider>
+              {children}
+            </CursorProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </HelmetProvider>
   );
 }
