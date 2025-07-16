@@ -34,9 +34,9 @@ export function HowItWorks() {
     <div className="py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-foreground mb-4">How It Works</h2>
+          <h2 className="text-4xl font-bold text-foreground mb-4">Investment Process Details</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Your journey to real estate investment success in three simple steps
+            Detailed breakdown of each investment step and requirements
           </p>
           <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-success/10 text-success rounded-full text-sm font-medium">
             <Shield className="h-4 w-4" />

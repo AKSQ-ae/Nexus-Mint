@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight, TrendingUp, Shield, Users, Play, Building, DollarSign, ChartLine, RefreshCw } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
 
 export function Hero() {
@@ -37,13 +37,14 @@ export function Hero() {
           </div>
           
           {/* Step-based transaction flow */}
+          {/* Unified Journey Section */}
           <div className="mb-16 max-w-6xl mx-auto">
             <div className="text-center mb-16 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
               <h3 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">
                 Your Journey to Real Estate Wealth
               </h3>
               <p className="text-lg text-muted-foreground font-inter max-w-2xl mx-auto">
-                Three simple steps to transform your investment approach
+                Three simple steps to transform your investment approach.
               </p>
             </div>
             
@@ -61,7 +62,7 @@ export function Hero() {
                   Acquire Your Slice
                 </h4>
                 <p className="text-gray-600 font-medium leading-relaxed text-lg relative z-10">
-                  Start with AED 500 to own on-chain, fractional shares in prime UAE real estate
+                  Start with AED 500. Own on-chain, fractional shares in prime UAE real estate. Fully regulated, transparent security.
                 </p>
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
@@ -78,9 +79,9 @@ export function Hero() {
                 <h4 className="text-2xl font-bold mb-4 text-gray-900 group-hover:text-blue-600 transition-colors relative z-10">
                   Earn 8–12% p.a.
                 </h4>
-                 <p className="text-gray-600 font-medium leading-relaxed text-lg relative z-10">
-                   Earn 8–12% p.a. rental income, paid quarterly into your Nexus Mint Wallet fully transparent, zero paperwork.
-                 </p>
+                <p className="text-gray-600 font-medium leading-relaxed text-lg relative z-10">
+                  Receive quarterly rental income, fully transparent with no paperwork.
+                </p>
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
               
@@ -97,7 +98,7 @@ export function Hero() {
                   Trade & Multiply
                 </h4>
                 <p className="text-gray-600 font-medium leading-relaxed text-lg relative z-10">
-                  Trade & Multiply on our marketplace, reinvesting instantly to watch your wealth compound as property values rise.
+                  Reinvest instantly through our marketplace. 24/7 liquidity with global investor access.
                 </p>
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
@@ -123,98 +124,6 @@ export function Hero() {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-          </div>
-          
-          {/* Early Access Section */}
-          <div className="animate-fade-in-up mt-16 text-center" style={{animationDelay: '0.9s'}}>
-            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">Regulated Launch</h2>
-            <p className="text-lg text-muted-foreground font-inter max-w-2xl mx-auto mb-8">
-              25,000+ verified investors from 30 countries. Transparent operations since 2024.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-8">
-              <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <Building className="w-8 h-8 text-white" />
-                  </div>
-                </div>
-                <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
-                  <span className="count-up" data-target="5">5</span>+
-                </div>
-                <p className="text-muted-foreground font-inter font-medium mb-3">Properties in Pipeline</p>
-                <svg className="w-full h-6 mx-auto" viewBox="0 0 100 20">
-                  <polyline 
-                    points="0,15 20,10 40,12 60,6 80,8 100,5"
-                    fill="none" 
-                    stroke="hsl(var(--blue-primary))" 
-                    strokeWidth="2"
-                    className="animate-draw-line"
-                  />
-                </svg>
-              </div>
-
-              <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-primary via-blue-secondary to-blue-primary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <DollarSign className="w-8 h-8 text-white" />
-                  </div>
-                </div>
-                <div className="text-3xl md:text-4xl font-playfair font-bold text-blue-primary mb-2">
-                  <span className="count-up" data-target="100">100</span>+
-                </div>
-                <p className="text-muted-foreground font-inter font-medium mb-3">Invited Investors</p>
-                <svg className="w-full h-6 mx-auto" viewBox="0 0 100 20">
-                  <polyline 
-                    points="0,12 20,14 40,10 60,13 80,9 100,11"
-                    fill="none" 
-                    stroke="hsl(var(--blue-primary))" 
-                    strokeWidth="2"
-                    className="animate-draw-line"
-                  />
-                </svg>
-              </div>
-
-              <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-accent via-coral to-orange-accent/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <ChartLine className="w-8 h-8 text-white" />
-                  </div>
-                </div>
-                <div className="text-3xl md:text-4xl font-playfair font-bold text-orange-accent mb-2">
-                  <span className="count-up" data-target="8">8</span>–<span className="count-up" data-target="12">12</span>%
-                </div>
-                <p className="text-muted-foreground font-inter font-medium mb-3">Projected Returns p.a.</p>
-                <svg className="w-full h-6 mx-auto" viewBox="0 0 100 20">
-                  <polyline 
-                    points="0,18 20,16 40,12 60,10 80,7 100,5"
-                    fill="none" 
-                    stroke="hsl(var(--orange-accent))" 
-                    strokeWidth="2"
-                    className="animate-draw-line"
-                  />
-                </svg>
-              </div>
-
-              <div className="bg-white/80 backdrop-blur-sm border border-grey-light/30 rounded-2xl p-6 shadow-elegant hover:shadow-glow transition-all duration-300 hover:scale-105 group">
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-secondary via-coral to-secondary/80 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <RefreshCw className="w-8 h-8 text-white animate-pulse" />
-                  </div>
-                </div>
-                <div className="text-3xl md:text-4xl font-playfair font-bold text-secondary mb-2">
-                  24/7
-                </div>
-                <p className="text-muted-foreground font-inter font-medium mb-3">Liquidity</p>
-                <p className="text-sm text-muted-foreground font-inter">Trade anytime, instant settlement</p>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center gap-4">
-              <p className="text-sm text-muted-foreground font-inter">
-                Secure your spot.
-              </p>
-            </div>
           </div>
         </div>
         
