@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { useAuth } from '@/contexts/AuthContext';
+import { BRANDING_CONFIG } from '@/lib/branding.config';
 import { supabase } from '@/integrations/supabase/client';
 import { AdvancedAnalytics } from '@/components/analytics/AdvancedAnalytics';
 import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt';
@@ -316,7 +317,7 @@ export default function Dashboard() {
               <Progress value={75} className="h-2" />
               <div className="text-xs text-muted-foreground">
                 Complete verification to start investing
-                <Badge variant="outline" className="ml-2 text-xs">KYC Integration Coming Soon</Badge>
+                <Badge variant="outline" className="ml-2 text-xs">{BRANDING_CONFIG.features.kycIntegration}</Badge>
               </div>
             </div>
           </CardContent>
@@ -355,7 +356,7 @@ export default function Dashboard() {
           <CardContent>
             <div className="space-y-3">
               <div className="text-xs text-muted-foreground">
-                Live Beta Now Available: TOKO AI Advisor - Personalized portfolio guidance powered by regulated AI tools.
+                {BRANDING_CONFIG.features.liveChat}: {BRANDING_CONFIG.aiAssistant.name} - Personalized portfolio guidance powered by regulated AI tools.
               </div>
               <Button 
                 size="sm" 

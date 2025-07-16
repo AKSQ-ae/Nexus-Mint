@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { BRANDING_CONFIG } from '@/lib/branding.config';
 import { useConversation } from '@11labs/react';
 import { 
   Mic, 
@@ -57,7 +58,7 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
       console.log('Connected to ElevenLabs');
       toast({
         title: "Voice activated",
-        description: "Your TOKO AI Advisor is ready to chat!",
+        description: `Your ${BRANDING_CONFIG.aiAssistant.name} is ready to chat!`,
       });
     },
     onDisconnect: () => {
@@ -105,7 +106,7 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
 
   const generatePersonalizedGreeting = useCallback((): string => {
     if (!portfolioData) {
-      return "Welcome to Nexus Mint! I'm your TOKO AI Advisor. How can I help you explore real estate investment opportunities today?";
+      return `Welcome to ${BRANDING_CONFIG.platformName}! I'm your ${BRANDING_CONFIG.aiAssistant.name}. How can I help you explore real estate investment opportunities today?`;
     }
 
     const totalInvestments = portfolioData.investments?.length || 0;

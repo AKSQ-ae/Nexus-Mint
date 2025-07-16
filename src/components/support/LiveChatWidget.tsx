@@ -6,6 +6,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Send, MessageCircle, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { BRANDING_CONFIG } from '@/lib/branding.config';
 
 interface Message {
   id: string;
@@ -23,7 +24,7 @@ export function LiveChatWidget({ isOpen, onClose }: LiveChatWidgetProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! Welcome to TOKO AI Live Chat support. How can I help you today?',
+      text: `Hello! Welcome to ${BRANDING_CONFIG.aiAssistant.name} support. How can I help you today?`,
       sender: 'support',
       timestamp: new Date()
     }
@@ -96,7 +97,7 @@ export function LiveChatWidget({ isOpen, onClose }: LiveChatWidgetProps) {
                 </AvatarFallback>
               </Avatar>
               <div>
-                <DialogTitle className="text-sm">TOKO AI Live Chat</DialogTitle>
+                <DialogTitle className="text-sm">{BRANDING_CONFIG.aiAssistant.name}</DialogTitle>
                 <p className="text-xs opacity-90">Typically replies instantly</p>
               </div>
             </div>

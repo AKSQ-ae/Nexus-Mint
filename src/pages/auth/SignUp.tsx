@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
+import { BRANDING_CONFIG } from '@/lib/branding.config';
 
 export default function SignUp() {
   const [name, setName] = useState('');
@@ -119,7 +120,7 @@ export default function SignUp() {
               Quick setup - takes less than 2 minutes
               <div className="mt-2">
                 <span className="inline-flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-700 text-xs rounded-full">
-                  KYC Integration Coming Soon
+                  {BRANDING_CONFIG.features.kycIntegration}
                 </span>
               </div>
             </CardDescription>
