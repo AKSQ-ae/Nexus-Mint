@@ -3,9 +3,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Bot, Send, Mic, MicOff, X, Loader2 } from 'lucide-react';
+import { Bot, Send, Mic, MicOff, X, Loader2, Volume2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 
 interface Message {
   id: string;
@@ -24,6 +23,7 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -79,17 +79,26 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
       }
 
       // Call the TOKO chat API
-      const { data, error } = await supabase.functions.invoke('toko-chat', {
-        body: {
+      const response = await fetch('/api/toko/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           message: content,
           conversationHistory: messages.map(m => ({
             role: m.role,
             content: m.content
           }))
-        }
+        })
       });
 
-      if (error) throw error;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to get response');
+      }
+
+      const data = await response.json();
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -176,6 +185,51 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
     }
   };
 
+  const handleSpeak = async (text: string) => {
+    if (isSpeaking) return;
+    
+    setIsSpeaking(true);
+    
+    try {
+      const response = await fetch('/api/toko/voice', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate speech');
+      }
+
+      const data = await response.json();
+      
+      // Convert base64 to audio and play
+      const audio = new Audio(`data:audio/mp3;base64,${data.audio}`);
+      await audio.play();
+      
+      // Track analytics event
+      if (typeof (window as any).gtag !== 'undefined') {
+        (window as any).gtag('event', 'toko_voice_play', {
+          event_category: 'TOKO_Advisor',
+          event_label: 'Voice_Play',
+          value: text.length
+        });
+      }
+      
+    } catch (error) {
+      console.error('Error playing voice:', error);
+      toast({
+        title: "Voice Error",
+        description: "Unable to play voice response. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSpeaking(false);
+    }
+  };
+
   const handleClose = () => {
     // Track analytics event
     if (typeof (window as any).gtag !== 'undefined') {
@@ -223,7 +277,20 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
                     : 'bg-muted'
                 }`}
               >
-                <p className="text-sm leading-relaxed">{message.content}</p>
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-sm leading-relaxed flex-1">{message.content}</p>
+                  {message.role === 'assistant' && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6 flex-shrink-0"
+                      onClick={() => handleSpeak(message.content)}
+                      disabled={isSpeaking}
+                    >
+                      <Volume2 className="w-3 h-3" />
+                    </Button>
+                  )}
+                </div>
                 <p className="text-xs opacity-70 mt-1">
                   {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>
