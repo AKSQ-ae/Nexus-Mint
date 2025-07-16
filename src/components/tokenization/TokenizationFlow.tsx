@@ -6,6 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { Web3Integration } from '@/components/web3/Web3Integration';
+import { useAuth } from '@/contexts/AuthContext';
 import { 
   Building2, 
   Coins, 
@@ -41,6 +42,7 @@ interface TokenizationFlowProps {
 }
 
 export const TokenizationFlow = ({ propertyId }: TokenizationFlowProps) => {
+  const { user } = useAuth();
   const [property, setProperty] = useState<PropertyData | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -86,6 +88,36 @@ export const TokenizationFlow = ({ propertyId }: TokenizationFlowProps) => {
 
   const handleTokenLaunch = async () => {
     try {
+      // First, validate with TOKO
+      if (property && user) {
+        const formData = {
+          propertyId: property.id,
+          propertyValue: property.price,
+          tokenPrice: property.price_per_token,
+          totalTokens: property.total_tokens,
+          minInvestment: property.min_investment,
+          fundingTarget: property.funding_target,
+          fundingDeadline: property.funding_deadline,
+          propertyType: 'residential', // Default, could be enhanced
+          location: property.location,
+          description: property.description,
+          documents: [] // Could be enhanced with actual documents
+        };
+
+        const { data: validationData, error: validationError } = await supabase.functions.invoke('validate-tokenization', {
+          body: { formData, userId: user.id }
+        });
+
+        if (validationError) throw validationError;
+
+        if (!validationData.valid) {
+          toast.error(`Validation failed: ${validationData.errors.join(', ')}`);
+          return;
+        }
+
+        toast.success('TOKO validation passed! Proceeding with tokenization...');
+      }
+
       // Call tokenization deployment function
       const { data, error } = await supabase.functions.invoke('live-tokenization-deploy', {
         body: { propertyId }

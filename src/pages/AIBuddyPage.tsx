@@ -1,10 +1,10 @@
 import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import AIBuddy from '@/components/ai/AIBuddy';
+import TOKO from '@/components/ai/TOKO';
 import { Card } from '@/components/ui/card';
 import { Sparkles, MessageCircle, TrendingUp } from 'lucide-react';
 
-const AIBuddyPage: React.FC = () => {
+const TOKOPage: React.FC = () => {
   const { user } = useAuth();
 
   return (
@@ -12,10 +12,10 @@ const AIBuddyPage: React.FC = () => {
       <div className="mb-8 text-center">
         <div className="flex items-center justify-center gap-3 mb-4">
           <Sparkles className="w-8 h-8 text-primary" />
-          <h1 className="text-3xl font-bold">Your AI Investment Buddy</h1>
+          <h1 className="text-3xl font-bold">TOKO - Your AI Investment Assistant</h1>
         </div>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Meet your personal investment advisor. Get insights, discover opportunities, 
+          Meet TOKO, your personal investment advisor. Get insights, discover opportunities, 
           and grow your portfolio with conversational AI that knows your investments inside out.
         </p>
       </div>
@@ -23,7 +23,7 @@ const AIBuddyPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main AI Chat */}
         <div className="lg:col-span-2">
-          <AIBuddy userId={user?.id} className="w-full" />
+          <TOKO userId={user?.id} className="w-full" />
         </div>
 
         {/* Features Sidebar */}
@@ -105,4 +105,4 @@ const AIBuddyPage: React.FC = () => {
   );
 };
 
-export default AIBuddyPage;
+export default TOKOPage;

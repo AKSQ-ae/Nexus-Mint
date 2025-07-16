@@ -16,7 +16,7 @@ A one-stop platform for tokenizing, buying and managing real-estate assets on Po
 
 **Key Features:**
 - 🏢 Real estate tokenization on Polygon blockchain
-- 🤖 AI-powered investment assistant (TOKO)
+- 🤖 TOKO - AI-powered investment assistant with spinning half-blue/half-orange icon
 - 💳 Integrated payment processing (Stripe + MetaMask)
 - 📊 Advanced analytics and portfolio management
 - 🔒 KYC/AML compliance and regulatory documentation
@@ -90,7 +90,7 @@ The platform uses Supabase Edge Functions for server-side logic:
 - **`live-tokenization-deploy`** - Deploys & records new property token contracts
 - **`regulatory-evidence-export`** - Generates compliance documentation bundles
 - **`live-investment-flow`** - Processes on-chain investment transactions
-- **`ai-buddy-chat`** - Powers the AI assistant conversations
+- **`ai-buddy-chat`** - Powers the TOKO AI assistant conversations
 
 **Database Management:**
 ```bash
@@ -118,7 +118,8 @@ Built with modern web technologies:
 - **/properties** - Browse available real estate investments
 - **/tokenization** - Interactive property tokenization wizard
 - **/dashboard** - Portfolio management and analytics
-- **/ai-buddy** - AI assistant chat interface
+- **/ai-buddy** - TOKO AI assistant chat interface
+- **/toko** - Alternative route to TOKO AI assistant
 - **/documentation** - Regulatory and technical documentation
 
 **Development Commands:**
