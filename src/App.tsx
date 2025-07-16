@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Providers } from "@/components/providers/Providers";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -50,7 +49,7 @@ import Phase1Validation from "./pages/Phase1Validation";
 import Documentation from "./pages/Documentation";
 import ShariaTokenization from "./pages/ShariaTokenization";
 
-const queryClient = new QueryClient();
+// QueryClient is now handled in Providers component
 
 function AppContent() {
   console.log('AppContent loading - useCapacitor disabled');
@@ -114,17 +113,15 @@ function AppContent() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Providers>
-          <TapAnimationProvider>
-            <AppContent />
-            <CustomCursor />
-            <Toaster />
-          </TapAnimationProvider>
-        </Providers>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <BrowserRouter>
+      <Providers>
+        <TapAnimationProvider>
+          <AppContent />
+          <CustomCursor />
+          <Toaster />
+        </TapAnimationProvider>
+      </Providers>
+    </BrowserRouter>
   );
 }
 

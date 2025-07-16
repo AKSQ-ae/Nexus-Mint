@@ -15,7 +15,9 @@ preloadRoutes();
 registerServiceWorkerUpdates();
 
 createRoot(document.getElementById("root")!).render(
-  <SentryErrorBoundary>
-    <App />
-  </SentryErrorBoundary>
+  <React.StrictMode>
+    <SentryErrorBoundary>
+      <App />
+    </SentryErrorBoundary>
+  </React.StrictMode>
 );
