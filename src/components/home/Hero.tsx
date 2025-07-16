@@ -106,13 +106,13 @@ export function Hero() {
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.8s'}}>
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-playfair font-bold mb-8 leading-none text-foreground">
-              <span className="block bg-gradient-to-r from-coral via-secondary to-coral bg-clip-text text-transparent font-extrabold">Own Premium Real Estate for $100</span>
+              <span className="block bg-gradient-to-r from-coral via-secondary to-coral bg-clip-text text-transparent font-extrabold">A Regulated Real Estate Investment Platform</span>
             </h1>
           </div>
           
           <div className="animate-fade-in-up" style={{animationDelay: '0.4s'}}>
             <p className="text-xl md:text-2xl text-muted-foreground mb-12 font-inter leading-relaxed max-w-3xl mx-auto">
-              Fractional UAE Real Estate. Instant Liquidity. Proven Yields.
+              Start from AED 500. Fractional UAE Real Estate. Instant Liquidity. Regulated Security.
             </p>
           </div>
           
@@ -132,9 +132,9 @@ export function Hero() {
           
           {/* Early Access Section */}
           <div className="animate-fade-in-up mt-16 text-center" style={{animationDelay: '0.9s'}}>
-            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">Early Access</h2>
+            <h2 className="text-3xl md:text-4xl font-playfair font-bold text-foreground mb-4">Regulated Launch</h2>
             <p className="text-lg text-muted-foreground font-inter max-w-2xl mx-auto mb-8">
-              Join our invitation-only launch cohort and lock in your spot today.
+              25,000+ verified investors from 30 countries. Transparent operations since 2024.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-8">

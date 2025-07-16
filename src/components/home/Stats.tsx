@@ -54,9 +54,9 @@ export function Stats() {
     <div className="py-16 bg-gradient-to-b from-background to-muted/30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">Global Access. Local Returns.</h2>
+          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">Verified Performance Metrics</h2>
           <p className="text-lg lg:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-            Empowering investors in 30+ countries to build AED 5B+ in tokenized real estate—starting at just AED 500.
+            25,000+ verified investors from 30 countries. AED 5B+ in regulated tokenized real estate transactions.
           </p>
         </div>
 

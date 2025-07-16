@@ -281,32 +281,47 @@ All colors MUST be HSL.
 
   /* Enhanced Visual Hierarchy */
   .section-spacing {
-    @apply py-16 lg:py-24;
+    @apply py-20 lg:py-32;
   }
 
   .content-spacing {
-    @apply space-y-8 lg:space-y-12;
+    @apply space-y-12 lg:space-y-16;
   }
 
   .text-hierarchy-1 {
-    @apply text-4xl lg:text-5xl font-bold leading-tight;
+    @apply text-4xl lg:text-6xl font-bold leading-tight tracking-tight;
   }
 
   .text-hierarchy-2 {
-    @apply text-3xl lg:text-4xl font-semibold leading-tight;
+    @apply text-3xl lg:text-4xl font-semibold leading-tight tracking-tight;
   }
 
   .text-hierarchy-3 {
-    @apply text-2xl lg:text-3xl font-semibold;
+    @apply text-2xl lg:text-3xl font-semibold leading-tight;
   }
 
   .text-body-large {
-    @apply text-lg lg:text-xl leading-relaxed;
+    @apply text-lg lg:text-xl leading-relaxed font-medium;
   }
 
   .text-body {
     @apply text-base leading-relaxed;
   }
+  
+  /* Consistent Spacing System */
+  .spacing-xs { @apply p-2; }
+  .spacing-sm { @apply p-4; }
+  .spacing-md { @apply p-6; }
+  .spacing-lg { @apply p-8; }
+  .spacing-xl { @apply p-12; }
+  .spacing-2xl { @apply p-16; }
+  
+  .margin-xs { @apply m-2; }
+  .margin-sm { @apply m-4; }
+  .margin-md { @apply m-6; }
+  .margin-lg { @apply m-8; }
+  .margin-xl { @apply m-12; }
+  .margin-2xl { @apply m-16; }
 
   /* Smart Interaction States */
   .interactive-card {
