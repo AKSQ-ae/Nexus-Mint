@@ -62,11 +62,6 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     host: true
   },
-  // Environment variable handling
-  define: {
-    // Ensure process.env works in production
-    'process.env': 'process.env'
-  },
   // Optimize dependencies for production
   optimizeDeps: {
     include: [
