@@ -3,7 +3,7 @@ export default {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  moduleNameMapping: {
+  moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   testMatch: [
@@ -30,8 +30,10 @@ export default {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   testTimeout: 15000,
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
   globals: {
     'ts-jest': {
+      useESM: true,
       tsconfig: 'tsconfig.json'
     }
   }

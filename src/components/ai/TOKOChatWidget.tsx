@@ -186,11 +186,20 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
         });
       }
 
+      // Show loading state for voice synthesis
+      toast({
+        title: "Generating Audio",
+        description: "Converting text to speech...",
+      });
+
       const { data, error } = await supabase.functions.invoke('toko-voice', {
         body: { text, voice: 'Sarah' }
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Voice synthesis error:', error);
+        throw error;
+      }
 
       if (data.audioContent) {
         // Convert base64 to audio and play
@@ -206,18 +215,62 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
         const audioUrl = URL.createObjectURL(blob);
         const audio = new Audio(audioUrl);
         
-        audio.play();
-        
-        // Clean up URL after playing
+        // Add error handling for audio playback
+        audio.onerror = (e) => {
+          console.error('Audio playback error:', e);
+          toast({
+            title: "Audio Playback Error",
+            description: "Unable to play audio. Please try again.",
+            variant: "destructive",
+          });
+        };
+
         audio.onended = () => {
           URL.revokeObjectURL(audioUrl);
         };
+
+        const playPromise = audio.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.error('Audio play error:', error);
+            toast({
+              title: "Audio Playback Error",
+              description: "Unable to play audio. Please try again.",
+              variant: "destructive",
+            });
+          });
+        }
+
+        // Show success message
+        toast({
+          title: "Audio Generated",
+          description: `Successfully generated ${Math.round(data.duration || 0)}ms of audio`,
+        });
+      } else {
+        throw new Error('No audio content received');
       }
     } catch (error) {
       console.error('Voice synthesis error:', error);
+      
+      // Provide specific error messages based on error type
+      let errorMessage = "Unable to generate audio. Please try again.";
+      
+      if (error.message?.includes('timeout') || error.message?.includes('abort')) {
+        errorMessage = "Audio generation is taking too long. Please try again.";
+      } else if (error.message?.includes('401') || error.message?.includes('403')) {
+        errorMessage = "Authentication error. Please contact support.";
+      } else if (error.message?.includes('429')) {
+        errorMessage = "Service is busy. Please try again in a moment.";
+      } else if (error.message?.includes('too long')) {
+        errorMessage = "Text is too long. Please use a shorter message.";
+      } else if (error.message?.includes('ELEVENLABS_API_KEY')) {
+        errorMessage = "Service configuration error. Please contact support.";
+      }
+
       toast({
         title: "Voice Synthesis Error",
-        description: "Unable to generate audio. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     }

@@ -1,33 +1,16 @@
 import '@testing-library/jest-dom';
 
-// Mock IntersectionObserver
-global.IntersectionObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
-}));
+// Mock global objects for testing
+global.fetch = jest.fn();
 
-// Mock ResizeObserver
-global.ResizeObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
-}));
-
-// Mock matchMedia
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: jest.fn().mockImplementation(query => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
+// Mock window.gtag for analytics
+Object.defineProperty(window, 'gtag', {
+  value: jest.fn(),
+  writable: true
 });
 
-// Mock scrollTo
-global.scrollTo = jest.fn();
+// Mock webkitSpeechRecognition
+Object.defineProperty(window, 'webkitSpeechRecognition', {
+  value: jest.fn(),
+  writable: true
+});
