@@ -74,13 +74,13 @@ const faqData: FAQItem[] = [
   }
 ];
 
-const categories = ['All', 'Platform', 'Fees', 'Investment', 'Eligibility', 'Tokens', 'Trading', 'Legal', 'Income'];
+const categories = ['All', 'Platform', 'Fees', 'Eligibility', 'Trading', 'Legal'];
 
 export function EnhancedFAQ() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
-  const [showFilters, setShowFilters] = useState(false);
+  const [expandAllToggle, setExpandAllToggle] = useState(false);
 
   const filteredFAQs = useMemo(() => {
     return faqData.filter(item => {
@@ -110,11 +110,13 @@ export function EnhancedFAQ() {
   };
 
   const expandAll = () => {
-    setExpandedItems(new Set(filteredFAQs.map(item => item.id)));
-  };
-
-  const collapseAll = () => {
-    setExpandedItems(new Set());
+    if (expandAllToggle) {
+      setExpandedItems(new Set());
+      setExpandAllToggle(false);
+    } else {
+      setExpandedItems(new Set(filteredFAQs.map(item => item.id)));
+      setExpandAllToggle(true);
+    }
   };
 
   return (
@@ -205,14 +207,9 @@ export function EnhancedFAQ() {
                   <div className="text-sm text-muted-foreground">
                     Showing {filteredFAQs.length} of {faqData.length} questions
                   </div>
-                  <div className="flex gap-2">
-                    <Button variant="ghost" size="sm" onClick={expandAll} className="text-xs">
-                      Expand All
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={collapseAll} className="text-xs">
-                      Collapse All
-                    </Button>
-                  </div>
+                  <Button variant="ghost" size="sm" onClick={expandAll} className="text-xs">
+                    {expandAllToggle ? 'Collapse all' : 'Expand all'}
+                  </Button>
                 </div>
               </div>
             </CardContent>
@@ -303,7 +300,7 @@ export function EnhancedFAQ() {
 
           {/* Enhanced Contact Support */}
           <div className="mt-12">
-            <Card className="bg-gradient-subtle shadow-elegant border border-primary/20">
+            <Card className="bg-gradient-to-br from-white via-blue-50/5 to-white dark:from-background dark:via-blue-950/5 dark:to-background shadow-elegant border border-primary/20">
               <CardHeader className="text-center">
                 <CardTitle className="flex items-center justify-center gap-2">
                   <MessageCircle className="h-5 w-5 text-primary" />
@@ -314,7 +311,18 @@ export function EnhancedFAQ() {
                 <p className="text-muted-foreground mb-6">
                   Our expert support team is standing by to help you succeed with your real estate investments
                 </p>
-                <div className="grid sm:grid-cols-3 gap-4">
+                <div className="grid sm:grid-cols-2 gap-4 max-w-md mx-auto">
+                  <Card className="border-primary/20 hover:border-primary/40 transition-colors cursor-pointer group">
+                    <CardContent className="p-4 text-center">
+                      <MessageCircle className="h-8 w-8 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                      <h4 className="font-medium mb-1">Live Chat</h4>
+                      <p className="text-xs text-muted-foreground mb-3">Chat with our team now</p>
+                      <Button variant="default" size="sm" className="w-full bg-orange-500 hover:bg-orange-600">
+                        Start Chat
+                      </Button>
+                    </CardContent>
+                  </Card>
+                  
                   <Card className="border-primary/20 hover:border-primary/40 transition-colors cursor-pointer group">
                     <CardContent className="p-4 text-center">
                       <Mail className="h-8 w-8 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
@@ -325,30 +333,6 @@ export function EnhancedFAQ() {
                           Contact Us
                         </a>
                       </Button>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card className="border-primary/20 hover:border-primary/40 transition-colors cursor-pointer group">
-                    <CardContent className="p-4 text-center">
-                      <MessageCircle className="h-8 w-8 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                      <h4 className="font-medium mb-1">Live Chat</h4>
-                      <p className="text-xs text-muted-foreground mb-3">Chat with our team now</p>
-                      <Button variant="outline" size="sm" className="w-full">
-                        Start Chat
-                      </Button>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card className="border-primary/20 hover:border-primary/40 transition-colors cursor-pointer group">
-                    <CardContent className="p-4 text-center">
-                      <ExternalLink className="h-8 w-8 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                       <h4 className="font-medium mb-1">Investor Resources</h4>
-                       <p className="text-xs text-muted-foreground mb-3">Browse our full documentation</p>
-                       <Button variant="outline" size="sm" className="w-full" asChild>
-                         <Link to="/investor-resources">
-                           Visit Investor Resources
-                         </Link>
-                       </Button>
                     </CardContent>
                   </Card>
                 </div>

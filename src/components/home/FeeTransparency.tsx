@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, DollarSign, TrendingUp, Shield, Info, CheckCircle, Zap, Globe, Lock } from 'lucide-react';
+import { Calculator, DollarSign, TrendingUp, Shield, Info, CheckCircle, Zap, Globe, Lock, ChevronDown } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface FeeStructure {
   name: string;
@@ -138,34 +139,37 @@ export function FeeTransparency() {
             Our industry-leading low fees maximize your returns.
           </p>
           
-          {/* Trust Indicators */}
-          <div className="flex flex-wrap justify-center gap-6 text-sm">
-            <div className="flex items-center gap-2 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/50 dark:to-emerald-900/50 px-6 py-3 rounded-full border border-green-200 dark:border-green-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
-              <span className="font-semibold text-green-800 dark:text-green-200">No Hidden Fees</span>
+        </div>
+
+        {/* Trust Badges Above Tabs */}
+        <div className="max-w-6xl mx-auto mb-8">
+          <div className="flex flex-wrap justify-center gap-4 text-sm mb-8">
+            <div className="flex items-center gap-2 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/50 dark:to-emerald-900/50 px-4 py-2 rounded-full border border-green-200 dark:border-green-700">
+              <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+              <span className="font-medium text-green-800 dark:text-green-200">No Hidden Fees</span>
             </div>
-            <div className="flex items-center gap-2 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/50 dark:to-indigo-900/50 px-6 py-3 rounded-full border border-blue-200 dark:border-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <CheckCircle className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-              <span className="font-semibold text-blue-800 dark:text-blue-200">Industry-Leading Low Rates</span>
+            <div className="flex items-center gap-2 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/50 dark:to-indigo-900/50 px-4 py-2 rounded-full border border-blue-200 dark:border-blue-700">
+              <CheckCircle className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <span className="font-medium text-blue-800 dark:text-blue-200">Industry-Leading Low Rates</span>
             </div>
-            <div className="flex items-center gap-2 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/50 dark:to-pink-900/50 px-6 py-3 rounded-full border border-purple-200 dark:border-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <CheckCircle className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-              <span className="font-semibold text-purple-800 dark:text-purple-200">Full Cost Transparency</span>
+            <div className="flex items-center gap-2 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/50 dark:to-pink-900/50 px-4 py-2 rounded-full border border-purple-200 dark:border-purple-700">
+              <CheckCircle className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+              <span className="font-medium text-purple-800 dark:text-purple-200">Full Cost Transparency</span>
             </div>
           </div>
         </div>
 
         <Tabs defaultValue="calculator" className="max-w-6xl mx-auto">
           <TabsList className="grid w-full grid-cols-3 bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border border-gray-200 dark:border-gray-700 shadow-lg">
-            <TabsTrigger value="calculator" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white font-semibold">Fee Calculator</TabsTrigger>
-            <TabsTrigger value="breakdown" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white font-semibold">Fee Breakdown</TabsTrigger>
-            <TabsTrigger value="comparison" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-semibold">Market Comparison</TabsTrigger>
+            <TabsTrigger value="calculator" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white font-semibold">Calculator</TabsTrigger>
+            <TabsTrigger value="breakdown" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white font-semibold">Breakdown</TabsTrigger>
+            <TabsTrigger value="comparison" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-semibold">Benchmark</TabsTrigger>
           </TabsList>
 
           <TabsContent value="calculator" className="space-y-6">
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* Calculator Input */}
-              <div className="lg:col-span-2 space-y-6">
+            <div className="grid lg:grid-cols-2 gap-8">
+              {/* Calculator Input - Left Side */}
+              <div className="space-y-6">
                 <Card className="shadow-elegant border-primary/20">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
@@ -187,19 +191,21 @@ export function FeeTransparency() {
                           placeholder="10,000"
                         />
                       </div>
-                      <div className="flex gap-2 mt-3">
-                        {[5000, 10000, 25000, 50000].map(amount => (
-                          <Button
-                            key={amount}
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setInvestmentAmount(amount)}
-                            className="text-xs"
-                          >
-                            ${amount.toLocaleString()}
-                          </Button>
-                        ))}
-                      </div>
+                       <div className="mt-3">
+                         <Label className="text-sm text-muted-foreground">Quick selects</Label>
+                         <Select onValueChange={(value) => setInvestmentAmount(Number(value))}>
+                           <SelectTrigger className="w-full mt-1">
+                             <SelectValue placeholder="Choose amount" />
+                           </SelectTrigger>
+                           <SelectContent>
+                             <SelectItem value="5000">$5,000</SelectItem>
+                             <SelectItem value="10000">$10,000</SelectItem>
+                             <SelectItem value="25000">$25,000</SelectItem>
+                             <SelectItem value="50000">$50,000</SelectItem>
+                             <SelectItem value="100000">$100,000</SelectItem>
+                           </SelectContent>
+                         </Select>
+                       </div>
                     </div>
 
                     <div className="space-y-4">
@@ -280,7 +286,7 @@ export function FeeTransparency() {
                 </Card>
               </div>
 
-              {/* Enhanced Benefits */}
+              {/* What You Get - Right Side */}
               <Card className="shadow-xl bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-950/50 dark:via-purple-950/50 dark:to-pink-950/50 border-2 border-indigo-200 dark:border-indigo-700">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
