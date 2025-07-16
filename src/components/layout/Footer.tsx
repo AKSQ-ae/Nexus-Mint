@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Building2, Mail, Phone, MapPin } from 'lucide-react';
+import { brandingConfig } from '../../lib/branding.config';
 
 export function Footer() {
   return (
@@ -11,10 +12,10 @@ export function Footer() {
               <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center shadow-elegant">
                 <Building2 className="h-5 w-5 text-white" />
               </div>
-              <span className="font-bold text-xl text-foreground">Nexus Mint</span>
+              <span className="font-bold text-xl text-foreground">{brandingConfig.appName}</span>
             </div>
             <p className="text-muted-foreground leading-relaxed">
-              Revolutionizing real estate investment through blockchain technology. Own, Earn, Multiply.
+              {brandingConfig.description}
             </p>
           </div>
 
@@ -53,17 +54,17 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/legal/terms" className="hover:text-primary transition-colors duration-300 hover:underline">
+                <Link to={brandingConfig.legal.termsUrl} className="hover:text-primary transition-colors duration-300 hover:underline">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link to="/legal/privacy" className="hover:text-primary transition-colors duration-300 hover:underline">
+                <Link to={brandingConfig.legal.privacyUrl} className="hover:text-primary transition-colors duration-300 hover:underline">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/legal/risk-disclaimer" className="hover:text-primary transition-colors duration-300 hover:underline">
+                <Link to={brandingConfig.legal.riskDisclaimerUrl} className="hover:text-primary transition-colors duration-300 hover:underline">
                   Risk Disclaimer
                 </Link>
               </li>
@@ -75,15 +76,15 @@ export function Footer() {
             <ul className="space-y-2 text-muted-foreground">
               <li className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span>support@nexusmint.com</span>
+                <span>{brandingConfig.contact.email}</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Phone className="h-4 w-4" />
-                <span>+1 (555) 123-4567</span>
+                <span>{brandingConfig.contact.phone}</span>
               </li>
               <li className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4" />
-                <span>Abu Dhabi, UAE</span>
+                <span>{brandingConfig.contact.address}</span>
               </li>
             </ul>
           </div>
@@ -91,7 +92,7 @@ export function Footer() {
 
         <div className="border-t border-border/50 mt-8 pt-8 text-center">
           <p className="text-muted-foreground font-medium">
-            &copy; 2025 Nexus Mint. All rights reserved.
+            {brandingConfig.copyright}
           </p>
           <p className="text-xs text-muted-foreground/80 mt-2">
             Real estate investments carry risks. Past performance does not guarantee future results.

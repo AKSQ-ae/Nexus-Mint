@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertTriangle } from 'lucide-react';
+import { brandingConfig } from '@/lib/branding.config';
 
 export default function Terms() {
   return (
@@ -138,11 +139,11 @@ export default function Terms() {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <p><strong>Nexus Mint DMCC</strong></p>
-              <p>Registered Address: Dubai Multi Commodities Centre (DMCC)</p>
-              <p>Email: legal@nexusmint.ae</p>
-              <p>Phone: +971 4 XXX XXXX</p>
-              <p>License: DMCC-XXXXXX</p>
+              <p><strong>{brandingConfig.appName}</strong></p>
+              <p>Registered Address: {brandingConfig.contact.address}</p>
+              <p>Email: {brandingConfig.contact.email}</p>
+              <p>Phone: {brandingConfig.contact.phone}</p>
+              <p>License: [Your License Number]</p>
             </div>
           </CardContent>
         </Card>

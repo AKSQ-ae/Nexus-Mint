@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertTriangle, TrendingDown, DollarSign, Clock, Shield } from 'lucide-react';
+import { brandingConfig } from '@/lib/branding.config';
 
 export default function RiskDisclaimer() {
   return (

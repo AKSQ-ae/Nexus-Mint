@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Shield, Lock, Eye, Database } from 'lucide-react';
+import { brandingConfig } from '@/lib/branding.config';
 
 export default function Privacy() {
   return (
@@ -200,9 +201,9 @@ export default function Privacy() {
               <p>For privacy-related inquiries, contact our Data Protection Officer:</p>
               <div className="bg-muted p-4 rounded-lg">
                 <div className="space-y-2 text-sm">
-                  <p><strong>Email:</strong> privacy@nexusmint.ae</p>
-                  <p><strong>Phone:</strong> +971 4 XXX XXXX</p>
-                  <p><strong>Address:</strong> DMCC Business Centre, Dubai, UAE</p>
+                  <p><strong>Email:</strong> {brandingConfig.contact.email}</p>
+                  <p><strong>Phone:</strong> {brandingConfig.contact.phone}</p>
+                  <p><strong>Address:</strong> {brandingConfig.contact.address}</p>
                   <p><strong>Response Time:</strong> Within 30 days of request</p>
                 </div>
               </div>
