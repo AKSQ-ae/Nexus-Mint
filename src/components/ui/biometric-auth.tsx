@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Fingerprint, Shield, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import branding from '@/config/branding.config';
 
 interface BiometricAuthProps {
   onSuccess: () => void;
@@ -51,13 +52,13 @@ export function BiometricAuth({ onSuccess, onError, className }: BiometricAuthPr
         publicKey: {
           challenge: new Uint8Array(32), // Should be random in production
           rp: {
-            name: "Nexus Mint",
+            name: branding.companyName,
             id: window.location.hostname,
           },
           user: {
             id: new Uint8Array(16), // Should be user-specific in production
-            name: "user@nexusmint.com",
-            displayName: "Nexus Mint User",
+            name: "user@example.com",
+            displayName: `${branding.companyName} User`,
           },
           pubKeyCredParams: [{ alg: -7, type: "public-key" }],
           authenticatorSelection: {
@@ -133,7 +134,7 @@ export function useBiometricAuth() {
           setIsSupported(available);
           
           // Check user preference
-          const preference = localStorage.getItem('nexus_biometric_enabled');
+          const preference = localStorage.getItem(`${branding.shortName.toLowerCase()}_biometric_enabled`);
           setIsEnabled(preference === 'true' && available);
         } catch (error) {
           setIsSupported(false);
@@ -146,14 +147,14 @@ export function useBiometricAuth() {
 
   const enableBiometric = () => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('nexus_biometric_enabled', 'true');
+      localStorage.setItem(`${branding.shortName.toLowerCase()}_biometric_enabled`, 'true');
     }
     setIsEnabled(true);
   };
 
   const disableBiometric = () => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('nexus_biometric_enabled', 'false');
+      localStorage.setItem(`${branding.shortName.toLowerCase()}_biometric_enabled`, 'false');
     }
     setIsEnabled(false);
   };

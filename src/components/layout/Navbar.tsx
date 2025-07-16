@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserMenu } from './UserMenu';
 // Removed HelpCenter import - now using direct Link to investor-resources page
-import { NexusLogo } from '@/components/ui/nexus-logo';
+import branding from '@/config/branding.config';
 
 import { Menu, X, Building2, Coins } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -100,8 +100,8 @@ export function Navbar() {
                 <div className="absolute inset-[12px] rounded-full bg-white"></div>
               </div>
               <div className="text-2xl font-black tracking-wide">
-                <span className="text-blue-600">NEXUS</span>
-                <span className="text-orange-500 ml-1">MINT</span>
+                {/* Replace brand split with dynamic name */}
+                <span className="text-blue-600">{branding.shortName.toUpperCase()}</span>
               </div>
             </Link>
           </div>

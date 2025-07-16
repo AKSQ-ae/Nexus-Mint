@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Building2, Mail, Phone, MapPin } from 'lucide-react';
+import branding from '@/config/branding.config';
 
 export function Footer() {
   return (
@@ -11,10 +12,10 @@ export function Footer() {
               <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center shadow-elegant">
                 <Building2 className="h-5 w-5 text-white" />
               </div>
-              <span className="font-bold text-xl text-foreground">Nexus Mint</span>
+              <span className="font-bold text-xl text-foreground">{branding.companyName}</span>
             </div>
             <p className="text-muted-foreground leading-relaxed">
-              Revolutionizing real estate investment through blockchain technology. Own, Earn, Multiply.
+              {branding.tagline}
             </p>
           </div>
 
@@ -75,15 +76,15 @@ export function Footer() {
             <ul className="space-y-2 text-muted-foreground">
               <li className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span>support@nexusmint.com</span>
+                <span>{branding.supportEmail}</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Phone className="h-4 w-4" />
-                <span>+1 (555) 123-4567</span>
+                <span>{branding.phone ?? '+1 (555) 555-5555'}</span>
               </li>
               <li className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4" />
-                <span>Abu Dhabi, UAE</span>
+                <span>{branding.address ?? 'City, Country'}</span>
               </li>
             </ul>
           </div>
@@ -91,7 +92,7 @@ export function Footer() {
 
         <div className="border-t border-border/50 mt-8 pt-8 text-center">
           <p className="text-muted-foreground font-medium">
-            &copy; 2025 Nexus Mint. All rights reserved.
+            &copy; {new Date().getFullYear()} {branding.companyName}. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground/80 mt-2">
             Real estate investments carry risks. Past performance does not guarantee future results.
