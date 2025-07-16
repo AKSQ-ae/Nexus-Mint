@@ -27,20 +27,27 @@ contract NexusMintShariaPropertyToken is ERC721URIStorage, AccessControl {
         function propertyTokenId() external view returns (uint256);
     }
     
-    /// @dev Property information struct
+    /// @dev Property information struct - Gas optimized with struct packing
     struct ShariaProperty {
+        // Slot 1: Pack booleans and smaller values
+        bool isShariaCompliant;
+        bool isActive;
+        uint64 tokenizationDate;     // Packed from uint256 - sufficient for timestamps
+        uint64 certificationExpiry; // Packed from uint256 - sufficient for timestamps
+        uint128 totalValueAED;       // Packed from uint256 - sufficient for property values
+        
+        // Slot 2: Pack remaining values
+        uint128 totalShares;         // Packed from uint256 - sufficient for share counts
+        address fractionalContract;  // 20 bytes
+        
+        // Slot 3: Hash for compliance certificate
+        bytes32 complianceCertHash;
+        
+        // Dynamic arrays and strings (separate storage slots)
         string nexusPropertyId;      
         string dubaiBrokerageId;     
         string propertyAddress;
-        uint256 totalValueAED;       
-        uint256 tokenizationDate;
-        bool isShariaCompliant;
-        bytes32 complianceCertHash;  
-        address fractionalContract;  
-        uint256 totalShares;         
-        bool isActive;
         string[5] permittedUses;      
-        uint256 certificationExpiry; 
     }
     
     mapping(uint256 => ShariaProperty) public properties;
