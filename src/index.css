@@ -559,4 +559,33 @@ All colors MUST be HSL.
    .status-bar-dark {
      color-scheme: dark;
    }
- }
+}
+
+/* Get Started Button Enhancement for Mobile Interaction */
+.nexus-get-started-button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  position: relative;
+  z-index: 101;
+  pointer-events: auto !important;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Ensure navbar buttons are always clickable */
+nav button,
+nav a {
+  position: relative;
+  z-index: auto;
+  pointer-events: auto;
+}
+
+/* Mobile touch target improvements */
+@media (max-width: 768px) {
+  .nexus-get-started-button {
+    min-height: 48px;
+    min-width: 120px;
+    padding: 12px 24px !important;
+  }
+}

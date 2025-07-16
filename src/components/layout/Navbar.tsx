@@ -48,7 +48,9 @@ export function Navbar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-blue-primary/5 via-white to-orange-accent/5 backdrop-blur-xl border-b border-blue-primary/10 sticky top-0 z-50 shadow-elegant transition-all duration-300 safe-area-top">
+    <nav className="bg-gradient-to-r from-blue-primary/5 via-white to-orange-accent/5 backdrop-blur-xl border-b border-blue-primary/10 sticky top-0 z-[100] shadow-elegant transition-all duration-300 safe-area-top"
+      style={{ WebkitTransform: 'translateZ(0)' }}
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-8 safe-area-left safe-area-right">
         <div className="flex items-center h-20 touch-target">
           
@@ -146,10 +148,14 @@ export function Navbar() {
                     Login
                   </Button>
                 </Link>
-                <Link to="/auth/signup">
+                <Link to="/auth/signup" className="relative">
                   <Button 
                     variant="cta"
-                    className="bg-orange-accent hover:bg-orange-accent/90 text-white px-6 py-2.5 rounded-full font-semibold shadow-glow transition-all duration-300 hover:scale-105"
+                    className="nexus-get-started-button bg-orange-accent hover:bg-orange-accent/90 text-white px-8 py-3 rounded-full font-semibold shadow-glow transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 min-h-[44px] min-w-[120px] relative z-[101] pointer-events-auto"
+                    style={{ 
+                      touchAction: 'manipulation',
+                      WebkitTapHighlightColor: 'transparent'
+                    }}
                   >
                     Get Started
                   </Button>
@@ -171,7 +177,7 @@ export function Navbar() {
         </div>
 
         {/* Mobile Navigation */}
-        <div className={`lg:hidden py-6 space-y-2 border-t border-white/10 bg-grey-dark/95 backdrop-blur-xl absolute left-0 right-0 z-50 transition-all duration-300 ${isOpen ? 'top-full opacity-100' : '-top-full opacity-0'}`}>
+        <div className={`lg:hidden py-6 space-y-2 border-t border-white/10 bg-grey-dark/95 backdrop-blur-xl absolute left-0 right-0 z-[99] transition-all duration-300 ${isOpen ? 'top-full opacity-100' : '-top-full opacity-0'}`}>
             <div className="space-y-1">
               <Link 
                 to="/how-it-works" 
@@ -264,10 +270,14 @@ export function Navbar() {
                     Login
                   </Button>
                 </Link>
-                <Link to="/auth/signup" onClick={() => setIsOpen(false)} className="block">
+                <Link to="/auth/signup" onClick={() => setIsOpen(false)} className="block relative">
                   <Button 
                     variant="cta"
-                    className="w-full justify-center h-12 bg-orange-accent hover:bg-orange-accent/90 text-white rounded-full font-semibold"
+                    className="nexus-get-started-button w-full justify-center h-14 bg-orange-accent hover:bg-orange-accent/90 text-white rounded-full font-semibold min-h-[48px] relative z-[101] pointer-events-auto"
+                    style={{ 
+                      touchAction: 'manipulation',
+                      WebkitTapHighlightColor: 'transparent'
+                    }}
                   >
                     Get Started
                   </Button>
