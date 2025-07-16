@@ -178,9 +178,9 @@ const AISettings: React.FC = () => {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="cautious">Cautious Advisor - Conservative, risk-focused</SelectItem>
-                <SelectItem value="balanced">Balanced Advisor - Moderate, well-rounded</SelectItem>
-                <SelectItem value="aggressive">Growth Hacker - Aggressive, opportunity-focused</SelectItem>
+                <SelectItem value="cautious">Cautious (TOKO AI Advisor) - Conservative, risk-focused</SelectItem>
+                <SelectItem value="balanced">Balanced (TOKO AI Advisor) - Moderate, well-rounded</SelectItem>
+                <SelectItem value="aggressive">Growth Hacker (TOKO AI Advisor) - Aggressive, opportunity-focused</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -257,7 +257,7 @@ const AISettings: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <Label>Voice Chat</Label>
-              <p className="text-sm text-muted-foreground">Enable voice conversations with your AI buddy</p>
+              <p className="text-sm text-muted-foreground">Enable voice conversations with TOKO AI Advisor</p>
             </div>
             <Switch
               checked={preferences.voice_enabled}
@@ -349,7 +349,7 @@ const AISettings: React.FC = () => {
       <Card>
         <CardContent className="pt-6">
           <Button onClick={savePreferences} disabled={saving} className="w-full">
-            {saving ? 'Saving...' : 'Save AI Preferences'}
+            {saving ? 'Saving...' : 'Save TOKO AI Advisor Preferences'}
           </Button>
         </CardContent>
       </Card>
