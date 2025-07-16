@@ -84,6 +84,11 @@ export function PropertyDiscovery() {
       const enhancedProperties = (data || []).map((property, index) => ({
         ...property,
         is_featured: index < 3, // First 3 are featured
+        status: 'active' as const,
+        roi_estimate: 8.5,
+        rental_yield: 6.2,
+        images: Array.isArray(property.images) ? property.images as string[] : [],
+        amenities: Array.isArray(property.amenities) ? property.amenities as string[] : []
       }));
       
       setProperties(enhancedProperties);

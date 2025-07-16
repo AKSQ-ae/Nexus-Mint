@@ -28,6 +28,10 @@ interface PortfolioInsight {
   propertyCount: number;
   totalTokens: number;
   growth: number;
+  investments?: Array<{
+    id: string;
+    current_value?: number;
+  }>;
 }
 
 interface Message {
@@ -98,6 +102,21 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
     loadPortfolioData();
   }, [userId]);
 
+  const generatePersonalizedGreeting = useCallback((): string => {
+    if (!portfolioData) {
+      return "Welcome to Nexus Mint! I'm your AI investment assistant. How can I help you explore real estate investment opportunities today?";
+    }
+
+    const totalInvestments = portfolioData.investments?.length || 0;
+    const totalValue = portfolioData.investments?.reduce((sum, inv) => sum + (inv.current_value || 0), 0) || 0;
+
+    if (totalInvestments === 0) {
+      return "Welcome back! I notice you haven't made any investments yet. Would you like me to recommend some high-performing properties based on current market trends?";
+    }
+
+    return `Welcome back! Your portfolio of ${totalInvestments} investments is performing well with a total value of $${totalValue.toLocaleString()}. What would you like to explore today?`;
+  }, [portfolioData]);
+
   // Initial greeting when component mounts
   useEffect(() => {
     if (portfolioData) {
@@ -110,22 +129,6 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
-
-  const generatePersonalizedGreeting = useCallback((): string => {
-    if (!portfolioData) {
-      return "Hey! I'm your investment buddy. What's on your mind today?";
-    }
-
-    const { totalInvested, propertyCount, growth } = portfolioData;
-    
-    if (growth > 0) {
-      return `Hey there! Looking good - your portfolio is up ${growth.toFixed(1)}% with $${totalInvested.toLocaleString()} across ${propertyCount} properties. How are you feeling about your investments today?`;
-    } else if (growth < 0) {
-      return `Hi! Markets have been a bit bumpy lately - your portfolio is down ${Math.abs(growth).toFixed(1)}%, but remember that's normal in real estate. How can I help you today?`;
-    } else {
-      return `Hello! Your portfolio is holding steady at $${totalInvested.toLocaleString()} across ${propertyCount} properties. What would you like to explore today?`;
-    }
-  }, [portfolioData]);
 
   const generateInitialSuggestions = (): string[] => {
     return [

@@ -8,23 +8,28 @@
 export interface Property {
   id: string;
   title: string;
-  description: string;
+  description?: string | null;
   location: string;
   price: number;
-  bedrooms: number;
-  bathrooms: number;
-  sqft: number;
-  images: string[];
-  amenities: string[];
+  bedrooms?: number | null;
+  bathrooms?: number | null;
+  sqft?: number | null;
+  images?: string[] | null;
+  amenities?: string[] | null;
   tokenization_active: boolean;
-  tokens_issued: number;
-  total_tokens: number;
-  price_per_token: number;
+  tokens_issued?: number | null;
+  total_tokens?: number | null;
+  price_per_token?: number | null;
   created_at: string;
-  updated_at: string;
+  updated_at?: string | null;
   status: 'active' | 'pending' | 'sold' | 'inactive';
   roi_estimate: number;
   rental_yield: number;
+  property_type?: string | null;
+  city?: string | null;
+  country?: string | null;
+  address?: string | null;
+  is_featured?: boolean;
 }
 
 export interface PropertyToken {
@@ -333,21 +338,4 @@ export interface InputProps extends ComponentProps {
 // 🌐 EXPORTS
 // ========================
 
-export default {
-  Property,
-  Investment,
-  UserProfile,
-  PaymentMethod,
-  AnalyticsData,
-  AIInteraction,
-  NotificationData,
-  FormData,
-  ApiResponse,
-  AppState,
-  EventData,
-  ErrorData,
-  LoadingState,
-  ComponentProps,
-  ButtonProps,
-  InputProps,
-};
+// All types are exported individually above

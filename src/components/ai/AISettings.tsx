@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
@@ -41,11 +41,7 @@ const AISettings: React.FC = () => {
   const [newKeyword, setNewKeyword] = useState('');
   const [newMarket, setNewMarket] = useState('');
 
-  useEffect(() => {
-    loadPreferences();
-  }, [loadPreferences]);
-
-  const loadPreferences = async () => {
+  const loadPreferences = useCallback(async () => {
     if (!user) return;
 
     try {
@@ -60,28 +56,21 @@ const AISettings: React.FC = () => {
       }
 
       if (data) {
-        setPreferences({
-          communication_style: data.communication_style || 'balanced',
-          learning_rate: data.learning_rate || 'normal',
-          risk_warnings_enabled: data.risk_warnings_enabled ?? true,
-          voice_enabled: data.voice_enabled ?? true,
-          notification_frequency: data.notification_frequency || 'daily',
-          blacklisted_keywords: data.blacklisted_keywords || [],
-          preferred_markets: data.preferred_markets || [],
-          data_retention_days: data.data_retention_days || 90
-        });
+        setPreferences(data);
       }
     } catch (error) {
       console.error('Error loading preferences:', error);
       toast({
         title: "Error",
         description: "Failed to load AI preferences",
-        variant: "destructive"
+        variant: "destructive",
       });
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [user, toast]);
+
+  useEffect(() => {
+    loadPreferences();
+  }, [loadPreferences]);
 
   const savePreferences = async () => {
     if (!user) return;
