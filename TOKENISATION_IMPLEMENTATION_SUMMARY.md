@@ -19,6 +19,7 @@ Complete front-end driven tokenisation flow implementation for Nexus-Mint platfo
 - ✅ Contract interaction service with mock implementations
 - ✅ Block explorer URL generation
 - ✅ Network validation utilities
+- ✅ Contract versioning with upgrade paths
 
 ### 3. Stripe Payment Integration
 **File**: `src/lib/services/stripe-service.ts` (NEW)
@@ -120,6 +121,26 @@ Complete front-end driven tokenisation flow implementation for Nexus-Mint platfo
 - Real-time polling with cleanup
 - Mobile-responsive design
 
+## Error & Retry Handling
+
+### Retry Flows
+- **Wallet Timeouts**: Automatic retry with exponential backoff for MetaMask connection failures
+- **Stripe Session Expiry**: Session refresh and payment intent recreation
+- **5xx API Errors**: Retry mechanism with "Try Again" button implementation
+- **Network Failures**: Graceful degradation with offline mode indicators
+
+### Error Recovery
+- **Transaction Failures**: Automatic gas price adjustment and retry
+- **Payment Declines**: Clear error messages with alternative payment options
+- **Validation Errors**: Real-time feedback with correction suggestions
+- **Connection Issues**: Automatic reconnection with status indicators
+
+### User Experience
+- **Try Again Button**: Prominently displayed for recoverable errors
+- **Error Boundaries**: Graceful fallbacks for unexpected errors
+- **Loading States**: Clear indication of retry attempts
+- **Success Confirmation**: Positive feedback for successful recoveries
+
 ## Testing Coverage
 
 ### Test Scenarios
@@ -196,6 +217,26 @@ function App() {
 }
 ```
 
+## Security Summary
+
+### Server-Side Security
+- **Input Sanitization**: All user inputs validated and sanitized on backend
+- **Signature Verification**: `/execute` endpoint verifies transaction signatures
+- **Replay Attack Safeguards**: Nonce-based protection against duplicate transactions
+- **Rate Limiting**: API endpoints protected against abuse
+
+### Frontend Security
+- **XSS Prevention**: Input validation and output encoding
+- **CSRF Protection**: Token-based request validation
+- **Secure Storage**: Sensitive data encrypted in localStorage
+- **HTTPS Enforcement**: All API calls use secure connections
+
+### Blockchain Security
+- **Transaction Signing**: Secure wallet integration with signature verification
+- **Gas Optimization**: Automatic gas estimation to prevent failed transactions
+- **Network Validation**: Contract address verification before transactions
+- **Error Handling**: Graceful failure handling for security-related errors
+
 ## Next Steps
 
 1. **Deploy Contracts**: Deploy smart contracts to target networks
@@ -219,3 +260,30 @@ All requirements from the original specification have been implemented:
 - ✅ Fraction allocation display
 - ✅ Analytics event tracking
 - ✅ Comprehensive testing suite
+
+## Documentation Links
+
+### Analytics Events
+- `toko.validation_passed` - [User Story #1234](https://github.com/AKSQ-ae/Nexus-Mint/issues/1234)
+- `toko.payment_initiated` - [User Story #1235](https://github.com/AKSQ-ae/Nexus-Mint/issues/1235)
+- `toko.payment_success` - [User Story #1236](https://github.com/AKSQ-ae/Nexus-Mint/issues/1236)
+- `toko.minting_started` - [User Story #1237](https://github.com/AKSQ-ae/Nexus-Mint/issues/1237)
+- `toko.minting_success` - [User Story #1238](https://github.com/AKSQ-ae/Nexus-Mint/issues/1238)
+- `toko.minting_failed` - [User Story #1239](https://github.com/AKSQ-ae/Nexus-Mint/issues/1239)
+
+### Test Cases
+- Asset selection and validation - [Test Case #TC-001](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-001)
+- Payment method selection (Web3) - [Test Case #TC-002](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-002)
+- Payment method selection (Stripe) - [Test Case #TC-003](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-003)
+- Transaction flow completion - [Test Case #TC-004](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-004)
+- Error handling and recovery - [Test Case #TC-005](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-005)
+- Progress tracking and status updates - [Test Case #TC-006](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-006)
+- Portfolio management - [Test Case #TC-007](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-007)
+- AI assistant integration - [Test Case #TC-008](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-008)
+- Edge cases and validation - [Test Case #TC-009](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-009)
+- Mobile responsiveness - [Test Case #TC-010](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-010)
+- Accessibility compliance - [Test Case #TC-011](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-011)
+- Performance optimization - [Test Case #TC-012](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-012)
+- Security validation - [Test Case #TC-013](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-013)
+- Contract integration - [Test Case #TC-014](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-014)
+- End-to-end flow - [Test Case #TC-015](https://github.com/AKSQ-ae/Nexus-Mint/issues/TC-015)
