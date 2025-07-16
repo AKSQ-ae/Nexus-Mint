@@ -22,7 +22,6 @@ export function Hero() {
           <div className="animate-fade-in-up flex justify-center mb-8">
             <h1 className="text-7xl md:text-8xl lg:text-9xl font-black tracking-[0.15em] uppercase transform hover:scale-105 transition-all duration-500 relative">
               <span className="text-blue-600">{branding.shortName.toUpperCase()}</span>
-              <span className="text-orange-500 ml-4">MINT</span>
             </h1>
           </div>
           
