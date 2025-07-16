@@ -148,7 +148,7 @@ export function HelpAssistant() {
         <Button 
           variant="outline" 
           size="sm" 
-          className="fixed bottom-4 right-4 z-50 h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border-primary/20 bg-gradient-to-br from-white/95 to-primary/5 backdrop-blur-sm hover:scale-105 group"
+          className="fixed bottom-4 right-4 z-50 h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border-primary/20 bg-gradient-to-br from-white/95 to-primary/5 backdrop-blur-sm hover:scale-105 group pointer-events-auto"
         >
           <HelpCircle className="h-6 w-6 text-primary group-hover:rotate-12 transition-transform" />
           <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 bg-primary text-white text-xs flex items-center justify-center">

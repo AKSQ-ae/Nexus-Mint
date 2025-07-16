@@ -10,6 +10,7 @@ import { SmartBreadcrumbs } from "@/components/ui/smart-breadcrumbs";
 import { TapAnimationProvider } from "@/components/ui/tap-animation";
 import { PWAInstallPrompt } from "@/components/pwa/PWAInstallPrompt";
 import { HelpAssistant } from "@/components/ui/help-assistant";
+import { TOKOButton } from "@/components/ui/toko-button";
 // import { useCapacitor } from "@/hooks/useCapacitor"; // Temporarily disabled
 
 // Pages
@@ -107,6 +108,7 @@ function AppContent() {
       </main>
       <Footer />
       <PWAInstallPrompt />
+      <TOKOButton />
       <HelpAssistant />
     </div>
   );
