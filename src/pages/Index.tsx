@@ -5,7 +5,6 @@ import { TrustSignals } from '@/components/home/TrustSignals';
 import { CTA } from '@/components/home/CTA';
 import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt';
 import { TrustAnchors } from '@/components/ux/trust-anchors';
-import { ContextualQuickActions } from '@/components/ux/quick-actions';
 import { EnhancedFeedback, useFeedback } from '@/components/ux/enhanced-feedback';
 
 export default function Index() {
@@ -66,12 +65,6 @@ export default function Index() {
         </div>
       </div>
       
-      {/* Context-Aware Quick Actions */}
-      <ContextualQuickActions 
-        position="bottom-right"
-        variant="floating"
-        collapsible={true}
-      />
       
       <PWAInstallPrompt />
     </>
