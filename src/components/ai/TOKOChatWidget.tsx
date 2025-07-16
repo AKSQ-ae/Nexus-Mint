@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Bot, Send, Mic, MicOff, X, Loader2 } from 'lucide-react';
+import { Bot, Send, Mic, MicOff, X, Loader2, Volume2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -176,6 +176,53 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
     }
   };
 
+  const handleSpeak = async (text: string) => {
+    try {
+      // Track analytics event
+      if (typeof (window as any).gtag !== 'undefined') {
+        (window as any).gtag('event', 'toko_voice_request', {
+          event_category: 'TOKO_Advisor',
+          event_label: 'Voice_Synthesis'
+        });
+      }
+
+      const { data, error } = await supabase.functions.invoke('toko-voice', {
+        body: { text, voice: 'Sarah' }
+      });
+
+      if (error) throw error;
+
+      if (data.audioContent) {
+        // Convert base64 to audio and play
+        const audioData = atob(data.audioContent);
+        const arrayBuffer = new ArrayBuffer(audioData.length);
+        const uint8Array = new Uint8Array(arrayBuffer);
+        
+        for (let i = 0; i < audioData.length; i++) {
+          uint8Array[i] = audioData.charCodeAt(i);
+        }
+
+        const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
+        const audioUrl = URL.createObjectURL(blob);
+        const audio = new Audio(audioUrl);
+        
+        audio.play();
+        
+        // Clean up URL after playing
+        audio.onended = () => {
+          URL.revokeObjectURL(audioUrl);
+        };
+      }
+    } catch (error) {
+      console.error('Voice synthesis error:', error);
+      toast({
+        title: "Voice Synthesis Error",
+        description: "Unable to generate audio. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleClose = () => {
     // Track analytics event
     if (typeof (window as any).gtag !== 'undefined') {
@@ -224,9 +271,22 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
                 }`}
               >
                 <p className="text-sm leading-relaxed">{message.content}</p>
-                <p className="text-xs opacity-70 mt-1">
-                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </p>
+                <div className="flex items-center justify-between mt-1">
+                  <p className="text-xs opacity-70">
+                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                  {message.role === 'assistant' && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleSpeak(message.content)}
+                      className="h-6 px-2 text-xs opacity-60 hover:opacity-100"
+                    >
+                      <Volume2 className="w-3 h-3 mr-1" />
+                      Speak
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
           ))}

@@ -39,6 +39,12 @@ verify_jwt = true
 [functions.deployment-health-check]
 verify_jwt = false
 
+[functions.toko-chat]
+verify_jwt = false
+
+[functions.toko-voice]
+verify_jwt = false
+
 [db]
 port = 54322
 shadow_port = 54320
