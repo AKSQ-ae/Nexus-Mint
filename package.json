@@ -27,6 +27,9 @@
     "node": ">=20.0.0",
     "npm": ">=9.0.0"
   },
+  "overrides": {
+    "vite": "^7.0.4"
+  },
   "dependencies": {
     "@11labs/react": "^0.1.4",
     "@axe-core/react": "^4.10.2",
