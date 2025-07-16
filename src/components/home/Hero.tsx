@@ -116,16 +116,11 @@ export function Hero() {
             </p>
           </div>
           
-          <div className="animate-fade-in-up flex flex-col sm:flex-row gap-4 items-center justify-center max-w-lg mx-auto" style={{animationDelay: '0.7s'}}>
-            <Link to="/auth/signup" className="w-full sm:w-auto">
-              <Button variant="hero" size="xl" className="w-full sm:w-auto">
+          <div className="animate-fade-in-up flex justify-center" style={{animationDelay: '0.7s'}}>
+            <Link to="/auth/signup" className="w-full sm:w-auto max-w-sm mx-auto">
+              <Button variant="hero" size="xl" className="w-full">
                 Get Started Free
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Link to="/properties" className="w-full sm:w-auto">
-              <Button variant="outline" size="xl" className="w-full sm:w-auto bg-white/90 hover:bg-white">
-                Browse Properties
               </Button>
             </Link>
           </div>
@@ -216,10 +211,12 @@ export function Hero() {
             </div>
 
             <div className="flex flex-col items-center gap-4">
-              <Button variant="cta" size="xl">
-                Request Early Access
-                <TrendingUp className="ml-2 h-5 w-5" />
-              </Button>
+              <Link to="/auth/signup">
+                <Button variant="cta" size="xl">
+                  Get Started Now
+                  <TrendingUp className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
               <p className="text-sm text-muted-foreground font-inter">
                 Secure your spot.
               </p>

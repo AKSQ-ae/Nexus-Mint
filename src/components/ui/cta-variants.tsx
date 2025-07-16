@@ -9,7 +9,6 @@ const ctaVariants = [
     headline: "Secure Your Investment Future",
     subtext: "Join our exclusive early access program. Limited spots available for founding investors.",
     primaryCta: "Claim Your Spot Now",
-    secondaryCta: "Browse Properties",
     icon: Crown,
     style: "premium"
   },
@@ -18,7 +17,6 @@ const ctaVariants = [
     headline: "Start Building Wealth Today",
     subtext: "Access premium UAE real estate from just $100. Build your property portfolio in minutes.",
     primaryCta: "Start Investing Now",
-    secondaryCta: "View Properties",
     icon: Star,
     style: "accessible"
   },
@@ -27,7 +25,6 @@ const ctaVariants = [
     headline: "Own Real Estate in 60 Seconds",
     subtext: "Revolutionary blockchain technology makes property investment instant and affordable.",
     primaryCta: "Get Started Instantly",
-    secondaryCta: "Learn How",
     icon: Zap,
     style: "urgent"
   }
@@ -125,7 +122,7 @@ export function CTAVariants() {
           <span className="font-semibold text-primary-foreground">Start building your real estate empire today.</span>
         </p>
         
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+        <div className="flex justify-center">
           <Link to="/auth/signup">
             <Button 
               size="xl" 
@@ -133,15 +130,6 @@ export function CTAVariants() {
             >
               {variant.primaryCta}
               <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
-          <Link to="/properties">
-            <Button 
-              size="lg" 
-              variant="ghost" 
-              className="text-lg px-8 text-primary-foreground hover:bg-background/20 border-2 border-background/30 backdrop-blur-sm"
-            >
-              {variant.secondaryCta}
             </Button>
           </Link>
         </div>
