@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { supabase } from '@/integrations/supabase/client';
 import { ArrowLeft, Mail } from 'lucide-react';
+
+const SUPABASE_URL = "https://qncfxkgjydeiefyhyllk.supabase.co";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -34,16 +35,23 @@ export default function ForgotPassword() {
     setError('');
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/reset-password`,
+      const response = await fetch(`${SUPABASE_URL}/functions/v1/auth-forgot-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
       });
 
-      if (error) {
-        setError(error.message);
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'An error occurred. Please try again.');
       } else {
         setEmailSent(true);
       }
     } catch (error) {
+      console.error('Forgot password error:', error);
       setError('An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -65,7 +73,7 @@ export default function ForgotPassword() {
           </CardHeader>
           <CardContent className="text-center space-y-4">
             <p className="text-sm text-muted-foreground">
-              Didn't receive the email? Check your spam folder or try again.
+              The link will expire in 1 hour. If you don't receive the email, check your spam folder or try again.
             </p>
             <div className="space-y-2">
               <Button 

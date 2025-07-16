@@ -72,7 +72,7 @@ function AppContent() {
           <Route path="/auth/signin" element={<SignIn />} />
           <Route path="/auth/signup" element={<SignUp />} />
           <Route path="/auth/forgot-password" element={<ForgotPassword />} />
-          <Route path="/auth/reset-password" element={<ResetPassword />} />
+          <Route path="/auth/reset" element={<ResetPassword />} />
           <Route path="/investment/success" element={<InvestmentSuccess />} />
           <Route path="/investment/cancel" element={<InvestmentCancel />} />
           <Route path="/tokenization-demo" element={<TokenizationDemo />} />
