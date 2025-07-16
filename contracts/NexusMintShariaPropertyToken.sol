@@ -16,7 +16,11 @@ contract NexusMintShariaPropertyToken is ERC721URIStorage, AccessControl {
     using Counters for Counters.Counter;
     using EnumerableSet for EnumerableSet.UintSet;
     
-    bytes32 public constant NEXUS_ADMIN_ROLE = keccak256("NEXUS_ADMIN_ROLE");
+    // Brand-neutral admin role constant
+    bytes32 public constant PLATFORM_ADMIN_ROLE = keccak256("PLATFORM_ADMIN_ROLE");
+    // Deprecated alias (maintains backward compatibility)
+    // solhint-disable-next-line var-name-mixedcase
+    bytes32 public constant NEXUS_ADMIN_ROLE = PLATFORM_ADMIN_ROLE;
     bytes32 public constant SHARIA_BOARD_ROLE = keccak256("SHARIA_BOARD_ROLE");
     
     Counters.Counter private _tokenIds;
@@ -55,7 +59,7 @@ contract NexusMintShariaPropertyToken is ERC721URIStorage, AccessControl {
     
     constructor() ERC721("Sharia Property Token", "SPT") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(NEXUS_ADMIN_ROLE, msg.sender);
+        _grantRole(PLATFORM_ADMIN_ROLE, msg.sender);
     }
     
     /**
@@ -69,7 +73,7 @@ contract NexusMintShariaPropertyToken is ERC721URIStorage, AccessControl {
         uint256 totalShares,
         string[5] memory permittedUses,
         string memory metadataURI
-    ) external onlyRole(NEXUS_ADMIN_ROLE) returns (uint256) {
+    ) external onlyRole(PLATFORM_ADMIN_ROLE) returns (uint256) {
         require(bytes(nexusId).length > 0, "Empty nexusId");
         require(bytes(dubaiBrokerageId).length > 0, "Empty dubaiBrokerageId");
         require(bytes(propertyAddress).length > 0, "Empty propertyAddress");
@@ -152,7 +156,7 @@ contract NexusMintShariaPropertyToken is ERC721URIStorage, AccessControl {
     /**
      * @dev Link fractional token contract
      */
-    function linkFractionalContract(uint256 tokenId, address contractAddress) external onlyRole(NEXUS_ADMIN_ROLE) {
+    function linkFractionalContract(uint256 tokenId, address contractAddress) external onlyRole(PLATFORM_ADMIN_ROLE) {
         require(_exists(tokenId), "Property does not exist");
         require(properties[tokenId].isShariaCompliant, "Not Sharia compliant");
         require(properties[tokenId].certificationExpiry > block.timestamp, "Sharia certification expired");
@@ -169,7 +173,7 @@ contract NexusMintShariaPropertyToken is ERC721URIStorage, AccessControl {
     /**
      * @dev Update fractional contract address
      */
-    function updateFractionalContract(uint256 tokenId, address newContractAddress) external onlyRole(NEXUS_ADMIN_ROLE) {
+    function updateFractionalContract(uint256 tokenId, address newContractAddress) external onlyRole(PLATFORM_ADMIN_ROLE) {
         require(_exists(tokenId), "Property does not exist");
         require(properties[tokenId].isShariaCompliant, "Not Sharia compliant");
         require(properties[tokenId].certificationExpiry > block.timestamp, "Sharia certification expired");

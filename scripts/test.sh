@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# Nexus Mint Comprehensive Test Suite
-# This script runs all automated checks for the application
+# Brand configuration
+BRAND_NAME=${BRAND_NAME:-"Your Company"}
+
+# Comprehensive Test Suite for $BRAND_NAME
+echo "🚀 Starting $BRAND_NAME Bulletproof Test Suite..."
 
 set -e
-
-echo "🚀 Starting Nexus Mint Bulletproof Test Suite..."
 
 # Colors for output
 RED='\033[0;31m'
@@ -169,7 +170,7 @@ echo ""
 
 if [ $FAILED_TESTS -eq 0 ]; then
     echo -e "${GREEN}🎉 ALL TESTS PASSED - PLATFORM IS BULLETPROOF!${NC}"
-    echo -e "${GREEN}🚀 Nexus Mint is ready for production deployment!${NC}"
+    echo -e "${GREEN}🚀 $BRAND_NAME is ready for production deployment!${NC}"
     echo ""
     echo "✅ Zero errors detected across all systems"
     echo "✅ All functionality validated and working"

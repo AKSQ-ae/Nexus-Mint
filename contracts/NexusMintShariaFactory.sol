@@ -14,7 +14,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
  */
 contract NexusMintShariaFactory is AccessControl, ReentrancyGuard {
     
-    bytes32 public constant NEXUS_ADMIN_ROLE = keccak256("NEXUS_ADMIN_ROLE");
+    bytes32 public constant PLATFORM_ADMIN_ROLE = keccak256("PLATFORM_ADMIN_ROLE");
     bytes32 public constant SHARIA_BOARD_ROLE = keccak256("SHARIA_BOARD_ROLE");
     
     // Registry of all deployed contracts
@@ -71,14 +71,14 @@ contract NexusMintShariaFactory is AccessControl, ReentrancyGuard {
         
         // Setup roles
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(NEXUS_ADMIN_ROLE, msg.sender);
+        _grantRole(PLATFORM_ADMIN_ROLE, msg.sender);
         _grantRole(SHARIA_BOARD_ROLE, _shariaBoard);
         
         // Grant roles to deployed contracts
-        propertyRegistry.addRoleMember(propertyRegistry.NEXUS_ADMIN_ROLE(), msg.sender);
+        propertyRegistry.addRoleMember(propertyRegistry.PLATFORM_ADMIN_ROLE(), msg.sender);
         propertyRegistry.addRoleMember(propertyRegistry.SHARIA_BOARD_ROLE(), _shariaBoard);
         
-        marketplace.addRoleMember(marketplace.NEXUS_ADMIN_ROLE(), msg.sender);
+        marketplace.addRoleMember(marketplace.PLATFORM_ADMIN_ROLE(), msg.sender);
         marketplace.addRoleMember(marketplace.SHARIA_SUPERVISOR_ROLE(), _shariaBoard);
     }
     
@@ -99,7 +99,7 @@ contract NexusMintShariaFactory is AccessControl, ReentrancyGuard {
         string memory tokenName,
         string memory tokenSymbol,
         uint256 totalSupply
-    ) external onlyRole(NEXUS_ADMIN_ROLE) nonReentrant returns (
+    ) external onlyRole(PLATFORM_ADMIN_ROLE) nonReentrant returns (
         uint256 propertyTokenId,
         address fractionalTokenContract
     ) {
@@ -135,7 +135,7 @@ contract NexusMintShariaFactory is AccessControl, ReentrancyGuard {
         fractionalTokenContract = address(fractionalToken);
         
         // 3. Setup roles for fractional token
-        fractionalToken.addRoleMember(fractionalToken.NEXUS_PLATFORM_ROLE(), msg.sender);
+        fractionalToken.addRoleMember(fractionalToken.PLATFORM_ROLE(), msg.sender);
         fractionalToken.addRoleMember(fractionalToken.PROPERTY_MANAGER_ROLE(), msg.sender);
         fractionalToken.addRoleMember(fractionalToken.SHARIA_SUPERVISOR_ROLE(), getRoleMember(SHARIA_BOARD_ROLE, 0));
         
@@ -200,7 +200,7 @@ contract NexusMintShariaFactory is AccessControl, ReentrancyGuard {
         uint256 investmentAED,
         bool kycStatus,
         bool shariaAcceptance
-    ) external onlyRole(NEXUS_ADMIN_ROLE) {
+    ) external onlyRole(PLATFORM_ADMIN_ROLE) {
         address fractionalContract = propertyToFractionalToken[propertyTokenId];
         require(fractionalContract != address(0), "Property not found");
         
@@ -360,9 +360,9 @@ contract NexusMintShariaFactory is AccessControl, ReentrancyGuard {
         grantRole(role, account);
         
         // Add to property registry if applicable
-        if (role == NEXUS_ADMIN_ROLE) {
-            propertyRegistry.addRoleMember(propertyRegistry.NEXUS_ADMIN_ROLE(), account);
-            marketplace.addRoleMember(marketplace.NEXUS_ADMIN_ROLE(), account);
+        if (role == PLATFORM_ADMIN_ROLE) {
+            propertyRegistry.addRoleMember(propertyRegistry.PLATFORM_ADMIN_ROLE(), account);
+            marketplace.addRoleMember(marketplace.PLATFORM_ADMIN_ROLE(), account);
         } else if (role == SHARIA_BOARD_ROLE) {
             propertyRegistry.addRoleMember(propertyRegistry.SHARIA_BOARD_ROLE(), account);
             marketplace.addRoleMember(marketplace.SHARIA_SUPERVISOR_ROLE(), account);
@@ -377,9 +377,9 @@ contract NexusMintShariaFactory is AccessControl, ReentrancyGuard {
         revokeRole(role, account);
         
         // Remove from property registry if applicable
-        if (role == NEXUS_ADMIN_ROLE) {
-            propertyRegistry.removeRoleMember(propertyRegistry.NEXUS_ADMIN_ROLE(), account);
-            marketplace.removeRoleMember(marketplace.NEXUS_ADMIN_ROLE(), account);
+        if (role == PLATFORM_ADMIN_ROLE) {
+            propertyRegistry.removeRoleMember(propertyRegistry.PLATFORM_ADMIN_ROLE(), account);
+            marketplace.removeRoleMember(marketplace.PLATFORM_ADMIN_ROLE(), account);
         } else if (role == SHARIA_BOARD_ROLE) {
             propertyRegistry.removeRoleMember(propertyRegistry.SHARIA_BOARD_ROLE(), account);
             marketplace.removeRoleMember(marketplace.SHARIA_SUPERVISOR_ROLE(), account);

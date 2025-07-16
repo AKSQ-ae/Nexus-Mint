@@ -17,7 +17,8 @@ contract NexusMintShariaToken is ERC20, AccessControl, ReentrancyGuard, PullPaym
     using SafeERC20 for IERC20;
     using EnumerableSet for EnumerableSet.AddressSet;
     
-    bytes32 public constant NEXUS_PLATFORM_ROLE = keccak256("NEXUS_PLATFORM_ROLE");
+    bytes32 public constant PLATFORM_ROLE = keccak256("PLATFORM_ROLE");
+    bytes32 public constant NEXUS_PLATFORM_ROLE = PLATFORM_ROLE; // deprecated alias
     bytes32 public constant PROPERTY_MANAGER_ROLE = keccak256("PROPERTY_MANAGER_ROLE");
     bytes32 public constant SHARIA_SUPERVISOR_ROLE = keccak256("SHARIA_SUPERVISOR_ROLE");
     
@@ -117,7 +118,7 @@ contract NexusMintShariaToken is ERC20, AccessControl, ReentrancyGuard, PullPaym
         financials.currentValuationAED = initialValuationAED;
         
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(NEXUS_PLATFORM_ROLE, msg.sender);
+        _grantRole(PLATFORM_ROLE, msg.sender);
         
         _mint(msg.sender, totalSupply);
     }
@@ -131,7 +132,7 @@ contract NexusMintShariaToken is ERC20, AccessControl, ReentrancyGuard, PullPaym
         uint256 investmentAED,
         bool kycStatus,
         bool shariaAcceptance
-    ) external onlyRole(NEXUS_PLATFORM_ROLE) {
+    ) external onlyRole(PLATFORM_ROLE) {
         require(investor != address(0), "Invalid investor address");
         require(tokenAmount > 0, "Token amount must be positive");
         require(investmentAED > 0, "Investment amount must be positive");
@@ -245,8 +246,8 @@ contract NexusMintShariaToken is ERC20, AccessControl, ReentrancyGuard, PullPaym
         require(netDistributable > 0, "No profits to distribute");
         
         if (nexusFee > 0) {
-            address nexusPlatform = getRoleMemberCount(NEXUS_PLATFORM_ROLE) > 0 ? 
-                getRoleMember(NEXUS_PLATFORM_ROLE, 0) : address(this);
+            address nexusPlatform = getRoleMemberCount(PLATFORM_ROLE) > 0 ? 
+                getRoleMember(PLATFORM_ROLE, 0) : address(this);
             paymentToken.safeTransfer(nexusPlatform, nexusFee);
             financials.nexusPlatformFeesAED += nexusFee;
         }
@@ -267,8 +268,8 @@ contract NexusMintShariaToken is ERC20, AccessControl, ReentrancyGuard, PullPaym
             }
         }
         
-        uint256 platformHoldings = getRoleMemberCount(NEXUS_PLATFORM_ROLE) > 0 ?
-            balanceOf(getRoleMember(NEXUS_PLATFORM_ROLE, 0)) : 0;
+        uint256 platformHoldings = getRoleMemberCount(PLATFORM_ROLE) > 0 ?
+            balanceOf(getRoleMember(PLATFORM_ROLE, 0)) : 0;
         uint256 tokensInCirculation = totalSupply() - platformHoldings;
         require(tokensInCirculation > 0, "No tokens in circulation");
         
@@ -417,7 +418,7 @@ contract NexusMintShariaToken is ERC20, AccessControl, ReentrancyGuard, PullPaym
                 _allInvestors.add(to);
             }
             
-            if (balanceOf(from) == amount && from != (getRoleMemberCount(NEXUS_PLATFORM_ROLE) > 0 ? getRoleMember(NEXUS_PLATFORM_ROLE, 0) : address(0))) {
+            if (balanceOf(from) == amount && from != (getRoleMemberCount(PLATFORM_ROLE) > 0 ? getRoleMember(PLATFORM_ROLE, 0) : address(0))) {
                 _allInvestors.remove(from);
             }
         }

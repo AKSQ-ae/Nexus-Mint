@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# Health Check Script for Nexus Mint
+# Brand configuration
+BRAND_NAME=${BRAND_NAME:-"Your Company"}
+# Health Check Script for $BRAND_NAME
 # Monitors system health and sends alerts if issues are detected
 
 BASE_URL=${1:-"http://localhost:5173"}
@@ -39,13 +41,13 @@ send_alert() {
     if [ -n "$WEBHOOK_URL" ]; then
         curl -X POST "$WEBHOOK_URL" \
             -H "Content-Type: application/json" \
-            -d "{\"text\":\"🚨 Nexus Mint Alert: $message\"}"
+            -d "{\"text\":\"🚨 $BRAND_NAME Alert: $message\"}"
     fi
     
     echo -e "${RED}🚨 ALERT: $message${NC}"
 }
 
-echo "🏥 Starting Nexus Mint Health Check..."
+echo "🏥 Starting $BRAND_NAME Health Check..."
 echo "Target: $BASE_URL"
 echo "Timestamp: $(date)"
 

@@ -13,7 +13,8 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 contract NexusMintShariaMarketplace is AccessControl, ReentrancyGuard {
     using SafeERC20 for IERC20;
     
-    bytes32 public constant NEXUS_ADMIN_ROLE = keccak256("NEXUS_ADMIN_ROLE");
+    bytes32 public constant PLATFORM_ADMIN_ROLE = keccak256("PLATFORM_ADMIN_ROLE");
+    bytes32 public constant NEXUS_ADMIN_ROLE = PLATFORM_ADMIN_ROLE; // deprecated alias
     bytes32 public constant SHARIA_SUPERVISOR_ROLE = keccak256("SHARIA_SUPERVISOR_ROLE");
     
     /// @dev Interface for validating NexusMintShariaToken contracts
@@ -65,7 +66,7 @@ contract NexusMintShariaMarketplace is AccessControl, ReentrancyGuard {
         require(_aedToken != address(0), "Invalid AED token address");
         aedToken = IERC20(_aedToken);
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(NEXUS_ADMIN_ROLE, msg.sender);
+        _grantRole(PLATFORM_ADMIN_ROLE, msg.sender);
     }
     
     /**
@@ -359,7 +360,7 @@ contract NexusMintShariaMarketplace is AccessControl, ReentrancyGuard {
     /**
      * @dev Authorize token contract with NexusMintShariaToken validation
      */
-    function authorizeToken(address tokenContract) external onlyRole(NEXUS_ADMIN_ROLE) {
+    function authorizeToken(address tokenContract) external onlyRole(PLATFORM_ADMIN_ROLE) {
         require(tokenContract != address(0), "Invalid token contract");
         
         // Verify it's a valid NexusMintShariaToken contract
@@ -373,14 +374,14 @@ contract NexusMintShariaMarketplace is AccessControl, ReentrancyGuard {
     /**
      * @dev Revoke token contract authorization
      */
-    function revokeTokenAuthorization(address tokenContract) external onlyRole(NEXUS_ADMIN_ROLE) {
+    function revokeTokenAuthorization(address tokenContract) external onlyRole(PLATFORM_ADMIN_ROLE) {
         authorizedTokenContracts[tokenContract] = false;
     }
     
     /**
      * @dev Withdraw accumulated marketplace fees with safety checks
      */
-    function withdrawFees(address recipient) external onlyRole(NEXUS_ADMIN_ROLE) {
+    function withdrawFees(address recipient) external onlyRole(PLATFORM_ADMIN_ROLE) {
         require(recipient != address(0), "Invalid recipient");
         require(accumulatedFeesAED > 0, "No fees to withdraw");
         
