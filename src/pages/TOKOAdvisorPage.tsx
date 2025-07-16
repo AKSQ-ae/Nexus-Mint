@@ -1,29 +1,55 @@
-import React from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import AIBuddy from '@/components/ai/AIBuddy';
+import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { Sparkles, MessageCircle, TrendingUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Bot, MessageCircle, TrendingUp, HeadphonesIcon } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { TOKOAdvisorModal } from '@/components/modals/TOKOAdvisorModal';
 
-const AIBuddyPage: React.FC = () => {
-  const { user } = useAuth();
+const TOKOAdvisorPage: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleLiveChat = () => {
+    navigate('/investor-resources');
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="mb-8 text-center">
         <div className="flex items-center justify-center gap-3 mb-4">
-          <Sparkles className="w-8 h-8 text-primary" />
-          <h1 className="text-3xl font-bold">Your AI Investment Buddy</h1>
+          <Bot className="w-8 h-8 text-primary" />
+          <h1 className="text-3xl font-bold">TOKO AI Advisor</h1>
         </div>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Meet your personal investment advisor. Get insights, discover opportunities, 
-          and grow your portfolio with conversational AI that knows your investments inside out.
+          TOKO AI Advisor is launching soon. Personalized portfolio guidance powered by regulated AI tools.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main AI Chat */}
+        {/* Main Coming Soon Card */}
         <div className="lg:col-span-2">
-          <AIBuddy userId={user?.id} className="w-full" />
+          <Card className="p-8 text-center">
+            <div className="mx-auto w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+              <Bot className="w-12 h-12 text-primary" />
+            </div>
+            <h2 className="text-2xl font-bold mb-4">Coming Soon</h2>
+            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+              TOKO AI Advisor is launching soon. Personalized portfolio guidance powered by regulated AI tools.
+            </p>
+            <div className="space-y-3">
+              <Button onClick={handleGetStarted} className="w-full max-w-xs">
+                Learn More
+              </Button>
+              <Button onClick={handleLiveChat} variant="outline" className="w-full max-w-xs">
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Live Chat Support
+              </Button>
+            </div>
+          </Card>
         </div>
 
         {/* Features Sidebar */}
@@ -78,7 +104,7 @@ const AIBuddyPage: React.FC = () => {
 
           <Card className="p-6">
             <div className="flex items-center gap-3 mb-4">
-              <Sparkles className="w-6 h-6 text-purple-600" />
+              <Bot className="w-6 h-6 text-purple-600" />
               <h3 className="font-semibold">Smart Suggestions</h3>
             </div>
             <p className="text-sm text-muted-foreground mb-4">
@@ -101,8 +127,13 @@ const AIBuddyPage: React.FC = () => {
           </Card>
         </div>
       </div>
+      
+      <TOKOAdvisorModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </div>
   );
 };
 
-export default AIBuddyPage;
+export default TOKOAdvisorPage;

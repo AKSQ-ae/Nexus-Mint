@@ -44,7 +44,7 @@ import EarlyAccess from "./pages/EarlyAccess";
 import SystemHealth from "./pages/SystemHealth";
 import QualityAssurance from "./pages/QualityAssurance";
 import SystemResilience from "./pages/SystemResilience";
-import AIBuddyPage from "./pages/AIBuddyPage";
+import TOKOAdvisorPage from "./pages/TOKOAdvisorPage";
 import Phase1Validation from "./pages/Phase1Validation";
 import Documentation from "./pages/Documentation";
 import ShariaTokenization from "./pages/ShariaTokenization";
@@ -96,7 +96,7 @@ function AppContent() {
           <Route path="/system-health" element={<SystemHealth />} />
           <Route path="/quality-assurance" element={<QualityAssurance />} />
           <Route path="/system-resilience" element={<SystemResilience />} />
-          <Route path="/ai-buddy" element={<AIBuddyPage />} />
+          <Route path="/toko-advisor" element={<TOKOAdvisorPage />} />
           <Route path="/phase1-validation" element={<Phase1Validation />} />
           <Route path="/documentation" element={<Documentation />} />
           <Route path="/sharia-tokenization" element={<ShariaTokenization />} />

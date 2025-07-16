@@ -257,7 +257,7 @@ const AISettings: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <Label>Voice Chat</Label>
-              <p className="text-sm text-muted-foreground">Enable voice conversations with your AI buddy</p>
+              <p className="text-sm text-muted-foreground">Enable voice conversations with TOKO AI Advisor</p>
             </div>
             <Switch
               checked={preferences.voice_enabled}

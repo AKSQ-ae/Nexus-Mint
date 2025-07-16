@@ -69,8 +69,8 @@ export function InvestorResourcesContent() {
     setIsAccountSupportOpen(true);
   };
 
-  const handleAIBuddy = () => {
-    navigate('/ai-buddy');
+  const handleTOKOAdvisor = () => {
+    navigate('/toko-advisor');
   };
 
   const categories = ['All', ...Array.from(new Set(faqs.map(faq => faq.category)))];
@@ -113,13 +113,13 @@ export function InvestorResourcesContent() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
         <Card 
           className="cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-105 border-primary/20"
-          onClick={handleAIBuddy}
+          onClick={handleTOKOAdvisor}
         >
           <CardHeader className="text-center p-6">
             <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <Bot className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-lg">AI Investment Buddy</CardTitle>
+            <CardTitle className="text-lg">TOKO AI Advisor</CardTitle>
             <CardDescription>Chat with your personal AI advisor about your portfolio</CardDescription>
           </CardHeader>
         </Card>

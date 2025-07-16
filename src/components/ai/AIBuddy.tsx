@@ -306,7 +306,7 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
             <MessageCircle className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold">Your AI Investment Buddy</h3>
+            <h3 className="font-semibold">TOKO AI Advisor</h3>
             <p className="text-sm text-muted-foreground">
               {conversationMode === 'voice' ? 'Voice chat active' : 'Chat with me about your investments'}
             </p>
