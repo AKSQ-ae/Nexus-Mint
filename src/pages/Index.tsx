@@ -1,7 +1,6 @@
 import { Hero } from '@/components/home/Hero';
 import { Features } from '@/components/home/Features';
 import { TrustSignals } from '@/components/home/TrustSignals';
-import { CTA } from '@/components/home/CTA';
 import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt';
 import { EnhancedFeedback, useFeedback } from '@/components/ux/enhanced-feedback';
 
@@ -23,9 +22,6 @@ export default function Index() {
       
       <div data-section="features">
         <Features />
-      </div>
-      <div data-section="cta">
-        <CTA />
       </div>
       
       <PWAInstallPrompt />
