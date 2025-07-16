@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Bot, Send, Mic, MicOff, X, Loader2 } from 'lucide-react';
+import { Bot, Send, Mic, MicOff, X, Loader2, Volume2, VolumeX } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -24,6 +24,7 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -176,6 +177,54 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
     }
   };
 
+  const handleSpeak = async (text: string) => {
+    if (isSpeaking) return;
+    
+    setIsSpeaking(true);
+    
+    try {
+      // Call the TOKO voice API
+      const { data, error } = await supabase.functions.invoke('toko-voice', {
+        body: {
+          text: text
+        }
+      });
+
+      if (error) throw error;
+
+      // Convert the audio buffer to a blob and play it
+      const audioBlob = new Blob([data], { type: 'audio/mpeg' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      
+      audio.onended = () => {
+        URL.revokeObjectURL(audioUrl);
+        setIsSpeaking(false);
+      };
+      
+      audio.onerror = () => {
+        URL.revokeObjectURL(audioUrl);
+        setIsSpeaking(false);
+        toast({
+          title: "Audio Playback Error",
+          description: "Unable to play audio response.",
+          variant: "destructive",
+        });
+      };
+      
+      await audio.play();
+
+    } catch (error) {
+      console.error('Error playing audio:', error);
+      setIsSpeaking(false);
+      toast({
+        title: "Voice Synthesis Error",
+        description: "Unable to generate voice response. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleClose = () => {
     // Track analytics event
     if (typeof (window as any).gtag !== 'undefined') {
@@ -223,7 +272,24 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
                     : 'bg-muted'
                 }`}
               >
-                <p className="text-sm leading-relaxed">{message.content}</p>
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-sm leading-relaxed flex-1">{message.content}</p>
+                  {message.role === 'assistant' && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6 flex-shrink-0"
+                      onClick={() => handleSpeak(message.content)}
+                      disabled={isSpeaking}
+                    >
+                      {isSpeaking ? (
+                        <VolumeX className="w-3 h-3" />
+                      ) : (
+                        <Volume2 className="w-3 h-3" />
+                      )}
+                    </Button>
+                  )}
+                </div>
                 <p className="text-xs opacity-70 mt-1">
                   {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>

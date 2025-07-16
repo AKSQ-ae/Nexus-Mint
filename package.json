@@ -16,6 +16,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:e2e": "playwright test",
+    "test:toko": "node scripts/test-toko-integration.js",
+    "test:toko:deploy": "node scripts/verify-toko-deployment.js",
     "lighthouse": "lhci autorun",
     "analyze:bundle": "npm run build && source-map-explorer 'dist/assets/index-*.js'",
     "analyze:css": "npm run build && source-map-explorer 'dist/assets/index-*.css'",
