@@ -5,54 +5,51 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { supabase } from '@/integrations/supabase/client';
-import { CheckCircle, EyeIcon, EyeOffIcon } from 'lucide-react';
+import { apiClient } from '@/lib/api';
+import { CheckCircle, EyeIcon, EyeOffIcon, AlertCircle } from 'lucide-react';
 
 export default function ResetPassword() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isValidating, setIsValidating] = useState(true);
   const [passwordUpdated, setPasswordUpdated] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [tokenValid, setTokenValid] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const initializePasswordReset = async () => {
-      // Check URL parameters for Supabase tokens
-      const accessToken = searchParams.get('access_token');
-      const refreshToken = searchParams.get('refresh_token');
-      const type = searchParams.get('type');
+    const validateToken = async () => {
+      const token = searchParams.get('token');
       
-      console.log('Reset Password - URL params:', { type, hasAccessToken: !!accessToken, hasRefreshToken: !!refreshToken });
-      
-      if (type === 'recovery' && accessToken && refreshToken) {
-        try {
-          // Set the session from URL parameters to enable password reset
-          const { error } = await supabase.auth.setSession({
-            access_token: accessToken,
-            refresh_token: refreshToken
-          });
-          
-          if (error) {
-            console.error('Session error:', error);
-            setError('Invalid or expired reset link. Please request a new one.');
-          } else {
-            console.log('Session set successfully for password reset');
-          }
-        } catch (err) {
-          console.error('Failed to set session:', err);
-          setError('Invalid or expired reset link. Please request a new one.');
+      if (!token) {
+        setError('Invalid reset link. Please request a new password reset.');
+        setIsValidating(false);
+        return;
+      }
+
+      try {
+        const data = await apiClient.validateResetToken(token);
+        
+        if (data.valid) {
+          setTokenValid(true);
+          setUserEmail(data.email || '');
+        } else {
+          setError(data.error || 'Invalid or expired reset link. Please request a new one.');
         }
-      } else {
-        // No recovery tokens in URL - this might be an invalid link
-        setError('Invalid or expired reset link. Please request a new one.');
+      } catch (error) {
+        console.error('Error validating token:', error);
+        setError('Failed to validate reset link. Please try again.');
+      } finally {
+        setIsValidating(false);
       }
     };
 
-    initializePasswordReset();
+    validateToken();
   }, [searchParams]);
 
   const validateForm = () => {
@@ -83,25 +80,39 @@ export default function ResetPassword() {
     setError('');
 
     try {
-      const { error } = await supabase.auth.updateUser({
-        password: password
-      });
-
-      if (error) {
-        setError(error.message);
-      } else {
-        setPasswordUpdated(true);
-        // Redirect to sign in after 3 seconds
-        setTimeout(() => {
-          navigate('/auth/signin');
-        }, 3000);
+      const token = searchParams.get('token');
+      if (!token) {
+        setError('Invalid reset link. Please request a new password reset.');
+        return;
       }
+
+      await apiClient.resetPassword(token, password);
+      setPasswordUpdated(true);
+      // Redirect to sign in after 3 seconds
+      setTimeout(() => {
+        navigate('/auth/signin', { 
+          state: { message: 'Your password has been reset successfully. Please sign in with your new password.' }
+        });
+      }, 3000);
     } catch (error) {
-      setError('An error occurred. Please try again.');
+      setError(error instanceof Error ? error.message : 'An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  if (isValidating) {
+    return (
+      <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <Card className="w-full max-w-md">
+          <CardContent className="text-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Validating reset link...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   if (passwordUpdated) {
     return (
@@ -129,6 +140,39 @@ export default function ResetPassword() {
     );
   }
 
+  if (!tokenValid) {
+    return (
+      <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <Card className="w-full max-w-md">
+          <CardHeader className="space-y-1 text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+              <AlertCircle className="h-8 w-8 text-red-600" />
+            </div>
+            <CardTitle className="text-2xl">Invalid reset link</CardTitle>
+            <CardDescription>
+              {error}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="text-center space-y-4">
+            <Button 
+              onClick={() => navigate('/auth/forgot-password')}
+              className="w-full"
+            >
+              Request new reset link
+            </Button>
+            <Button 
+              onClick={() => navigate('/auth/signin')}
+              variant="outline"
+              className="w-full"
+            >
+              Back to sign in
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
@@ -136,6 +180,11 @@ export default function ResetPassword() {
           <CardTitle className="text-2xl text-center">Reset your password</CardTitle>
           <CardDescription className="text-center">
             Enter your new password below
+            {userEmail && (
+              <div className="mt-2 text-sm text-muted-foreground">
+                Resetting password for: {userEmail}
+              </div>
+            )}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -156,6 +205,7 @@ export default function ResetPassword() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   minLength={6}
+                  placeholder="Enter your new password"
                 />
                 <Button
                   type="button"
@@ -182,6 +232,7 @@ export default function ResetPassword() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                   minLength={6}
+                  placeholder="Confirm your new password"
                 />
                 <Button
                   type="button"
