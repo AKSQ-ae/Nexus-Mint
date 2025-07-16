@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { BRANDING_CONFIG } from '@/lib/branding.config';
-import { useConversation } from '@11labs/react';
+import { useConversation } from '@elevenlabs/react';
 import { 
   Mic, 
   MicOff, 
