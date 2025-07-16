@@ -34,8 +34,10 @@ export default function ForgotPassword() {
     setError('');
 
     try {
+      // Tell Supabase where to send the user after they click the link in the e-mail.
+      // We now canonicalise the route at /auth/reset (we also have /auth/reset-password as an alias).
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/reset-password`,
+        redirectTo: `${window.location.origin}/auth/reset`,
       });
 
       if (error) {

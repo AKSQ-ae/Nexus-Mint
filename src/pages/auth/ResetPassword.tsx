@@ -16,15 +16,36 @@ export default function ResetPassword() {
   const [passwordUpdated, setPasswordUpdated] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // React-Router can only parse query parameters (after '?'). Supabase delivers
+  // its `access_token` & `refresh_token` in the URL fragment (after '#').
+  // To be resilient to both, we combine the search & hash segments into a single
+  // URLSearchParams instance.
   const [searchParams] = useSearchParams();
+
+  // Helper: Merge ?query and #hash param sources into one object.
+  const getAllParams = () => {
+    // params from ?search
+    const params = new URLSearchParams(searchParams.toString());
+
+    // params from #hash
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      hashParams.forEach((value, key) => {
+        if (!params.has(key)) {
+          params.append(key, value);
+        }
+      });
+    }
+    return params;
+  };
   const navigate = useNavigate();
 
   useEffect(() => {
     const initializePasswordReset = async () => {
-      // Check URL parameters for Supabase tokens
-      const accessToken = searchParams.get('access_token');
-      const refreshToken = searchParams.get('refresh_token');
-      const type = searchParams.get('type');
+      const params = getAllParams();
+      const accessToken = params.get('access_token');
+      const refreshToken = params.get('refresh_token');
+      const type = params.get('type') || params.get('action'); // allow 'action=recovery' variants
       
       console.log('Reset Password - URL params:', { type, hasAccessToken: !!accessToken, hasRefreshToken: !!refreshToken });
       
@@ -47,8 +68,25 @@ export default function ResetPassword() {
           setError('Invalid or expired reset link. Please request a new one.');
         }
       } else {
-        // No recovery tokens in URL - this might be an invalid link
-        setError('Invalid or expired reset link. Please request a new one.');
+        // Fallback to internal token validation flow (e.g. /auth/reset?token=...)
+        const fallbackToken = params.get('token');
+
+        if (fallbackToken) {
+          try {
+            const res = await fetch(`/api/auth/validate-reset?token=${fallbackToken}`);
+            const data = await res.json();
+
+            if (!data?.valid) {
+              setError('Invalid or expired reset link. Please request a new one.');
+            }
+          } catch (err) {
+            console.error('Failed to validate token:', err);
+            setError('Invalid or expired reset link. Please request a new one.');
+          }
+        } else {
+          // No valid tokens found
+          setError('Invalid or expired reset link. Please request a new one.');
+        }
       }
     };
 
@@ -83,21 +121,43 @@ export default function ResetPassword() {
     setError('');
 
     try {
-      const { error } = await supabase.auth.updateUser({
-        password: password
-      });
+      const params = getAllParams();
+      const accessToken = params.get('access_token');
+      const refreshToken = params.get('refresh_token');
+      const hasSupabaseSession = accessToken && refreshToken;
 
-      if (error) {
-        setError(error.message);
+      if (hasSupabaseSession) {
+        const { error } = await supabase.auth.updateUser({
+          password: password
+        });
+
+        if (error) {
+          setError(error.message);
+          return;
+        }
       } else {
-        setPasswordUpdated(true);
-        // Redirect to sign in after 3 seconds
-        setTimeout(() => {
-          navigate('/auth/signin');
-        }, 3000);
+        const fallbackToken = params.get('token');
+        const res = await fetch('/api/auth/reset-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: fallbackToken, password }),
+        });
+
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data?.message || 'Unable to reset password.');
+        }
       }
-    } catch (error) {
-      setError('An error occurred. Please try again.');
+
+      setPasswordUpdated(true);
+      // Redirect to sign in after 3 seconds
+      setTimeout(() => {
+        navigate('/auth/signin');
+      }, 3000);
+    } catch (error: any) {
+      setError(error?.message || 'An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
