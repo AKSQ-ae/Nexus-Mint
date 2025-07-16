@@ -539,4 +539,38 @@ All colors MUST be HSL.
    .status-bar-dark {
      color-scheme: dark;
    }
+
+   /* TOKO Icon Styles */
+   .toko-icon {
+     display: inline-block;
+     width: 24px;
+     height: 24px;
+     border-radius: 50%;
+     background: conic-gradient(from 0deg, #3B82F6 0deg, #3B82F6 180deg, #F59E0B 180deg, #F59E0B 360deg);
+     animation: spin 2s linear infinite;
+   }
+
+   @keyframes spin {
+     from {
+       transform: rotate(0deg);
+     }
+     to {
+       transform: rotate(360deg);
+     }
+   }
+
+   /* TOKO Button Responsiveness */
+   @media (max-width: 640px) {
+     .toko-btn {
+       bottom: 1rem;
+       right: 1rem;
+       padding: 0.75rem 1rem;
+       font-size: 0.875rem;
+     }
+     
+     .toko-btn .toko-icon {
+       width: 20px;
+       height: 20px;
+     }
+   }
  }

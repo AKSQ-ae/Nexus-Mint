@@ -12,7 +12,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Settings, Brain, Shield, Mic, Bell, Filter, Trash2 } from 'lucide-react';
 
-interface AIPreferences {
+interface TOKOPreferences {
   communication_style: string;
   learning_rate: string;
   risk_warnings_enabled: boolean;
@@ -23,10 +23,10 @@ interface AIPreferences {
   data_retention_days: number;
 }
 
-const AISettings: React.FC = () => {
+const TOKOSettings: React.FC = () => {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [preferences, setPreferences] = useState<AIPreferences>({
+  const [preferences, setPreferences] = useState<TOKOPreferences>({
     communication_style: 'balanced',
     learning_rate: 'normal',
     risk_warnings_enabled: true,
@@ -75,7 +75,7 @@ const AISettings: React.FC = () => {
       console.error('Error loading preferences:', error);
       toast({
         title: "Error",
-        description: "Failed to load AI preferences",
+        description: "Failed to load TOKO preferences",
         variant: "destructive"
       });
     } finally {
@@ -100,13 +100,13 @@ const AISettings: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "AI preferences saved successfully"
+        description: "TOKO preferences saved successfully"
       });
     } catch (error) {
       console.error('Error saving preferences:', error);
       toast({
         title: "Error",
-        description: "Failed to save AI preferences",
+        description: "Failed to save TOKO preferences",
         variant: "destructive"
       });
     } finally {
@@ -154,7 +154,7 @@ const AISettings: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Settings className="w-5 h-5" />
-            AI Preferences
+            TOKO Preferences
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -175,12 +175,12 @@ const AISettings: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Brain className="w-5 h-5" />
-            Communication Style
+            TOKO Communication Style
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label>Advisor Personality</Label>
+            <Label>Assistant Personality</Label>
             <Select
               value={preferences.communication_style}
               onValueChange={(value) => setPreferences(prev => ({ ...prev, communication_style: value }))}
@@ -189,9 +189,9 @@ const AISettings: React.FC = () => {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="cautious">Cautious Advisor - Conservative, risk-focused</SelectItem>
-                <SelectItem value="balanced">Balanced Advisor - Moderate, well-rounded</SelectItem>
-                <SelectItem value="aggressive">Growth Hacker - Aggressive, opportunity-focused</SelectItem>
+                <SelectItem value="cautious">Cautious TOKO - Conservative, risk-focused</SelectItem>
+                <SelectItem value="balanced">Balanced TOKO - Moderate, well-rounded</SelectItem>
+                <SelectItem value="aggressive">Growth TOKO - Aggressive, opportunity-focused</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -227,7 +227,7 @@ const AISettings: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <Label>Risk Warnings</Label>
-              <p className="text-sm text-muted-foreground">Show warnings for high-risk investment strategies</p>
+              <p className="text-sm text-muted-foreground">TOKO will show warnings for high-risk investment strategies</p>
             </div>
             <Switch
               checked={preferences.risk_warnings_enabled}
@@ -251,7 +251,7 @@ const AISettings: React.FC = () => {
                 <SelectItem value="365">1 year</SelectItem>
               </SelectContent>
             </Select>
-            <p className="text-sm text-muted-foreground">How long to keep your conversation history</p>
+            <p className="text-sm text-muted-foreground">How long TOKO keeps your conversation history</p>
           </div>
         </CardContent>
       </Card>
@@ -268,7 +268,7 @@ const AISettings: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <Label>Voice Chat</Label>
-              <p className="text-sm text-muted-foreground">Enable voice conversations with your AI buddy</p>
+              <p className="text-sm text-muted-foreground">Enable voice conversations with TOKO</p>
             </div>
             <Switch
               checked={preferences.voice_enabled}
@@ -287,8 +287,8 @@ const AISettings: React.FC = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="none">None</SelectItem>
-                <SelectItem value="daily">Daily insights</SelectItem>
-                <SelectItem value="weekly">Weekly summaries</SelectItem>
+                <SelectItem value="daily">Daily insights from TOKO</SelectItem>
+                <SelectItem value="weekly">Weekly TOKO summaries</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -306,7 +306,7 @@ const AISettings: React.FC = () => {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label>Blacklisted Keywords</Label>
-            <p className="text-sm text-muted-foreground">AI will avoid mentioning these topics</p>
+            <p className="text-sm text-muted-foreground">TOKO will avoid mentioning these topics</p>
             <div className="flex gap-2">
               <Input
                 value={newKeyword}
@@ -331,7 +331,7 @@ const AISettings: React.FC = () => {
 
           <div className="space-y-2">
             <Label>Preferred Markets</Label>
-            <p className="text-sm text-muted-foreground">Focus AI suggestions on these markets</p>
+            <p className="text-sm text-muted-foreground">Focus TOKO suggestions on these markets</p>
             <div className="flex gap-2">
               <Input
                 value={newMarket}
@@ -360,7 +360,7 @@ const AISettings: React.FC = () => {
       <Card>
         <CardContent className="pt-6">
           <Button onClick={savePreferences} disabled={saving} className="w-full">
-            {saving ? 'Saving...' : 'Save AI Preferences'}
+            {saving ? 'Saving...' : 'Save TOKO Preferences'}
           </Button>
         </CardContent>
       </Card>
@@ -368,4 +368,4 @@ const AISettings: React.FC = () => {
   );
 };
 
-export default AISettings;
+export default TOKOSettings;

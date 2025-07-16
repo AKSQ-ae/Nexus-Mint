@@ -138,7 +138,21 @@ export function RealTokenizationFlow({ propertyId, property }: RealTokenizationF
       if (error) throw error;
 
       setAuditResults(data);
-      setCurrentStep('contract');
+      
+      // Validate with TOKO
+      const validationEvent = new CustomEvent('tokenization-validation', {
+        detail: {
+          success: data.score >= 90,
+          message: data.score >= 90 
+            ? '✅ Validation passed! Property meets all tokenisation requirements.'
+            : '⚠️ Validation failed. Property does not meet minimum requirements. Please review the audit results.'
+        }
+      });
+      window.dispatchEvent(validationEvent);
+      
+      if (data.score >= 90) {
+        setCurrentStep('contract');
+      }
       
       toast({
         title: "Audit Complete",
@@ -146,6 +160,16 @@ export function RealTokenizationFlow({ propertyId, property }: RealTokenizationF
       });
     } catch (error) {
       console.error('Audit failed:', error);
+      
+      // Send failure event to TOKO
+      const validationEvent = new CustomEvent('tokenization-validation', {
+        detail: {
+          success: false,
+          message: '❌ Validation error. Unable to complete property audit. Please try again.'
+        }
+      });
+      window.dispatchEvent(validationEvent);
+      
       toast({
         title: "Audit Failed",
         description: "Unable to complete property audit. Please try again.",

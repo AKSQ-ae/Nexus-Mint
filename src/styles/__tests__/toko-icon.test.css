@@ -1,0 +1,62 @@
+/* TOKO Icon Style Tests */
+/* This file documents the expected CSS behavior for the TOKO icon */
+
+/**
+ * Test: TOKO Icon Base Styles
+ * Expected: 24x24 circular icon with spinning conic gradient
+ */
+.toko-icon-test {
+  /* Base dimensions */
+  width: 24px;
+  height: 24px;
+  
+  /* Circular shape */
+  border-radius: 50%;
+  
+  /* Conic gradient - half blue (#3B82F6), half orange (#F59E0B) */
+  background: conic-gradient(from 0deg, #3B82F6 0deg, #3B82F6 180deg, #F59E0B 180deg, #F59E0B 360deg);
+  
+  /* Spinning animation */
+  animation: spin 2s linear infinite;
+}
+
+/**
+ * Test: Spin Animation
+ * Expected: 360-degree rotation in 2 seconds
+ */
+@keyframes spin-test {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/**
+ * Test: Mobile Responsive Styles
+ * Expected: Smaller icon on mobile devices
+ */
+@media (max-width: 640px) {
+  .toko-icon-mobile-test {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/**
+ * Test: Pulse Animation for Validation Events
+ * Expected: Icon pulses when validation occurs
+ */
+.toko-icon-pulsing {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

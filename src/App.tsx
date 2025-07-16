@@ -10,6 +10,7 @@ import { SmartBreadcrumbs } from "@/components/ui/smart-breadcrumbs";
 import { TapAnimationProvider } from "@/components/ui/tap-animation";
 import { PWAInstallPrompt } from "@/components/pwa/PWAInstallPrompt";
 import { HelpAssistant } from "@/components/ui/help-assistant";
+import AskTOKOButton from "./components/ai/AskTOKOButton";
 // import { useCapacitor } from "@/hooks/useCapacitor"; // Temporarily disabled
 
 // Pages
@@ -45,7 +46,7 @@ import EarlyAccess from "./pages/EarlyAccess";
 import SystemHealth from "./pages/SystemHealth";
 import QualityAssurance from "./pages/QualityAssurance";
 import SystemResilience from "./pages/SystemResilience";
-import AIBuddyPage from "./pages/AIBuddyPage";
+import TOKOPage from "./pages/TOKOPage";
 import Phase1Validation from "./pages/Phase1Validation";
 import Documentation from "./pages/Documentation";
 import ShariaTokenization from "./pages/ShariaTokenization";
@@ -56,6 +57,7 @@ function AppContent() {
   console.log('AppContent loading - useCapacitor disabled');
   // Temporarily removed useCapacitor to fix React context issue
   // const { isNative, deviceInfo, isKeyboardOpen } = useCapacitor();
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen flex flex-col bg-background">{/* removed ${isKeyboardOpen ? 'keyboard-open' : ''} */}
@@ -97,7 +99,7 @@ function AppContent() {
           <Route path="/system-health" element={<SystemHealth />} />
           <Route path="/quality-assurance" element={<QualityAssurance />} />
           <Route path="/system-resilience" element={<SystemResilience />} />
-          <Route path="/ai-buddy" element={<AIBuddyPage />} />
+          <Route path="/ai-buddy" element={<TOKOPage />} />
           <Route path="/phase1-validation" element={<Phase1Validation />} />
           <Route path="/documentation" element={<Documentation />} />
           <Route path="/sharia-tokenization" element={<ShariaTokenization />} />
@@ -108,6 +110,7 @@ function AppContent() {
       <Footer />
       <PWAInstallPrompt />
       <HelpAssistant />
+      <AskTOKOButton userId={user?.id} />
     </div>
   );
 }
