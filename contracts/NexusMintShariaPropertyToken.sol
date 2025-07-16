@@ -53,7 +53,7 @@ contract NexusMintShariaPropertyToken is ERC721URIStorage, AccessControl {
     event FractionalTokenLinked(uint256 indexed tokenId, address tokenContract);
     event PropertyUpdated(uint256 indexed tokenId, string updateType);
     
-    constructor() ERC721("Nexus Mint Sharia Property", "NMSP") {
+    constructor() ERC721("Sharia Property Token", "SPT") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(NEXUS_ADMIN_ROLE, msg.sender);
     }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import branding from '@/config/branding.config';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -98,8 +99,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               
               <div className="text-center text-sm text-muted-foreground">
                 If this problem persists, please contact our support team at{' '}
-                <a href="mailto:support@nexusmint.ae" className="text-primary hover:underline">
-                  support@nexusmint.ae
+                <a href={`mailto:${branding.supportEmail}`} className="text-primary hover:underline">
+                  {branding.supportEmail}
                 </a>
               </div>
             </CardContent>
