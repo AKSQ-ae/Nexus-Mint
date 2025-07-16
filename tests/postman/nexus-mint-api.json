@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "Nexus Mint API Tests",
-    "description": "Comprehensive API tests for Nexus Mint platform",
+    "name": "Investment Platform API Tests",
+    "description": "Comprehensive API tests for the investment platform",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
