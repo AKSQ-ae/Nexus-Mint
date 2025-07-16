@@ -203,7 +203,7 @@ export function HelpAssistant() {
             </TabsTrigger>
           </TabsList>
 
-          <div className="p-6 max-h-[60vh] overflow-y-auto">
+          <div className="p-6 max-h-[600px] overflow-y-auto">
             <TabsContent value="help" className="space-y-6 mt-0">
               {/* Enhanced Search */}
               <div className="relative">
