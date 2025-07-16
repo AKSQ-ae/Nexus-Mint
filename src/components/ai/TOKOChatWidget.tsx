@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Bot, Send, Mic, MicOff, X, Loader2 } from 'lucide-react';
+import { Bot, Send, Mic, MicOff, X, Loader2, Volume2, VolumeX } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -24,6 +24,8 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -176,6 +178,71 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
     }
   };
 
+  const handleSpeak = async (text: string) => {
+    try {
+      // Stop any currently playing audio
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        setCurrentAudio(null);
+        setIsSpeaking(false);
+      }
+
+      if (isSpeaking) {
+        return; // Already stopped above
+      }
+
+      setIsSpeaking(true);
+
+      // Call the TOKO voice API
+      const { data, error } = await supabase.functions.invoke('toko-voice', {
+        body: { text: text.trim() }
+      });
+
+      if (error) throw error;
+
+      // Create audio from the response
+      const audioUrl = URL.createObjectURL(new Blob([data], { type: 'audio/mpeg' }));
+      const audio = new Audio(audioUrl);
+      
+      audio.onended = () => {
+        setIsSpeaking(false);
+        setCurrentAudio(null);
+        URL.revokeObjectURL(audioUrl);
+      };
+
+      audio.onerror = () => {
+        setIsSpeaking(false);
+        setCurrentAudio(null);
+        URL.revokeObjectURL(audioUrl);
+        throw new Error('Audio playback failed');
+      };
+
+      setCurrentAudio(audio);
+      await audio.play();
+
+    } catch (error) {
+      console.error('Error speaking text:', error);
+      setIsSpeaking(false);
+      setCurrentAudio(null);
+      
+      toast({
+        title: "Speech Error",
+        description: "Unable to play audio. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const toggleSpeaking = () => {
+    if (currentAudio && isSpeaking) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      setCurrentAudio(null);
+      setIsSpeaking(false);
+    }
+  };
+
   const handleClose = () => {
     // Track analytics event
     if (typeof (window as any).gtag !== 'undefined') {
@@ -223,10 +290,29 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
                     : 'bg-muted'
                 }`}
               >
-                <p className="text-sm leading-relaxed">{message.content}</p>
-                <p className="text-xs opacity-70 mt-1">
-                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </p>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex-1">
+                    <p className="text-sm leading-relaxed">{message.content}</p>
+                    <p className="text-xs opacity-70 mt-1">
+                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                  </div>
+                  {message.role === 'assistant' && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => isSpeaking ? toggleSpeaking() : handleSpeak(message.content)}
+                      disabled={isLoading}
+                      className="ml-2 p-1 h-8 w-8 flex-shrink-0"
+                    >
+                      {isSpeaking ? (
+                        <VolumeX className="w-3 h-3" />
+                      ) : (
+                        <Volume2 className="w-3 h-3" />
+                      )}
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
           ))}
