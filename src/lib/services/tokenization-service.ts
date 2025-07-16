@@ -41,6 +41,111 @@ export interface FeeSchedule {
   is_active: boolean;
 }
 
+// New interfaces for enhanced tokenisation flow
+export interface AssetData {
+  id: string;
+  title: string;
+  description: string;
+  location: string;
+  price: number;
+  price_per_token: number;
+  total_tokens: number;
+  available_tokens: number;
+  minimum_investment: number;
+  maximum_investment?: number;
+  contract_address?: string;
+  token_symbol: string;
+  images: string[];
+  status: 'available' | 'funding' | 'funded' | 'closed';
+  roi_estimate: number;
+  rental_yield: number;
+}
+
+export interface TokenisationValidationRequest {
+  assetId: string;
+  amount: number;
+  userId: string;
+}
+
+export interface TokenisationValidationResponse {
+  valid: boolean;
+  errors?: string[];
+  warnings?: string[];
+  estimatedFees: number;
+  totalCost: number;
+  availableTokens: number;
+  maxAllowed: number;
+}
+
+export interface PaymentMethod {
+  type: 'web3' | 'stripe';
+  provider?: 'metamask' | 'walletconnect' | 'stripe';
+  network?: 'ethereum' | 'polygon' | 'arbitrum';
+}
+
+export interface TokenisationInitiateRequest {
+  assetId: string;
+  amount: number;
+  paymentMethod: PaymentMethod;
+  userId: string;
+}
+
+export interface TokenisationInitiateResponse {
+  sessionId: string;
+  paymentSession?: {
+    clientSecret?: string;
+    paymentIntentId?: string;
+  };
+  web3Transaction?: {
+    to: string;
+    data: string;
+    value: string;
+    gasLimit: string;
+    estimatedGas: string;
+  };
+  estimatedFees: number;
+  totalCost: number;
+  expiresAt: string;
+}
+
+export interface TokenisationExecuteRequest {
+  sessionId: string;
+  transactionHash?: string;
+  stripePaymentIntentId?: string;
+  userId: string;
+}
+
+export interface TokenisationExecuteResponse {
+  success: boolean;
+  transactionId: string;
+  tokenAmount: number;
+  contractAddress: string;
+  blockExplorerUrl?: string;
+  userTokens: UserToken[];
+}
+
+export interface UserToken {
+  id: string;
+  assetId: string;
+  assetTitle: string;
+  tokenAmount: number;
+  tokenValue: number;
+  contractAddress: string;
+  tokenSymbol: string;
+  purchaseDate: string;
+  lastValuation: number;
+}
+
+export interface TokenisationStatus {
+  sessionId: string;
+  status: 'pending' | 'payment_processing' | 'minting' | 'completed' | 'failed';
+  progress: number;
+  message: string;
+  transactionHash?: string;
+  blockExplorerUrl?: string;
+  error?: string;
+}
+
 export async function getTokenSupply(propertyId: string): Promise<TokenSupply | null> {
   const { data, error } = await supabase
     .from('token_supply')
@@ -198,4 +303,83 @@ export function formatTokenAmount(amount: number): string {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   }).format(amount);
+}
+
+// Enhanced API functions for the new tokenisation flow
+export async function validateTokenisation(request: TokenisationValidationRequest): Promise<TokenisationValidationResponse> {
+  const { data, error } = await supabase.functions.invoke('tokenisation-validate', {
+    body: request
+  });
+
+  if (error) throw error;
+  return data;
+}
+
+export async function initiateTokenisation(request: TokenisationInitiateRequest): Promise<TokenisationInitiateResponse> {
+  const { data, error } = await supabase.functions.invoke('tokenisation-initiate', {
+    body: request
+  });
+
+  if (error) throw error;
+  return data;
+}
+
+export async function executeTokenisation(request: TokenisationExecuteRequest): Promise<TokenisationExecuteResponse> {
+  const { data, error } = await supabase.functions.invoke('tokenisation-execute', {
+    body: request
+  });
+
+  if (error) throw error;
+  return data;
+}
+
+export async function getTokenisationStatus(sessionId: string): Promise<TokenisationStatus> {
+  const { data, error } = await supabase.functions.invoke('tokenisation-status', {
+    body: { sessionId }
+  });
+
+  if (error) throw error;
+  return data;
+}
+
+export async function getUserTokens(userId: string): Promise<UserToken[]> {
+  const { data, error } = await supabase.functions.invoke('tokenisation-user-tokens', {
+    body: { userId }
+  });
+
+  if (error) throw error;
+  return data || [];
+}
+
+export async function getAvailableAssets(): Promise<AssetData[]> {
+  const { data, error } = await supabase
+    .from('properties')
+    .select(`
+      id,
+      title,
+      description,
+      location,
+      price,
+      price_per_token,
+      total_tokens,
+      tokens_issued,
+      minimum_investment,
+      maximum_investment,
+      contract_address,
+      token_symbol,
+      images,
+      status,
+      roi_estimate,
+      rental_yield
+    `)
+    .eq('tokenization_active', true)
+    .eq('status', 'active');
+
+  if (error) throw error;
+  
+  return (data || []).map(property => ({
+    ...property,
+    available_tokens: property.total_tokens - property.tokens_issued,
+    assetId: property.id
+  }));
 }
