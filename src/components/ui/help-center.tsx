@@ -74,7 +74,7 @@ export function HelpCenter() {
           Investor Resources
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-[90vw] max-w-[480px] max-h-[80vh] overflow-y-auto p-6 mt-20 sm:w-[480px] sm:max-w-[480px]">
+      <DialogContent className="fixed top-16 left-1/2 -translate-x-1/2 max-w-[600px] w-[calc(100%-2rem)] max-h-[80vh] overflow-y-auto p-4 z-[1000]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <HelpCircle className="h-5 w-5" />
