@@ -1,3 +1,4 @@
+// TODO: Ensure all errors are logged with context for easier debugging and monitoring.
 /**
  * Enhanced logging utilities for edge functions
  * Provides structured logging with context and severity levels

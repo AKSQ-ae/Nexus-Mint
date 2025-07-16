@@ -1,3 +1,7 @@
+// TODO: Standardize event parameter order and naming for easier off-chain indexing.
+// TODO: Review storage patterns for gas efficiency and batch operations where possible.
+// TODO: Regularly run contract tests against the latest OpenZeppelin test suites for ERC compliance.
+// TODO: Document any intentional deviations from ERC standards in the contract comments and docs.
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 

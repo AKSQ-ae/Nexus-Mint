@@ -1,3 +1,4 @@
+// TODO: Ensure semantic HTML and ARIA attributes are used for accessibility in all custom components.
 import { useState, useEffect } from 'react';
 import { Search, X, Clock, TrendingUp } from 'lucide-react';
 import { Input } from './input';

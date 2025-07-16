@@ -1,3 +1,4 @@
+// TODO: Ensure all edge functions use shared validation and return consistent error structures.
 /**
  * Validation utilities for edge functions
  */

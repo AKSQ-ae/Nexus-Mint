@@ -1,3 +1,5 @@
+// TODO: Unify layout primitives (MobileContainer, MobileGrid) for consistent UI/UX across all tokenization dashboard sections.
+// TODO: Add route guards/context to prevent unauthorized access to this page.
 import React, { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

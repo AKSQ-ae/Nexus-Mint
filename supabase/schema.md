@@ -1,3 +1,5 @@
+# TODO: Ensure all frequently queried columns are indexed for performance.
+# TODO: Regularly review and test Row Level Security (RLS) policies for data leakage risks.
 # Nexus Mint Database Schema
 
 ## Overview

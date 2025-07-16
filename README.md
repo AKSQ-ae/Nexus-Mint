@@ -278,3 +278,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Phase 1 Validation**: [/phase1-validation](/phase1-validation)
 - **System Health**: [/system-health](/system-health)
 - **Lovable Project**: https://lovable.dev/projects/8da2f6ad-10c8-46bc-86fd-5c6d7f52edd9
+
+## 📋 Deployment & Infrastructure Checklist
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for a detailed checklist on Vercel/EC2 alignment, CI/CD coverage, and environment variable management.
