@@ -87,8 +87,6 @@ function AppContent() {
           <Route path="/legal/terms" element={<Terms />} />
           <Route path="/legal/privacy" element={<Privacy />} />
           <Route path="/legal/risk-disclaimer" element={<RiskDisclaimer />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/privacy" element={<Privacy />} />
           <Route path="/trading/:id" element={<Trading />} />
           <Route path="/trading" element={<GlobalTrading />} />
           <Route path="/investor-resources" element={<InvestorResources />} />

@@ -23,18 +23,18 @@ export function Footer() {
             <h3 className="font-semibold mb-4 text-foreground">Platform</h3>
             <ul className="space-y-3 text-muted-foreground">
               <li>
-                <Link to="/properties" className="hover:text-primary transition-colors duration-300 hover:underline">
-                  Browse Properties
+                <Link to="/analytics" className="hover:text-primary transition-colors duration-300 hover:underline">
+                  Analytics
                 </Link>
               </li>
               <li>
-                <Link to="/dashboard" className="hover:text-primary transition-colors duration-300 hover:underline">
-                  Dashboard
+                <Link to="/global-trading" className="hover:text-primary transition-colors duration-300 hover:underline">
+                  Trading
                 </Link>
               </li>
               <li>
-                <Link to="/portfolio" className="hover:text-primary transition-colors duration-300 hover:underline">
-                  Portfolio
+                <Link to="/early-access" className="hover:text-primary transition-colors duration-300 hover:underline">
+                  Early Access
                 </Link>
               </li>
             </ul>
@@ -44,8 +44,8 @@ export function Footer() {
             <h3 className="font-semibold mb-4 text-foreground">Company</h3>
             <ul className="space-y-3 text-muted-foreground">
               <li>
-                <Link to="/how-it-works" className="hover:text-primary transition-colors duration-300 hover:underline">
-                  How It Works
+                <Link to="/documentation" className="hover:text-primary transition-colors duration-300 hover:underline">
+                  Documentation
                 </Link>
               </li>
               <li>

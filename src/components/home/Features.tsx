@@ -163,43 +163,24 @@ export function Features() {
           ))}
         </div>
 
-        {/* Enhanced Trust Indicators with Better Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          {[
-            { 
-              icon: Users, 
-              title: 'Global Investor Community', 
-              desc: 'Join a growing network of successful real estate investors from around the world, building wealth through smart property investments.', 
-              badge: 'Growing Daily', 
-              color: 'blue',
-              gradient: 'from-blue-500 to-blue-600'
-            },
-            { 
-              icon: Award, 
-              title: 'Premium Asset Portfolio', 
-              desc: 'Curated collection of high-grade Dubai properties across prime locations, professionally managed and strategically selected for optimal returns.', 
-              badge: 'Expanding', 
-              color: 'purple',
-              gradient: 'from-purple-500 to-purple-600'
-            }
-          ].map((item, index) => (
-            <Card key={index} className={`text-center p-8 bg-gradient-to-br from-${item.color}-50 to-${item.color}-100 border-2 border-${item.color}-200 hover:shadow-2xl transition-all duration-500 group hover:-translate-y-2 relative overflow-hidden`}>
-              {/* Background Animation */}
-              <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <div className={`mx-auto w-20 h-20 bg-${item.color}-200 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 relative shadow-lg`}>
-                <item.icon className={`h-10 w-10 text-${item.color}-600`} />
-                <div className={`absolute -inset-2 bg-gradient-to-r ${item.gradient} opacity-20 rounded-full opacity-0 group-hover:opacity-100 animate-pulse transition-opacity duration-500`} />
-              </div>
-              
-              <h4 className="font-bold text-xl mb-3 text-foreground">{item.title}</h4>
-              <p className="text-sm text-muted-foreground mb-6 leading-relaxed">{item.desc}</p>
-              <Badge className={`bg-${item.color}-200 text-${item.color}-800 font-bold px-4 py-1 rounded-full shadow-md`}>
-                {item.badge}
-              </Badge>
-            </Card>
-          ))}
-        </div>
+        {/* Streamlined Trust Indicator */}
+        <Card className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-100 border-2 border-blue-200 hover:shadow-2xl transition-all duration-500 group hover:-translate-y-2 relative overflow-hidden max-w-2xl mx-auto mb-16">
+          {/* Background Animation */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          
+          <div className="mx-auto w-20 h-20 bg-blue-200 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 relative shadow-lg">
+            <Users className="h-10 w-10 text-blue-600" />
+            <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-600 opacity-20 rounded-full opacity-0 group-hover:opacity-100 animate-pulse transition-opacity duration-500" />
+          </div>
+          
+          <h4 className="font-bold text-xl mb-3 text-foreground">Join the Future of Real Estate Investment</h4>
+          <p className="text-sm text-muted-foreground mb-6 leading-relaxed max-w-lg mx-auto">
+            Be part of a revolutionary platform that's democratizing access to premium Dubai real estate through blockchain technology and fractional ownership.
+          </p>
+          <Badge className="bg-blue-200 text-blue-800 font-bold px-4 py-1 rounded-full shadow-md">
+            Early Access Available
+          </Badge>
+        </Card>
 
       </div>
     </div>

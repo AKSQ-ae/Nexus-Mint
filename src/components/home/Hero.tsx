@@ -119,7 +119,7 @@ export function Hero() {
           <div className="animate-fade-in-up flex justify-center" style={{animationDelay: '0.7s'}}>
             <Link to="/auth/signup" className="w-full sm:w-auto max-w-sm mx-auto">
               <Button variant="hero" size="xl" className="w-full">
-                Get Started Free
+                Get Started Now
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
@@ -211,9 +211,9 @@ export function Hero() {
             </div>
 
             <div className="flex flex-col items-center gap-4">
-              <Link to="/auth/signup">
+              <Link to="/early-access">
                 <Button variant="cta" size="xl">
-                  Get Started Now
+                  Join Early Access
                   <TrendingUp className="ml-2 h-5 w-5" />
                 </Button>
               </Link>

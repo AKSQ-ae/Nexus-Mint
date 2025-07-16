@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
-import { HelpCircle, Search, BookOpen, MessageCircle, Phone, Mail, ArrowRight, Play, CheckCircle, Clock, User, CreditCard, TrendingUp, Star, Lightbulb, MapPin, Zap } from 'lucide-react';
+import { HelpCircle, Search, BookOpen, MessageCircle, Phone, Mail, ArrowRight, Play, CheckCircle, Clock, User, CreditCard, TrendingUp, Star, Lightbulb, MapPin, Zap, Wallet } from 'lucide-react';
 
 const helpTopics = [
   {
@@ -44,10 +44,10 @@ const helpTopics = [
 ];
 
 const quickActions = [
-  { title: "Browse Properties", path: "/properties", icon: BookOpen, description: "Explore available investment opportunities" },
-  { title: "View Portfolio", path: "/portfolio", icon: TrendingUp, description: "Check your investments and returns" },
   { title: "Complete Profile", path: "/profile", icon: User, description: "Finish your account setup", priority: true },
-  { title: "Start Investing", path: "/auth/signup", icon: ArrowRight, description: "Join thousands of investors", cta: true }
+  { title: "Connect Wallet", path: "/profile", icon: Wallet, description: "Link your digital wallet", priority: true },
+  { title: "Documentation", path: "/documentation", icon: BookOpen, description: "Learn about real estate investing" },
+  { title: "Get Support", path: "/investor-resources", icon: MessageCircle, description: "Contact our support team" }
 ];
 
 const contextualHelp = {
@@ -223,50 +223,50 @@ export function HelpAssistant() {
                     <Zap className="h-4 w-4 text-primary" />
                     Quick Actions
                   </h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    {quickActions.map((action, index) => (
-                      <Card key={index} className={`group hover:shadow-md transition-all duration-200 ${action.priority ? 'ring-1 ring-primary/20' : ''} ${action.cta ? 'bg-gradient-to-br from-primary/5 to-primary/10' : ''}`}>
-                        <CardContent className="p-4">
-                          <div className="flex items-start gap-3">
-                            <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
-                              <action.icon className="h-5 w-5 text-primary" />
-                            </div>
-                            <div className="flex-1">
-                              <h4 className="font-medium text-sm mb-1">{action.title}</h4>
-                              <p className="text-xs text-muted-foreground mb-2">{action.description}</p>
-                                <Button 
-                                  size="sm" 
-                                  variant={action.cta ? "default" : "outline"} 
-                                  className="w-full"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    // Close the dialog first
-                                    const dialogClose = document.querySelector('[data-state="open"] [data-radix-dialog-close]') as HTMLElement;
-                                    if (dialogClose) {
-                                      dialogClose.click();
-                                    } else {
-                                      // Fallback: find and close any open dialog
-                                      const dialog = document.querySelector('[data-state="open"]') as HTMLElement;
-                                      if (dialog) {
-                                        const event = new KeyboardEvent('keydown', { key: 'Escape' });
-                                        dialog.dispatchEvent(event);
-                                      }
-                                    }
-                                    // Navigate after a short delay to ensure dialog closes
-                                    setTimeout(() => {
-                                      navigate(action.path);
-                                    }, 150);
-                                  }}
-                                >
-                                  {action.cta ? "Get Started" : "Open"}
-                                  <ArrowRight className="h-3 w-3 ml-1" />
-                                </Button>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                   <div className="grid grid-cols-2 gap-4">
+                     {quickActions.map((action, index) => (
+                       <Card key={index} className={`group hover:shadow-md transition-all duration-200 ${action.priority ? 'ring-1 ring-primary/20' : ''}`}>
+                         <CardContent className="p-4">
+                           <div className="flex items-start gap-3">
+                             <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+                               <action.icon className="h-5 w-5 text-primary" />
+                             </div>
+                             <div className="flex-1">
+                               <h4 className="font-medium text-sm mb-1">{action.title}</h4>
+                               <p className="text-xs text-muted-foreground mb-2">{action.description}</p>
+                                 <Button 
+                                   size="sm" 
+                                   variant="outline" 
+                                   className="w-full"
+                                   onClick={(e) => {
+                                     e.preventDefault();
+                                     e.stopPropagation();
+                                     // Close the dialog first
+                                     const dialogClose = document.querySelector('[data-state="open"] [data-radix-dialog-close]') as HTMLElement;
+                                     if (dialogClose) {
+                                       dialogClose.click();
+                                     } else {
+                                       // Fallback: find and close any open dialog
+                                       const dialog = document.querySelector('[data-state="open"]') as HTMLElement;
+                                       if (dialog) {
+                                         const event = new KeyboardEvent('keydown', { key: 'Escape' });
+                                         dialog.dispatchEvent(event);
+                                       }
+                                     }
+                                     // Navigate after a short delay to ensure dialog closes
+                                     setTimeout(() => {
+                                       navigate(action.path);
+                                     }, 150);
+                                   }}
+                                 >
+                                   Open
+                                   <ArrowRight className="h-3 w-3 ml-1" />
+                                 </Button>
+                             </div>
+                           </div>
+                         </CardContent>
+                       </Card>
+                     ))}
                   </div>
                 </div>
               )}

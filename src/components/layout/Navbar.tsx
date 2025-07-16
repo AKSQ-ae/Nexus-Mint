@@ -217,28 +217,6 @@ export function Navbar() {
               >
                 Investor Resources
               </Link>
-              <Link 
-                to="/referrals" 
-                className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                Referrals
-              </Link>
-              <Link 
-                to="/tokenization-demo" 
-                className="flex items-center space-x-3 px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300 font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                <Coins className="h-5 w-5" />
-                <span>Tokenization</span>
-              </Link>
-              <Link 
-                to="/demo" 
-                className="block px-4 py-3 bg-orange-accent/20 text-orange-accent hover:bg-orange-accent/30 rounded-lg transition-all duration-300 font-medium border border-orange-accent/30"
-                onClick={() => setIsOpen(false)}
-              >
-                Investment Sandbox
-              </Link>
             </div>
             
             {user ? (
