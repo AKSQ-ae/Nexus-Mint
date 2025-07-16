@@ -25,7 +25,7 @@ const TOKOAdvisorPage: React.FC = () => {
           <h1 className="text-3xl font-bold">TOKO AI Advisor</h1>
         </div>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          TOKO AI Advisor is launching soon. Personalized portfolio guidance powered by regulated AI tools.
+          Live Beta Now Available: TOKO AI Advisor. Personalized portfolio guidance powered by regulated AI tools.
         </p>
       </div>
 
@@ -36,9 +36,9 @@ const TOKOAdvisorPage: React.FC = () => {
             <div className="mx-auto w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mb-6">
               <Bot className="w-12 h-12 text-primary" />
             </div>
-            <h2 className="text-2xl font-bold mb-4">Coming Soon</h2>
+            <h2 className="text-2xl font-bold mb-4">Live Beta Now Available</h2>
             <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-              TOKO AI Advisor is launching soon. Personalized portfolio guidance powered by regulated AI tools.
+              TOKO AI Advisor. Personalized portfolio guidance powered by regulated AI tools.
             </p>
             <div className="space-y-3">
               <Button onClick={handleGetStarted} className="w-full max-w-xs">
@@ -46,7 +46,7 @@ const TOKOAdvisorPage: React.FC = () => {
               </Button>
               <Button onClick={handleLiveChat} variant="outline" className="w-full max-w-xs">
                 <MessageCircle className="w-4 h-4 mr-2" />
-                Live Chat Support
+                TOKO AI Live Chat
               </Button>
             </div>
           </Card>

@@ -14,7 +14,8 @@ import {
   TrendingUp,
   DollarSign,
   MapPin,
-  Calendar
+  Calendar,
+  Speaker
 } from 'lucide-react';
 
 interface AIBuddyProps {
@@ -453,8 +454,18 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
         <div className="p-4 border-t bg-muted/30">
           <div className="flex items-center justify-center gap-3">
             <div className={`w-3 h-3 rounded-full ${conversation.isSpeaking ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`} />
-            <p className="text-sm text-muted-foreground">
-              {conversation.isSpeaking ? 'AI is speaking...' : 'Listening...'}
+            <p className="text-sm text-muted-foreground flex items-center gap-2">
+              {conversation.isSpeaking ? (
+                <>
+                  <Speaker className="w-4 h-4" />
+                  AI is speaking...
+                </>
+              ) : (
+                <>
+                  <Mic className="w-4 h-4" />
+                  Listening...
+                </>
+              )}
             </p>
           </div>
         </div>

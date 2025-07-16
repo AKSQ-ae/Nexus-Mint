@@ -35,7 +35,7 @@ export function TOKOAdvisorModal({ isOpen, onClose }: TOKOAdvisorModalProps) {
             TOKO AI Advisor
           </DialogTitle>
           <DialogDescription className="text-base">
-            TOKO AI Advisor is launching soon. Personalized portfolio guidance powered by regulated AI tools.
+            Live Beta Now Available: TOKO AI Advisor. Personalized portfolio guidance powered by regulated AI tools.
           </DialogDescription>
         </DialogHeader>
         
@@ -46,7 +46,7 @@ export function TOKOAdvisorModal({ isOpen, onClose }: TOKOAdvisorModalProps) {
             variant="default"
           >
             <MessageCircle className="w-4 h-4" />
-            Live Chat Support
+            TOKO AI Live Chat
           </Button>
           
           <Button 

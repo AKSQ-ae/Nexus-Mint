@@ -24,7 +24,8 @@ import {
   ArrowDownRight,
   Sparkles,
   AlertTriangle,
-  CheckCircle
+  CheckCircle,
+  Bot
 } from 'lucide-react';
 import {
   LineChart,
@@ -297,7 +298,7 @@ export default function Dashboard() {
       </div>
 
       {/* User Progress Cards - Small Cards from Dashboard */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {/* Identity Verification Card */}
         <Card className="border-border/50">
           <CardHeader className="pb-3">
@@ -338,6 +339,30 @@ export default function Dashboard() {
               <div className="text-xs text-muted-foreground">
                 Target date: 31/12/2024
               </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* TOKO AI Advisor Card */}
+        <Card className="border-border/50">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <Bot className="h-4 w-4" />
+              TOKO AI Advisor
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="text-xs text-muted-foreground">
+                Live Beta Now Available: Personalized portfolio guidance powered by regulated AI tools.
+              </div>
+              <Button 
+                size="sm" 
+                className="w-full text-xs" 
+                onClick={() => navigate('/toko-advisor')}
+              >
+                Open TOKO AI Advisor
+              </Button>
             </div>
           </CardContent>
         </Card>
