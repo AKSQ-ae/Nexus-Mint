@@ -79,10 +79,11 @@ contract NexusMintShariaToken is ERC20, AccessControl, ReentrancyGuard, PullPaym
     event RentalIncomeReceived(uint256 amountAED, string source);
     event ExpenseRecorded(uint256 amountAED, string description);
     event ProfitsDistributed(uint256 indexed distributionId, uint256 totalAmountAED, uint256 perTokenAED, uint256 investorCount, uint256 nexusFeeAED, uint256 managementFeeAED, uint256 zakatAmountAED, uint256 remainderAED);
-    event ZakatPaid(uint256 amountAED, address recipient, string distributionType);
+    event ZakatPaid(uint256 amountAED, address indexed recipient, string distributionType);
     event ZakatAccrued(uint256 amountAED);
     event ComplianceUpdated(address indexed investor, bool isCompliant);
     event ProfitClaimed(address indexed investor, uint256 amountAED, uint256 distributionId);
+    event ValuationUpdated(uint256 previousValuationAED, uint256 newValuationAED);
     
     modifier onlyAuthorizedInvestor() {
         require(authorizedInvestors[msg.sender], "Not authorized investor");
@@ -285,7 +286,7 @@ contract NexusMintShariaToken is ERC20, AccessControl, ReentrancyGuard, PullPaym
         distributionPerToken[currentDistributionId] = perTokenAED;
         
         uint256 investorCount = _allInvestors.length();
-        for (uint256 i = 0; i < investorCount; i++) {
+        for (uint256 i = 0; i < investorCount; ) {
             address investor = _allInvestors.at(i);
             uint256 investorBalance = balanceOf(investor);
             
@@ -293,6 +294,7 @@ contract NexusMintShariaToken is ERC20, AccessControl, ReentrancyGuard, PullPaym
                 uint256 investorShare = perTokenAED * investorBalance;
                 _asyncTransfer(investor, investorShare);
             }
+            unchecked { ++i; }
         }
         
         financials.totalDistributedAED += (distributedAmount + nexusFee + managementFee + zakatAmount);
@@ -339,7 +341,9 @@ contract NexusMintShariaToken is ERC20, AccessControl, ReentrancyGuard, PullPaym
      */
     function updateValuation(uint256 newValuationAED) external onlyRole(PROPERTY_MANAGER_ROLE) {
         require(newValuationAED > 0, "Valuation must be positive");
+        uint256 oldValuation = financials.currentValuationAED;
         financials.currentValuationAED = newValuationAED;
+        emit ValuationUpdated(oldValuation, newValuationAED);
     }
     
     /**

@@ -223,12 +223,13 @@ contract PropertyToken is ERC1155, AccessControl, Pausable, ReentrancyGuard, ERC
     ) internal override(ERC1155, ERC1155Supply) whenNotPaused {
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
         
-        for (uint256 i = 0; i < ids.length; i++) {
+        for (uint256 i = 0; i < ids.length; ) {
             uint256 tokenId = ids[i];
             if (to != address(0) && to != address(this) && !isPropertyInvestor[tokenId][to] && amounts[i] > 0) {
                 propertyInvestors[tokenId].push(to);
                 isPropertyInvestor[tokenId][to] = true;
             }
+            unchecked { ++i; }
         }
     }
     
