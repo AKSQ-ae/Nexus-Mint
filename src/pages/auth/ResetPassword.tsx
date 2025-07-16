@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
 import { CheckCircle, EyeIcon, EyeOffIcon } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export default function ResetPassword() {
   const [password, setPassword] = useState('');
@@ -18,6 +19,9 @@ export default function ResetPassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const token = searchParams.get('token') || '';
 
   useEffect(() => {
     const initializePasswordReset = async () => {
@@ -78,25 +82,29 @@ export default function ResetPassword() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
-    
     setIsSubmitting(true);
     setError('');
-
     try {
-      const { error } = await supabase.auth.updateUser({
-        password: password
+      const res = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, newPassword: password }),
       });
-
-      if (error) {
-        setError(error.message);
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Failed to reset password.');
       } else {
         setPasswordUpdated(true);
-        // Redirect to sign in after 3 seconds
+        toast({
+          title: 'Password changed!',
+          description: 'Your password has been updated—please sign in.',
+          variant: 'success',
+        });
         setTimeout(() => {
           navigate('/auth/signin');
-        }, 3000);
+        }, 2000);
       }
-    } catch (error) {
+    } catch (err) {
       setError('An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -111,15 +119,16 @@ export default function ResetPassword() {
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
-            <CardTitle className="text-2xl">Password updated</CardTitle>
+            <CardTitle className="text-2xl">Password changed!</CardTitle>
             <CardDescription>
-              Your password has been successfully updated. You'll be redirected to sign in shortly.
+              Your password has been updated—please sign in.
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center">
             <Button 
               onClick={() => navigate('/auth/signin')}
               className="w-full"
+              aria-label="Continue to sign in"
             >
               Continue to sign in
             </Button>
@@ -140,12 +149,12 @@ export default function ResetPassword() {
         </CardHeader>
         <CardContent>
           {error && (
-            <Alert variant="destructive" className="mb-4">
+            <Alert variant="destructive" className="mb-4" role="alert">
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-          
-          <form onSubmit={onSubmit} className="space-y-4">
+          <form onSubmit={onSubmit} className="space-y-4" aria-label="Reset password form">
+            <input type="hidden" name="token" value={token} />
             <div className="space-y-2">
               <Label htmlFor="password">New Password</Label>
               <div className="relative">
@@ -156,6 +165,8 @@ export default function ResetPassword() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   minLength={6}
+                  aria-label="New password"
+                  autoComplete="new-password"
                 />
                 <Button
                   type="button"
@@ -163,6 +174,8 @@ export default function ResetPassword() {
                   size="sm"
                   className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                   onClick={() => setShowPassword(!showPassword)}
+                  tabIndex={0}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (
                     <EyeOffIcon className="h-4 w-4" />
@@ -182,6 +195,8 @@ export default function ResetPassword() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                   minLength={6}
+                  aria-label="Confirm new password"
+                  autoComplete="new-password"
                 />
                 <Button
                   type="button"
@@ -189,6 +204,8 @@ export default function ResetPassword() {
                   size="sm"
                   className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  tabIndex={0}
+                  aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                 >
                   {showConfirmPassword ? (
                     <EyeOffIcon className="h-4 w-4" />
@@ -198,7 +215,7 @@ export default function ResetPassword() {
                 </Button>
               </div>
             </div>
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
+            <Button type="submit" className="w-full" disabled={isSubmitting || !password || !confirmPassword || password !== confirmPassword || password.length < 6} aria-disabled={isSubmitting || !password || !confirmPassword || password !== confirmPassword || password.length < 6} aria-label="Submit new password">
               {isSubmitting ? 'Updating...' : 'Update password'}
             </Button>
           </form>

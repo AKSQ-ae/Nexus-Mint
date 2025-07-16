@@ -37,3 +37,29 @@ test.describe('Cross-Browser Security Tests', () => {
     await expect(page.locator('text=Invalid email')).toBeVisible();
   });
 });
+
+describe('POST /api/auth/reset-password', () => {
+  it('should return 400 if missing token or newPassword', async () => {
+    const res = await fetch('/api/auth/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({}),
+    });
+    expect(res.status).toBe(400);
+    const data = await res.json();
+    expect(data.error).toBeDefined();
+  });
+
+  it('should return 401 for invalid/expired token', async () => {
+    const res = await fetch('/api/auth/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: 'invalid-token', newPassword: 'newpass123' }),
+    });
+    expect(res.status).toBe(401);
+    const data = await res.json();
+    expect(data.error).toMatch(/invalid|expired/i);
+  });
+
+  // Note: A valid token test would require a real token from the flow, which is best tested in a full e2e environment.
+});
