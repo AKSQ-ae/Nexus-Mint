@@ -117,6 +117,11 @@ export default function SignUp() {
             <CardTitle className="text-2xl text-center">Create account</CardTitle>
             <CardDescription className="text-center">
               Quick setup - takes less than 2 minutes
+              <div className="mt-2">
+                <span className="inline-flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-700 text-xs rounded-full">
+                  KYC Integration Coming Soon
+                </span>
+              </div>
             </CardDescription>
           </CardHeader>
         <CardContent>

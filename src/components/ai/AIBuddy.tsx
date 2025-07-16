@@ -57,7 +57,7 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
       console.log('Connected to ElevenLabs');
       toast({
         title: "Voice activated",
-        description: "Your AI buddy is ready to chat!",
+        description: "Your TOKO AI Advisor is ready to chat!",
       });
     },
     onDisconnect: () => {
@@ -105,7 +105,7 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
 
   const generatePersonalizedGreeting = useCallback((): string => {
     if (!portfolioData) {
-      return "Welcome to Nexus Mint! I'm your AI investment assistant. How can I help you explore real estate investment opportunities today?";
+      return "Welcome to Nexus Mint! I'm your TOKO AI Advisor. How can I help you explore real estate investment opportunities today?";
     }
 
     const totalInvestments = portfolioData.investments?.length || 0;

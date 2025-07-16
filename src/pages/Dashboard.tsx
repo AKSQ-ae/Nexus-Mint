@@ -316,6 +316,7 @@ export default function Dashboard() {
               <Progress value={75} className="h-2" />
               <div className="text-xs text-muted-foreground">
                 Complete verification to start investing
+                <Badge variant="outline" className="ml-2 text-xs">KYC Integration Coming Soon</Badge>
               </div>
             </div>
           </CardContent>
@@ -354,7 +355,7 @@ export default function Dashboard() {
           <CardContent>
             <div className="space-y-3">
               <div className="text-xs text-muted-foreground">
-                Live Beta Now Available: Personalized portfolio guidance powered by regulated AI tools.
+                Live Beta Now Available: TOKO AI Advisor - Personalized portfolio guidance powered by regulated AI tools.
               </div>
               <Button 
                 size="sm" 

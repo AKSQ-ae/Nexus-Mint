@@ -23,7 +23,7 @@ export function LiveChatWidget({ isOpen, onClose }: LiveChatWidgetProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! Welcome to Nexus Real Estate support. How can I help you today?',
+      text: 'Hello! Welcome to TOKO AI Live Chat support. How can I help you today?',
       sender: 'support',
       timestamp: new Date()
     }
@@ -96,7 +96,7 @@ export function LiveChatWidget({ isOpen, onClose }: LiveChatWidgetProps) {
                 </AvatarFallback>
               </Avatar>
               <div>
-                <DialogTitle className="text-sm">Nexus Support</DialogTitle>
+                <DialogTitle className="text-sm">TOKO AI Live Chat</DialogTitle>
                 <p className="text-xs opacity-90">Typically replies instantly</p>
               </div>
             </div>
