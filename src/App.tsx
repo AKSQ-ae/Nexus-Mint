@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -10,6 +10,8 @@ import { SmartBreadcrumbs } from "@/components/ui/smart-breadcrumbs";
 import { TapAnimationProvider } from "@/components/ui/tap-animation";
 import { PWAInstallPrompt } from "@/components/pwa/PWAInstallPrompt";
 import { HelpAssistant } from "@/components/ui/help-assistant";
+import { TOKOButton } from "@/components/ui/toko-button";
+import { AIChatWidget } from "@/components/ui/ai-chat-widget";
 // import { useCapacitor } from "@/hooks/useCapacitor"; // Temporarily disabled
 
 // Pages
@@ -56,6 +58,16 @@ function AppContent() {
   console.log('AppContent loading - useCapacitor disabled');
   // Temporarily removed useCapacitor to fix React context issue
   // const { isNative, deviceInfo, isKeyboardOpen } = useCapacitor();
+
+  const [isAIChatOpen, setIsAIChatOpen] = useState(false);
+
+  const handleOpenAIChat = () => {
+    setIsAIChatOpen(true);
+  };
+
+  const handleCloseAIChat = () => {
+    setIsAIChatOpen(false);
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-background">{/* removed ${isKeyboardOpen ? 'keyboard-open' : ''} */}
@@ -108,6 +120,12 @@ function AppContent() {
       <Footer />
       <PWAInstallPrompt />
       <HelpAssistant />
+      <TOKOButton onOpenChat={handleOpenAIChat} />
+      <AIChatWidget 
+        isOpen={isAIChatOpen} 
+        onClose={handleCloseAIChat}
+        userId={undefined} // TODO: Get actual user ID from auth context
+      />
     </div>
   );
 }
