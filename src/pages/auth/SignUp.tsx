@@ -7,7 +7,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { BRANDING_CONFIG } from '@/lib/branding.config';
 
 export default function SignUp() {
   const [name, setName] = useState('');
@@ -104,9 +103,6 @@ export default function SignUp() {
       <div className="w-full max-w-md space-y-6">
         {/* Welcome Banner */}
         <div className="text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
-            ✨ Join 100+ investors already earning
-          </div>
           <h1 className="text-3xl font-bold text-foreground">Start Your Investment Journey</h1>
           <p className="text-muted-foreground">
             Create your free account and begin investing in premium real estate with as little as $100
@@ -118,11 +114,6 @@ export default function SignUp() {
             <CardTitle className="text-2xl text-center">Create account</CardTitle>
             <CardDescription className="text-center">
               Quick setup - takes less than 2 minutes
-              <div className="mt-2">
-                <span className="inline-flex items-center gap-1 px-2 py-1 bg-amber-100 text-amber-700 text-xs rounded-full">
-                  {BRANDING_CONFIG.features.kycIntegration}
-                </span>
-              </div>
             </CardDescription>
           </CardHeader>
         <CardContent>
