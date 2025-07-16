@@ -129,5 +129,10 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^7.0.4"
+  },
+  "overrides": {
+    "lovable-tagger": {
+      "vite": "^7.0.4"
+    }
   }
 }
