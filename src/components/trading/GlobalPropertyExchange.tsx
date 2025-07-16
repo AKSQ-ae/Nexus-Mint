@@ -86,7 +86,7 @@ export function GlobalPropertyExchange() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-16">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -98,218 +98,94 @@ export function GlobalPropertyExchange() {
             <p className="text-muted-foreground">24/7 trading with instant settlement</p>
           </div>
         </div>
-        <Badge variant="default" className="bg-green-500 text-white">
+        <Badge className="bg-green-500 text-white px-3 py-1 rounded-full text-sm">
           <Zap className="h-3 w-3 mr-1" />
           Live Trading
         </Badge>
       </div>
 
-      {/* Trading Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      {/* Trading Stats - 4 column equal width */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {tradingStats.map((stat, index) => (
-          <Card key={index}>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                  <p className="text-2xl font-bold">{stat.value}</p>
-                </div>
-                <div className={`flex items-center text-sm ${
-                  stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {stat.change.startsWith('+') ? <TrendingUp className="h-4 w-4 mr-1" /> : <TrendingDown className="h-4 w-4 mr-1" />}
-                  {stat.change}
-                </div>
+          <Card key={index} className="bg-white border border-gray-200 rounded-xl relative">
+            <CardContent className="p-6 text-center">
+              <div className="absolute top-2 right-2">
+                <Badge className="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+                  Live Trading
+                </Badge>
+              </div>
+              <div className="text-3xl font-bold text-primary mb-2">{stat.value}</div>
+              <div className="text-sm text-gray-700 font-medium">{stat.label}</div>
+              <div className={`text-xs ${
+                stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'
+              }`}>
+                {stat.change}
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      <Tabs defaultValue="orderbook" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="orderbook">Order Book</TabsTrigger>
-          <TabsTrigger value="performers">Top Performers</TabsTrigger>
-          <TabsTrigger value="liquidity">Liquidity Pools</TabsTrigger>
-          <TabsTrigger value="advantages">Advantages</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="orderbook" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <ArrowUpDown className="h-5 w-5" />
-                Live Order Book
-              </CardTitle>
-              <CardDescription>Real-time trading activity across global markets</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="grid grid-cols-7 gap-4 text-sm font-medium text-muted-foreground border-b pb-2">
-                  <div>Property</div>
-                  <div>Type</div>
-                  <div>Tokens</div>
-                  <div>Price</div>
-                  <div>Total</div>
-                  <div>Trader</div>
-                  <div>Time</div>
+      {/* Live Order Book */}
+      <Card className="bg-white rounded-xl shadow-sm" role="table" aria-label="Live order book">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-lg font-bold text-gray-800">
+            <ArrowUpDown className="h-5 w-5" />
+            Live Order Book
+          </CardTitle>
+          <CardDescription>Real-time trading activity across global markets</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {/* Table Header */}
+            <div className="grid grid-cols-7 gap-4 text-sm font-bold text-gray-800 border-b pb-2">
+              <div>Property</div>
+              <div>Type</div>
+              <div>Tokens</div>
+              <div>Price</div>
+              <div>Total</div>
+              <div>Trader</div>
+              <div>Time</div>
+            </div>
+            
+            {/* Table Rows */}
+            {liveOrders.map((order, index) => (
+              <div key={index} className={`grid grid-cols-7 gap-4 text-sm items-center py-2 ${
+                index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+              }`}>
+                <div className="font-medium">{order.property}</div>
+                <div>
+                  <Badge 
+                    className={order.type === 'BUY' 
+                      ? 'bg-blue-500 text-white text-xs px-2 py-1 rounded-full' 
+                      : 'bg-purple-500 text-white text-xs px-2 py-1 rounded-full'
+                    }
+                  >
+                    {order.type}
+                  </Badge>
                 </div>
-                {liveOrders.map((order, index) => (
-                  <div key={index} className="grid grid-cols-7 gap-4 text-sm items-center">
-                    <div className="font-medium">{order.property}</div>
-                    <div>
-                      <Badge variant={order.type === 'BUY' ? 'default' : 'secondary'}>
-                        {order.type}
-                      </Badge>
-                    </div>
-                    <div>{order.tokens}</div>
-                    <div className="font-medium">{order.price}</div>
-                    <div>{order.total}</div>
-                    <div className="text-muted-foreground">{order.user}</div>
-                    <div className="text-muted-foreground">{order.time}</div>
-                  </div>
-                ))}
+                <div>{order.tokens}</div>
+                <div className="font-medium">{order.price}</div>
+                <div>{order.total}</div>
+                <div className="text-muted-foreground">{order.user}</div>
+                <div className="text-muted-foreground">{order.time}</div>
               </div>
-              <div className="mt-4 pt-4 border-t">
-                <Button className="w-full">
-                  <Clock className="h-4 w-4 mr-2" />
-                  Start Trading Now
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="performers" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BarChart3 className="h-5 w-5" />
-                Top Performing Properties
-              </CardTitle>
-              <CardDescription>Best performing tokenized properties in the last 24h</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {topPerformers.map((performer, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
-                    <div>
-                      <h4 className="font-medium">{performer.property}</h4>
-                      <p className="text-sm text-muted-foreground">{performer.region}</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-bold text-lg">{performer.price}</div>
-                      <div className="text-green-600 text-sm">{performer.change}</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">Volume</div>
-                      <div className="font-medium">{performer.volume}</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">Tokens</div>
-                      <div className="font-medium">{performer.tokens}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="liquidity" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <DollarSign className="h-5 w-5" />
-                Liquidity Pools
-              </CardTitle>
-              <CardDescription>Earn additional yield by providing liquidity</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {liquidityPools.map((pool, index) => (
-                  <Card key={index} className="border-border/50">
-                    <CardContent className="p-4">
-                      <h4 className="font-medium mb-3">{pool.property}</h4>
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="text-sm text-muted-foreground">TVL</span>
-                          <span className="font-medium">{pool.tvl}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm text-muted-foreground">APY</span>
-                          <span className="font-bold text-green-600">{pool.apy}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm text-muted-foreground">Participants</span>
-                          <span className="font-medium">{pool.participants}</span>
-                        </div>
-                      </div>
-                      <Button size="sm" className="w-full mt-3">Join Pool</Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="advantages" className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-green-600">Our Advantages</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <Globe className="h-4 w-4 text-green-500" />
-                    <span>Global 24/7 trading</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <DollarSign className="h-4 w-4 text-green-500" />
-                    <span>Liquidity pools with yield</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <ArrowUpDown className="h-4 w-4 text-green-500" />
-                    <span>Advanced order types</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-green-500" />
-                    <span>Global investor base</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-blue-600">Enhanced Features</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <Zap className="h-4 w-4 text-blue-500" />
-                    <span>Instant settlement</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-blue-500" />
-                    <span>Multiple payment methods</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <BarChart3 className="h-4 w-4 text-blue-500" />
-                    <span>Referral rewards</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <TrendingUp className="h-4 w-4 text-blue-500" />
-                    <span>Token rewards program</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            ))}
           </div>
-        </TabsContent>
-      </Tabs>
+          
+          {/* Footer Button */}
+          <div className="mt-6 pt-4 border-t sticky bottom-0 bg-white">
+            <Button 
+              className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
+              aria-label="Start trading now"
+            >
+              <Clock className="h-4 w-4 mr-2" />
+              Start Trading Now
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
     </div>
   );
 }

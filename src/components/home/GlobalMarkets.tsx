@@ -97,154 +97,189 @@ export function GlobalMarkets() {
   ];
 
   return (
-    <div className="py-16 bg-background">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center">
-              <Globe className="h-6 w-6 text-primary" />
-            </div>
-            <h2 className="text-3xl font-bold text-foreground">Global Property Markets</h2>
-          </div>
-        </div>
-
-        {/* Markets Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {markets.map((market, index) => (
-            <Card key={index} className={`hover:shadow-lg transition-shadow ${market.featured ? 'ring-2 ring-primary/20' : ''}`}>
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-primary" />
-                    <CardTitle className="text-lg">{market.city}</CardTitle>
-                  </div>
-                  <div className="flex gap-2">
-                    {market.featured && (
-                      <Badge variant="default">
-                        <Star className="h-3 w-3 mr-1" />
-                        Featured
-                      </Badge>
-                    )}
-                    <Badge variant={market.status === 'Live' ? 'default' : 'secondary'}>
-                      {market.status}
-                    </Badge>
-                  </div>
-                </div>
-                <CardDescription>{market.country}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Properties</span>
-                    <span className="font-medium">{market.properties}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Avg Yield</span>
-                    <span className="font-bold text-green-600">{market.avgYield}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">12M Growth</span>
-                    <span className="font-medium text-primary">{market.growth}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Min Investment</span>
-                    <span className="font-medium">{market.minInvestment}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Market Cap</span>
-                    <span className="font-medium">{market.marketCap}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Time Zone</span>
-                    <span className="text-sm">{market.timeZone}</span>
-                  </div>
-                </div>
-                {market.status === 'Live' ? (
-                  <Link to="/properties" className="w-full mt-4 block">
-                    <Button 
-                      className="w-full" 
-                      variant={market.featured ? 'default' : 'outline'}
-                    >
-                      Explore Properties
-                    </Button>
-                  </Link>
-                ) : (
-                  <Button 
-                    className="w-full mt-4" 
-                    disabled
-                    variant="outline"
-                  >
-                    Notify Me
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Global Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <Card className="text-center">
-            <CardContent className="p-6">
-              <div className="text-3xl font-bold text-primary mb-2">614</div>
-              <div className="text-sm text-muted-foreground">Total Properties</div>
-              <div className="text-xs text-green-600">Growing Portfolio</div>
-            </CardContent>
-          </Card>
-          <Card className="text-center">
-            <CardContent className="p-6">
-              <div className="text-3xl font-bold text-primary mb-2">6</div>
-              <div className="text-sm text-muted-foreground">Countries</div>
-              <div className="text-xs text-green-600">vs 1 UAE only</div>
-            </CardContent>
-          </Card>
-          <Card className="text-center">
-            <CardContent className="p-6">
-              <div className="text-3xl font-bold text-primary mb-2">$1.97B</div>
-              <div className="text-sm text-muted-foreground">Total Market Cap</div>
-              <div className="text-xs text-green-600">Global portfolio</div>
-            </CardContent>
-          </Card>
-          <Card className="text-center">
-            <CardContent className="p-6">
-              <div className="text-3xl font-bold text-primary mb-2">24/7</div>
-              <div className="text-sm text-muted-foreground">Trading Hours</div>
-              <div className="text-xs text-green-600">vs business hours</div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Competitive Advantages */}
-        <Card className="bg-gradient-to-r from-primary/5 to-secondary/5">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
-              Global Investment Platform Advantages
-            </CardTitle>
-            <CardDescription>
-              Access worldwide opportunities with our comprehensive investment platform
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-3">
-                {competitiveAdvantages.map((advantage, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <div className="h-2 w-2 bg-primary rounded-full"></div>
-                    <span className="text-sm">{advantage}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="flex flex-col justify-center">
-                <div className="text-center p-6 bg-white/50 dark:bg-black/20 rounded-lg">
-                  <DollarSign className="h-8 w-8 text-primary mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-primary">$100</div>
-                  <div className="text-sm text-muted-foreground">Start investing globally</div>
-                </div>
-              </div>
-            </div>
+    <div className="space-y-16">
+      {/* Summary Metrics Row */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card className="text-center bg-white border border-gray-200 rounded-xl">
+          <CardContent className="p-6">
+            <div className="text-3xl font-bold text-primary mb-2">614</div>
+            <div className="text-sm text-gray-700 font-medium">Total Properties</div>
+            <div className="text-xs text-green-600">Growing Portfolio</div>
           </CardContent>
         </Card>
+        <Card className="text-center bg-white border border-gray-200 rounded-xl">
+          <CardContent className="p-6">
+            <div className="text-3xl font-bold text-primary mb-2">6</div>
+            <div className="text-sm text-gray-700 font-medium">Countries</div>
+            <div className="text-xs text-green-600">vs 1 UAE only</div>
+          </CardContent>
+        </Card>
+        <Card className="text-center bg-white border border-gray-200 rounded-xl">
+          <CardContent className="p-6">
+            <div className="text-3xl font-bold text-primary mb-2">$1.97B</div>
+            <div className="text-sm text-gray-700 font-medium">Total Market Cap</div>
+            <div className="text-xs text-green-600">Global portfolio</div>
+          </CardContent>
+        </Card>
+        <Card className="text-center bg-white border border-gray-200 rounded-xl">
+          <CardContent className="p-6">
+            <div className="text-3xl font-bold text-primary mb-2">24/7</div>
+            <div className="text-sm text-gray-700 font-medium">Trading Hours</div>
+            <div className="text-xs text-green-600">vs business hours</div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Markets Grid */}
+      <div 
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
+        role="grid" 
+        aria-label="Global property markets"
+      >
+        {markets.map((market, index) => (
+          <Card 
+            key={index} 
+            className="bg-white rounded-xl shadow-sm hover:shadow-md hover:border-2 hover:border-primary transition-all duration-300" 
+            role="gridcell"
+          >
+            <CardHeader className="pb-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <MapPin className="h-5 w-5 text-primary" />
+                  <CardTitle className="text-xl font-bold">{market.city}</CardTitle>
+                </div>
+                <div className="flex gap-2">
+                  {market.featured && (
+                    <Badge className="bg-yellow-500 text-yellow-900 text-xs px-2 py-1 rounded-full">
+                      Featured
+                    </Badge>
+                  )}
+                  {market.status === 'Live' && (
+                    <Badge className="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+                      Live
+                    </Badge>
+                  )}
+                  {market.status === 'Coming Soon' && (
+                    <Badge variant="secondary" className="text-xs px-2 py-1 rounded-full">
+                      Coming Soon
+                    </Badge>
+                  )}
+                </div>
+              </div>
+              <p className="text-sm text-gray-600">{market.country}</p>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Stats in two-column layout */}
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-700">Properties</span>
+                  <span className="font-bold">{market.properties}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-700">Avg Yield</span>
+                  <span className="font-bold text-green-600">{market.avgYield}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-700">12M Growth</span>
+                  <span className="font-bold text-blue-600">{market.growth}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-700">Min Investment</span>
+                  <span className="font-bold">{market.minInvestment}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-700">Market Cap</span>
+                  <span className="font-bold">{market.marketCap}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-700">Time Zone</span>
+                  <span className="font-bold">{market.timeZone}</span>
+                </div>
+              </div>
+              
+              {/* Action Button */}
+              {market.status === 'Live' ? (
+                <Link to="/properties" className="w-full block">
+                  <Button 
+                    className="w-full bg-primary hover:bg-primary/90 text-white"
+                    aria-label={`Explore properties in ${market.city}`}
+                  >
+                    Explore Properties
+                  </Button>
+                </Link>
+              ) : (
+                <Button 
+                  className="w-full" 
+                  variant="outline"
+                  disabled
+                  aria-label={`Get notified when ${market.city} launches`}
+                >
+                  Notify Me
+                </Button>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Advantages Highlight Panel */}
+      <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-center">
+          {/* Left Icon */}
+          <div className="flex justify-center lg:justify-start">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+              <Globe className="h-8 w-8 text-blue-600" />
+            </div>
+          </div>
+          
+          {/* Center Content - 3 columns */}
+          <div className="lg:col-span-2">
+            <h3 className="text-2xl font-bold text-foreground mb-2">Global Investment Platform Advantages</h3>
+            <p className="text-gray-600 mb-6">Access worldwide opportunities with our comprehensive investment platform</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 bg-primary rounded-full"></div>
+                  <span className="text-sm">Global 24/7 trading</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 bg-primary rounded-full"></div>
+                  <span className="text-sm">Diversified portfolio</span>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 bg-primary rounded-full"></div>
+                  <span className="text-sm">Premium properties</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 bg-primary rounded-full"></div>
+                  <span className="text-sm">No restrictions</span>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 bg-primary rounded-full"></div>
+                  <span className="text-sm">Multiple time zones</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 bg-primary rounded-full"></div>
+                  <span className="text-sm">Global investor base</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Right Callout */}
+          <div className="flex justify-center lg:justify-end">
+            <div className="text-center p-6 bg-white rounded-xl border border-primary/20">
+              <DollarSign className="h-8 w-8 text-primary mx-auto mb-2" />
+              <div className="text-2xl font-bold text-primary">$100</div>
+              <div className="text-sm text-gray-600">Start investing globally</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
