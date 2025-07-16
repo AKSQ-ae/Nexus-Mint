@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { supabase } from '@/integrations/supabase/client';
+// We now rely on our backend endpoint to generate & email the reset link.
 import { ArrowLeft, Mail } from 'lucide-react';
 
 export default function ForgotPassword() {
@@ -34,19 +34,23 @@ export default function ForgotPassword() {
     setError('');
 
     try {
-      // Tell Supabase where to send the user after they click the link in the e-mail.
-      // We now canonicalise the route at /auth/reset (we also have /auth/reset-password as an alias).
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/reset`,
+      const res = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
       });
 
-      if (error) {
-        setError(error.message);
-      } else {
-        setEmailSent(true);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data?.message || 'Unable to send reset email');
       }
-    } catch (error) {
-      setError('An error occurred. Please try again.');
+
+      setEmailSent(true);
+    } catch (error: any) {
+      setError(error?.message || 'An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
