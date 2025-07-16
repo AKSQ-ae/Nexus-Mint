@@ -75,27 +75,43 @@ Current market context:
       { role: 'user', content: message }
     ];
 
-    // Call OpenAI API
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: messages,
-        max_tokens: 500,
-        temperature: 0.7,
-        presence_penalty: 0.1,
-        frequency_penalty: 0.1,
-      }),
-    });
+    // Call OpenAI API with a 30-second timeout to avoid hanging requests
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30_000);
+
+    let response: Response;
+    try {
+      response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: messages,
+          max_tokens: 500,
+          temperature: 0.7,
+          presence_penalty: 0.1,
+          frequency_penalty: 0.1,
+        }),
+        signal: controller.signal,
+      });
+    } catch (fetchErr) {
+      if (fetchErr instanceof DOMException && fetchErr.name === 'AbortError') {
+        console.error('OpenAI request timed out after 30s');
+        throw new Error('OpenAI request timed out');
+      }
+      throw fetchErr;
+    } finally {
+      clearTimeout(timeoutId);
+    }
 
     if (!response.ok) {
-      const errorData = await response.json();
+      const errorData = await response.json().catch(() => ({}));
       console.error('OpenAI API error:', errorData);
-      throw new Error(`OpenAI API error: ${response.status}`);
+      const apiMessage = errorData?.error?.message || errorData?.message || 'Unknown error';
+      throw new Error(`OpenAI API error (${response.status}): ${apiMessage}`);
     }
 
     const data = await response.json();
