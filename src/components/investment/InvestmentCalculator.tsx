@@ -132,7 +132,7 @@ export function InvestmentCalculator({
         </CardTitle>
         <div className="flex gap-2">
           <Badge variant="secondary">
-            Higher returns than PRYPCO
+            Competitive Returns
           </Badge>
           <Badge variant="outline">
             From $100 minimum
@@ -143,7 +143,7 @@ export function InvestmentCalculator({
         <Tabs defaultValue="calculate" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="calculate">Calculate</TabsTrigger>
-            <TabsTrigger value="compare">vs PRYPCO</TabsTrigger>
+            <TabsTrigger value="compare">Compare</TabsTrigger>
           </TabsList>
           
           <TabsContent value="calculate" className="space-y-6">
@@ -385,11 +385,11 @@ export function InvestmentCalculator({
             <Card className="p-4 bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
               <h4 className="font-semibold text-green-800 mb-2">Why Choose Nexus Mint?</h4>
               <ul className="text-sm text-green-700 space-y-1">
-                <li>✅ 5.45x more accessible ($100 vs $545 minimum)</li>
-                <li>✅ No Emirates ID requirement - global access</li>
-                <li>✅ Higher average returns (12.5% vs 8-12%)</li>
+                <li>✅ Highly accessible $100 minimum investment</li>
+                <li>✅ No geographical restrictions - global access</li>
+                <li>✅ Competitive average returns (12.5%+)</li>
                 <li>✅ Multi-currency support (USD, EUR, AED, GBP)</li>
-                <li>✅ Target PRYPCO's 6,000+ international waitlist</li>
+                <li>✅ Serving international investors worldwide</li>
               </ul>
             </Card>
           </TabsContent>

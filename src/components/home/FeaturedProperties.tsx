@@ -21,7 +21,7 @@ interface Property {
   images: any;
 }
 
-// Enhanced Dubai properties data to compete with PRYPCO
+// Enhanced Dubai properties data for premium investment opportunities
 const premiumProperties = [
   {
     id: '1',
@@ -182,7 +182,7 @@ export function FeaturedProperties() {
             Premium Dubai <span className="gradient-text">Properties</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-4xl mx-auto mb-8">
-            Own premium Dubai real estate for just $100. Higher yields than PRYPCO with global accessibility and zero geographical restrictions.
+            Own premium Dubai real estate for just $100. Competitive yields with global accessibility and zero geographical restrictions.
           </p>
           
           {/* Performance Stats */}

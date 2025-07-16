@@ -89,11 +89,11 @@ export function GlobalMarkets() {
   ];
 
   const competitiveAdvantages = [
-    "Global access vs PRYPCO UAE-only limitation",
-    "Lower $100 minimum vs AED 2,000 requirement", 
+    "Global access to premium properties worldwide",
+    "Accessible $100 minimum investment threshold", 
     "24/7 trading across time zones",
     "Diversified international portfolio",
-    "No Emirates ID required"
+    "No geographical restrictions"
   ];
 
   return (
@@ -188,7 +188,7 @@ export function GlobalMarkets() {
             <CardContent className="p-6">
               <div className="text-3xl font-bold text-primary mb-2">614</div>
               <div className="text-sm text-muted-foreground">Total Properties</div>
-              <div className="text-xs text-green-600">vs 50+ PRYPCO</div>
+              <div className="text-xs text-green-600">Growing Portfolio</div>
             </CardContent>
           </Card>
           <Card className="text-center">
@@ -219,10 +219,10 @@ export function GlobalMarkets() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5" />
-              Why Choose Global Over PRYPCO
+              Global Investment Platform Advantages
             </CardTitle>
             <CardDescription>
-              Break free from geographical limitations and unlock worldwide opportunities
+              Access worldwide opportunities with our comprehensive investment platform
             </CardDescription>
           </CardHeader>
           <CardContent>

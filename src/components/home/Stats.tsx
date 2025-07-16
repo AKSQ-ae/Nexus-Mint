@@ -28,7 +28,7 @@ export function Stats() {
       name: 'Average Returns',
       value: '12.8%',
       icon: TrendingUp,
-      description: 'Annual return vs PRYPCO 8-12%',
+      description: 'Competitive annual returns',
       change: '+2.3% higher',
       changeType: 'positive' as 'positive' | 'negative' | 'neutral',
     },
