@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { CreditCard, Building2, TrendingUp, Link2, Star, CheckCircle, Award, Zap, ArrowRight, Sparkles, Crown, Bolt, Shield, Users } from 'lucide-react';
+import { CreditCard, Building2, TrendingUp, Link2, CheckCircle, Award, ArrowRight, Sparkles, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
@@ -201,39 +201,6 @@ export function Features() {
           ))}
         </div>
 
-        {/* Strategic Call to Action - Educational Focus */}
-        <div className="text-center">
-          <Card className="bg-gradient-to-r from-blue-50/50 via-white to-purple-50/50 border border-blue-200/30 max-w-4xl mx-auto relative overflow-hidden backdrop-blur-sm">
-            {/* Subtle Background Pattern */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5" />
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500" />
-            
-            <CardContent className="p-12 relative">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <Building2 className="h-8 w-8 text-blue-600 animate-pulse" />
-                <h3 className="text-3xl font-bold bg-gradient-to-r from-foreground to-blue-600 bg-clip-text text-transparent">
-                  Discover Smart Real Estate Investing
-                </h3>
-                <Star className="h-8 w-8 text-purple-600 animate-pulse" />
-              </div>
-              
-              <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-                Explore how blockchain technology is revolutionizing property investment. Learn about tokenization, fractional ownership, and building a diversified real estate portfolio.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <Button size="lg" variant="outline" className="hover:scale-105">
-                  Explore Properties
-                  <Building2 className="h-5 w-5 ml-2" />
-                </Button>
-                <Button size="lg" variant="secondary" className="hover:scale-105">
-                  How It Works
-                  <ArrowRight className="h-5 w-5 ml-2" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
       </div>
     </div>
   );
