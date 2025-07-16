@@ -1,4 +1,4 @@
-import { Suspense, lazy, ComponentType } from 'react';
+import { Suspense, ComponentType } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
@@ -126,19 +126,28 @@ export function withLazyLoading<T extends object>(
   };
 }
 
-// Code splitting utilities
-export const LazyDashboard = lazy(() => import('@/pages/Dashboard'));
-export const LazyProperties = lazy(() => import('@/pages/Properties'));
-export const LazyPortfolio = lazy(() => import('@/pages/Portfolio'));
-export const LazyAnalytics = lazy(() => import('@/pages/AdvancedAnalytics'));
-export const LazyTrading = lazy(() => import('@/pages/Trading'));
-
 // Preloader for critical route components
 export function preloadRoutes() {
-  // Preload critical routes
-  import('@/pages/Dashboard');
-  import('@/pages/Properties');
-  import('@/pages/Portfolio');
+  // Preload critical routes in the background
+  const criticalRoutes = [
+    () => import('@/pages/Dashboard'),
+    () => import('@/pages/Properties'),
+    () => import('@/pages/Portfolio'),
+    () => import('@/pages/AdvancedAnalytics'),
+    () => import('@/pages/Trading')
+  ];
+
+  // Use requestIdleCallback for non-blocking preloading
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => {
+      criticalRoutes.forEach(route => route());
+    });
+  } else {
+    // Fallback for browsers without requestIdleCallback
+    setTimeout(() => {
+      criticalRoutes.forEach(route => route());
+    }, 1000);
+  }
 }
 
 // Resource hints for performance
@@ -183,5 +192,33 @@ export function registerServiceWorkerUpdates() {
         window.location.reload();
       }
     });
+  }
+}
+
+// Performance monitoring utilities
+export function measurePageLoad() {
+  if ('performance' in window) {
+    window.addEventListener('load', () => {
+      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+      if (navigation) {
+        console.log('Page Load Time:', navigation.loadEventEnd - navigation.loadEventStart);
+        console.log('DOM Content Loaded:', navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart);
+      }
+    });
+  }
+}
+
+// Memory usage monitoring
+export function monitorMemoryUsage() {
+  if ('memory' in performance) {
+    setInterval(() => {
+      const memory = (performance as any).memory;
+      if (memory.usedJSHeapSize > memory.jsHeapSizeLimit * 0.8) {
+        console.warn('High memory usage detected:', {
+          used: Math.round(memory.usedJSHeapSize / 1048576) + 'MB',
+          limit: Math.round(memory.jsHeapSizeLimit / 1048576) + 'MB'
+        });
+      }
+    }, 30000); // Check every 30 seconds
   }
 }
