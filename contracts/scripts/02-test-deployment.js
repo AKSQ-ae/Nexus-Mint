@@ -193,7 +193,8 @@ async function main() {
     }
     
     console.log("🎉 ALL TESTS COMPLETED SUCCESSFULLY!");
-    console.log("\n✅ Your Nexus Mint platform is ready for production!");
+    const BRAND_NAME = process.env.BRAND_NAME || 'Investment Platform';
+    console.log(`\n✅ Your ${BRAND_NAME} is ready for production!`);
 }
 
 main()

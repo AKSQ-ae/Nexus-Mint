@@ -9,6 +9,9 @@ export interface BrandingConfig {
   defaultMetaDescription: string;
   phone?: string;
   address?: string;
+  logoUrl?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
 }
 
 // Utility to read environment variables from both browser (Vite) and Node environments
@@ -44,6 +47,9 @@ const branding: BrandingConfig = {
   ),
   phone: getEnv('VITE_BRAND_PHONE', '+1 (555) 555-5555'),
   address: getEnv('VITE_BRAND_ADDRESS', 'City, Country'),
+  logoUrl: getEnv('VITE_BRAND_LOGO_URL', '/placeholder.svg'),
+  primaryColor: getEnv('VITE_BRAND_PRIMARY_COLOR', '#0f0f23'),
+  secondaryColor: getEnv('VITE_BRAND_SECONDARY_COLOR', '#10b981'),
 };
 
 export default branding;

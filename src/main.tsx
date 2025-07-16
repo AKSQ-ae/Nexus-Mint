@@ -1,6 +1,7 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
+import { BrandingProvider } from './contexts/BrandingContext';
 import './index.css'
 import { initSentry } from './lib/sentry'
 import { addResourceHints, preloadRoutes, registerServiceWorkerUpdates } from './components/performance/LoadingOptimization'
@@ -17,7 +18,9 @@ registerServiceWorkerUpdates();
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <SentryErrorBoundary>
-      <App />
+      <BrandingProvider>
+        <App />
+      </BrandingProvider>
     </SentryErrorBoundary>
   </React.StrictMode>
 );

@@ -14,7 +14,6 @@ contract NexusMintShariaMarketplace is AccessControl, ReentrancyGuard {
     using SafeERC20 for IERC20;
     
     bytes32 public constant PLATFORM_ADMIN_ROLE = keccak256("PLATFORM_ADMIN_ROLE");
-    bytes32 public constant NEXUS_ADMIN_ROLE = PLATFORM_ADMIN_ROLE; // deprecated alias
     bytes32 public constant SHARIA_SUPERVISOR_ROLE = keccak256("SHARIA_SUPERVISOR_ROLE");
     
     /// @dev Interface for validating NexusMintShariaToken contracts

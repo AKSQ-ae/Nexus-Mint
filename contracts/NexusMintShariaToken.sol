@@ -18,7 +18,6 @@ contract NexusMintShariaToken is ERC20, AccessControl, ReentrancyGuard, PullPaym
     using EnumerableSet for EnumerableSet.AddressSet;
     
     bytes32 public constant PLATFORM_ROLE = keccak256("PLATFORM_ROLE");
-    bytes32 public constant NEXUS_PLATFORM_ROLE = PLATFORM_ROLE; // deprecated alias
     bytes32 public constant PROPERTY_MANAGER_ROLE = keccak256("PROPERTY_MANAGER_ROLE");
     bytes32 public constant SHARIA_SUPERVISOR_ROLE = keccak256("SHARIA_SUPERVISOR_ROLE");
     

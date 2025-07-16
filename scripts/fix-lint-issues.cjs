@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * 🔧 Nexus Mint - Lint Issues Auto-Fixer
+ * 🔧 Lint Issues Auto-Fixer
  * Systematically fixes common TypeScript and React issues
  */
 
@@ -211,7 +211,7 @@ class LintFixer {
   }
 
   async run() {
-    this.log('🔧 Starting Nexus Mint Lint Fixer...', 'info');
+    this.log('🔧 Starting Lint Fixer...', 'info');
     
     // Get current lint issues count
     let currentIssues = 0;

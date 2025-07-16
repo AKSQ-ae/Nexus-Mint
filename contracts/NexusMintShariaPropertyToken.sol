@@ -18,9 +18,6 @@ contract NexusMintShariaPropertyToken is ERC721URIStorage, AccessControl {
     
     // Brand-neutral admin role constant
     bytes32 public constant PLATFORM_ADMIN_ROLE = keccak256("PLATFORM_ADMIN_ROLE");
-    // Deprecated alias (maintains backward compatibility)
-    // solhint-disable-next-line var-name-mixedcase
-    bytes32 public constant NEXUS_ADMIN_ROLE = PLATFORM_ADMIN_ROLE;
     bytes32 public constant SHARIA_BOARD_ROLE = keccak256("SHARIA_BOARD_ROLE");
     
     Counters.Counter private _tokenIds;

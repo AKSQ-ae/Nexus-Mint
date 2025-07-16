@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * 🧪 Nexus Mint - Comprehensive Functionality Testing
+ * 🧪 Comprehensive Functionality Testing Suite
  * Tests all core features to ensure platform readiness
  */
 

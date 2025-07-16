@@ -2,7 +2,8 @@ const hre = require("hardhat");
 const { ethers } = require("hardhat");
 
 async function main() {
-    console.log("🚀 Starting Nexus Mint Sharia Contract Deployment...\n");
+    const BRAND_NAME = process.env.BRAND_NAME || 'Investment Platform';
+    console.log(`🚀 Starting ${BRAND_NAME} Sharia Contract Deployment...\n`);
     
     const [deployer, shariaBoard, nexusAdmin] = await ethers.getSigners();
     
