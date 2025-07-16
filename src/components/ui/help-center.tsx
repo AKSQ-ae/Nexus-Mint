@@ -74,15 +74,15 @@ export function HelpCenter() {
           Investor Resources
         </Button>
       </DialogTrigger>
-      <DialogContent className="fixed top-16 left-1/2 -translate-x-1/2 max-w-[600px] w-[calc(100%-2rem)] max-h-[600px] overflow-y-auto p-4 z-[1000]">
-        <DialogHeader>
+      <DialogContent className="fixed top-16 left-1/2 -translate-x-1/2 max-w-[600px] w-[calc(100%-2rem)] max-h-[600px] flex flex-col p-0 z-[1000]">
+        <DialogHeader className="sticky top-0 bg-background border-b p-4 z-10">
           <DialogTitle className="flex items-center gap-2">
             <HelpCircle className="h-5 w-5" />
             Investor Resources
           </DialogTitle>
         </DialogHeader>
         
-        <div className="space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 space-y-6">
           {/* Search */}
           <div className="relative">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
