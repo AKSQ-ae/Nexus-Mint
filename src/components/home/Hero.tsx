@@ -211,12 +211,6 @@ export function Hero() {
             </div>
 
             <div className="flex flex-col items-center gap-4">
-              <Link to="/early-access">
-                <Button variant="cta" size="xl">
-                  Join Early Access
-                  <TrendingUp className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
               <p className="text-sm text-muted-foreground font-inter">
                 Secure your spot.
               </p>

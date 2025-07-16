@@ -354,9 +354,9 @@ export function InvestmentCalculator({
                 </div>
               </Card>
 
-              {/* PRYPCO */}
+              {/* Traditional Real Estate */}
               <Card className="p-4 border-muted">
-                <h4 className="font-semibold text-muted-foreground mb-3">PRYPCO Mint</h4>
+                <h4 className="font-semibold text-muted-foreground mb-3">Traditional REIT</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span>Minimum Investment:</span>

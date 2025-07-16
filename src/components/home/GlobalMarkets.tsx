@@ -240,9 +240,6 @@ export function GlobalMarkets() {
                   <DollarSign className="h-8 w-8 text-primary mx-auto mb-2" />
                   <div className="text-2xl font-bold text-primary">$100</div>
                   <div className="text-sm text-muted-foreground">Start investing globally</div>
-                  <Link to="/properties" className="mt-3 w-full block">
-                    <Button className="w-full">Get Started</Button>
-                  </Link>
                 </div>
               </div>
             </div>

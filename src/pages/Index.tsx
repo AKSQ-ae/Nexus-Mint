@@ -21,9 +21,6 @@ export default function Index() {
         <Hero />
       </div>
       
-      <div data-section="trust-signals">
-        <TrustSignals />
-      </div>
       <div data-section="features">
         <Features />
       </div>

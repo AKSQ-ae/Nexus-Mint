@@ -54,40 +54,14 @@ export function Stats() {
     <div className="py-16 bg-gradient-to-b from-background to-muted/30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">Verified Performance Metrics</h2>
+          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">Why Choose Nexus Mint?</h2>
           <p className="text-lg lg:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-            25,000+ verified investors from 30 countries. AED 5B+ in regulated tokenized real estate transactions.
+            Own, Earn, Multiply your wealth through regulated tokenized real estate.
           </p>
-        </div>
-
-        {/* Enhanced Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {stats.map((stat, index) => (
-            <Card key={stat.name} className="text-center group hover:scale-105 transition-all duration-300">
-              <CardContent className="p-6">
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center shadow-elegant group-hover:shadow-premium transition-all duration-300">
-                    <stat.icon className="h-8 w-8 text-white" />
-                  </div>
-                </div>
-                <div className="text-3xl font-bold text-foreground mb-2">{stat.value}</div>
-                <h3 className="font-semibold text-foreground mb-2">{stat.name}</h3>
-                <p className="text-sm text-muted-foreground mb-3">{stat.description}</p>
-                <div className={`text-xs font-medium px-3 py-1 rounded-full inline-block ${
-                  stat.changeType === 'positive' ? 'bg-success/10 text-success' :
-                  stat.changeType === 'negative' ? 'bg-destructive/10 text-destructive' :
-                  'bg-muted text-muted-foreground'
-                }`}>
-                  {stat.change}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
         </div>
 
         {/* Key Benefits */}
         <div className="max-w-4xl mx-auto">
-          <h3 className="text-2xl font-bold text-foreground text-center mb-8">Why Choose Nexus Mint?</h3>
           <div className="space-y-6">
             <Card className="p-6 hover:shadow-elegant transition-all duration-300">
               <div className="flex items-start gap-4">
