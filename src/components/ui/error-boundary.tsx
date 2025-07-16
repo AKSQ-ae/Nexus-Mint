@@ -33,7 +33,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     console.error('Error Boundary caught an error:', error, errorInfo);
     
     // In production, send to error tracking service
-    if (process.env.NODE_ENV === 'production') {
+    if (import.meta.env.PROD) {
       // Example: Sentry.captureException(error, { extra: errorInfo });
     }
   }
@@ -71,7 +71,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              {process.env.NODE_ENV === 'development' && this.state.error && (
+              {import.meta.env.DEV && this.state.error && (
                 <div className="bg-muted p-4 rounded-lg text-sm">
                   <strong>Error:</strong> {this.state.error.message}
                   {this.state.errorInfo && (
