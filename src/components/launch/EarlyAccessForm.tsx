@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Star, Users, Clock, Gift, Mail, User, Building2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import branding from '@/config/branding.config';
 
 interface EarlyAccessData {
   email: string;
@@ -118,7 +119,7 @@ export function EarlyAccessForm() {
           </div>
           <h3 className="text-2xl font-bold mb-2">You're on the list!</h3>
           <p className="text-muted-foreground mb-6">
-            Thank you for your interest in Nexus Mint. We'll send you exclusive updates and notify you as soon as early access becomes available.
+            {`Thank you for your interest in ${branding.shortName}. We'll send you exclusive updates and notify you as soon as early access becomes available.`}
           </p>
           <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
@@ -144,7 +145,7 @@ export function EarlyAccessForm() {
             Early Access
           </Badge>
         </div>
-        <CardTitle className="text-2xl">Join the Nexus Mint Waitlist</CardTitle>
+        <CardTitle className="text-2xl">{`Join the ${branding.shortName} Waitlist`}</CardTitle>
         <p className="text-muted-foreground">
           Be among the first to experience tokenized real estate investing
         </p>
@@ -292,7 +293,7 @@ export function EarlyAccessForm() {
               }
             />
             <Label htmlFor="marketing" className="text-sm">
-              I agree to receive marketing communications and updates about Nexus Mint
+              {`I agree to receive marketing communications and updates about ${branding.shortName}`}
             </Label>
           </div>
 

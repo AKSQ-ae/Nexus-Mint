@@ -105,7 +105,7 @@ export default {
 				'gradient-secondary': 'var(--gradient-secondary)',
 				'gradient-card': 'var(--gradient-card)',
 				'gradient-orange': 'var(--gradient-orange)',
-				'gradient-nexus': 'var(--gradient-nexus)',
+				'gradient-brand': 'var(--gradient-brand)',
 			},
 			boxShadow: {
 				'elegant': 'var(--shadow-elegant)',

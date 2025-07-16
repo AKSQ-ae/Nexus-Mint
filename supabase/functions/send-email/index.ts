@@ -3,6 +3,11 @@ import { Resend } from "npm:resend@2.0.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
+// Dynamic branding (configurable via environment variables)
+const BRAND_COMPANY = Deno.env.get("BRAND_COMPANY_NAME") ?? "Your Company";
+const BRAND_BASE_URL = Deno.env.get("BRAND_BASE_URL") ?? "https://yourcompany.com";
+const FROM_EMAIL = Deno.env.get("BRAND_FROM_EMAIL") ?? `notifications@${new URL(BRAND_BASE_URL).hostname}`;
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -219,11 +224,17 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailContent = templateFn(data);
 
+    // Replace any remaining hard-coded brand tokens in subject/html
+    const subject = emailContent.subject.replace(/Nexus Mint/g, BRAND_COMPANY);
+    const htmlWithBrand = emailContent.html
+      .replace(/Nexus Mint/g, BRAND_COMPANY)
+      .replace(/nexusmint\.com/g, new URL(BRAND_BASE_URL).hostname);
+
     const emailResponse = await resend.emails.send({
-      from: "Nexus Mint <notifications@nexusmint.com>",
+      from: `${BRAND_COMPANY} <${FROM_EMAIL}>`,
       to: [to],
-      subject: emailContent.subject,
-      html: emailContent.html,
+      subject,
+      html: htmlWithBrand,
     });
 
     return new Response(JSON.stringify(emailResponse), {

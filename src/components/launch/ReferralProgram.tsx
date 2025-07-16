@@ -19,6 +19,7 @@ import {
   Star
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import branding from '@/config/branding.config';
 
 interface ReferralStats {
   totalReferrals: number;
@@ -44,7 +45,7 @@ export function ReferralProgram() {
     totalEarnings: 250,
     currentTier: 'Bronze',
     nextTierThreshold: 10,
-    referralCode: 'NEXUS-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+    referralCode: `${branding.shortName.toUpperCase()}-` + Math.random().toString(36).substr(2, 6).toUpperCase(),
   });
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
@@ -57,7 +58,7 @@ export function ReferralProgram() {
     { name: 'Platinum', threshold: 50, reward: 150, bonus: '3x rewards + exclusive events', color: 'text-purple-500' },
   ];
 
-  const referralLink = `https://nexusmint.com/signup?ref=${stats.referralCode}`;
+  const referralLink = `${branding.baseUrl}/signup?ref=${stats.referralCode}`;
 
   const copyToClipboard = async (text: string, type: 'code' | 'link') => {
     try {
@@ -83,7 +84,7 @@ export function ReferralProgram() {
   };
 
   const shareToSocial = (platform: string) => {
-    const text = "Join me on Nexus Mint - the future of real estate investing through tokenization!";
+    const text = `Join me on ${branding.shortName} - the future of real estate investing through tokenization!`;
     const url = referralLink;
     
     let shareUrl = '';
@@ -98,7 +99,7 @@ export function ReferralProgram() {
         shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
         break;
       case 'email':
-        shareUrl = `mailto:?subject=${encodeURIComponent('Join Nexus Mint!')}&body=${encodeURIComponent(`${text}\n\n${url}`)}`;
+        shareUrl = `mailto:?subject=${encodeURIComponent(`Join ${branding.shortName}!`)}&body=${encodeURIComponent(`${text}\n\n${url}`)}`;
         break;
     }
     
@@ -125,7 +126,7 @@ export function ReferralProgram() {
       <div className="text-center">
         <h2 className="text-3xl font-bold mb-2">Referral Program</h2>
         <p className="text-muted-foreground">
-          Earn rewards by inviting friends to Nexus Mint
+          {`Earn rewards by inviting friends to ${branding.shortName}`}
         </p>
       </div>
 
