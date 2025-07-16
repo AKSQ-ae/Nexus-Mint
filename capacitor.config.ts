@@ -1,11 +1,11 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.nexusmint.app',
-  appName: 'NEXUS MINT',
+  appId: 'com.yourcompany.app',
+  appName: 'YOUR COMPANY',
   webDir: 'dist',
   server: {
-    url: 'https://nexus-mint.com',
+    url: 'https://yourcompany.com',
     cleartext: true
   },
   plugins: {

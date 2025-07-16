@@ -2,9 +2,11 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { ArrowRight, TrendingUp, Shield, Users, Play, Building, DollarSign, ChartLine, RefreshCw } from 'lucide-react';
 import { InteractiveLogo } from '@/components/ui/interactive-logo';
+import { getCompanyName, getBrandingConfig } from '../../config/branding.config';
 
 export function Hero() {
   console.log('Hero component rendering with journey section');
+  const branding = getBrandingConfig();
   
   return (
     <section className="bg-white text-foreground relative overflow-hidden">
@@ -17,11 +19,10 @@ export function Hero() {
       
       <div className="container mx-auto px-4 py-32 lg:py-40 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
-          {/* Stylish NEXUS MINT Logo */}
+          {/* Company Logo */}
           <div className="animate-fade-in-up flex justify-center mb-8">
             <h1 className="text-7xl md:text-8xl lg:text-9xl font-black tracking-[0.15em] uppercase transform hover:scale-105 transition-all duration-500 relative">
-              <span className="text-blue-600">NEXUS</span>
-              <span className="text-orange-500 ml-4">MINT</span>
+              <span className="text-blue-600">{branding.company.name.toUpperCase()}</span>
             </h1>
           </div>
           
@@ -79,7 +80,7 @@ export function Hero() {
                   Earn 8–12% p.a.
                 </h4>
                  <p className="text-gray-600 font-medium leading-relaxed text-lg relative z-10">
-                   Earn 8–12% p.a. rental income, paid quarterly into your Nexus Mint Wallet fully transparent, zero paperwork.
+                   Earn {branding.investment.expectedReturns} rental income, paid {branding.investment.paymentFrequency} into your {branding.company.name} Wallet fully transparent, zero paperwork.
                  </p>
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>

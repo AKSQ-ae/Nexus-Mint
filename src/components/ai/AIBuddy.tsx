@@ -105,7 +105,7 @@ const AIBuddy: React.FC<AIBuddyProps> = ({ userId, className }) => {
 
   const generatePersonalizedGreeting = useCallback((): string => {
     if (!portfolioData) {
-      return "Welcome to Nexus Mint! I'm your TOKO AI Advisor. How can I help you explore real estate investment opportunities today?";
+              return "Welcome to Your Company! I'm your TOKO AI Advisor. How can I help you explore real estate investment opportunities today?";
     }
 
     const totalInvestments = portfolioData.investments?.length || 0;

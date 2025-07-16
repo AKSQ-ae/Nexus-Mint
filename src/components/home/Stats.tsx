@@ -87,7 +87,7 @@ export function Stats() {
 
         {/* Key Benefits */}
         <div className="max-w-4xl mx-auto">
-          <h3 className="text-2xl font-bold text-foreground text-center mb-8">Why Choose Nexus Mint?</h3>
+                      <h3 className="text-2xl font-bold text-foreground text-center mb-8">Why Choose Your Company?</h3>
           <div className="space-y-6">
             <Card className="p-6 hover:shadow-elegant transition-all duration-300">
               <div className="flex items-start gap-4">

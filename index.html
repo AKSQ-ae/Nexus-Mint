@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nexus Mint | Regulated UAE Real Estate Tokenization Platform – Start from AED 500</title>
-    <meta name="description" content="Invest in fractional real estate through blockchain tokens. Regulated, secure, and accessible globally from AED 500." />
-    <meta name="author" content="Nexus Mint" />
+    <title id="page-title">Your Company | Professional Real Estate Tokenization Platform</title>
+    <meta name="description" content="Professional real estate tokenization platform with regulated compliance" />
+    <meta name="author" content="Your Company" />
     <meta name="keywords" content="real estate investment, blockchain tokenization, UAE property, fractional ownership, regulated platform" />
     
     <!-- Premium Google Fonts -->
@@ -18,30 +18,30 @@
     {
       "@context": "https://schema.org",
       "@type": "FinancialService",
-      "name": "Nexus Mint",
-      "description": "A Regulated Real Estate Investment Platform offering blockchain tokenization services for fractional property ownership",
-      "url": "https://nexusmint.com",
+      "name": "Your Company",
+      "description": "Professional real estate tokenization platform with regulated compliance",
+      "url": "https://yourcompany.com",
       "serviceType": ["Real Estate Investment Platform", "Blockchain Tokenization Service"],
       "areaServed": "Global",
       "provider": {
         "@type": "Organization",
-        "name": "Nexus Mint",
+        "name": "Your Company",
         "address": {
           "@type": "PostalAddress",
-          "addressRegion": "Abu Dhabi",
+          "addressRegion": "Business Address",
           "addressCountry": "UAE"
         }
       }
     }
     </script>
 
-    <meta property="og:title" content="Nexus Mint | Regulated UAE Real Estate Tokenization Platform" />
-    <meta property="og:description" content="Invest in fractional real estate through blockchain tokens. Regulated, secure, and accessible globally from AED 500." />
+    <meta property="og:title" content="Your Company | Professional Real Estate Tokenization Platform" />
+    <meta property="og:description" content="Professional real estate tokenization platform with regulated compliance" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://images.unsplash.com/photo-1560472354-b33ff0c44a43" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@nexusmint" />
+    <meta name="twitter:site" content="@yourcompany" />
     <meta name="twitter:image" content="https://images.unsplash.com/photo-1560472354-b33ff0c44a43" />
     
     <!-- PWA Manifest -->
@@ -49,7 +49,7 @@
     <meta name="theme-color" content="#0f0f23" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="Nexus Mint" />
+    <meta name="apple-mobile-web-app-title" content="Your Company" />
     <link rel="apple-touch-icon" href="/placeholder.svg" />
     
     <!-- Enhanced Branding Assets -->
@@ -94,10 +94,54 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     
+    <!-- Dynamic Configuration Script -->
+    <script>
+      // Initialize configuration from environment variables
+      window.__APP_CONFIG__ = {
+        VITE_COMPANY_NAME: 'Your Company',
+        VITE_COMPANY_SHORT_NAME: 'Investment Platform',
+        VITE_PLATFORM_TITLE: 'Your Company | Professional Real Estate Tokenization Platform',
+        VITE_PLATFORM_DESCRIPTION: 'Professional real estate tokenization platform with regulated compliance',
+        VITE_PLATFORM_DOMAIN: 'yourcompany.com',
+        VITE_SUPPORT_EMAIL: 'support@yourcompany.com',
+        VITE_NOTIFICATION_EMAIL: 'notifications@yourcompany.com'
+      };
+      
+      // Update meta tags dynamically
+      function updateMetaTags() {
+        const config = window.__APP_CONFIG__;
+        if (config.VITE_PLATFORM_TITLE) {
+          document.title = config.VITE_PLATFORM_TITLE;
+        }
+        
+        const description = document.querySelector('meta[name="description"]');
+        if (description && config.VITE_PLATFORM_DESCRIPTION) {
+          description.setAttribute('content', config.VITE_PLATFORM_DESCRIPTION);
+        }
+        
+        const author = document.querySelector('meta[name="author"]');
+        if (author && config.VITE_COMPANY_NAME) {
+          author.setAttribute('content', config.VITE_COMPANY_NAME);
+        }
+        
+        const appleTitle = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+        if (appleTitle && config.VITE_COMPANY_NAME) {
+          appleTitle.setAttribute('content', config.VITE_COMPANY_NAME);
+        }
+      }
+      
+      // Update meta tags when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateMetaTags);
+      } else {
+        updateMetaTags();
+      }
+    </script>
+    
     <!-- Fallback for JavaScript disabled -->
     <noscript>
       <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
-        <h1>Nexus Mint</h1>
+        <h1>Your Company</h1>
         <p>Please enable JavaScript to use this application.</p>
       </div>
     </noscript>

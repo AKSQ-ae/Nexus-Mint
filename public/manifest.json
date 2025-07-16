@@ -1,7 +1,7 @@
 {
-  "name": "Nexus Mint - Real Estate Investment Platform",
-  "short_name": "Nexus Mint",
-  "description": "Tokenized real estate investment platform for the UAE market with blockchain technology",
+  "name": "Your Company - Real Estate Investment Platform",
+  "short_name": "Your Company",
+  "description": "Professional real estate tokenization platform with regulated compliance",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f0f23",
@@ -9,7 +9,7 @@
   "scope": "/",
   "protocol_handlers": [
     {
-      "protocol": "web+nexusmint",
+      "protocol": "web+investment-platform",
       "url": "/?utm_source=pwa&utm_medium=protocol_handler&url=%s"
     }
   ],
