@@ -156,54 +156,56 @@ export function HelpAssistant() {
           </Badge>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-5xl max-h-[350px] overflow-hidden p-0">
-        <div className="bg-gradient-to-br from-primary/5 to-secondary/10 p-6 border-b">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-3 text-xl">
+      <DialogContent className="w-[640px] max-w-[90vw] max-h-[80vh] overflow-hidden p-0 rounded-xl" style={{ boxShadow: '0 0 12px rgba(0,0,0,0.08)' }}>
+        <div className="bg-[#F3F4F6] h-[62px] border-b border-[#E5E7EB] px-6 flex items-center">
+          <DialogHeader className="flex-1">
+            <DialogTitle className="flex items-center gap-3 text-xl leading-7 text-[#111827]">
               <div className="p-2 bg-primary/10 rounded-full">
                 <HelpCircle className="h-6 w-6 text-primary" />
               </div>
               Help Center
             </DialogTitle>
-            <DialogDescription className="text-base">
+            <DialogDescription className="text-sm leading-5 text-[#6B7280]">
               {currentContext.title} - Get help when you need it most
             </DialogDescription>
           </DialogHeader>
         </div>
         
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mx-6 mt-4 mb-4">
-            <TabsTrigger 
-              value="help" 
-              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-            >
-              <BookOpen className="h-4 w-4" />
-              Help Topics
-            </TabsTrigger>
-            <TabsTrigger 
-              value="contextual" 
-              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-            >
-              <Lightbulb className="h-4 w-4" />
-              Page Tips
-            </TabsTrigger>
-            <TabsTrigger 
-              value="learning" 
-              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-            >
-              <TrendingUp className="h-4 w-4" />
-              Learning Paths
-            </TabsTrigger>
-            <TabsTrigger 
-              value="support" 
-              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-            >
-              <MessageCircle className="h-4 w-4" />
-              Support
-            </TabsTrigger>
-          </TabsList>
+          <div className="h-[52px] bg-white border-b border-[#E5E7EB] flex items-center">
+            <TabsList className="grid w-full grid-cols-4 bg-transparent border-none h-full rounded-none">
+              <TabsTrigger 
+                value="help" 
+                className="flex items-center gap-2 h-full rounded-none border-b-2 border-transparent data-[state=active]:border-[#3B82F6] data-[state=active]:bg-transparent data-[state=active]:text-current"
+              >
+                <BookOpen className="h-4 w-4" />
+                Help Topics
+              </TabsTrigger>
+              <TabsTrigger 
+                value="contextual" 
+                className="flex items-center gap-2 h-full rounded-none border-b-2 border-transparent data-[state=active]:border-[#3B82F6] data-[state=active]:bg-transparent data-[state=active]:text-current"
+              >
+                <Lightbulb className="h-4 w-4" />
+                Page Tips
+              </TabsTrigger>
+              <TabsTrigger 
+                value="learning" 
+                className="flex items-center gap-2 h-full rounded-none border-b-2 border-transparent data-[state=active]:border-[#3B82F6] data-[state=active]:bg-transparent data-[state=active]:text-current"
+              >
+                <TrendingUp className="h-4 w-4" />
+                Learning Paths
+              </TabsTrigger>
+              <TabsTrigger 
+                value="support" 
+                className="flex items-center gap-2 h-full rounded-none border-b-2 border-transparent data-[state=active]:border-[#3B82F6] data-[state=active]:bg-transparent data-[state=active]:text-current"
+              >
+                <MessageCircle className="h-4 w-4" />
+                Support
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
-          <div className="p-6 max-h-[372px] overflow-y-auto">
+          <div className="p-4 overflow-y-auto">
             <TabsContent value="help" className="space-y-6 mt-0">
               {/* Enhanced Search */}
               <div className="relative">

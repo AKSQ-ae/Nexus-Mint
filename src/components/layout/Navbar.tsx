@@ -48,38 +48,38 @@ export function Navbar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-blue-primary/5 via-white to-orange-accent/5 backdrop-blur-xl border-b border-blue-primary/10 sticky top-0 z-[100] shadow-elegant transition-all duration-300 safe-area-top"
+    <nav className="bg-white border-b border-[#E5E7EB] sticky top-0 z-[100] transition-all duration-300"
       style={{ WebkitTransform: 'translateZ(0)' }}
     >
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 safe-area-left safe-area-right">
-        <div className="flex items-center h-20 touch-target">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="flex items-center h-[62px] md:h-11">
           
           {/* Left Navigation Links */}
            <div className="hidden lg:flex items-center space-x-8 flex-1">
             <Link 
               to="/how-it-works" 
-              className={`text-gray-700 hover:text-primary font-semibold transition-all duration-300 hover:scale-105 relative group py-2 px-1 ${location.pathname === '/how-it-works' ? 'text-primary' : ''}`}
+              className={`text-[#374151] hover:text-primary font-medium text-base leading-6 transition-all duration-300 hover:scale-105 relative group py-2 px-1 ${location.pathname === '/how-it-works' ? 'text-primary' : ''}`}
             >
               How it works
               <div className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${location.pathname === '/how-it-works' ? 'w-full' : 'w-0 group-hover:w-full'}`}></div>
             </Link>
             <Link 
               to="/properties" 
-              className={`text-gray-700 hover:text-primary font-semibold transition-all duration-300 hover:scale-105 relative group py-2 px-1 ${location.pathname === '/properties' ? 'text-primary' : ''}`}
+              className={`text-[#374151] hover:text-primary font-medium text-base leading-6 transition-all duration-300 hover:scale-105 relative group py-2 px-1 ${location.pathname === '/properties' ? 'text-primary' : ''}`}
             >
               Properties
               <div className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${location.pathname === '/properties' ? 'w-full' : 'w-0 group-hover:w-full'}`}></div>
             </Link>
             <Link 
               to="/global-trading" 
-              className={`text-gray-700 hover:text-primary font-semibold transition-all duration-300 hover:scale-105 relative group py-2 px-1 ${location.pathname === '/global-trading' ? 'text-primary' : ''}`}
+              className={`text-[#374151] hover:text-primary font-medium text-base leading-6 transition-all duration-300 hover:scale-105 relative group py-2 px-1 ${location.pathname === '/global-trading' ? 'text-primary' : ''}`}
             >
               Trading
               <div className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${location.pathname === '/global-trading' ? 'w-full' : 'w-0 group-hover:w-full'}`}></div>
             </Link>
             <Link 
               to="/analytics" 
-              className={`text-gray-700 hover:text-primary font-semibold transition-all duration-300 hover:scale-105 relative group py-2 px-1 ${location.pathname === '/analytics' ? 'text-primary' : ''}`}
+              className={`text-[#374151] hover:text-primary font-medium text-base leading-6 transition-all duration-300 hover:scale-105 relative group py-2 px-1 ${location.pathname === '/analytics' ? 'text-primary' : ''}`}
             >
               Analytics
               <div className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${location.pathname === '/analytics' ? 'w-full' : 'w-0 group-hover:w-full'}`}></div>
@@ -89,7 +89,7 @@ export function Navbar() {
           {/* Center Logo */}
           <div className="flex items-center justify-center">
             <Link to="/" className="flex items-center space-x-3 hover:scale-105 transition-transform duration-300">
-              <div className="relative w-10 h-10">
+              <div className="relative w-12 h-12 md:w-8 md:h-8">
                 {/* Two-tone donut - blue half */}
                 <div className="absolute inset-0 rounded-full bg-blue-600 shadow-lg" style={{
                   clipPath: 'polygon(0% 0%, 50% 0%, 50% 100%, 0% 100%)'
@@ -99,9 +99,9 @@ export function Navbar() {
                   clipPath: 'polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%)'
                 }}></div>
                 {/* Center hole */}
-                <div className="absolute inset-[12px] rounded-full bg-white"></div>
+                <div className="absolute inset-[12px] md:inset-[8px] rounded-full bg-white"></div>
               </div>
-              <div className="text-2xl font-black tracking-wide">
+              <div className="text-2xl md:text-xl font-black tracking-wide">
                 <span className="text-blue-600">NEXUS</span>
                 <span className="text-orange-500 ml-1">MINT</span>
               </div>
@@ -112,13 +112,13 @@ export function Navbar() {
           <div className="hidden lg:flex items-center space-x-4 justify-end flex-1">
             <Link 
               to="/early-access" 
-              className={`text-gray-700 hover:text-primary font-semibold transition-all duration-300 hover:scale-105 flex items-center space-x-2 px-4 py-2 rounded-xl hover:bg-gray-50 ${location.pathname === '/early-access' ? 'text-primary bg-gray-50' : ''}`}
+              className={`text-[#374151] hover:text-primary font-medium text-base leading-6 transition-all duration-300 hover:scale-105 flex items-center space-x-2 px-4 py-2 rounded-xl hover:bg-gray-50 ${location.pathname === '/early-access' ? 'text-primary bg-gray-50' : ''}`}
             >
               <span>Early Access</span>
             </Link>
             <Link 
               to="/investor-resources" 
-              className={`text-gray-700 hover:text-primary font-semibold transition-all duration-300 hover:scale-105 flex items-center space-x-2 px-4 py-2 rounded-xl hover:bg-gray-50 ${location.pathname === '/investor-resources' ? 'text-primary bg-gray-50' : ''}`}
+              className={`text-[#374151] hover:text-primary font-medium text-base leading-6 transition-all duration-300 hover:scale-105 flex items-center space-x-2 px-4 py-2 rounded-xl hover:bg-gray-50 ${location.pathname === '/investor-resources' ? 'text-primary bg-gray-50' : ''}`}
             >
               <span>Investor Resources</span>
             </Link>

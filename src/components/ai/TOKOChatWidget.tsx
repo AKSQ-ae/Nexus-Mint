@@ -240,23 +240,24 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
 
   return (
     <div 
-      className="fixed bottom-6 right-6 w-[360px] h-[600px] bg-white shadow-[0_2px_12px_rgba(0,0,0,0.08)] rounded-xl overflow-hidden flex flex-col z-50 max-[480px]:w-[calc(100vw-48px)] max-[480px]:max-w-[360px] max-[480px]:left-6 max-[480px]:right-6 max-[320px]:w-[calc(100vw-32px)] max-[320px]:left-4 max-[320px]:right-4"
+      className="fixed bottom-6 right-6 w-[360px] h-[520px] bg-white rounded-xl overflow-hidden flex flex-col z-50 md:w-full md:h-[50vh] md:bottom-0 md:left-0 md:right-0 md:rounded-t-xl md:rounded-b-none"
       style={{ 
         fontFamily: 'system-ui',
         fontSize: '14px',
         lineHeight: '1.4',
-        color: '#333'
+        color: '#374151',
+        boxShadow: '0 0 10px rgba(0,0,0,0.08)'
       }}
     >
       {/* Header */}
-      <div className="h-12 border-b border-[#E0E0E0] flex items-center justify-between px-4">
+      <div className="h-[62px] md:h-11 bg-white border-b border-[#E5E7EB] flex items-center justify-between px-4">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-[#0070F3] rounded-full flex items-center justify-center">
             <Bot className="w-4 h-4 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-sm text-[#333]">TOKO AI Advisor</h3>
-            <p className="text-xs text-gray-500">Your AI investment partner</p>
+            <h3 className="font-semibold text-lg leading-6 text-[#111827]">TOKO AI Advisor</h3>
+            <p className="text-sm leading-5 text-[#6B7280]">Your AI investment partner</p>
           </div>
         </div>
         <Button 
@@ -277,10 +278,10 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
+              className={`w-full px-3 py-2 rounded-lg text-sm ${
                 message.role === 'user'
-                  ? 'bg-[#0070F3] text-white'
-                  : 'bg-gray-100 text-[#333]'
+                  ? 'bg-[#E5E7EB] text-[#374151]'
+                  : 'bg-[#F3F4F6] text-[#374151]'
               }`}
             >
               <p className="leading-relaxed">{message.content}</p>
@@ -316,13 +317,13 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
         {/* Quick Replies */}
         {messages.length <= 2 && (
           <div className="mt-4">
-            <p className="text-xs text-gray-500 mb-2">Quick questions:</p>
+            <p className="text-xs text-[#6B7280] mb-2">Quick questions:</p>
             <div className="flex flex-wrap gap-2">
               {quickReplies.map((reply, index) => (
                 <button
                   key={index}
                   onClick={() => handleQuickReply(reply)}
-                  className="text-xs px-2 py-1 bg-gray-50 border border-gray-200 rounded-md hover:bg-gray-100 text-[#333] transition-colors"
+                  className="text-xs px-3 py-2 bg-[#F9FAFB] border border-[#E5E7EB] rounded-2xl hover:bg-gray-100 text-[#374151] transition-colors"
                 >
                   {reply}
                 </button>
@@ -335,39 +336,43 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
       </div>
 
       {/* Input Bar */}
-      <div className="h-14 border-t border-[#E0E0E0] px-3 flex items-center gap-2">
+      <div className="h-[52px] md:h-11 bg-[#F9FAFB] border-t border-[#E5E7EB] px-4 py-2 flex items-center gap-2">
         <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full">
           <input
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             placeholder="Ask TOKO about your portfolio..."
-            className="flex-1 h-9 px-3 border border-gray-200 rounded-md text-sm text-[#333] placeholder-gray-400 focus:outline-none focus:border-[#0070F3] focus:ring-1 focus:ring-[#0070F3]"
+            className="flex-1 h-9 px-3 border-none bg-transparent text-sm text-[#374151] placeholder-gray-400 focus:outline-none"
             disabled={isLoading}
           />
-          <Button
-            type="button"
-            onClick={handleVoiceToggle}
-            disabled={isLoading}
-            className={`h-9 w-9 p-0 ${
-              isListening 
-                ? "bg-red-100 border-red-300 hover:bg-red-200" 
-                : "bg-gray-50 border-gray-200 hover:bg-gray-100"
-            } border rounded-md`}
-            variant="outline"
-          >
-            {isListening ? (
-              <MicOff className="w-4 h-4 text-red-600" />
-            ) : (
-              <Mic className="w-4 h-4 text-gray-600" />
-            )}
-          </Button>
-          <Button 
-            type="submit" 
-            disabled={!inputMessage.trim() || isLoading}
-            className="h-9 w-9 p-0 bg-[#0070F3] hover:bg-[#0056CC] text-white rounded-md disabled:opacity-50"
-          >
-            <Send className="w-4 h-4" />
-          </Button>
+          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center border border-[#E5E7EB]">
+            <Button
+              type="button"
+              onClick={handleVoiceToggle}
+              disabled={isLoading}
+              className={`h-6 w-6 p-0 ${
+                isListening 
+                  ? "bg-red-100 border-red-300 hover:bg-red-200" 
+                  : "bg-transparent hover:bg-gray-100"
+              } border-none rounded-none`}
+              variant="ghost"
+            >
+              {isListening ? (
+                <MicOff className="w-4 h-4 text-red-600" />
+              ) : (
+                <Mic className="w-4 h-4 text-gray-600" />
+              )}
+            </Button>
+          </div>
+          <div className="w-10 h-10 bg-[#0070F3] rounded-full flex items-center justify-center">
+            <Button 
+              type="submit" 
+              disabled={!inputMessage.trim() || isLoading}
+              className="h-6 w-6 p-0 bg-transparent hover:bg-transparent text-white border-none disabled:opacity-50"
+            >
+              <Send className="w-4 h-4" />
+            </Button>
+          </div>
         </form>
       </div>
 
