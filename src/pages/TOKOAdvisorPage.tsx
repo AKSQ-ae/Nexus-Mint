@@ -37,10 +37,6 @@ const TOKOAdvisorPage: React.FC = () => {
     }
     
     setIsChatOpen(true);
-    toast({
-      title: "TOKO AI Advisor",
-      description: "Starting your AI investment conversation...",
-    });
   };
 
   const handleChatClose = () => {
