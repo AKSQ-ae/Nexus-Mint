@@ -238,7 +238,7 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-2xl max-h-[400px] h-[400px] flex flex-col p-0">
+      <DialogContent className="sm:max-w-2xl max-h-[350px] h-[350px] flex flex-col p-0">
         <DialogHeader className="px-6 py-4 border-b bg-gradient-to-r from-primary/5 to-orange-accent/5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
