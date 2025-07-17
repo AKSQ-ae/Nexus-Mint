@@ -239,9 +239,9 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
   if (!isOpen) return null;
 
   return (
-    <div 
-      className="fixed bottom-6 right-6 w-[360px] h-[600px] bg-white shadow-[0_2px_12px_rgba(0,0,0,0.08)] rounded-xl overflow-hidden flex flex-col z-50 max-[480px]:w-[calc(100vw-48px)] max-[480px]:max-w-[360px] max-[480px]:left-6 max-[480px]:right-6 max-[320px]:w-[calc(100vw-32px)] max-[320px]:left-4 max-[320px]:right-4"
-      style={{ 
+    <div
+      className="fixed bottom-0 left-0 w-full h-[50vh] md:bottom-6 md:right-6 md:left-auto md:w-[400px] md:h-auto max-h-[70vh] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] rounded-t-2xl md:rounded-2xl overflow-hidden flex flex-col z-50 animate-slide-up"
+      style={{
         fontFamily: 'system-ui',
         fontSize: '14px',
         lineHeight: '1.4',
@@ -249,13 +249,13 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
       }}
     >
       {/* Header */}
-      <div className="h-12 border-b border-[#E0E0E0] flex items-center justify-between px-4">
+      <div className="h-[52px] md:h-[60px] border-b border-[#E0E0E0] flex items-center justify-between px-6">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-[#0070F3] rounded-full flex items-center justify-center">
             <Bot className="w-4 h-4 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-sm text-[#333]">TOKO AI Advisor</h3>
+            <h3 className="font-semibold text-[20px] text-[#333]">TOKO AI Advisor</h3>
             <p className="text-xs text-gray-500">Your AI investment partner</p>
           </div>
         </div>
@@ -322,7 +322,7 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
                 <button
                   key={index}
                   onClick={() => handleQuickReply(reply)}
-                  className="text-xs px-2 py-1 bg-gray-50 border border-gray-200 rounded-md hover:bg-gray-100 text-[#333] transition-colors"
+                  className="text-sm px-4 py-[10px] bg-gray-50 border border-gray-200 rounded-md hover:bg-gray-100 text-[#333] transition-colors"
                 >
                   {reply}
                 </button>
@@ -335,7 +335,7 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
       </div>
 
       {/* Input Bar */}
-      <div className="h-14 border-t border-[#E0E0E0] px-3 flex items-center gap-2">
+      <div className="h-[52px] md:h-[60px] border-t border-[#E0E0E0] px-5 flex items-center gap-2">
         <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full">
           <input
             value={inputMessage}
