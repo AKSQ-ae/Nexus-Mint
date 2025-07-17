@@ -156,7 +156,7 @@ export function HelpAssistant() {
           </Badge>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-5xl max-h-[600px] overflow-hidden p-0">
+      <DialogContent className="max-w-5xl max-h-[350px] overflow-hidden p-0">
         <div className="bg-gradient-to-br from-primary/5 to-secondary/10 p-6 border-b">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3 text-xl">
