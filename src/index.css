@@ -588,4 +588,65 @@ nav a {
     min-width: 120px;
     padding: 12px 24px !important;
   }
+
+  /* Navbar mobile styles */
+  .navbar-mobile {
+    height: 44px;
+  }
+
+  .navbar-logo-mobile {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Help Center modal mobile styles */
+  .help-center-mobile {
+    width: 90vw;
+    max-height: 80vh;
+  }
+
+  /* TOKO Chat mobile styles */
+  .toko-chat-mobile {
+    width: 100%;
+    height: 50vh;
+    bottom: 0;
+    right: 0;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .toko-chat-header-mobile {
+    height: 44px;
+  }
+
+  .toko-chat-footer-mobile {
+    height: 44px;
+  }
+}
+
+/* Tablet and desktop styles */
+@media (min-width: 769px) {
+  /* Navbar desktop styles */
+  .navbar-desktop {
+    height: 62px;
+  }
+
+  .navbar-logo-desktop {
+    width: 48px;
+    height: 48px;
+  }
+
+  /* Help Center modal desktop styles */
+  .help-center-desktop {
+    width: 640px;
+    max-height: 80vh;
+  }
+
+  /* TOKO Chat desktop styles */
+  .toko-chat-desktop {
+    width: 360px;
+    height: 520px;
+    bottom: 24px;
+    right: 24px;
+    border-radius: 12px;
+  }
 }
