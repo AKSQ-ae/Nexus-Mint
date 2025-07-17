@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -8,7 +9,7 @@ const corsHeaders = {
 
 interface ChatRequest {
   message: string;
-  userId: string;
+  userId?: string;
   portfolioData?: {
     totalInvested: number;
     totalValue: number;
@@ -28,11 +29,28 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { message, userId, portfolioData, conversationHistory }: ChatRequest = await req.json();
+    const { message, userId: bodyUserId, portfolioData, conversationHistory }: ChatRequest = await req.json();
     
-    if (!message || !userId) {
-      throw new Error('Message and userId are required');
+    if (!message) {
+      throw new Error('Message is required');
     }
+
+    // Create Supabase client to get user from auth context
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+    const authHeader = req.headers.get('Authorization');
+    
+    const supabase = createClient(supabaseUrl, supabaseKey, {
+      global: {
+        headers: authHeader ? { Authorization: authHeader } : {},
+      },
+    });
+
+    // Get user from auth context
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    // Derive userId from auth context if not provided in body
+    const userId = bodyUserId || user?.id || "anonymous";
 
     const openaiApiKey = Deno.env.get('OPENAI_API_KEY');
     if (!openaiApiKey) {
@@ -121,11 +139,16 @@ Always respond in a conversational, helpful tone. If suggesting investments, exp
 
   } catch (error) {
     console.error('Error in ai-buddy-chat:', error);
+    const fallbackResponse = "I'm having a bit of trouble right now, but I'm here to help! What would you like to know about your investments?";
+    
+    // Return 400 for validation errors, 500 for others
+    const status = error.message === 'Message is required' ? 400 : 500;
+    
     return new Response(JSON.stringify({ 
       error: error.message,
-      response: "I'm having a bit of trouble right now, but I'm here to help! What would you like to know about your investments?"
+      response: fallbackResponse
     }), {
-      status: 500,
+      status: status,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   }
