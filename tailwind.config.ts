@@ -162,6 +162,14 @@ export default {
 				'shimmer': {
 					'0%': { transform: 'translateX(-100%)' },
 					'100%': { transform: 'translateX(100%)' }
+				},
+				'slideUp': {
+					'from': { opacity: '0', transform: 'translateY(20px)' },
+					'to': { opacity: '1', transform: 'translateY(0)' }
+				},
+				'slideUpMobile': {
+					'from': { opacity: '0', transform: 'translateY(100%)' },
+					'to': { opacity: '1', transform: 'translateY(0)' }
 				}
 			},
 			animation: {
@@ -174,7 +182,9 @@ export default {
 				'scale-in': 'scale-in 0.3s ease-out',
 				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
 				'float': 'float 3s ease-in-out infinite',
-				'shimmer': 'shimmer 2s ease-in-out infinite'
+				'shimmer': 'shimmer 2s ease-in-out infinite',
+				'slideUp': 'slideUp 0.2s ease-out',
+				'slideUpMobile': 'slideUpMobile 0.2s ease-out'
 			}
 		}
 	},
