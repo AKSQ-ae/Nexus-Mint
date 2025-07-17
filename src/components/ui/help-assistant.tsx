@@ -156,8 +156,8 @@ export function HelpAssistant() {
           </Badge>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-5xl max-h-[350px] overflow-hidden p-0">
-        <div className="bg-gradient-to-br from-primary/5 to-secondary/10 p-6 border-b">
+      <DialogContent className="w-[640px] max-w-[90vw] max-h-[80vh] overflow-hidden p-0 rounded-xl shadow-[0_0_12px_rgba(0,0,0,0.08)]">
+        <div className="h-[62px] bg-[#F3F4F6] border-b border-[#E5E7EB] flex items-center px-6">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3 text-xl">
               <div className="p-2 bg-primary/10 rounded-full">
@@ -172,31 +172,31 @@ export function HelpAssistant() {
         </div>
         
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mx-6 mt-4 mb-4">
+          <TabsList className="flex w-full h-[52px] bg-white px-6 border-b border-[#E5E7EB]">
             <TabsTrigger 
               value="help" 
-              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              className="flex items-center gap-2 border-b-2 border-transparent data-[state=active]:border-[#3B82F6] data-[state=active]:text-[#1E40AF]"
             >
               <BookOpen className="h-4 w-4" />
               Help Topics
             </TabsTrigger>
             <TabsTrigger 
               value="contextual" 
-              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              className="flex items-center gap-2 border-b-2 border-transparent data-[state=active]:border-[#3B82F6] data-[state=active]:text-[#1E40AF]"
             >
               <Lightbulb className="h-4 w-4" />
               Page Tips
             </TabsTrigger>
             <TabsTrigger 
               value="learning" 
-              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              className="flex items-center gap-2 border-b-2 border-transparent data-[state=active]:border-[#3B82F6] data-[state=active]:text-[#1E40AF]"
             >
               <TrendingUp className="h-4 w-4" />
               Learning Paths
             </TabsTrigger>
             <TabsTrigger 
               value="support" 
-              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              className="flex items-center gap-2 border-b-2 border-transparent data-[state=active]:border-[#3B82F6] data-[state=active]:text-[#1E40AF]"
             >
               <MessageCircle className="h-4 w-4" />
               Support

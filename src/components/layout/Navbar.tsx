@@ -48,11 +48,11 @@ export function Navbar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-blue-primary/5 via-white to-orange-accent/5 backdrop-blur-xl border-b border-blue-primary/10 sticky top-0 z-[100] shadow-elegant transition-all duration-300 safe-area-top"
+    <nav className="bg-gradient-to-r from-blue-primary/5 via-white to-orange-accent/5 backdrop-blur-xl border-b border-[#E5E7EB] sticky top-0 z-[100] shadow-elegant transition-all duration-300 safe-area-top"
       style={{ WebkitTransform: 'translateZ(0)' }}
     >
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 safe-area-left safe-area-right">
-        <div className="flex items-center h-20 touch-target">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-2 md:py-[7px] safe-area-left safe-area-right">
+        <div className="flex items-center h-[44px] md:h-[62px] touch-target">
           
           {/* Left Navigation Links */}
            <div className="hidden lg:flex items-center space-x-8 flex-1">
@@ -89,7 +89,7 @@ export function Navbar() {
           {/* Center Logo */}
           <div className="flex items-center justify-center">
             <Link to="/" className="flex items-center space-x-3 hover:scale-105 transition-transform duration-300">
-              <div className="relative w-10 h-10">
+              <div className="relative w-8 h-8 md:w-12 md:h-12">
                 {/* Two-tone donut - blue half */}
                 <div className="absolute inset-0 rounded-full bg-blue-600 shadow-lg" style={{
                   clipPath: 'polygon(0% 0%, 50% 0%, 50% 100%, 0% 100%)'

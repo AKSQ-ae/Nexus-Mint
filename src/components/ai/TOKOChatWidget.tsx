@@ -240,7 +240,7 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
 
   return (
     <div 
-      className="fixed bottom-6 right-6 w-[360px] h-[600px] bg-white shadow-[0_2px_12px_rgba(0,0,0,0.08)] rounded-xl overflow-hidden flex flex-col z-50 max-[480px]:w-[calc(100vw-48px)] max-[480px]:max-w-[360px] max-[480px]:left-6 max-[480px]:right-6 max-[320px]:w-[calc(100vw-32px)] max-[320px]:left-4 max-[320px]:right-4"
+      className="fixed bottom-0 left-0 w-full h-[50vh] bg-white shadow-[0_0_10px_rgba(0,0,0,0.08)] rounded-t-xl overflow-hidden flex flex-col z-50 md:bottom-6 md:right-6 md:left-auto md:w-[360px] md:h-[520px] md:rounded-xl"
       style={{ 
         fontFamily: 'system-ui',
         fontSize: '14px',
@@ -249,7 +249,7 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
       }}
     >
       {/* Header */}
-      <div className="h-12 border-b border-[#E0E0E0] flex items-center justify-between px-4">
+      <div className="h-[44px] md:h-[62px] border-b border-[#E5E7EB] flex items-center justify-between px-4 bg-white">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-[#0070F3] rounded-full flex items-center justify-center">
             <Bot className="w-4 h-4 text-white" />
@@ -277,10 +277,10 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
+              className={`max-w-full px-3 py-2 rounded-lg text-sm ${
                 message.role === 'user'
-                  ? 'bg-[#0070F3] text-white'
-                  : 'bg-gray-100 text-[#333]'
+                  ? 'bg-[#E5E7EB] text-[#374151]'
+                  : 'bg-[#F3F4F6] text-[#374151]'
               }`}
             >
               <p className="leading-relaxed">{message.content}</p>
@@ -335,7 +335,7 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
       </div>
 
       {/* Input Bar */}
-      <div className="h-14 border-t border-[#E0E0E0] px-3 flex items-center gap-2">
+      <div className="h-[44px] md:h-[52px] border-t border-[#E5E7EB] bg-[#F9FAFB] px-3 flex items-center gap-2">
         <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full">
           <input
             value={inputMessage}
@@ -348,11 +348,11 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
             type="button"
             onClick={handleVoiceToggle}
             disabled={isLoading}
-            className={`h-9 w-9 p-0 ${
+            className={`h-10 w-10 p-0 ${
               isListening 
                 ? "bg-red-100 border-red-300 hover:bg-red-200" 
                 : "bg-gray-50 border-gray-200 hover:bg-gray-100"
-            } border rounded-md`}
+            } border rounded-full`}
             variant="outline"
           >
             {isListening ? (
@@ -364,7 +364,7 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
           <Button 
             type="submit" 
             disabled={!inputMessage.trim() || isLoading}
-            className="h-9 w-9 p-0 bg-[#0070F3] hover:bg-[#0056CC] text-white rounded-md disabled:opacity-50"
+            className="h-10 w-10 p-0 bg-[#0070F3] hover:bg-[#0056CC] text-white rounded-full disabled:opacity-50"
           >
             <Send className="w-4 h-4" />
           </Button>
