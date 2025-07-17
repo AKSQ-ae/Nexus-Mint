@@ -53,9 +53,12 @@ const faqs: FAQItem[] = [
   }
 ];
 
+const tabOptions = ['Help Topics', 'Page Tips', 'Learning Paths', 'Support'];
+
 export function HelpCenter() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [activeTab, setActiveTab] = useState('Help Topics');
 
   const categories = ['All', ...Array.from(new Set(faqs.map(faq => faq.category)))];
   
@@ -74,110 +77,141 @@ export function HelpCenter() {
           Investor Resources
         </Button>
       </DialogTrigger>
-      <DialogContent className="fixed top-16 left-1/2 -translate-x-1/2 max-w-[600px] w-[calc(100%-2rem)] max-h-[600px] overflow-y-auto p-4 z-[1000]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <HelpCircle className="h-5 w-5" />
-            Investor Resources
-          </DialogTitle>
-        </DialogHeader>
+      <DialogContent className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] max-w-[90vw] h-auto max-h-[80vh] rounded-xl overflow-hidden p-0 z-[1000] border-0" 
+        style={{ boxShadow: '0 0 12px rgba(0,0,0,0.08)' }}>
         
-        <div className="space-y-6">
-          {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search for help..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
+        {/* Header Bar */}
+        <div className="h-[62px] bg-[#F3F4F6] border-b border-[#E5E7EB] px-6 flex items-center justify-between">
+          <div>
+            <DialogTitle className="text-[20px] leading-7 text-[#111827] font-semibold flex items-center gap-2">
+              <HelpCircle className="h-5 w-5" />
+              Help Center
+            </DialogTitle>
+            <p className="text-[14px] leading-5 text-[#6B7280] mt-1">Find answers and get support</p>
           </div>
+        </div>
 
-          {/* Category Filters */}
-          <div className="flex flex-wrap gap-2">
-            {categories.map(category => (
-              <Badge
-                key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
-                className="cursor-pointer"
-                onClick={() => setSelectedCategory(category)}
+        {/* Tab Bar */}
+        <div className="h-[52px] bg-white border-b border-[#E5E7EB] flex items-center px-6">
+          <div className="flex space-x-8">
+            {tabOptions.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`relative px-1 py-3 text-sm font-medium transition-colors ${
+                  activeTab === tab
+                    ? 'text-[#3B82F6]'
+                    : 'text-[#6B7280] hover:text-[#374151]'
+                }`}
               >
-                {category}
-              </Badge>
+                {tab}
+                {activeTab === tab && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#3B82F6]"></div>
+                )}
+              </button>
             ))}
           </div>
+        </div>
+        
+        {/* Body */}
+        <div className="p-4 overflow-y-auto max-h-[calc(80vh-114px)]">
+          <div className="space-y-6">
+            {/* Search */}
+            <div className="relative">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search for help..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
 
-          {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-center gap-2">
-                  <MessageSquare className="h-5 w-5 text-primary" />
-                  <CardTitle className="text-sm">Live Chat</CardTitle>
-                </div>
-                <CardDescription className="text-xs">Get instant support from our team</CardDescription>
-              </CardHeader>
-            </Card>
-            
-            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-primary" />
-                  <CardTitle className="text-sm">Documentation</CardTitle>
-                </div>
-                <CardDescription className="text-xs">Comprehensive guides and tutorials</CardDescription>
-              </CardHeader>
-            </Card>
-            
-            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-center gap-2">
-                  <Settings className="h-5 w-5 text-primary" />
-                  <CardTitle className="text-sm">Account Support</CardTitle>
-                </div>
-                <CardDescription className="text-xs">Help with account and verification</CardDescription>
-              </CardHeader>
-            </Card>
-          </div>
+            {/* Category Filters */}
+            <div className="flex flex-wrap gap-2">
+              {categories.map(category => (
+                <Badge
+                  key={category}
+                  variant={selectedCategory === category ? "default" : "outline"}
+                  className="cursor-pointer"
+                  onClick={() => setSelectedCategory(category)}
+                >
+                  {category}
+                </Badge>
+              ))}
+            </div>
 
-          {/* FAQ List */}
-          <div className="space-y-4">
-            <h3 className="font-semibold">Frequently Asked Questions</h3>
-            {filteredFAQs.map((faq, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <div className="flex items-start gap-3">
-                    <faq.icon className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <div className="space-y-2">
-                      <CardTitle className="text-base">{faq.question}</CardTitle>
-                      <CardDescription className="text-sm leading-relaxed">{faq.answer}</CardDescription>
-                      <Badge variant="outline" className="text-xs">{faq.category}</Badge>
-                    </div>
+            {/* Quick Actions */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Card className="cursor-pointer hover:shadow-md transition-shadow">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center gap-2">
+                    <MessageSquare className="h-5 w-5 text-primary" />
+                    <CardTitle className="text-sm">Live Chat</CardTitle>
                   </div>
+                  <CardDescription className="text-xs">Get instant support from our team</CardDescription>
                 </CardHeader>
               </Card>
-            ))}
-          </div>
+              
+              <Card className="cursor-pointer hover:shadow-md transition-shadow">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center gap-2">
+                    <FileText className="h-5 w-5 text-primary" />
+                    <CardTitle className="text-sm">Documentation</CardTitle>
+                  </div>
+                  <CardDescription className="text-xs">Comprehensive guides and tutorials</CardDescription>
+                </CardHeader>
+              </Card>
+              
+              <Card className="cursor-pointer hover:shadow-md transition-shadow">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center gap-2">
+                    <Settings className="h-5 w-5 text-primary" />
+                    <CardTitle className="text-sm">Account Support</CardTitle>
+                  </div>
+                  <CardDescription className="text-xs">Help with account and verification</CardDescription>
+                </CardHeader>
+              </Card>
+            </div>
 
-          {/* Cursor Settings */}
-          <div className="border-t pt-4">
-            <h3 className="font-semibold mb-3">Preferences</h3>
-            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-              <div>
-                <p className="text-sm font-medium">Custom Cursor</p>
-                <p className="text-xs text-muted-foreground">Enable the Nexus branded cursor</p>
+            {/* FAQ List */}
+            <div className="space-y-4">
+              <h3 className="font-semibold">Frequently Asked Questions</h3>
+              {filteredFAQs.map((faq, index) => (
+                <Card key={index}>
+                  <CardHeader>
+                    <div className="flex items-start gap-3">
+                      <faq.icon className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                      <div className="space-y-2">
+                        <CardTitle className="text-base">{faq.question}</CardTitle>
+                        <CardDescription className="text-sm leading-relaxed">{faq.answer}</CardDescription>
+                        <Badge variant="outline" className="text-xs">{faq.category}</Badge>
+                      </div>
+                    </div>
+                  </CardHeader>
+                </Card>
+              ))}
+            </div>
+
+            {/* Cursor Settings */}
+            <div className="border-t pt-4">
+              <h3 className="font-semibold mb-3">Preferences</h3>
+              <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                <div>
+                  <p className="text-sm font-medium">Custom Cursor</p>
+                  <p className="text-xs text-muted-foreground">Enable the Nexus branded cursor</p>
+                </div>
+                <CursorToggle />
               </div>
-              <CursorToggle />
             </div>
-          </div>
 
-          {filteredFAQs.length === 0 && (
-            <div className="text-center py-8 text-muted-foreground">
-              <HelpCircle className="h-12 w-12 mx-auto mb-3 opacity-50" />
-              <p>No results found. Try adjusting your search or contact support.</p>
-            </div>
-          )}
+            {filteredFAQs.length === 0 && (
+              <div className="text-center py-8 text-muted-foreground">
+                <HelpCircle className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                <p>No results found. Try adjusting your search or contact support.</p>
+              </div>
+            )}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

@@ -239,138 +239,265 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
   if (!isOpen) return null;
 
   return (
-    <div 
-      className="fixed bottom-6 right-6 w-[360px] h-[600px] bg-white shadow-[0_2px_12px_rgba(0,0,0,0.08)] rounded-xl overflow-hidden flex flex-col z-50 max-[480px]:w-[calc(100vw-48px)] max-[480px]:max-w-[360px] max-[480px]:left-6 max-[480px]:right-6 max-[320px]:w-[calc(100vw-32px)] max-[320px]:left-4 max-[320px]:right-4"
-      style={{ 
-        fontFamily: 'system-ui',
-        fontSize: '14px',
-        lineHeight: '1.4',
-        color: '#333'
-      }}
-    >
-      {/* Header */}
-      <div className="h-12 border-b border-[#E0E0E0] flex items-center justify-between px-4">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-[#0070F3] rounded-full flex items-center justify-center">
-            <Bot className="w-4 h-4 text-white" />
+    <>
+      {/* Desktop Chat Panel */}
+      <div 
+        className="hidden md:block fixed bottom-6 right-6 w-[360px] h-[520px] bg-white rounded-xl overflow-hidden flex flex-col z-50"
+        style={{ 
+          boxShadow: '0 0 10px rgba(0,0,0,0.08)',
+          fontFamily: 'system-ui',
+          fontSize: '14px',
+          lineHeight: '1.4',
+          color: '#333'
+        }}
+      >
+        {/* Header */}
+        <div className="h-[62px] bg-white border-b border-[#E5E7EB] flex items-center justify-between px-4">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-[#0070F3] rounded-full flex items-center justify-center">
+              <Bot className="w-4 h-4 text-white" />
+            </div>
+            <div>
+              <h3 className="text-[18px] leading-6 text-[#111827] font-semibold">TOKO AI Advisor</h3>
+              <p className="text-[14px] leading-5 text-[#6B7280]">Your AI investment partner</p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-semibold text-sm text-[#333]">TOKO AI Advisor</h3>
-            <p className="text-xs text-gray-500">Your AI investment partner</p>
-          </div>
-        </div>
-        <Button 
-          variant="ghost" 
-          size="sm"
-          onClick={handleClose}
-          className="h-8 w-8 p-0 hover:bg-gray-100"
-        >
-          <X className="w-4 h-4 text-gray-500" />
-        </Button>
-      </div>
-
-      {/* Messages Body */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+          <Button 
+            variant="ghost" 
+            size="sm"
+            onClick={handleClose}
+            className="h-8 w-8 p-0 hover:bg-gray-100"
           >
+            <X className="w-4 h-4 text-gray-500" />
+          </Button>
+        </div>
+
+        {/* Messages Body */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3 flex flex-col">
+          {messages.map((message) => (
             <div
-              className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
-                message.role === 'user'
-                  ? 'bg-[#0070F3] text-white'
-                  : 'bg-gray-100 text-[#333]'
-              }`}
+              key={message.id}
+              className={`w-full max-w-full ${message.role === 'user' ? 'flex justify-end' : 'flex justify-start'}`}
             >
-              <p className="leading-relaxed">{message.content}</p>
-              <div className="flex items-center justify-between mt-1">
-                <p className="text-xs opacity-70">
-                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </p>
-                {message.role === 'assistant' && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleSpeak(message.content)}
-                    className="h-5 px-1 text-xs opacity-60 hover:opacity-100 ml-2"
-                  >
-                    <Volume2 className="w-3 h-3 mr-1" />
-                    Speak
-                  </Button>
-                )}
+              <div
+                className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
+                  message.role === 'user'
+                    ? 'bg-[#E5E7EB] text-[#374151]'
+                    : 'bg-[#F3F4F6] text-[#374151]'
+                }`}
+              >
+                <p className="leading-relaxed">{message.content}</p>
+                <div className="flex items-center justify-between mt-1">
+                  <p className="text-xs opacity-70">
+                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                  {message.role === 'assistant' && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleSpeak(message.content)}
+                      className="h-5 px-1 text-xs opacity-60 hover:opacity-100 ml-2"
+                    >
+                      <Volume2 className="w-3 h-3 mr-1" />
+                      Speak
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-        
-        {isLoading && (
-          <div className="flex justify-start">
-            <div className="bg-gray-100 px-3 py-2 rounded-lg flex items-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin text-[#0070F3]" />
-              <p className="text-sm text-[#333]">TOKO is thinking...</p>
+          ))}
+          
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="bg-[#F3F4F6] px-3 py-2 rounded-lg flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin text-[#0070F3]" />
+                <p className="text-sm text-[#374151]">TOKO is thinking...</p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Quick Replies */}
-        {messages.length <= 2 && (
-          <div className="mt-4">
-            <p className="text-xs text-gray-500 mb-2">Quick questions:</p>
-            <div className="flex flex-wrap gap-2">
-              {quickReplies.map((reply, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleQuickReply(reply)}
-                  className="text-xs px-2 py-1 bg-gray-50 border border-gray-200 rounded-md hover:bg-gray-100 text-[#333] transition-colors"
-                >
-                  {reply}
-                </button>
-              ))}
+          {/* Quick Replies */}
+          {messages.length <= 2 && (
+            <div className="mt-4">
+              <p className="text-xs text-[#6B7280] mb-2">Quick questions:</p>
+              <div className="flex flex-wrap gap-2">
+                {quickReplies.map((reply, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleQuickReply(reply)}
+                    className="text-[12px] px-3 py-2 bg-[#F9FAFB] border border-[#E5E7EB] rounded-2xl hover:bg-gray-100 text-[#374151] transition-colors"
+                  >
+                    {reply}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-        
-        <div ref={messagesEndRef} />
+          )}
+          
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input Bar */}
+        <div className="h-[52px] bg-[#F9FAFB] border-t border-[#E5E7EB] px-4 py-2 flex items-center gap-2">
+          <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full">
+            <input
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              placeholder="Ask TOKO about your portfolio..."
+              className="flex-1 h-9 px-3 border-0 bg-transparent text-[14px] text-[#374151] placeholder-[#6B7280] focus:outline-none"
+              disabled={isLoading}
+            />
+            <Button
+              type="button"
+              onClick={handleVoiceToggle}
+              disabled={isLoading}
+              className={`h-10 w-10 p-0 rounded-full ${
+                isListening 
+                  ? "bg-red-100 border-red-300 hover:bg-red-200" 
+                  : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+              } border`}
+              variant="outline"
+            >
+              {isListening ? (
+                <MicOff className="w-4 h-4 text-red-600" />
+              ) : (
+                <Mic className="w-4 h-4 text-gray-600" />
+              )}
+            </Button>
+            <Button 
+              type="submit" 
+              disabled={!inputMessage.trim() || isLoading}
+              className="h-10 w-10 p-0 bg-[#0070F3] hover:bg-[#0056CC] text-white rounded-full disabled:opacity-50"
+            >
+              <Send className="w-4 h-4" />
+            </Button>
+          </form>
+        </div>
       </div>
 
-      {/* Input Bar */}
-      <div className="h-14 border-t border-[#E0E0E0] px-3 flex items-center gap-2">
-        <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full">
-          <input
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            placeholder="Ask TOKO about your portfolio..."
-            className="flex-1 h-9 px-3 border border-gray-200 rounded-md text-sm text-[#333] placeholder-gray-400 focus:outline-none focus:border-[#0070F3] focus:ring-1 focus:ring-[#0070F3]"
-            disabled={isLoading}
-          />
-          <Button
-            type="button"
-            onClick={handleVoiceToggle}
-            disabled={isLoading}
-            className={`h-9 w-9 p-0 ${
-              isListening 
-                ? "bg-red-100 border-red-300 hover:bg-red-200" 
-                : "bg-gray-50 border-gray-200 hover:bg-gray-100"
-            } border rounded-md`}
-            variant="outline"
-          >
-            {isListening ? (
-              <MicOff className="w-4 h-4 text-red-600" />
-            ) : (
-              <Mic className="w-4 h-4 text-gray-600" />
-            )}
-          </Button>
+      {/* Mobile Bottom Sheet */}
+      <div 
+        className="md:hidden fixed inset-x-0 bottom-0 w-full h-[50vh] bg-white overflow-hidden flex flex-col z-50"
+        style={{ 
+          boxShadow: '0 0 10px rgba(0,0,0,0.08)',
+          borderTopLeftRadius: '12px',
+          borderTopRightRadius: '12px',
+          fontFamily: 'system-ui',
+          fontSize: '14px',
+          lineHeight: '1.4',
+          color: '#333'
+        }}
+      >
+        {/* Header */}
+        <div className="h-11 bg-white border-b border-[#E5E7EB] flex items-center justify-between px-4">
+          <div className="flex items-center gap-3">
+            <div className="w-6 h-6 bg-[#0070F3] rounded-full flex items-center justify-center">
+              <Bot className="w-3 h-3 text-white" />
+            </div>
+            <div>
+              <h3 className="text-base leading-5 text-[#111827] font-semibold">TOKO AI Advisor</h3>
+              <p className="text-xs leading-4 text-[#6B7280]">Your AI investment partner</p>
+            </div>
+          </div>
           <Button 
-            type="submit" 
-            disabled={!inputMessage.trim() || isLoading}
-            className="h-9 w-9 p-0 bg-[#0070F3] hover:bg-[#0056CC] text-white rounded-md disabled:opacity-50"
+            variant="ghost" 
+            size="sm"
+            onClick={handleClose}
+            className="h-6 w-6 p-0 hover:bg-gray-100"
           >
-            <Send className="w-4 h-4" />
+            <X className="w-3 h-3 text-gray-500" />
           </Button>
-        </form>
-      </div>
+        </div>
 
-    </div>
+        {/* Messages Body */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3 flex flex-col">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={`w-full max-w-full ${message.role === 'user' ? 'flex justify-end' : 'flex justify-start'}`}
+            >
+              <div
+                className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
+                  message.role === 'user'
+                    ? 'bg-[#E5E7EB] text-[#374151]'
+                    : 'bg-[#F3F4F6] text-[#374151]'
+                }`}
+              >
+                <p className="leading-relaxed">{message.content}</p>
+                <p className="text-xs opacity-70 mt-1">
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </p>
+              </div>
+            </div>
+          ))}
+          
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="bg-[#F3F4F6] px-3 py-2 rounded-lg flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin text-[#0070F3]" />
+                <p className="text-sm text-[#374151]">TOKO is thinking...</p>
+              </div>
+            </div>
+          )}
+
+          {/* Quick Replies */}
+          {messages.length <= 2 && (
+            <div className="mt-4">
+              <p className="text-xs text-[#6B7280] mb-2">Quick questions:</p>
+              <div className="flex flex-wrap gap-2">
+                {quickReplies.map((reply, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleQuickReply(reply)}
+                    className="text-xs px-2 py-1 bg-[#F9FAFB] border border-[#E5E7EB] rounded-2xl hover:bg-gray-100 text-[#374151] transition-colors"
+                  >
+                    {reply}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input Bar */}
+        <div className="h-11 bg-[#F9FAFB] border-t border-[#E5E7EB] px-4 py-1 flex items-center gap-2">
+          <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full">
+            <input
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              placeholder="Ask TOKO about your portfolio..."
+              className="flex-1 h-8 px-3 border-0 bg-transparent text-[14px] text-[#374151] placeholder-[#6B7280] focus:outline-none"
+              disabled={isLoading}
+            />
+            <Button
+              type="button"
+              onClick={handleVoiceToggle}
+              disabled={isLoading}
+              className={`h-8 w-8 p-0 rounded-full ${
+                isListening 
+                  ? "bg-red-100 border-red-300 hover:bg-red-200" 
+                  : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+              } border`}
+              variant="outline"
+            >
+              {isListening ? (
+                <MicOff className="w-3 h-3 text-red-600" />
+              ) : (
+                <Mic className="w-3 h-3 text-gray-600" />
+              )}
+            </Button>
+            <Button 
+              type="submit" 
+              disabled={!inputMessage.trim() || isLoading}
+              className="h-8 w-8 p-0 bg-[#0070F3] hover:bg-[#0056CC] text-white rounded-full disabled:opacity-50"
+            >
+              <Send className="w-3 h-3" />
+            </Button>
+          </form>
+        </div>
+      </div>
+    </>
   );
 }
