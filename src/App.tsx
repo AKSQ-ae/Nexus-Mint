@@ -111,15 +111,15 @@ function AppContent() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Providers>
+    <Providers>
+      <BrowserRouter>
         <TapAnimationProvider>
           <AppContent />
           <CustomCursor />
           <Toaster />
         </TapAnimationProvider>
-      </Providers>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Providers>
   );
 }
 
