@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { createSupabaseClient, authenticateUser } from "../_shared/supabase-utils.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -8,7 +9,7 @@ const corsHeaders = {
 
 interface ChatRequest {
   message: string;
-  userId: string;
+  userId?: string; // Make userId optional
   portfolioData?: {
     totalInvested: number;
     totalValue: number;
@@ -28,10 +29,27 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { message, userId, portfolioData, conversationHistory }: ChatRequest = await req.json();
+    const { message, userId: bodyUserId, portfolioData, conversationHistory }: ChatRequest = await req.json();
     
-    if (!message || !userId) {
-      throw new Error('Message and userId are required');
+    if (!message) {
+      return new Response(JSON.stringify({
+        error: "Message is required",
+        response: "I'm having a bit of trouble right now, but I'm here to help! What would you like to know about your investments?"
+      }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
+
+    // Derive userId from auth context if not provided
+    let userId = bodyUserId;
+    if (!userId) {
+      try {
+        const supabaseClient = createSupabaseClient();
+        const user = await authenticateUser(req, supabaseClient);
+        userId = user.id;
+      } catch (authError) {
+        // If auth fails, use anonymous as fallback
+        userId = "anonymous";
+        console.warn('Authentication failed, using anonymous user:', authError);
+      }
     }
 
     const openaiApiKey = Deno.env.get('OPENAI_API_KEY');
