@@ -1,5 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+// Supabase client to derive the authenticated user when available
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -8,7 +10,7 @@ const corsHeaders = {
 
 interface ChatRequest {
   message: string;
-  userId: string;
+  userId?: string;
   portfolioData?: {
     totalInvested: number;
     totalValue: number;
@@ -28,11 +30,47 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { message, userId, portfolioData, conversationHistory }: ChatRequest = await req.json();
-    
-    if (!message || !userId) {
-      throw new Error('Message and userId are required');
+    const { message, userId: bodyUserId, portfolioData, conversationHistory }: ChatRequest = await req.json();
+
+    if (!message) {
+      throw new Error('Message is required');
     }
+
+    // Attempt to resolve the userId from the request body first, then Supabase auth context
+    let userId: string | undefined = bodyUserId;
+
+    if (!userId) {
+      try {
+        const supabaseUrl = Deno.env.get('SUPABASE_URL');
+        const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY');
+
+        if (supabaseUrl && supabaseAnonKey) {
+          const supabase = createClient(
+            supabaseUrl,
+            supabaseAnonKey,
+            {
+              global: {
+                headers: {
+                  // Forward the Authorization header so that the client context is preserved
+                  Authorization: req.headers.get('Authorization') ?? ''
+                }
+              }
+            }
+          );
+
+          const {
+            data: { user }
+          } = await supabase.auth.getUser();
+
+          userId = user?.id;
+        }
+      } catch (_) {
+        // If anything goes wrong while deriving the user, we silently ignore and fallback below
+      }
+    }
+
+    // Final fallback when user cannot be determined
+    userId = userId ?? 'anonymous';
 
     const openaiApiKey = Deno.env.get('OPENAI_API_KEY');
     if (!openaiApiKey) {
