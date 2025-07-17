@@ -156,7 +156,7 @@ export function HelpAssistant() {
           </Badge>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-5xl max-h-[85vh] overflow-hidden p-0">
+      <DialogContent className="max-w-5xl max-h-[600px] overflow-hidden p-0">
         <div className="bg-gradient-to-br from-primary/5 to-secondary/10 p-6 border-b">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3 text-xl">
@@ -203,7 +203,7 @@ export function HelpAssistant() {
             </TabsTrigger>
           </TabsList>
 
-          <div className="p-6 max-h-[60vh] overflow-y-auto">
+          <div className="p-6 max-h-[400px] overflow-y-auto">
             <TabsContent value="help" className="space-y-6 mt-0">
               {/* Enhanced Search */}
               <div className="relative">
