@@ -589,3 +589,52 @@ nav a {
     padding: 12px 24px !important;
   }
 }
+
+/* Dialog and Modal Overrides for Help Center */
+.dialog-content-override {
+  max-width: 640px !important;
+  width: 90vw !important;
+  max-height: 80vh !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-radius: 12px !important;
+  box-shadow: 0 0 12px rgba(0,0,0,0.08) !important;
+  border: none !important;
+}
+
+/* TOKO Chat Widget Animations */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Mobile-specific chat animations */
+@media (max-width: 768px) {
+  .toko-chat-mobile {
+    animation: slideUp 0.3s ease-out;
+  }
+}
+
+/* Desktop chat animations */
+@media (min-width: 769px) {
+  .toko-chat-desktop {
+    animation: fadeIn 0.3s ease-out;
+  }
+}

@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Bot, Send, Mic, MicOff, X, Loader2, Volume2 } from 'lucide-react';
+import { Bot, Send, Mic, MicOff, X, Loader2, Volume2, ChevronRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { useMediaQuery } from '@/hooks/use-media-query';
 
 interface Message {
   id: string;
@@ -26,6 +26,7 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
   const [isListening, setIsListening] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   // Quick reply options
   const quickReplies = [
@@ -99,278 +100,172 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
       };
 
       setMessages(prev => [...prev, assistantMessage]);
-
     } catch (error) {
       console.error('Error sending message:', error);
       toast({
-        title: "Connection Error",
+        title: "Error",
         description: "Failed to send message. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
-
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: "I'm experiencing technical difficulties. Please try again in a moment or contact support if the issue persists.",
-        timestamp: new Date()
-      };
-
-      setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    sendMessage(inputMessage);
-  };
-
-  const handleQuickReply = (reply: string) => {
-    sendMessage(reply);
-  };
-
-  const handleVoiceToggle = () => {
-    if (!isListening) {
-      // Start voice recognition
-      if ('webkitSpeechRecognition' in window) {
-        const recognition = new (window as any).webkitSpeechRecognition();
-        recognition.continuous = false;
-        recognition.interimResults = false;
-        recognition.lang = 'en-US';
-
-        recognition.onstart = () => {
-          setIsListening(true);
-        };
-
-        recognition.onresult = (event: any) => {
-          const transcript = event.results[0][0].transcript;
-          setInputMessage(transcript);
-          setIsListening(false);
-        };
-
-        recognition.onerror = (event: any) => {
-          console.error('Speech recognition error:', event.error);
-          setIsListening(false);
-          toast({
-            title: "Voice Recognition Error",
-            description: "Unable to process voice input. Please try typing instead.",
-            variant: "destructive",
-          });
-        };
-
-        recognition.onend = () => {
-          setIsListening(false);
-        };
-
-        recognition.start();
-      } else {
-        toast({
-          title: "Voice Not Supported",
-          description: "Voice input is not supported in this browser.",
-          variant: "destructive",
-        });
-      }
-    } else {
-      setIsListening(false);
-    }
-  };
-
-  const handleSpeak = async (text: string) => {
-    try {
-      // Track analytics event
-      if (typeof (window as any).gtag !== 'undefined') {
-        (window as any).gtag('event', 'toko_voice_request', {
-          event_category: 'TOKO_Advisor',
-          event_label: 'Voice_Synthesis'
-        });
-      }
-
-      const { data, error } = await supabase.functions.invoke('toko-voice', {
-        body: { text, voice: 'Sarah' }
-      });
-
-      if (error) throw error;
-
-      if (data.audioContent) {
-        // Convert base64 to audio and play
-        const audioData = atob(data.audioContent);
-        const arrayBuffer = new ArrayBuffer(audioData.length);
-        const uint8Array = new Uint8Array(arrayBuffer);
-        
-        for (let i = 0; i < audioData.length; i++) {
-          uint8Array[i] = audioData.charCodeAt(i);
-        }
-
-        const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
-        const audioUrl = URL.createObjectURL(blob);
-        const audio = new Audio(audioUrl);
-        
-        audio.play();
-        
-        // Clean up URL after playing
-        audio.onended = () => {
-          URL.revokeObjectURL(audioUrl);
-        };
-      }
-    } catch (error) {
-      console.error('Voice synthesis error:', error);
+  const toggleVoiceInput = () => {
+    if (!('webkitSpeechRecognition' in window)) {
       toast({
-        title: "Voice Synthesis Error",
-        description: "Unable to generate audio. Please try again.",
-        variant: "destructive",
+        title: "Not supported",
+        description: "Voice input is not supported in your browser.",
+        variant: "destructive"
       });
+      return;
     }
-  };
 
-  const handleClose = () => {
-    // Track analytics event
-    if (typeof (window as any).gtag !== 'undefined') {
-      (window as any).gtag('event', 'toko_chat_close', {
-        event_category: 'TOKO_Advisor',
-        event_label: 'Chat_Close',
-        value: messages.length
-      });
+    if (isListening) {
+      setIsListening(false);
+      return;
     }
-    
-    onClose();
+
+    const recognition = new (window as any).webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setInputMessage(transcript);
+      setIsListening(false);
+    };
+
+    recognition.onerror = () => {
+      setIsListening(false);
+      toast({
+        title: "Error",
+        description: "Failed to recognize speech.",
+        variant: "destructive"
+      });
+    };
+
+    recognition.start();
   };
 
   if (!isOpen) return null;
 
   return (
-    <div 
-      className="fixed bottom-6 right-6 w-[360px] h-[600px] bg-white shadow-[0_2px_12px_rgba(0,0,0,0.08)] rounded-xl overflow-hidden flex flex-col z-50 max-[480px]:w-[calc(100vw-48px)] max-[480px]:max-w-[360px] max-[480px]:left-6 max-[480px]:right-6 max-[320px]:w-[calc(100vw-32px)] max-[320px]:left-4 max-[320px]:right-4"
-      style={{ 
-        fontFamily: 'system-ui',
-        fontSize: '14px',
-        lineHeight: '1.4',
-        color: '#333'
-      }}
-    >
+    <div className={`fixed z-[200] ${
+      isMobile 
+        ? 'inset-x-0 bottom-0 h-[50vh] rounded-t-xl' 
+        : 'bottom-4 right-4 w-[360px] h-[520px] rounded-xl'
+    } bg-white shadow-[0_0_10px_rgba(0,0,0,0.08)] flex flex-col overflow-hidden transition-all duration-300`}>
+      
       {/* Header */}
-      <div className="h-12 border-b border-[#E0E0E0] flex items-center justify-between px-4">
+      <div className={`${isMobile ? 'h-[44px]' : 'h-[62px]'} bg-white border-b border-[#E5E7EB] flex items-center justify-between px-4`}>
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-[#0070F3] rounded-full flex items-center justify-center">
-            <Bot className="w-4 h-4 text-white" />
+          <div className="w-8 h-8 bg-[#3B82F6] rounded-full flex items-center justify-center">
+            <Bot className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-sm text-[#333]">TOKO AI Advisor</h3>
-            <p className="text-xs text-gray-500">Your AI investment partner</p>
+            <h3 className="text-lg leading-6 font-semibold text-[#111827]">TOKO AI Assistant</h3>
+            <p className="text-sm leading-5 text-[#6B7280]">Your real estate advisor</p>
           </div>
         </div>
-        <Button 
-          variant="ghost" 
-          size="sm"
-          onClick={handleClose}
-          className="h-8 w-8 p-0 hover:bg-gray-100"
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onClose}
+          className="h-8 w-8 hover:bg-gray-100"
         >
-          <X className="w-4 h-4 text-gray-500" />
+          <X className="h-4 w-4" />
         </Button>
       </div>
 
-      {/* Messages Body */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
-        {messages.map((message) => (
+      {/* Messages Area */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {messages.map(message => (
           <div
             key={message.id}
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
+              className={`max-w-[80%] p-3 rounded-lg text-sm ${
                 message.role === 'user'
-                  ? 'bg-[#0070F3] text-white'
-                  : 'bg-gray-100 text-[#333]'
+                  ? 'bg-[#E5E7EB] text-[#374151]'
+                  : 'bg-[#F3F4F6] text-[#374151]'
               }`}
             >
-              <p className="leading-relaxed">{message.content}</p>
-              <div className="flex items-center justify-between mt-1">
-                <p className="text-xs opacity-70">
-                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </p>
-                {message.role === 'assistant' && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleSpeak(message.content)}
-                    className="h-5 px-1 text-xs opacity-60 hover:opacity-100 ml-2"
-                  >
-                    <Volume2 className="w-3 h-3 mr-1" />
-                    Speak
-                  </Button>
-                )}
-              </div>
+              {message.content}
             </div>
           </div>
         ))}
-        
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-gray-100 px-3 py-2 rounded-lg flex items-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin text-[#0070F3]" />
-              <p className="text-sm text-[#333]">TOKO is thinking...</p>
+            <div className="bg-[#F3F4F6] p-3 rounded-lg">
+              <Loader2 className="h-4 w-4 animate-spin text-[#6B7280]" />
             </div>
           </div>
         )}
-
-        {/* Quick Replies */}
-        {messages.length <= 2 && (
-          <div className="mt-4">
-            <p className="text-xs text-gray-500 mb-2">Quick questions:</p>
-            <div className="flex flex-wrap gap-2">
-              {quickReplies.map((reply, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleQuickReply(reply)}
-                  className="text-xs px-2 py-1 bg-gray-50 border border-gray-200 rounded-md hover:bg-gray-100 text-[#333] transition-colors"
-                >
-                  {reply}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-        
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Bar */}
-      <div className="h-14 border-t border-[#E0E0E0] px-3 flex items-center gap-2">
-        <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full">
-          <input
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            placeholder="Ask TOKO about your portfolio..."
-            className="flex-1 h-9 px-3 border border-gray-200 rounded-md text-sm text-[#333] placeholder-gray-400 focus:outline-none focus:border-[#0070F3] focus:ring-1 focus:ring-[#0070F3]"
-            disabled={isLoading}
-          />
+      {/* Quick Questions */}
+      {messages.length === 1 && (
+        <div className="px-4 pb-3">
+          <div className="flex flex-wrap gap-2">
+            {quickReplies.map((reply, index) => (
+              <button
+                key={index}
+                onClick={() => sendMessage(reply)}
+                className="px-3 py-2 text-xs font-medium text-[#374151] bg-[#F9FAFB] border border-[#E5E7EB] rounded-2xl hover:bg-[#F3F4F6] transition-colors"
+              >
+                {reply}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Footer Input */}
+      <div className={`${isMobile ? 'h-[44px]' : 'h-[52px]'} bg-[#F9FAFB] border-t border-[#E5E7EB] flex items-center gap-2 px-4 py-2`}>
+        <Input
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && sendMessage(inputMessage)}
+          placeholder="Type your message..."
+          className="flex-1 h-9 border-0 bg-transparent text-sm text-[#374151] placeholder:text-[#6B7280] focus:outline-none focus:ring-0"
+          disabled={isLoading}
+        />
+        <div className="flex items-center gap-1">
           <Button
-            type="button"
-            onClick={handleVoiceToggle}
+            variant="ghost"
+            size="icon"
+            onClick={toggleVoiceInput}
+            className="h-10 w-10 rounded-full hover:bg-gray-200"
             disabled={isLoading}
-            className={`h-9 w-9 p-0 ${
-              isListening 
-                ? "bg-red-100 border-red-300 hover:bg-red-200" 
-                : "bg-gray-50 border-gray-200 hover:bg-gray-100"
-            } border rounded-md`}
-            variant="outline"
           >
             {isListening ? (
-              <MicOff className="w-4 h-4 text-red-600" />
+              <MicOff className="h-4 w-4 text-red-500" />
             ) : (
-              <Mic className="w-4 h-4 text-gray-600" />
+              <Mic className="h-4 w-4 text-[#6B7280]" />
             )}
           </Button>
-          <Button 
-            type="submit" 
+          <Button
+            onClick={() => sendMessage(inputMessage)}
             disabled={!inputMessage.trim() || isLoading}
-            className="h-9 w-9 p-0 bg-[#0070F3] hover:bg-[#0056CC] text-white rounded-md disabled:opacity-50"
+            className="h-10 w-10 rounded-full bg-[#3B82F6] hover:bg-[#3B82F6]/90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Send className="w-4 h-4" />
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin text-white" />
+            ) : (
+              <ChevronRight className="h-4 w-4 text-white" />
+            )}
           </Button>
-        </form>
+        </div>
       </div>
-
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { CursorToggle } from '@/components/ui/cursor-toggle';
-import { Search, HelpCircle, MessageSquare, FileText, Shield, TrendingUp, Wallet, Settings } from 'lucide-react';
+import { Search, HelpCircle, MessageSquare, FileText, Shield, TrendingUp, Wallet, Settings, X, Book, Lightbulb, Headphones } from 'lucide-react';
 
 interface FAQItem {
   question: string;
@@ -53,9 +53,13 @@ const faqs: FAQItem[] = [
   }
 ];
 
+type TabType = 'help-topics' | 'page-tips' | 'learning-paths' | 'support';
+
 export function HelpCenter() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [activeTab, setActiveTab] = useState<TabType>('help-topics');
+  const [isOpen, setIsOpen] = useState(false);
 
   const categories = ['All', ...Array.from(new Set(faqs.map(faq => faq.category)))];
   
@@ -66,116 +70,144 @@ export function HelpCenter() {
     return matchesSearch && matchesCategory;
   });
 
+  const tabs: { id: TabType; label: string; icon: any }[] = [
+    { id: 'help-topics', label: 'Help Topics', icon: HelpCircle },
+    { id: 'page-tips', label: 'Page Tips', icon: Lightbulb },
+    { id: 'learning-paths', label: 'Learning Paths', icon: Book },
+    { id: 'support', label: 'Support', icon: Headphones }
+  ];
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="gap-2">
           <HelpCircle className="h-4 w-4" />
           Investor Resources
         </Button>
       </DialogTrigger>
-      <DialogContent className="fixed top-16 left-1/2 -translate-x-1/2 max-w-[600px] w-[calc(100%-2rem)] max-h-[600px] overflow-y-auto p-4 z-[1000]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <HelpCircle className="h-5 w-5" />
-            Investor Resources
-          </DialogTitle>
-        </DialogHeader>
-        
-        <div className="space-y-6">
-          {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search for help..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
+      <DialogContent className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] max-w-[90vw] h-auto max-h-[80vh] p-0 overflow-hidden rounded-xl shadow-[0_0_12px_rgba(0,0,0,0.08)] border-0">
+        {/* Header */}
+        <div className="h-[62px] bg-[#F3F4F6] border-b border-[#E5E7EB] flex items-center justify-between px-6">
+          <div>
+            <h2 className="text-xl leading-7 font-semibold text-[#111827]">Help Center</h2>
+            <p className="text-sm leading-5 text-[#6B7280]">Find answers and get support</p>
           </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsOpen(false)}
+            className="h-8 w-8 hover:bg-gray-200"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
 
-          {/* Category Filters */}
-          <div className="flex flex-wrap gap-2">
-            {categories.map(category => (
-              <Badge
-                key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
-                className="cursor-pointer"
-                onClick={() => setSelectedCategory(category)}
-              >
-                {category}
-              </Badge>
-            ))}
-          </div>
+        {/* Tab Bar */}
+        <div className="h-[52px] bg-white border-b border-[#E5E7EB] flex items-center px-6">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-4 h-full text-sm font-medium transition-colors relative ${
+                activeTab === tab.id 
+                  ? 'text-[#3B82F6]' 
+                  : 'text-[#6B7280] hover:text-[#374151]'
+              }`}
+            >
+              <tab.icon className="h-4 w-4" />
+              {tab.label}
+              {activeTab === tab.id && (
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#3B82F6]" />
+              )}
+            </button>
+          ))}
+        </div>
 
-          {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-center gap-2">
-                  <MessageSquare className="h-5 w-5 text-primary" />
-                  <CardTitle className="text-sm">Live Chat</CardTitle>
-                </div>
-                <CardDescription className="text-xs">Get instant support from our team</CardDescription>
-              </CardHeader>
-            </Card>
-            
-            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-primary" />
-                  <CardTitle className="text-sm">Documentation</CardTitle>
-                </div>
-                <CardDescription className="text-xs">Comprehensive guides and tutorials</CardDescription>
-              </CardHeader>
-            </Card>
-            
-            <Card className="cursor-pointer hover:shadow-md transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-center gap-2">
-                  <Settings className="h-5 w-5 text-primary" />
-                  <CardTitle className="text-sm">Account Support</CardTitle>
-                </div>
-                <CardDescription className="text-xs">Help with account and verification</CardDescription>
-              </CardHeader>
-            </Card>
-          </div>
-
-          {/* FAQ List */}
-          <div className="space-y-4">
-            <h3 className="font-semibold">Frequently Asked Questions</h3>
-            {filteredFAQs.map((faq, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <div className="flex items-start gap-3">
-                    <faq.icon className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <div className="space-y-2">
-                      <CardTitle className="text-base">{faq.question}</CardTitle>
-                      <CardDescription className="text-sm leading-relaxed">{faq.answer}</CardDescription>
-                      <Badge variant="outline" className="text-xs">{faq.category}</Badge>
-                    </div>
-                  </div>
-                </CardHeader>
-              </Card>
-            ))}
-          </div>
-
-          {/* Cursor Settings */}
-          <div className="border-t pt-4">
-            <h3 className="font-semibold mb-3">Preferences</h3>
-            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-              <div>
-                <p className="text-sm font-medium">Custom Cursor</p>
-                <p className="text-xs text-muted-foreground">Enable the Nexus branded cursor</p>
+        {/* Body */}
+        <div className="p-4 overflow-y-auto" style={{ maxHeight: 'calc(80vh - 114px)' }}>
+          {activeTab === 'help-topics' && (
+            <div className="space-y-4">
+              {/* Search */}
+              <div className="relative">
+                <Search className="absolute left-3 top-3 h-4 w-4 text-[#6B7280]" />
+                <Input
+                  placeholder="Search for help..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 h-10 border-[#E5E7EB] focus:border-[#3B82F6] text-[#374151]"
+                />
               </div>
-              <CursorToggle />
-            </div>
-          </div>
 
-          {filteredFAQs.length === 0 && (
-            <div className="text-center py-8 text-muted-foreground">
-              <HelpCircle className="h-12 w-12 mx-auto mb-3 opacity-50" />
-              <p>No results found. Try adjusting your search or contact support.</p>
+              {/* Category Filters */}
+              <div className="flex flex-wrap gap-2">
+                {categories.map(category => (
+                  <Badge
+                    key={category}
+                    variant={selectedCategory === category ? "default" : "outline"}
+                    className={`cursor-pointer transition-colors ${
+                      selectedCategory === category 
+                        ? 'bg-[#3B82F6] text-white' 
+                        : 'text-[#374151] border-[#E5E7EB] hover:bg-[#F3F4F6]'
+                    }`}
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    {category}
+                  </Badge>
+                ))}
+              </div>
+
+              {/* FAQ Items */}
+              <div className="space-y-3">
+                {filteredFAQs.map((faq, index) => (
+                  <Card key={index} className="border-[#E5E7EB] hover:border-[#3B82F6] transition-colors">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-base flex items-center gap-2 text-[#111827]">
+                        <faq.icon className="h-4 w-4 text-[#3B82F6]" />
+                        {faq.question}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="text-sm text-[#6B7280] leading-relaxed">
+                        {faq.answer}
+                      </CardDescription>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'page-tips' && (
+            <div className="space-y-4">
+              <div className="text-center py-12">
+                <Lightbulb className="h-12 w-12 text-[#6B7280] mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-[#111827] mb-2">Page Tips</h3>
+                <p className="text-sm text-[#6B7280]">Get contextual help for the current page</p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'learning-paths' && (
+            <div className="space-y-4">
+              <div className="text-center py-12">
+                <Book className="h-12 w-12 text-[#6B7280] mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-[#111827] mb-2">Learning Paths</h3>
+                <p className="text-sm text-[#6B7280]">Structured courses to master the platform</p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'support' && (
+            <div className="space-y-4">
+              <div className="text-center py-12">
+                <Headphones className="h-12 w-12 text-[#6B7280] mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-[#111827] mb-2">Contact Support</h3>
+                <p className="text-sm text-[#6B7280] mb-6">Need more help? Reach out to our support team</p>
+                <Button className="bg-[#3B82F6] hover:bg-[#3B82F6]/90 text-white">
+                  <MessageSquare className="h-4 w-4 mr-2" />
+                  Start Chat
+                </Button>
+              </div>
             </div>
           )}
         </div>
