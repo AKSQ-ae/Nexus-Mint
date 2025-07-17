@@ -236,122 +236,141 @@ export function TOKOChatWidget({ isOpen, onClose }: TOKOChatWidgetProps) {
     onClose();
   };
 
+  if (!isOpen) return null;
+
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-2xl max-h-[350px] h-[350px] flex flex-col p-0">
-        <DialogHeader className="px-6 py-4 border-b bg-gradient-to-r from-primary/5 to-orange-accent/5">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-orange-accent/20 rounded-full flex items-center justify-center">
-                <Bot className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <DialogTitle className="text-lg font-bold">TOKO AI Advisor</DialogTitle>
-                <p className="text-sm text-muted-foreground">Your AI investment partner</p>
-              </div>
-            </div>
-            <Button variant="ghost" size="icon" onClick={handleClose}>
-              <X className="w-4 h-4" />
-            </Button>
+    <div 
+      className="fixed bottom-6 right-6 w-[360px] h-[600px] bg-white shadow-[0_2px_12px_rgba(0,0,0,0.08)] rounded-xl overflow-hidden flex flex-col z-50 max-[480px]:w-[calc(100vw-48px)] max-[480px]:max-w-[360px] max-[480px]:left-6 max-[480px]:right-6 max-[320px]:w-[calc(100vw-32px)] max-[320px]:left-4 max-[320px]:right-4"
+      style={{ 
+        fontFamily: 'system-ui',
+        fontSize: '14px',
+        lineHeight: '1.4',
+        color: '#333'
+      }}
+    >
+      {/* Header */}
+      <div className="h-12 border-b border-[#E0E0E0] flex items-center justify-between px-4">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-[#0070F3] rounded-full flex items-center justify-center">
+            <Bot className="w-4 h-4 text-white" />
           </div>
-        </DialogHeader>
-
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
-              <div
-                className={`max-w-[80%] px-4 py-3 rounded-lg ${
-                  message.role === 'user'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-muted'
-                }`}
-              >
-                <p className="text-sm leading-relaxed">{message.content}</p>
-                <div className="flex items-center justify-between mt-1">
-                  <p className="text-xs opacity-70">
-                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </p>
-                  {message.role === 'assistant' && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleSpeak(message.content)}
-                      className="h-6 px-2 text-xs opacity-60 hover:opacity-100"
-                    >
-                      <Volume2 className="w-3 h-3 mr-1" />
-                      Speak
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-          
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="bg-muted px-4 py-3 rounded-lg flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <p className="text-sm">TOKO is thinking...</p>
-              </div>
-            </div>
-          )}
-          
-          <div ref={messagesEndRef} />
+          <div>
+            <h3 className="font-semibold text-sm text-[#333]">TOKO AI Advisor</h3>
+            <p className="text-xs text-gray-500">Your AI investment partner</p>
+          </div>
         </div>
+        <Button 
+          variant="ghost" 
+          size="sm"
+          onClick={handleClose}
+          className="h-8 w-8 p-0 hover:bg-gray-100"
+        >
+          <X className="w-4 h-4 text-gray-500" />
+        </Button>
+      </div>
 
-        {/* Quick Replies */}
-        {messages.length <= 2 && (
-          <div className="px-6 pb-2">
-            <p className="text-xs text-muted-foreground mb-2">Quick questions:</p>
-            <div className="flex flex-wrap gap-2">
-              {quickReplies.map((reply, index) => (
-                <Badge
-                  key={index}
-                  variant="outline"
-                  className="cursor-pointer hover:bg-primary/10 text-xs px-3 py-1"
-                  onClick={() => handleQuickReply(reply)}
-                >
-                  {reply}
-                </Badge>
-              ))}
+      {/* Messages Body */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            <div
+              className={`max-w-[80%] px-3 py-2 rounded-lg text-sm ${
+                message.role === 'user'
+                  ? 'bg-[#0070F3] text-white'
+                  : 'bg-gray-100 text-[#333]'
+              }`}
+            >
+              <p className="leading-relaxed">{message.content}</p>
+              <div className="flex items-center justify-between mt-1">
+                <p className="text-xs opacity-70">
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </p>
+                {message.role === 'assistant' && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleSpeak(message.content)}
+                    className="h-5 px-1 text-xs opacity-60 hover:opacity-100 ml-2"
+                  >
+                    <Volume2 className="w-3 h-3 mr-1" />
+                    Speak
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+        
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="bg-gray-100 px-3 py-2 rounded-lg flex items-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin text-[#0070F3]" />
+              <p className="text-sm text-[#333]">TOKO is thinking...</p>
             </div>
           </div>
         )}
 
-        {/* Input */}
-        <div className="border-t p-6">
-          <form onSubmit={handleSubmit} className="flex gap-2">
-            <Input
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              placeholder="Ask TOKO about your portfolio..."
-              className="flex-1"
-              disabled={isLoading}
-            />
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              onClick={handleVoiceToggle}
-              disabled={isLoading}
-              className={isListening ? "bg-red-100 border-red-300" : ""}
-            >
-              {isListening ? (
-                <MicOff className="w-4 h-4 text-red-600" />
-              ) : (
-                <Mic className="w-4 h-4" />
-              )}
-            </Button>
-            <Button type="submit" disabled={!inputMessage.trim() || isLoading}>
-              <Send className="w-4 h-4" />
-            </Button>
-          </form>
-        </div>
-      </DialogContent>
-    </Dialog>
+        {/* Quick Replies */}
+        {messages.length <= 2 && (
+          <div className="mt-4">
+            <p className="text-xs text-gray-500 mb-2">Quick questions:</p>
+            <div className="flex flex-wrap gap-2">
+              {quickReplies.map((reply, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleQuickReply(reply)}
+                  className="text-xs px-2 py-1 bg-gray-50 border border-gray-200 rounded-md hover:bg-gray-100 text-[#333] transition-colors"
+                >
+                  {reply}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input Bar */}
+      <div className="h-14 border-t border-[#E0E0E0] px-3 flex items-center gap-2">
+        <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full">
+          <input
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+            placeholder="Ask TOKO about your portfolio..."
+            className="flex-1 h-9 px-3 border border-gray-200 rounded-md text-sm text-[#333] placeholder-gray-400 focus:outline-none focus:border-[#0070F3] focus:ring-1 focus:ring-[#0070F3]"
+            disabled={isLoading}
+          />
+          <Button
+            type="button"
+            onClick={handleVoiceToggle}
+            disabled={isLoading}
+            className={`h-9 w-9 p-0 ${
+              isListening 
+                ? "bg-red-100 border-red-300 hover:bg-red-200" 
+                : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+            } border rounded-md`}
+            variant="outline"
+          >
+            {isListening ? (
+              <MicOff className="w-4 h-4 text-red-600" />
+            ) : (
+              <Mic className="w-4 h-4 text-gray-600" />
+            )}
+          </Button>
+          <Button 
+            type="submit" 
+            disabled={!inputMessage.trim() || isLoading}
+            className="h-9 w-9 p-0 bg-[#0070F3] hover:bg-[#0056CC] text-white rounded-md disabled:opacity-50"
+          >
+            <Send className="w-4 h-4" />
+          </Button>
+        </form>
+      </div>
+
+    </div>
   );
 }
