@@ -3,31 +3,45 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 20
+      nodejs: 18
     commands:
-      - echo "Installing dependencies with legacy peer deps support..."
-      - npm install --legacy-peer-deps
+      - echo "Installing pnpm..."
+      - npm install -g pnpm@8.15.0
+      - echo "Installing dependencies..."
+      - pnpm install --frozen-lockfile
   
   pre_build:
     commands:
       - echo "Running pre-build checks..."
-      - npm run lint
+      - echo "Node version: $(node --version)"
+      - echo "PNPM version: $(pnpm --version)"
+      - pnpm run typecheck
+      - pnpm run lint
+      - pnpm run format:check
   
   build:
     commands:
       - echo "Building the React application..."
-      - npm run build
+      - pnpm run build:prod
+      - echo "Build completed successfully!"
+      - echo "Build artifacts:"
+      - ls -la dist/
   
   post_build:
     commands:
-      - echo "Build completed successfully!"
+      - echo "Post-build processing..."
+      - echo "Creating deployment manifest..."
+      - echo "Build completed at $(date)" > dist/build-info.txt
+      - echo "Node version: $(node --version)" >> dist/build-info.txt
+      - echo "PNPM version: $(pnpm --version)" >> dist/build-info.txt
 
 artifacts:
   files:
     - '**/*'
   base-directory: 'dist'
-  name: nexus-mint-build-$(date +%Y-%m-%d)
+  name: nexus-mint-build-$(date +%Y-%m-%d-%H-%M)
 
 cache:
   paths:
     - 'node_modules/**/*'
+    - '.pnpm-store/**/*'

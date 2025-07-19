@@ -21,19 +21,6 @@ export const useCapacitor = () => {
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
-  // Safety check for React hooks moved after hooks are called
-  if (!React || typeof useState !== 'function') {
-    console.warn('React hooks not available, falling back to default values');
-    return {
-      isNative: false,
-      deviceInfo: null,
-      isKeyboardOpen: false,
-      setStatusBarStyle: async () => {},
-      setStatusBarColor: async () => {},
-      exitApp: async () => {},
-    };
-  }
-
   useEffect(() => {
     const initializeCapacitor = async () => {
       const native = Capacitor.isNativePlatform();
@@ -90,6 +77,19 @@ export const useCapacitor = () => {
       }
     };
   }, [isNative]);
+
+  // Safety check for React hooks moved after hooks are called
+  if (!React || typeof useState !== 'function') {
+    console.warn('React hooks not available, falling back to default values');
+    return {
+      isNative: false,
+      deviceInfo: null,
+      isKeyboardOpen: false,
+      setStatusBarStyle: async () => {},
+      setStatusBarColor: async () => {},
+      exitApp: async () => {},
+    };
+  }
 
   const setStatusBarStyle = async (style: Style) => {
     if (isNative) {

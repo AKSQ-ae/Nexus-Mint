@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WagmiProvider } from 'wagmi';
+import { WagmiConfig } from 'wagmi';
 import { config } from '@/lib/wagmi';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { CursorProvider } from '@/contexts/CursorContext';
@@ -13,7 +13,7 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <WagmiProvider config={config}>
+    <WagmiConfig config={config}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <CursorProvider>
@@ -21,6 +21,6 @@ export function Providers({ children }: ProvidersProps) {
           </CursorProvider>
         </AuthProvider>
       </QueryClientProvider>
-    </WagmiProvider>
+    </WagmiConfig>
   );
 }

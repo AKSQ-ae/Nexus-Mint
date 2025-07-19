@@ -351,6 +351,28 @@ export function useGasMonitoring() {
   };
 }
 
+// Standalone gas checking function for use outside of React components
+export async function checkGasPriceStandalone(provider: ethers.BrowserProvider) {
+  const GAS_THRESHOLD_GWEI = 50n; // 50 gwei threshold
+  
+  try {
+    const feeData = await provider.getFeeData();
+    const currentGasPrice = feeData.gasPrice || 0n;
+    
+    const gasPriceGwei = currentGasPrice / 1000000000n; // Convert to gwei
+    const isHigh = gasPriceGwei > GAS_THRESHOLD_GWEI;
+    
+    return { 
+      gasPrice: currentGasPrice, 
+      isHighGas: isHigh, 
+      recommendedNetwork: isHigh ? 'polygon' : 'ethereum' 
+    };
+  } catch (error) {
+    console.error('Error checking gas price:', error);
+    return null;
+  }
+}
+
 // Network configuration with fallback logic
 export const NETWORK_CONFIG = {
   ethereum: {
@@ -372,8 +394,7 @@ export const NETWORK_CONFIG = {
 };
 
 export async function switchToOptimalNetwork(provider: ethers.BrowserProvider) {
-  const { checkGasPrice } = useGasMonitoring();
-  const gasInfo = await checkGasPrice(provider);
+  const gasInfo = await checkGasPriceStandalone(provider);
   
   if (!gasInfo) return 'ethereum';
   

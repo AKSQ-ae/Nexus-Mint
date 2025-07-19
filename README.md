@@ -1,267 +1,332 @@
 # Nexus Mint
 
-[![Build Status](https://github.com/AKSQ-ae/Nexus-Mint/workflows/CI/badge.svg)](https://github.com/AKSQ-ae/Nexus-Mint/actions)
+[![Build Status](https://github.com/AKSQ-ae/Nexus-Mint/workflows/Build%20and%20Test/badge.svg)](https://github.com/AKSQ-ae/Nexus-Mint/actions)
 [![Coverage](https://codecov.io/gh/AKSQ-ae/Nexus-Mint/branch/main/graph/badge.svg)](https://codecov.io/gh/AKSQ-ae/Nexus-Mint)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
+[![PNPM](https://img.shields.io/badge/PNPM-8.15.0-orange.svg)](https://pnpm.io/)
 
-> Your AI buddy that knows your money, watches the market, and tells you exactly what to buy next.
+> Enterprise-grade real estate tokenization platform with AI-powered investment assistant, built for AWS deployment.
 
 **Repository**: https://github.com/AKSQ-ae/Nexus-Mint
 
 ---
 
-## 🚀 Overview
+## 🏗️ Architecture Overview
 
-A one-stop platform for tokenizing, buying and managing real-estate assets on Polygon, with an AI "TOKO" assistant guiding you end-to-end. Built on modern web technologies with enterprise-grade security and compliance features.
+Nexus Mint is a modern, enterprise-grade web application built with the following architecture:
 
-**Key Features:**
-- 🏢 Real estate tokenization on Polygon blockchain
-- 🤖 AI-powered investment assistant (TOKO)
-- 💳 Integrated payment processing (Stripe + MetaMask)
-- 📊 Advanced analytics and portfolio management
-- 🔒 KYC/AML compliance and regulatory documentation
-- 📱 Progressive Web App with mobile support
+### Frontend Stack
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite 5.x with optimized bundling
+- **Styling**: Tailwind CSS with shadcn/ui components
+- **State Management**: TanStack Query for server state
+- **Package Manager**: PNPM for fast, efficient dependency management
+
+### Backend & Infrastructure
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **Blockchain**: Polygon Network (ERC-1155 tokens)
+- **AI Services**: OpenAI GPT-4 integration
+- **Payment Processing**: Stripe + MetaMask
+- **Deployment**: AWS CodePipeline + CodeBuild + S3/CloudFront
+
+### Security & Compliance
+- **KYC/AML**: Integrated compliance workflows
+- **Audit Trail**: Complete transaction logging
+- **Data Protection**: GDPR-compliant data handling
+- **Security**: OWASP Top 10 compliance
+
+---
+
+## 🚀 Key Features
+
+- 🏢 **Real Estate Tokenization**: ERC-1155 tokens on Polygon blockchain
+- 🤖 **AI Investment Assistant**: TOKO - your personal investment advisor
+- 💳 **Multi-Payment Support**: Stripe + MetaMask integration
+- 📊 **Advanced Analytics**: Real-time portfolio tracking
+- 🔒 **Regulatory Compliance**: KYC/AML with audit trails
+- 📱 **Progressive Web App**: Mobile-first responsive design
+- 🚀 **Enterprise Ready**: AWS-native deployment architecture
 
 ---
 
 ## 🛠️ Prerequisites
 
-Before setting up the project, ensure you have:
+### Development Environment
+- **Node.js**: 18.20.4 (specified in `.nvmrc`)
+- **PNPM**: 8.15.0 (recommended package manager)
+- **Git**: Latest version
+- **Docker**: Optional, for containerized development
 
-- **Node.js** (v18+)
-- **npm** or **yarn** package manager
-- **Hardhat** CLI installed globally (`npm install -g hardhat`)
-- **Supabase** project with service-role key & URL
-- **Vercel** or hosting platform account
-- **MetaMask** wallet (for blockchain interactions)
+### AWS Infrastructure (for deployment)
+- **AWS Account**: With appropriate permissions
+- **CodePipeline**: For CI/CD automation
+- **CodeBuild**: For build automation
+- **S3**: For static asset hosting
+- **CloudFront**: For CDN and HTTPS
+- **IAM**: Proper roles and policies
+
+### External Services
+- **Supabase**: Database and authentication
+- **OpenAI**: AI assistant functionality
+- **Stripe**: Payment processing
+- **Polygon Network**: Blockchain infrastructure
 
 ---
 
-## ⚙️ Setup & Local Development
+## ⚙️ Local Development Setup
 
-### 1. Clone & Install
+### 1. Environment Setup
 
 ```bash
+# Install Node.js 18.x (if using nvm)
+nvm install 18.20.4
+nvm use 18.20.4
+
+# Install PNPM globally
+npm install -g pnpm@8.15.0
+
+# Clone repository
 git clone https://github.com/AKSQ-ae/Nexus-Mint.git
-cd nexus-mint
-npm install
+cd Nexus-Mint
+
+# Install dependencies
+pnpm install
 ```
 
-### 2. Supabase Configuration
+### 2. Environment Configuration
 
-This project uses Supabase's secure secrets management instead of traditional `.env` files. Configure these secrets in your Supabase Dashboard → Settings → Edge Functions:
-
-| Secret Name | Description |
-|-------------|-------------|
-| `STRIPE_SECRET_KEY` | Stripe payment processing API key |
-| `OPENAI_API_KEY` | OpenAI API key for AI assistant |
-| `RESEND_API_KEY` | Email service API key |
-| `SUPABASE_URL` | Your Supabase project URL |
-| `SUPABASE_ANON_KEY` | Supabase anonymous/public key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key |
-
-> **Note**: No local `.env` file required. Authentication and API keys are managed through Supabase Edge Functions.
-
-### 3. Smart Contracts (Hardhat)
-
-Navigate to the contracts directory and configure your blockchain deployment:
+Create `.env.local` for local development:
 
 ```bash
-cd contracts
-npm install
+# Copy example environment file
+cp .env.example .env.local
+
+# Edit with your local values
+nano .env.local
 ```
 
-**Key Scripts:**
-- **`scripts/deploy.ts`** - Deploy ERC-1155 property token contracts to selected network
-- **`scripts/verify.ts`** - Auto-verify contract source on Polygonscan
-- **`scripts/testnet-deploy.ts`** - Deploy to Mumbai testnet for testing
+**Required Environment Variables:**
+```env
+# Supabase Configuration
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-**Supported Networks:**
-- Mumbai Testnet (for development)
-- Polygon Mainnet (for production)
+# OpenAI Configuration
+VITE_OPENAI_API_KEY=your_openai_api_key
 
-Update `hardhat.config.ts` with your RPC endpoints and deployer private key for contract deployment.
+# Stripe Configuration
+VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 
-### 4. Supabase Backend
-
-The platform uses Supabase Edge Functions for server-side logic:
-
-**Key Functions:**
-- **`live-tokenization-deploy`** - Deploys & records new property token contracts
-- **`regulatory-evidence-export`** - Generates compliance documentation bundles
-- **`live-investment-flow`** - Processes on-chain investment transactions
-- **`ai-buddy-chat`** - Powers the AI assistant conversations
-
-**Database Management:**
-```bash
-# Push schema & policies to Supabase
-supabase db push
-
-# Pull production data locally (for development)
-supabase db pull
-
-# Deploy edge functions (automatically deployed via Lovable integration)
-supabase functions deploy
+# Blockchain Configuration
+VITE_POLYGON_RPC_URL=your_polygon_rpc_url
+VITE_CONTRACT_ADDRESS=your_deployed_contract_address
 ```
 
-### 5. Frontend (Vite + React)
+### 3. Development Commands
 
-Built with modern web technologies:
-- **Vite** - Fast build tool and dev server
-- **React 18** - UI framework with TypeScript
-- **shadcn/ui** - Beautiful, accessible component library
-- **Tailwind CSS** - Utility-first styling
-- **Tanstack Query** - Data fetching and caching
-
-**App Structure:**
-- **/** - Hero page with platform overview
-- **/properties** - Browse available real estate investments
-- **/tokenization** - Interactive property tokenization wizard
-- **/dashboard** - Portfolio management and analytics
-- **/ai-buddy** - AI assistant chat interface
-- **/documentation** - Regulatory and technical documentation
-
-**Development Commands:**
 ```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build locally
-npm run lint         # Run ESLint
+# Start development server
+pnpm dev
+
+# Build for production
+pnpm build
+
+# Preview production build
+pnpm preview
+
+# Run tests
+pnpm test
+
+# Run tests with coverage
+pnpm test:coverage
+
+# Run end-to-end tests
+pnpm test:e2e
+
+# Lint code
+pnpm lint
+
+# Fix linting issues
+pnpm lint:fix
+
+# Type checking
+pnpm typecheck
+
+# Format code
+pnpm format
+
+# Check formatting
+pnpm format:check
 ```
 
 ---
 
-## 🔍 Testing
+## 🧪 Testing Strategy
 
-Comprehensive testing suite covering all application layers:
+### Unit Tests
+- **Framework**: Jest with React Testing Library
+- **Coverage**: Minimum 80% coverage required
+- **Location**: `src/__tests__/` and `tests/unit/`
 
-**Unit Tests:**
-- Jest configuration in `contracts/` and `src/`
-- Component testing with React Testing Library
+### Integration Tests
+- **API Testing**: Supabase Edge Functions
+- **Database Testing**: Supabase local development
+- **Blockchain Testing**: Hardhat test environment
 
-**Integration Tests:**
-- API endpoint testing
-- Database interaction testing
+### End-to-End Tests
+- **Framework**: Playwright
+- **Coverage**: Critical user journeys
+- **Location**: `tests/e2e/`
 
-**End-to-End Tests:**
-- Playwright specs under `tests/e2e/`
-- Full user journey testing
+### Performance & Quality
+- **Lighthouse CI**: Performance, accessibility, SEO
+- **Bundle Analysis**: Source map explorer
+- **Type Safety**: TypeScript strict mode
 
-**Accessibility & Performance:**
-- Lighthouse CI enforces quality thresholds on every PR
-- Bundle size analysis with source-map-explorer
-- See [docs/accessibility.md](docs/accessibility.md) for full guidelines
-
-**Commands:**
+### Running Tests
 ```bash
-npm run lint              # Code quality checks
-npm run build             # Build and type checking
-npm run lighthouse        # Run Lighthouse CI audits
-npm run analyze:bundle    # Analyze JavaScript bundle size
-npm run analyze:css       # Analyze CSS bundle size
+# All tests
+pnpm test
+
+# Watch mode
+pnpm test:watch
+
+# Coverage report
+pnpm test:coverage
+
+# E2E tests
+pnpm test:e2e
+
+# Lighthouse audit
+pnpm lighthouse
 ```
 
 ---
 
-## 🚢 Deployment
+## 🚢 AWS Deployment
 
-### Smart Contracts
+### Infrastructure as Code
 
-1. Configure your target network in `contracts/hardhat.config.ts`
-2. Deploy contracts using Hardhat:
+The project is designed for AWS deployment using the following services:
+
+1. **AWS CodePipeline**: CI/CD automation
+2. **AWS CodeBuild**: Build automation with `buildspec.yml`
+3. **Amazon S3**: Static asset hosting
+4. **Amazon CloudFront**: CDN and HTTPS termination
+5. **AWS Certificate Manager**: SSL certificates
+
+### Deployment Process
+
+#### 1. CodePipeline Setup
+
+Create a CodePipeline with the following stages:
+- **Source**: GitHub repository
+- **Build**: CodeBuild project using `buildspec.yml`
+- **Deploy**: S3 deployment with CloudFront invalidation
+
+#### 2. CodeBuild Configuration
+
+The `buildspec.yml` file handles:
+- Node.js 18.x runtime
+- PNPM package manager
+- Type checking and linting
+- Production build optimization
+- Artifact generation
+
+#### 3. S3/CloudFront Setup
+
+```bash
+# Create S3 bucket for static hosting
+aws s3 mb s3://your-app-bucket-name
+
+# Configure bucket for static website hosting
+aws s3 website s3://your-app-bucket-name --index-document index.html --error-document index.html
+
+# Create CloudFront distribution
+aws cloudfront create-distribution --distribution-config file://cloudfront-config.json
+```
+
+#### 4. Environment Variables
+
+Configure these in AWS Systems Manager Parameter Store:
+- `/nexus-mint/supabase/url`
+- `/nexus-mint/supabase/anon-key`
+- `/nexus-mint/openai/api-key`
+- `/nexus-mint/stripe/publishable-key`
+
+### Manual Deployment
+
+```bash
+# Build the application
+pnpm build:prod
+
+# Deploy to S3
+aws s3 sync dist/ s3://your-app-bucket-name --delete
+
+# Invalidate CloudFront cache
+aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
+```
+
+---
+
+## 🔧 Development Workflow
+
+### Git Workflow
+
+1. **Feature Development**:
    ```bash
-   cd contracts
-   npx hardhat run scripts/deploy.ts --network mumbai
+   git checkout -b feature/your-feature-name
+   # Make changes
+   pnpm lint && pnpm typecheck && pnpm test
+   git commit -m "feat: add your feature"
+   git push origin feature/your-feature-name
    ```
-3. Update frontend with deployed contract addresses
 
-### Supabase
+2. **Pull Request Process**:
+   - Create PR to `main` branch
+   - Automated CI/CD pipeline runs
+   - Code review required
+   - Merge after approval
 
-1. Database migrations and RLS policies are automatically synced
-2. Edge functions are deployed via Lovable integration
-3. Verify deployment in Supabase Dashboard → Edge Functions
+### Code Quality Standards
 
-### Frontend
+- **TypeScript**: Strict mode enabled
+- **ESLint**: Airbnb + React Hooks rules
+- **Prettier**: Consistent code formatting
+- **EditorConfig**: Editor consistency
+- **Commit Messages**: Conventional commits
 
-**Vercel Deployment:**
-1. Connect GitHub repository to Vercel
-2. Configure environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
+### Performance Optimization
 
-**Manual Deployment:**
-```bash
-npm run build
-# Deploy dist/ folder to your hosting platform
-```
-
----
-
-## 🎯 Development Workflow
-
-### For Lovable Development (Optional)
-1. Visit [Lovable Project](https://lovable.dev/projects/8da2f6ad-10c8-46bc-86fd-5c6d7f52edd9)
-2. Use AI-powered editing and real-time preview
-3. Changes automatically sync to GitHub
-
-### For Local Development
-1. `git clone` and `npm install`
-2. `npm run dev` for local development
-3. Create feature branches and submit PRs
-4. Follow [Conventional Commits](https://www.conventionalcommits.org/) format (e.g., `feat:`, `fix:`, `docs:`)
+- **Bundle Splitting**: Vendor chunks for better caching
+- **Tree Shaking**: Unused code elimination
+- **Code Splitting**: Route-based lazy loading
+- **Image Optimization**: WebP format with fallbacks
+- **CDN**: CloudFront for global distribution
 
 ---
 
-## 🙌 Contributing
+## 📚 Documentation
 
-We welcome contributions! Please follow these guidelines:
-
-1. **Fork** the repository
-2. Create a **feature branch** (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. Open a **Pull Request**
-
-**Code Standards:**
-- Use TypeScript for all new code
-- Follow ESLint and Prettier configurations
-- Write tests for new features
-- Update documentation as needed
-- Open issues for bugs and feature requests
-- Review our [Code of Conduct](CODE_OF_CONDUCT.md) for community guidelines
+- **API Documentation**: [docs/api.md](docs/api.md)
+- **Architecture**: [docs/architecture.md](docs/architecture.md)
+- **Deployment**: [docs/deployment.md](docs/deployment.md)
+- **Testing**: [docs/testing.md](docs/testing.md)
+- **Contributing**: [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ---
 
-## 📋 Cheat Sheet
+## 🤝 Contributing
 
-Common commands for daily development:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
 
-```bash
-# Frontend Development
-npm run dev                    # Start local development server
-npm run build                  # Production build
-npm run preview               # Preview production build
-
-# Smart Contracts
-cd contracts && npx hardhat compile    # Compile contracts
-cd contracts && npx hardhat run scripts/deploy.ts --network mumbai   # Deploy to testnet
-cd contracts && npx hardhat run scripts/deploy.ts --network polygon  # Deploy to mainnet
-
-# Database
-supabase db push              # Push schema changes
-supabase db pull              # Pull remote schema
-supabase functions deploy     # Deploy edge functions
-
-# Testing
-npm run lint                 # Code quality
-npm run lighthouse           # Accessibility & performance audits
-npm run analyze:bundle       # Bundle size analysis
-npm run analyze:css          # CSS bundle analysis
-
-# Mobile (Capacitor)
-npx cap sync                 # Sync web assets to mobile
-npx cap run ios             # Run on iOS simulator
-npx cap run android         # Run on Android emulator
-```
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
@@ -271,10 +336,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
+## 🆘 Support
+
+- **Issues**: [GitHub Issues](https://github.com/AKSQ-ae/Nexus-Mint/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/AKSQ-ae/Nexus-Mint/discussions)
+- **Documentation**: [Project Wiki](https://github.com/AKSQ-ae/Nexus-Mint/wiki)
+
+---
+
 ## 🔗 Links
 
-- **Live Platform**: [app.nexus-mint.com](https://app.nexus-mint.com)
-- **Documentation**: [/documentation](/documentation)
-- **Phase 1 Validation**: [/phase1-validation](/phase1-validation)
-- **System Health**: [/system-health](/system-health)
-- **Lovable Project**: https://lovable.dev/projects/8da2f6ad-10c8-46bc-86fd-5c6d7f52edd9
+- **Live Application**: [https://nexus-mint.vercel.app](https://nexus-mint.vercel.app)
+- **API Documentation**: [https://nexus-mint.vercel.app/api/docs](https://nexus-mint.vercel.app/api/docs)
+- **Supabase Dashboard**: [https://supabase.com/dashboard](https://supabase.com/dashboard)

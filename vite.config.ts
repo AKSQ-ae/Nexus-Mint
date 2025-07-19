@@ -1,14 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import path from 'path'
-import { componentTagger } from "lovable-tagger"
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
-    mode === 'development' && componentTagger(),
-  ].filter(Boolean),
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -17,7 +15,7 @@ export default defineConfig(({ mode }) => ({
   build: {
     // Optimize for production deployment
     outDir: 'dist',
-    sourcemap: true, // Enable source maps for analysis
+    sourcemap: mode === 'development', // Only enable source maps in development
     minify: 'esbuild',
     target: 'es2020',
     rollupOptions: {
@@ -36,23 +34,23 @@ export default defineConfig(({ mode }) => ({
           ],
           'vendor-crypto': ['ethers', 'viem'],
           'vendor-wallets': [
-            '@reown/appkit',
-            '@reown/appkit-controllers',
-            '@walletconnect/core',
-            '@walletconnect/utils'
+            '@rainbow-me/rainbowkit',
+            'wagmi'
           ],
           'vendor-icons': ['lucide-react'],
           'vendor-utils': ['clsx', 'tailwind-merge'],
           'vendor-analytics': ['@sentry/react'],
-          'vendor-supabase': ['@supabase/supabase-js'],
-          'vendor-ai': ['@11labs/react']
+          'vendor-supabase': ['@supabase/supabase-js']
         }
       }
     },
-    chunkSizeWarningLimit: 800, // Reduced from 1000
-    // Ensure compatibility with Vercel
+    chunkSizeWarningLimit: 800,
+    // Ensure compatibility with AWS S3/CloudFront
     assetsDir: 'assets',
-    emptyOutDir: true
+    emptyOutDir: true,
+    // Optimize for AWS deployment
+    reportCompressedSize: false,
+    cssCodeSplit: true
   },
   server: {
     host: "::",
@@ -71,10 +69,6 @@ export default defineConfig(({ mode }) => ({
       'ethers',
       'viem',
       'lucide-react'
-    ],
-    exclude: [
-      '@reown/appkit',
-      '@walletconnect/core'
     ]
   }
 }))

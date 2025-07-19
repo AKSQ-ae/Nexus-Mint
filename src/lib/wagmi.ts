@@ -1,17 +1,26 @@
-import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { getDefaultWallets } from '@rainbow-me/rainbowkit';
+import { configureChains, createConfig } from 'wagmi';
 import { mainnet, polygon, optimism, arbitrum, base } from 'wagmi/chains';
-import { http } from 'viem';
+import { publicProvider } from 'wagmi/providers/public';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
 
-export const config = getDefaultConfig({
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [mainnet, polygon, optimism, arbitrum, base],
+  [
+    alchemyProvider({ apiKey: '-QZUEEgJJVteHF7GTszRr9casXWZ_qZD' }),
+    publicProvider(),
+  ]
+);
+
+const { connectors } = getDefaultWallets({
   appName: 'Nexus Platform',
   projectId: '21b1b7e40b664f5bdd0b41f881dddef1',
-  chains: [mainnet, polygon, optimism, arbitrum, base],
-  transports: {
-    [mainnet.id]: http(`https://eth-mainnet.g.alchemy.com/v2/-QZUEEgJJVteHF7GTszRr9casXWZ_qZD`),
-    [polygon.id]: http(`https://polygon-mainnet.g.alchemy.com/v2/-QZUEEgJJVteHF7GTszRr9casXWZ_qZD`),
-    [optimism.id]: http(`https://opt-mainnet.g.alchemy.com/v2/-QZUEEgJJVteHF7GTszRr9casXWZ_qZD`),
-    [arbitrum.id]: http(`https://arb-mainnet.g.alchemy.com/v2/-QZUEEgJJVteHF7GTszRr9casXWZ_qZD`),
-    [base.id]: http(`https://base-mainnet.g.alchemy.com/v2/-QZUEEgJJVteHF7GTszRr9casXWZ_qZD`),
-  },
-  ssr: false,
+  chains,
+});
+
+export const config = createConfig({
+  autoConnect: true,
+  connectors,
+  publicClient,
+  webSocketPublicClient,
 });
