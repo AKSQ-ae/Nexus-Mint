@@ -5,29 +5,39 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
-      - echo "Installing dependencies with legacy peer deps support..."
-      - npm install --legacy-peer-deps
+      - echo "Installing dependencies with peer dependency resolution..."
+      - npm ci --legacy-peer-deps || npm ci --force || npm install --legacy-peer-deps
+      - echo "Node.js version:" && node --version
+      - echo "npm version:" && npm --version
   
   pre_build:
     commands:
       - echo "Running pre-build checks..."
+      - echo "Verifying Vite installation..."
+      - npx vite --version
+      - echo "Running linter..."
       - npm run lint
   
   build:
     commands:
-      - echo "Building the React application..."
-      - npm run build
+      - echo "Building the React application with Vite..."
+      - NODE_ENV=production npm run build:prod
+      - echo "Build artifacts created in dist/"
+      - ls -la dist/
   
   post_build:
     commands:
       - echo "Build completed successfully!"
+      - echo "Dist directory size:"
+      - du -sh dist/
 
 artifacts:
   files:
     - '**/*'
   base-directory: 'dist'
-  name: nexus-mint-build-$(date +%Y-%m-%d)
+  name: nexus-mint-build-$(date +%Y-%m-%d-%H-%M-%S)
 
 cache:
   paths:
     - 'node_modules/**/*'
+    - '.npm/**/*'
