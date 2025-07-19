@@ -5,8 +5,8 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
-      - echo "Installing dependencies with legacy peer deps support..."
-      - npm install --legacy-peer-deps
+      - echo "Installing dependencies..."
+      - npm ci --prefer-offline --no-audit
   
   pre_build:
     commands:
@@ -16,11 +16,12 @@ phases:
   build:
     commands:
       - echo "Building the React application..."
-      - npm run build
+      - npm run build:prod
   
   post_build:
     commands:
       - echo "Build completed successfully!"
+      - echo "Build artifacts are in the dist directory"
 
 artifacts:
   files:
@@ -31,3 +32,4 @@ artifacts:
 cache:
   paths:
     - 'node_modules/**/*'
+    - '.npm/**/*'
