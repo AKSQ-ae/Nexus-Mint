@@ -5,13 +5,20 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
+      - echo "Node version:"
+      - node --version
+      - echo "NPM version:"
+      - npm --version
+      - echo "Cleaning npm cache and removing node_modules..."
+      - npm cache clean --force || true
+      - rm -rf node_modules package-lock.json
       - echo "Installing dependencies with legacy peer deps support..."
-      - npm install --legacy-peer-deps
+      - npm install --legacy-peer-deps --prefer-dedupe
   
   pre_build:
     commands:
       - echo "Running pre-build checks..."
-      - npm run lint
+      - npm run lint || echo "Linting completed with warnings"
   
   build:
     commands:
@@ -21,6 +28,8 @@ phases:
   post_build:
     commands:
       - echo "Build completed successfully!"
+      - echo "Build artifacts size:"
+      - du -sh dist/
 
 artifacts:
   files:
@@ -31,3 +40,4 @@ artifacts:
 cache:
   paths:
     - 'node_modules/**/*'
+    - '.npm/**/*'

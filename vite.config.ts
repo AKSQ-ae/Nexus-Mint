@@ -12,6 +12,9 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      // Add polyfills if needed for wallet dependencies
+      process: 'process/browser',
+      buffer: 'buffer'
     },
   },
   build: {
@@ -75,6 +78,9 @@ export default defineConfig(({ mode }) => ({
     exclude: [
       '@reown/appkit',
       '@walletconnect/core'
-    ]
+    ],
+    esbuildOptions: {
+      target: 'es2020'
+    }
   }
 }))
