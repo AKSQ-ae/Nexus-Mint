@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+  pre_build:
+    commands:
+      # Install dependencies while ignoring peer dependency conflicts
+      - npm ci --legacy-peer-deps
+  build:
+    commands:
+      # Generate the production-ready build
+      - npm run build
+
+artifacts:
+  # Upload the built assets for deployment
+  base-directory: dist
+  files:
+    - '**/*'
