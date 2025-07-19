@@ -12,7 +12,6 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
-    "postinstall": "npm install --legacy-peer-deps --silent || true",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -25,7 +24,7 @@
     "contracts:deploy": "cd contracts && npx hardhat run scripts/deploy.ts"
   },
   "engines": {
-    "node": ">=20.0.0",
+    "node": "18.x",
     "npm": ">=9.0.0"
   },
   "dependencies": {
@@ -89,8 +88,6 @@
     "ethers": "^6.15.0",
     "hardhat": "^0.0.7",
     "input-otp": "^1.2.4",
-    "jest": "^30.0.4",
-    "jest-environment-jsdom": "^30.0.4",
     "lovable-tagger": "^1.1.8",
     "lucide-react": "^0.462.0",
     "next-themes": "^0.3.0",
@@ -107,7 +104,6 @@
     "source-map-explorer": "^2.5.3",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "ts-jest": "^29.4.0",
     "vaul": "^0.9.3",
     "viem": "^2.31.7",
     "wagmi": "^2.15.6",
@@ -125,10 +121,13 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
+    "jest": "^30.0.4",
+    "jest-environment-jsdom": "^30.0.4",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.11",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "ts-jest": "^29.4.0"
   }
 }
