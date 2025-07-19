@@ -5,8 +5,8 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
-      - echo "Installing dependencies with legacy peer deps support..."
-      - npm install --legacy-peer-deps
+      - echo "Installing dependencies..."
+      - npm ci --prefer-offline --no-audit
   
   pre_build:
     commands:
@@ -15,18 +15,22 @@ phases:
   
   build:
     commands:
-      - echo "Building the React application..."
-      - npm run build
+      - echo "Building the React application for production..."
+      - npm run build:prod
+      - echo "Build output contents:"
+      - ls -la dist/
   
   post_build:
     commands:
       - echo "Build completed successfully!"
+      - echo "Creating build info file..."
+      - echo "{\"buildTime\":\"$(date)\",\"buildId\":\"$CODEBUILD_BUILD_ID\"}" > dist/build-info.json
 
 artifacts:
   files:
     - '**/*'
   base-directory: 'dist'
-  name: nexus-mint-build-$(date +%Y-%m-%d)
+  name: nexus-mint-build-$(date +%Y-%m-%d-%H-%M-%S)
 
 cache:
   paths:
