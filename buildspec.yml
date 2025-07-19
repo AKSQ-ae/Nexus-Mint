@@ -5,8 +5,8 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
-      - echo "Installing dependencies with legacy peer deps support..."
-      - npm install --legacy-peer-deps
+      - echo "Installing dependencies with clean install preference..."
+      - npm ci || npm install --legacy-peer-deps
   
   pre_build:
     commands:
