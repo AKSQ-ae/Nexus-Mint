@@ -21,7 +21,9 @@
     "analyze:css": "npm run build && source-map-explorer 'dist/assets/index-*.css'",
     "contracts:compile": "cd contracts && npx hardhat compile",
     "contracts:test": "cd contracts && npx hardhat test",
-    "contracts:deploy": "cd contracts && npx hardhat run scripts/deploy.ts"
+    "contracts:deploy": "cd contracts && npx hardhat run scripts/deploy.ts",
+    "install:ci": "npm ci --legacy-peer-deps",
+    "install:local": "npm install --legacy-peer-deps"
   },
   "engines": {
     "node": ">=20.0.0",
@@ -128,6 +130,9 @@
     "tailwindcss": "^3.4.11",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^7.0.4"
+    "vite": "^5.4.11"
+  },
+  "overrides": {
+    "vite": "^5.4.11"
   }
 }
