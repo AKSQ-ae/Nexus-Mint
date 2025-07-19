@@ -17,42 +17,73 @@ export default defineConfig(({ mode }) => ({
   build: {
     // Optimize for production deployment
     outDir: 'dist',
-    sourcemap: true, // Enable source maps for analysis
-    minify: 'esbuild',
+    sourcemap: mode === 'development', // Only enable source maps in development
+    minify: 'terser', // Better minification than esbuild
+    terserOptions: {
+      compress: {
+        drop_console: mode === 'production',
+        drop_debugger: mode === 'production',
+      },
+    },
     target: 'es2020',
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Split vendor chunks for better caching
-          'vendor-react': ['react', 'react-dom'],
-          'vendor-router': ['react-router-dom'],
-          'vendor-ui': [
-            '@radix-ui/react-dialog', 
-            '@radix-ui/react-dropdown-menu', 
-            '@radix-ui/react-toast',
-            '@radix-ui/react-progress',
-            '@radix-ui/react-slider',
-            '@radix-ui/react-switch'
-          ],
-          'vendor-crypto': ['ethers', 'viem'],
-          'vendor-wallets': [
-            '@reown/appkit',
-            '@reown/appkit-controllers',
-            '@walletconnect/core',
-            '@walletconnect/utils'
-          ],
-          'vendor-icons': ['lucide-react'],
-          'vendor-utils': ['clsx', 'tailwind-merge'],
-          'vendor-analytics': ['@sentry/react'],
-          'vendor-supabase': ['@supabase/supabase-js'],
-          'vendor-ai': ['@11labs/react']
-        }
+        manualChunks: (id) => {
+          // Optimize chunk splitting
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'vendor-react';
+            }
+            if (id.includes('react-router')) {
+              return 'vendor-router';
+            }
+            if (id.includes('@radix-ui')) {
+              return 'vendor-ui';
+            }
+            if (id.includes('ethers') || id.includes('viem')) {
+              return 'vendor-crypto';
+            }
+            if (id.includes('@rainbow-me') || id.includes('wagmi')) {
+              return 'vendor-wallets';
+            }
+            if (id.includes('lucide-react')) {
+              return 'vendor-icons';
+            }
+            if (id.includes('clsx') || id.includes('tailwind-merge')) {
+              return 'vendor-utils';
+            }
+            if (id.includes('@sentry')) {
+              return 'vendor-analytics';
+            }
+            if (id.includes('@supabase')) {
+              return 'vendor-supabase';
+            }
+            if (id.includes('@11labs')) {
+              return 'vendor-ai';
+            }
+            return 'vendor'; // all other vendor chunks
+          }
+        },
+        // Asset naming for CDN optimization
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          const ext = info[info.length - 1];
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
+            return `assets/images/[name]-[hash][extname]`;
+          }
+          return `assets/[name]-[hash][extname]`;
+        },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
       }
     },
-    chunkSizeWarningLimit: 800, // Reduced from 1000
-    // Ensure compatibility with Vercel
+    chunkSizeWarningLimit: 600, // Stricter limit
+    // AWS S3/CloudFront compatibility
     assetsDir: 'assets',
-    emptyOutDir: true
+    emptyOutDir: true,
+    // Performance optimizations
+    reportCompressedSize: false, // Faster builds
+    cssCodeSplit: true,
   },
   server: {
     host: "::",
@@ -70,11 +101,16 @@ export default defineConfig(({ mode }) => ({
       'react-router-dom',
       'ethers',
       'viem',
-      'lucide-react'
+      'lucide-react',
+      '@tanstack/react-query',
+      'zod'
     ],
     exclude: [
       '@reown/appkit',
       '@walletconnect/core'
-    ]
+    ],
+    esbuildOptions: {
+      target: 'es2020',
+    }
   }
 }))

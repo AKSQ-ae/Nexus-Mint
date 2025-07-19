@@ -1,0 +1,75 @@
+# Dependencies
+node_modules
+.npm
+.pnp
+.pnp.js
+
+# Build outputs
+dist
+dist-ssr
+build
+out
+.next
+
+# Testing
+coverage
+.nyc_output
+test-results
+playwright-report
+lighthouse-report
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Environment files
+.env*
+!.env.example
+
+# Editor files
+.vscode
+.idea
+*.sublime-*
+
+# Documentation
+*.md
+!README.md
+docs
+LICENSE
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+buildspec.yml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.log
+*.tmp
+*.temp
+.cache
+.eslintcache
+
+# Development files
+.editorconfig
+.prettierrc
+.eslintrc*
+jest.config.js
+playwright.config.ts
+vite.config.ts.timestamp-*
+
+# AWS
+.aws-sam
+samconfig.toml
+
+# Misc
+*.pem
+*.key
+*.cert
+.dockerignore
+Dockerfile*

@@ -1,8 +1,9 @@
 # Nexus Mint
 
-[![Build Status](https://github.com/AKSQ-ae/Nexus-Mint/workflows/CI/badge.svg)](https://github.com/AKSQ-ae/Nexus-Mint/actions)
+[![Build Status](https://github.com/AKSQ-ae/Nexus-Mint/workflows/Build%20and%20Test/badge.svg)](https://github.com/AKSQ-ae/Nexus-Mint/actions)
 [![Coverage](https://codecov.io/gh/AKSQ-ae/Nexus-Mint/branch/main/graph/badge.svg)](https://codecov.io/gh/AKSQ-ae/Nexus-Mint)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org)
 
 > Your AI buddy that knows your money, watches the market, and tells you exactly what to buy next.
 
@@ -28,11 +29,11 @@ A one-stop platform for tokenizing, buying and managing real-estate assets on Po
 
 Before setting up the project, ensure you have:
 
-- **Node.js** (v18+)
-- **npm** or **yarn** package manager
+- **Node.js** (v18.0.0 - v18.x, specifically 18.20.5 recommended)
+- **npm** (v9+) package manager
 - **Hardhat** CLI installed globally (`npm install -g hardhat`)
 - **Supabase** project with service-role key & URL
-- **Vercel** or hosting platform account
+- **AWS Account** for CodePipeline/CodeBuild deployment (or **Vercel** for alternative hosting)
 - **MetaMask** wallet (for blockchain interactions)
 
 ---
@@ -261,6 +262,70 @@ npm run analyze:css          # CSS bundle analysis
 npx cap sync                 # Sync web assets to mobile
 npx cap run ios             # Run on iOS simulator
 npx cap run android         # Run on Android emulator
+```
+
+---
+
+## 🚀 AWS Deployment
+
+### AWS CodePipeline + CodeBuild Setup
+
+1. **Create S3 Bucket for Artifacts**:
+   ```bash
+   aws s3 mb s3://nexus-mint-artifacts-{your-account-id}
+   aws s3 mb s3://nexus-mint-production
+   ```
+
+2. **Create CodeBuild Project**:
+   - Use the provided `buildspec.yml`
+   - Environment: Ubuntu Standard 7.0
+   - Compute: 7 GB memory, 4 vCPUs
+   - Service role with S3 and CloudWatch permissions
+
+3. **Create CodePipeline**:
+   ```yaml
+   Source: GitHub (webhook enabled)
+   Build: CodeBuild project
+   Deploy: S3 + CloudFront
+   ```
+
+4. **CloudFront Distribution**:
+   ```bash
+   # Create distribution with S3 origin
+   aws cloudfront create-distribution \
+     --origin-domain-name nexus-mint-production.s3.amazonaws.com \
+     --default-root-object index.html
+   ```
+
+5. **Environment Variables in CodeBuild**:
+   ```
+   VITE_SUPABASE_URL
+   VITE_SUPABASE_ANON_KEY
+   VITE_POLYGON_RPC_URL
+   VITE_CONTRACT_ADDRESS
+   ```
+
+### Alternative: Direct S3/CloudFront Deployment
+
+```bash
+# Build locally
+npm run build:prod
+
+# Sync to S3
+aws s3 sync dist/ s3://nexus-mint-production \
+  --delete \
+  --cache-control "public, max-age=31536000" \
+  --exclude "index.html" \
+  --exclude "*.json"
+
+# Upload index.html with no-cache
+aws s3 cp dist/index.html s3://nexus-mint-production/ \
+  --cache-control "no-cache, no-store, must-revalidate"
+
+# Invalidate CloudFront
+aws cloudfront create-invalidation \
+  --distribution-id YOUR_DISTRIBUTION_ID \
+  --paths "/*"
 ```
 
 ---

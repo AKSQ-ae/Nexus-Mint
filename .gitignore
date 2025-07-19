@@ -7,14 +7,40 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+.npm
+.pnp
+.pnp.js
+
+# Build outputs
 dist
 dist-ssr
+build
+out
+.next
 *.local
+
+# Testing
+coverage
+.nyc_output
+test-results
+playwright-report
+lighthouse-report
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 .idea
 .DS_Store
 *.suo
@@ -22,3 +48,30 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+*.sublime-workspace
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+.cache
+.eslintcache
+.stylelintcache
+.parcel-cache
+
+# Package manager files
+package-lock.json.backup
+yarn.lock.backup
+pnpm-lock.yaml.backup
+
+# AWS
+.aws-sam
+samconfig.toml
+
+# Misc
+*.pem
+*.key
+*.cert
