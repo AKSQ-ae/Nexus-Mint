@@ -21,7 +21,8 @@
     "analyze:css": "npm run build && source-map-explorer 'dist/assets/index-*.css'",
     "contracts:compile": "cd contracts && npx hardhat compile",
     "contracts:test": "cd contracts && npx hardhat test",
-    "contracts:deploy": "cd contracts && npx hardhat run scripts/deploy.ts"
+    "contracts:deploy": "cd contracts && npx hardhat run scripts/deploy.ts",
+    "postinstall": "echo 'Skipping postinstall for CI/CD compatibility'"
   },
   "engines": {
     "node": ">=20.0.0",
